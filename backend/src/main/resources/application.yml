@@ -1,26 +1,87 @@
 spring:
+  profiles.active: local
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:tcp://localhost/~/jpa
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/MAIN029?serverTimezone=Asia/Seoul
+    username: root
+    password: 5425
+  output:
+    ansi:
+      enabled: always
+  # JPA ??
   jpa:
+    generate-ddl: true
     hibernate:
-      ddl-auto: create # DB ??? ?? ??
+      ddl-auto: update
+    show-sql: true
     properties:
       hibernate:
-        format_sql: true # SQL ?? pretty print
-    show-sql: true # SQL ?? ??
-    open-in-view: true
-  profiles:
-    include: database
-logging:
-  level:
-    org:
-      springframework:
-        orm:
-          jpa: DEBUG # ?? ?? ??
-server:
-  servlet:
-    encoding:
-      force-response: true
+        format_sql: true # SQL 쿼리 pretty print
+      show-sql: true # SQL 쿼리 출력
+      open-in-view: true
+      profiles:
+        include: database
+
+  # Security OAuth
+  security:
+    oauth2.client:
+      registration:
+        google:
+          clientId: '{?? client-id}'
+          clientSecret: '{?? client-secret}'
+          scope:
+            - email
+            - profile
+        facebook:
+          clientId: '{???? client-id}'
+          clientSecret: '{???? client-secret}'
+          scope:
+            - email
+            - public_profile
+        naver:
+          clientId: '{??? client-id}'
+          clientSecret: '{??? client-secret}'
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - nickname
+            - email
+            - profile_image
+          clientName: Naver
+        kakao:
+          clientId: '{??? client-id}'
+          clientSecret: '{??? client-secret}'
+          clientAuthenticationMethod: post
+          authorizationGrantType: authorization_code
+          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          scope:
+            - profile_nickname
+            - profile_image
+            - account_email
+          clientName: Kakao
+      # Provider ??
+      provider:
+        naver:
+          authorizationUri: https://nid.naver.com/oauth2.0/authorize
+          tokenUri: https://nid.naver.com/oauth2.0/token
+          userInfoUri: https://openapi.naver.com/v1/nid/me
+          userNameAttribute: response
+        kakao:
+          authorizationUri: https://kauth.kakao.com/oauth/authorize
+          tokenUri: https://kauth.kakao.com/oauth/token
+          userInfoUri: https://kapi.kakao.com/v2/user/me
+          userNameAttribute: id
+
+# cors ??
+cors:
+  allowed-origins: 'http://localhost:3000'
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: '*'
+  max-age: 3600
+
+# jwt secret key ??
+jwt:
+  key: 'Cm5hbWU6IuuwleuvvOyasCIsCnVzZXJuYW1lOiLrsJXrr7zsmrAiLApwYXJrOiLrsJXrr7zsmrAiCg'
+  access-token-expiration-minutes: 40
+  refresh-token-expiration-minutes: 420
