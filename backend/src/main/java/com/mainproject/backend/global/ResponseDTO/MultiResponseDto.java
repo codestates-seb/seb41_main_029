@@ -1,6 +1,6 @@
 package com.mainproject.backend.global.ResponseDTO;
 
-import com.preproject.backend.global.page.PageInfo;
+import com.mainproject.backend.global.page.PageInfo;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 

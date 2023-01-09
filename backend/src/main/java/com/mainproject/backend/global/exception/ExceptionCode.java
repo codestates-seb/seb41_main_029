@@ -7,7 +7,7 @@ public enum ExceptionCode {
     MEMBER_EXISTS(409, "Member exists"),
     ANSWER_NOT_FOUND(404, "Answer not found"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
-    QUESTION_NOT_FOUND(404, "Question not found"),
+    BOARD_NOT_FOUND(404, "Board not found"),
     TAG_NOT_FOUND(404, "Tag not found"),
     UNAUTHORIZED_MEMBER(403, "Unauthorized member");
 
