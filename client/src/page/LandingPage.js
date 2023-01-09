@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const Abc = styled.div`
+  font-family: "Noto Sans KR", sans-serif;
+  font-weight: 700;
   display: flex;
   justify-content: space-between;
   align-items: center;
