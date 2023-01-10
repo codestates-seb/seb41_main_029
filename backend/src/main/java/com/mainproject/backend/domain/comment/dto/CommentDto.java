@@ -5,15 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
+
 public class CommentDto {
 
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
     @Setter
-    public static class commentPostDto{
-        private long userId;
-        private long boardId;
+    public static class CommentPostDto{
+//        private long userId;
+//        private long boardId;
+        @NotBlank
         private String content;
     }
 
@@ -21,9 +24,13 @@ public class CommentDto {
     @NoArgsConstructor
     @Getter
     @Setter
-    public static class commentPatchDto{
-        private long userId;
-        private long boardId;
+    public static class CommentPatchDto{
+//        private long userId;
+//        private long boardId;
+        @NotBlank
         private String content;
     }
+
 }
+
+
