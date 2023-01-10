@@ -1,4 +1,4 @@
-package com.mainproject.backend.global.ResponseDTO;
+package com.mainproject.backend.global.Response;
 
 import com.mainproject.backend.global.page.PageInfo;
 import lombok.Getter;

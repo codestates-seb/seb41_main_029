@@ -15,13 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//request안에 토큰 값을 받아 유효한지 확인해주는 작업
+//Validating JWT 과정에서 첫번째 필터 OncePerRequestFilter -> 토큰을 유효성 검사
+
 @Slf4j
 @RequiredArgsConstructor
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
     private final AuthTokenProvider tokenProvider;
 
-    // usernamepasswordAuthenticationFilter보다 먼저 토큰을 바탕으로 유저를 등록시킨다.
-    //토큰을 갖고와서 토큰이 맞으면 해당 유저 정보를 등록 시키고, 인증된 유저정보를 바탕으로 시큐리티에서 사용하는 토큰을 생성하고 등록한다.
 
     @Override
     protected void doFilterInternal(
@@ -36,6 +37,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             Authentication authentication = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
+        //다음 필터로 이동
         filterChain.doFilter(request, response);
     }
 }

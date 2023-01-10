@@ -17,6 +17,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
+//OAuth2User => 소셜로그인
+//UserDetails => 로컬 로그인
+//oidcUser => openID
+//Spring Security에서 소셜 로그인 / 로컬 로그인 정보 담고있다.
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -29,8 +34,6 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final Collection<GrantedAuthority> authorities;
     private Map<String, Object> attributes;
 
-
-    //OidcUser => OAuth 
     @Override
     public Map<String, Object> getAttributes() {
         return attributes;

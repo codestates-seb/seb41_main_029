@@ -8,6 +8,8 @@ import com.mainproject.backend.global.auth.info.impl.NaverOAuth2UserInfo;
 
 import java.util.Map;
 
+
+//ProviderType에 따라 UserInfo 나눔
 public class OAuth2UserInfoFactory {
     public static OAuth2UserInfo getOAuth2UserInfo(ProviderType providerType, Map<String, Object> attributes) {
         switch (providerType) {

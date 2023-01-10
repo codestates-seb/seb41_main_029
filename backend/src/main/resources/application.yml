@@ -1,4 +1,7 @@
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   profiles.active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -27,34 +30,35 @@ spring:
     oauth2.client:
       registration:
         google:
-          clientId: '{?? client-id}'
-          clientSecret: '{?? client-secret}'
+          clientId: '137375647876-vrq0va0ke0v5joslff4vg9m39bqo752d.apps.googleusercontent.com'
+          clientSecret: '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'
+          redirect-uri: "http://localhost:8080/login/oauth2/google"
           scope:
             - email
             - profile
         facebook:
-          clientId: '{???? client-id}'
-          clientSecret: '{???? client-secret}'
+          clientId: '725134595852814'
+          clientSecret: '5db1ffcd143ff22ce62674d453d30c7b'
           scope:
             - email
             - public_profile
         naver:
-          clientId: '{??? client-id}'
-          clientSecret: '{??? client-secret}'
+          clientId: 'LN5F1_zFJC2Arxy2wkS9'
+          clientSecret: 'zH3kq27uOG'
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          redirectUri: "http://localhost:8080/login/oauth2/naver"
           scope:
             - nickname
             - email
             - profile_image
           clientName: Naver
         kakao:
-          clientId: '{??? client-id}'
-          clientSecret: '{??? client-secret}'
+          clientId: '8e9ebc53811a31af7c567edfb77bff91'
+          clientSecret: 'BGNSrvJx7BfjhL00i1roZ8oXc0QKuAQB'
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+          redirectUri: "http://localhost:8080/login/oauth2/kakao"
           scope:
             - profile_nickname
             - profile_image

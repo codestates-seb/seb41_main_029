@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.security.Key;
 import java.util.Date;
 
+//Jwt 패키지를 생성, 토큰 생성과 토큰의 유효성 검증 담당
+
 @Slf4j
 @RequiredArgsConstructor
 public class AuthToken {
@@ -27,7 +29,7 @@ public class AuthToken {
         this.token = createAuthToken(id, role, expiry);
     }
 
-    //권한 부여
+    //토큰 생성
     private String createAuthToken(String id, String role, Date expiry){
         return Jwts.builder()
                 .setSubject(id)
@@ -44,6 +46,7 @@ public class AuthToken {
                 .compact();
     }
 
+    //검증
     public boolean validate(){
         return this.getToken() != null;
     }

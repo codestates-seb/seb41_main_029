@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+//소셜로그인 처리하는 Service
+
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
@@ -42,12 +44,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
+        // 로그인 플랫폼을 구분 짓는 부분
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
+        // 회원가입 된 User 정기
         User savedUser = userRepository.findByUserId(userInfo.getId());
 
-        if (savedUser != null) {
+        if (savedUser != null) {//회원가입 o
             if (providerType != savedUser.getProviderType()) {
                 throw new OAuthProviderMissMatchException(
                         "Looks like you're signed up with " + providerType +
@@ -55,13 +59,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 );
             }
             updateUser(savedUser, userInfo);
-        } else {
+        } else {//회원가입 x
             savedUser = createUser(userInfo, providerType);
         }
 
         return UserPrincipal.create(savedUser, user.getAttributes());
     }
 
+    //첫 로그인시 회원가입
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         LocalDateTime now = LocalDateTime.now();
         User user = new User(

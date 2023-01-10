@@ -22,6 +22,8 @@ public class AuthTokenProvider {
     private final Key key;
     private static final String AUTHORITIES_KEY = "role";
 
+
+    //스트링인 yml 파일의 secret키를 인코딩 된 byte 배열로 변환후 다시 SecretKey로 변환해 주는 hmacShaKeyFor
     public AuthTokenProvider(String secret){
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
     }
@@ -35,12 +37,12 @@ public class AuthTokenProvider {
         return new AuthToken(id, role, expiry, key);
     }
 
-    //토큰 전환
+    //토큰 전환 String -> token
     public AuthToken convertAuthToken(String token) {
         return new AuthToken(token, key);
     }
 
-    //인증 토큰
+    // token 값에서 사용자의 정보를 꺼내는 함수
     public Authentication getAuthentication(AuthToken authToken){
         //유효한 토큰이라면
         if(authToken.validate()){
