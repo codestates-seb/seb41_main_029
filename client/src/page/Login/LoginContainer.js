@@ -18,7 +18,7 @@ const LabelLayout = styled.div`
 `;
 
 const LoginBtnLayout = styled.div`
-  margin-top: 30px;
+  margin-top: 12px;
   margin-left: 90px;
 `;
 

@@ -6,7 +6,7 @@ const InputEl = styled.input`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   border: 1px solid ${(props) => (props.isValid ? "#439A97" : "#62B6B7")};
-  border-radius: 3px;
+  border-radius: 5px;
   font-size: ${({ theme }) => theme.fontSizes.fs16};
 
   &:focus {
