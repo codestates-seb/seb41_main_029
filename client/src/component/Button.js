@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const LoginBtn = styled.button`
   background-color: ${({ theme }) => theme.colors.main};
-  font-size: ${({ theme }) => theme.fontSizes.fs12};
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
   color: ${({ theme }) => theme.colors.white};
   font-weight: 400;
   border: 0px;

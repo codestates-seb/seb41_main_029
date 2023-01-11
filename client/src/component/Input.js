@@ -32,6 +32,7 @@ const Input = ({
   error,
   defaultValue,
   height,
+  get,
 }) => {
   const [isValid, setIsvalid] = useState(true);
   const { register, setvalue } = useFormContext();
