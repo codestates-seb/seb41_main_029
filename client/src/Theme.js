@@ -27,26 +27,8 @@ const colors = {
   views: "#844700",
 };
 
-// const paddings = {
-//   small: calcRem(8),
-//   base: calcRem(10),
-//   lg: calcRem(12),
-//   xl: calcRem(14),
-//   xxl: calcRem(16),
-//   xxxl: calcRem(18),
-// };
-
-// const margins = {
-//   small: calcRem(8),
-//   base: calcRem(10),
-//   lg: calcRem(12),
-//   xl: calcRem(14),
-//   xxl: calcRem(16),
-//   xxxl: calcRem(18),
-// };
-
 const deviceSizes = {
-  mobile: "600x",
+  mobile: "600px",
   tablet: "1336px",
 };
 
