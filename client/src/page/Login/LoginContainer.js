@@ -13,12 +13,17 @@ const InputLayout = styled.div`
   margin-left: 30px;
 `;
 
+const LabelLayout = styled.div`
+  margin-top: 20px;
+`;
+
 const LoginBtnLayout = styled.div`
   margin-top: 30px;
   margin-left: 90px;
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
+`;
+
+const InputContainer = styled.div`
+  margin-top: 4px;
 `;
 
 const LoginContainer = () => {
@@ -37,7 +42,7 @@ const LoginContainer = () => {
     },
     maxLength: {
       value: 12,
-      message: "최대 12지 이하의 아이디를 입력해주세요.",
+      message: "최대 12자 이하의 아이디를 입력해주세요.",
     },
   };
 
@@ -58,8 +63,10 @@ const LoginContainer = () => {
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
           <InputLayout>
-            <label>아이디</label>
-            <div>
+            <LabelLayout>
+              <label>아이디</label>
+            </LabelLayout>
+            <InputContainer>
               <Input
                 id="id"
                 width="15rem"
@@ -69,9 +76,11 @@ const LoginContainer = () => {
                 error={error.id}
               />
               {error?.id && <AlertWarning text={error.id?.message} />}
-            </div>
-            <label>비밀번호</label>
-            <div>
+            </InputContainer>
+            <LabelLayout>
+              <label>비밀번호</label>
+            </LabelLayout>
+            <InputContainer>
               <Input
                 id="password"
                 width="15rem"
@@ -87,7 +96,7 @@ const LoginContainer = () => {
               {/* {!error?.password && !isAuthorized && (
                 <AlertWarning text="아이디와 비밀번호를 다시 확인해주세요." />
               )} */}
-            </div>
+            </InputContainer>
             <LoginBtnLayout>
               <MainBtn text={"로그인"} />
             </LoginBtnLayout>
