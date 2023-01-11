@@ -1,10 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 import theme from "./Theme";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
 import LandingPage from "./page/LandingPage";
-import Login from "./page/Login";
+import LoginPresenter from "./page/Login/LoginPresenter";
 import Signup from "./page/Signup";
 import Community from "./page/Community";
 import View from "./page/View";
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <LoginPresenter />,
   },
   {
     path: "/signup",
@@ -54,13 +54,23 @@ const router = createBrowserRouter([
   },
 ]);
 
+const GlobalStyle = createGlobalStyle`
+*{
+  font-family: 'Noto Sans CJK KR';
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+}
+`;
+
 function App() {
   return (
     <>
+      <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Header />
+        {/* <Header /> */}
         <RouterProvider router={router} />
-        <Footer />
+        {/* <Footer /> */}
       </ThemeProvider>
     </>
   );

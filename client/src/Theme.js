@@ -1,5 +1,3 @@
-const UNIT = 4;
-
 const fontSizes = {
   fs10: "10px",
   fs12: "12px",
