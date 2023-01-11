@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import styled from "styled-components";
 import Input from "../../component/Input";
 import AlertWarning from "../../component/AlertWarning";
 import { login } from "../../api/userAPI";
 import { useNavigate } from "react-router-dom";
+import { MainBtn } from "../../component/Button";
+import { Cookies } from "react-cookie";
 
 const InputLayout = styled.div`
   margin-top: 30px;
@@ -19,28 +21,14 @@ const LoginBtnLayout = styled.div`
   align-items: center; */
 `;
 
-const LoginBtn = styled.button`
-  background-color: ${({ theme }) => theme.colors.main};
-  font-size: ${({ theme }) => theme.fontSizes.fs12};
-  color: ${({ theme }) => theme.colors.white};
-  font-weight: 400;
-  border: 0px;
-  border-radius: 3px;
-  margin-top: 20px;
-  width: 80px;
-  height: 30px;
-  &:active {
-    transform: scale(0.9);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-  }
-`;
-
 const LoginContainer = () => {
+  const [isAuthorized, setisAuthorized] = useState(true);
+  // const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const cookie = new Cookies();
   const methods = useForm();
   const error = methods?.formState?.errors;
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+
   const idValidation = {
     required: "입력해 주세요.",
     minLength: {
@@ -60,6 +48,11 @@ const LoginContainer = () => {
       message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
     },
   };
+
+  const onSubmit = async (data) => {
+    console.log(data);
+  };
+
   return (
     <>
       <FormProvider {...methods}>
@@ -69,8 +62,8 @@ const LoginContainer = () => {
             <div>
               <Input
                 id="id"
-                width="10rem"
-                height="25.5px"
+                width="15rem"
+                height="35px"
                 fieldName="id"
                 validation={idValidation}
                 error={error.id}
@@ -81,8 +74,8 @@ const LoginContainer = () => {
             <div>
               <Input
                 id="password"
-                width="10rem"
-                height="25.5px"
+                width="15rem"
+                height="35px"
                 fieldName="password"
                 type="password"
                 validation={passwordValidation}
@@ -92,11 +85,11 @@ const LoginContainer = () => {
                 <AlertWarning text={error.password?.message} />
               )}
               {/* {!error?.password && !isAuthorized && (
-            <AlertWarning text="email or password is incorrect" />
-          )} */}
+                <AlertWarning text="아이디와 비밀번호를 다시 확인해주세요." />
+              )} */}
             </div>
             <LoginBtnLayout>
-              <LoginBtn>로그인</LoginBtn>
+              <MainBtn text={"로그인"} />
             </LoginBtnLayout>
           </InputLayout>
         </form>

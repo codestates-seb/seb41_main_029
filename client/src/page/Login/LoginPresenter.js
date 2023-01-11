@@ -2,14 +2,14 @@ import React from "react";
 import LoginContainer from "./LoginContainer";
 import styled from "styled-components";
 
-const LooginLayout = styled.div`
+const LoginLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const LoginBackground = styled.div`
-  margin-top: 110px;
+  margin-top: 200px;
   width: 316px;
   height: 343px;
   background-color: ${({ theme }) => theme.colors.container};
@@ -19,11 +19,11 @@ const LoginBackground = styled.div`
 
 const LoginPresenter = () => {
   return (
-    <LooginLayout>
+    <LoginLayout>
       <LoginBackground>
         <LoginContainer />
       </LoginBackground>
-    </LooginLayout>
+    </LoginLayout>
   );
 };
 
