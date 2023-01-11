@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
+import { ThemeProvider, createGlobalStyle } from "styled-components";
 import theme from "./Theme";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
@@ -54,9 +54,20 @@ const router = createBrowserRouter([
   },
 ]);
 
+const GlobalStyle = createGlobalStyle`
+*{
+  font-family:"Noto Sans CJK KR"
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+`;
+
 function App() {
   return (
     <>
+      <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Header />
         <RouterProvider router={router} />

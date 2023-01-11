@@ -1,11 +1,9 @@
-const UNIT = 4;
-
 const fontSizes = {
   fs10: "10px",
   fs12: "12px",
-  fs16: "16px",
+  fs16: "16px", // 본문 내용
   fs18: "18px",
-  fs24: "24px",
+  fs24: "24px", // 제목
   fs30: "30px",
   fs36: "36px",
   fs48: "48px",
@@ -27,26 +25,8 @@ const colors = {
   views: "#844700",
 };
 
-// const paddings = {
-//   small: calcRem(8),
-//   base: calcRem(10),
-//   lg: calcRem(12),
-//   xl: calcRem(14),
-//   xxl: calcRem(16),
-//   xxxl: calcRem(18),
-// };
-
-// const margins = {
-//   small: calcRem(8),
-//   base: calcRem(10),
-//   lg: calcRem(12),
-//   xl: calcRem(14),
-//   xxl: calcRem(16),
-//   xxxl: calcRem(18),
-// };
-
 const deviceSizes = {
-  mobile: "600x",
+  mobile: "600px",
   tablet: "1336px",
 };
 
