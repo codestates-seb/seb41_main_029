@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import { createGlobalStyle, ThemeProvider } from "styled-components";
 import theme from "./Theme";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
@@ -8,7 +8,7 @@ import Login from "./page/Login";
 import Signup from "./page/Signup";
 import Community from "./page/Community";
 import View from "./page/View";
-import Writing from "./page/Writing";
+import Writing from "./page/WritingPresentation/Writing";
 import MyPage from "./page/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
