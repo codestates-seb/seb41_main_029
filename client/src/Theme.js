@@ -1,9 +1,9 @@
 const fontSizes = {
   fs10: "10px",
   fs12: "12px",
-  fs16: "16px",
+  fs16: "16px", // 본문 내용
   fs18: "18px",
-  fs24: "24px",
+  fs24: "24px", // 제목
   fs30: "30px",
   fs36: "36px",
   fs48: "48px",

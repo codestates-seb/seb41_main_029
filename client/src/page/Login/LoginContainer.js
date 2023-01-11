@@ -68,6 +68,18 @@ const LoginContainer = () => {
 
   const onSubmit = async (data) => {
     // console.log(data);
+    const res = await login(data);
+    if (res?.status !== 200) {
+      alert("가입된 정보가 없습니다.");
+      return setisAuthorized(false);
+    } else {
+      const { userId } = res.data;
+      localStorage.setItem("userId", JSON.stringify(userId));
+      const token = res.headers?.authorization.split(" ")[1];
+      //dispatch(setUser({token,userId}));
+      cookie.set("token", token);
+      navigate("/");
+    }
   };
 
   return (
