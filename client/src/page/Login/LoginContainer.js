@@ -14,16 +14,28 @@ const InputLayout = styled.div`
 `;
 
 const LabelLayout = styled.div`
-  margin-top: 20px;
+  margin-top: 12px;
 `;
 
 const LoginBtnLayout = styled.div`
-  margin-top: 30px;
-  margin-left: 90px;
+  display: flex;
+  justify-content: center;
+  margin-top: 12px;
+  /* margin-left: 88px; */
 `;
 
 const InputContainer = styled.div`
   margin-top: 4px;
+`;
+let SocialLogin = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+let SocialLoginLogo = styled.img`
+  width: 40px;
+  height: 40px;
+  margin: 20px;
 `;
 
 const LoginContainer = () => {
@@ -35,7 +47,7 @@ const LoginContainer = () => {
   const error = methods?.formState?.errors;
 
   const idValidation = {
-    required: "입력해 주세요.",
+    required: "입력해주세요.",
     minLength: {
       value: 4,
       message: "최소 4자 이상의 아이디를 입력해주세요.",
@@ -47,7 +59,7 @@ const LoginContainer = () => {
   };
 
   const passwordValidation = {
-    required: "입력해 주세요.",
+    required: "입력해주세요.",
     pattern: {
       value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
       message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
@@ -55,7 +67,7 @@ const LoginContainer = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
   };
 
   return (
@@ -70,7 +82,7 @@ const LoginContainer = () => {
               <Input
                 id="id"
                 width="15rem"
-                height="35px"
+                height="40px"
                 fieldName="id"
                 validation={idValidation}
                 error={error.id}
@@ -84,7 +96,7 @@ const LoginContainer = () => {
               <Input
                 id="password"
                 width="15rem"
-                height="35px"
+                height="40px"
                 fieldName="password"
                 type="password"
                 validation={passwordValidation}
@@ -97,12 +109,26 @@ const LoginContainer = () => {
                 <AlertWarning text="아이디와 비밀번호를 다시 확인해주세요." />
               )} */}
             </InputContainer>
-            <LoginBtnLayout>
-              <MainBtn text={"로그인"} />
-            </LoginBtnLayout>
           </InputLayout>
+          <LoginBtnLayout>
+            <MainBtn height="40px" width="200px" text={"로그인"} />
+          </LoginBtnLayout>
         </form>
       </FormProvider>
+      <SocialLogin>
+        <SocialLoginLogo
+          src={process.env.PUBLIC_URL + "/image/google.svg"}
+          alt=""
+        />
+        <SocialLoginLogo
+          src={process.env.PUBLIC_URL + "/image/naver.svg"}
+          alt=""
+        />
+        <SocialLoginLogo
+          src={process.env.PUBLIC_URL + "/image/cacao.svg"}
+          alt=""
+        />
+      </SocialLogin>
     </>
   );
 };
