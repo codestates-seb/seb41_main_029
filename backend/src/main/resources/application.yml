@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:tcp://localhost/~/jpa
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create # DB ??? ?? ??
+    properties:
+      hibernate:
+        format_sql: true # SQL ?? pretty print
+    show-sql: true # SQL ?? ??
+    open-in-view: true
+  profiles:
+    include: database
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG # ?? ?? ??
+server:
+  servlet:
+    encoding:
+      force-response: true
