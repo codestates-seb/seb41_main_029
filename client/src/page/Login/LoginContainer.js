@@ -21,7 +21,6 @@ const LoginBtnLayout = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 12px;
-  /* margin-left: 88px; */
 `;
 
 const InputContainer = styled.div`
