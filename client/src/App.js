@@ -53,9 +53,14 @@ const router = createBrowserRouter([
     element: <HikingMap />,
   },
 ]);
+
 const GlobalStyle = createGlobalStyle`
 *{
-  font-family:"Note Sans CJK KR"
+  font-family:"Noto Sans CJK KR"
+}
+body {
+  margin: 0;
+  padding: 0;
 }
 `;
 
