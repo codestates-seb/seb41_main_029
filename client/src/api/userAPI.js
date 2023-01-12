@@ -10,6 +10,7 @@ export const login = async (data) => {
       headers: { Authorization: null },
       url: `${url}/auth/login`,
     });
+    console.log(res);
     return res;
   } catch (e) {
     console.log(e);

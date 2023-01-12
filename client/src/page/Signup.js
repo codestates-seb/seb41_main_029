@@ -12,7 +12,7 @@ const LoginLayout = styled.div`
 `;
 
 let SignupBackground = styled.div`
-  margin-top: 100px;
+  margin-top: 120px;
   width: 316px;
   background-color: ${({ theme }) => theme.colors.container};
   border-radius: 10px;
@@ -102,7 +102,6 @@ export default function Signup() {
       message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
     },
   };
-
   const confirmPwdValidation = {
     required: "비밀번호를 입력해주세요.",
     validate: {
