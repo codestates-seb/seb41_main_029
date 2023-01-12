@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -44,17 +45,12 @@ public class User {
     private String password;
 
     @Column(name = "EMAIL", length = 512, unique = true)
-    @NotNull
+    @Nullable
     @Size(max = 512)
     private String email;
 
-    @Column(name = "EMAIL_VERIFIED_YN", length = 1)
-    @NotNull
-    @Size(min = 1, max = 1)
-    private String emailVerifiedYn;
-
     @Column(name = "PROFILE_IMAGE_URL", length = 512)
-    @NotNull
+    @Nullable
     @Size(max = 512)
     private String profileImageUrl;
 
@@ -80,7 +76,6 @@ public class User {
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 100) String username,
             @NotNull @Size(max = 512) String email,
-            @NotNull @Size(max = 1) String emailVerifiedYn,
             @NotNull @Size(max = 512) String profileImageUrl,
             @NotNull ProviderType providerType,
             @NotNull RoleType roleType,
@@ -91,8 +86,7 @@ public class User {
         this.username = username;
         this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
-        this.emailVerifiedYn = emailVerifiedYn;
-        this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "";
+        this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "https://user-images.githubusercontent.com/95069395/211246989-dd36a342-bf18-412e-b3ec-841ab3280d56.png";
         this.providerType = providerType;
         this.roleType = roleType;
         this.createdAt = createdAt;
