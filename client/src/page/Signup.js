@@ -59,6 +59,7 @@ let SocialLogin = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 4px;
+  margin-bottom: 4px;
 `;
 let SocialLoginLogo = styled.img`
   width: 40px;
@@ -186,7 +187,7 @@ export default function Signup() {
                 </InputContainer>
               </InputLayout>
               <BtnLayout>
-                <MainBtn text={"회원 가입"} width="200px" height="40px" />
+                <MainBtn text={"회원 가입"} width="210px" height="40px" />
                 {/* 폰트사이즈 16으로 */}
               </BtnLayout>
             </form>
