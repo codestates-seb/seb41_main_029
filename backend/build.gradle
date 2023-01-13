@@ -53,6 +53,9 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    //jsr305
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+
     // Swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
