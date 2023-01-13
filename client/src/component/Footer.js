@@ -6,7 +6,8 @@ const Wrapper = styled.div`
   height: 80px;
   margin-top: ${(props) => (props.path === "/" ? "0" : "200px")};
   justify-content: center;
-  }
+  margin-top: 200px;
+
   div {
     font-size: ${(props) => props.theme.fontSizes.fs18};
   }
