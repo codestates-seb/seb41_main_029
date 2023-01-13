@@ -4,11 +4,11 @@ import theme from "./Theme";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
 import LandingPage from "./page/LandingPage";
-import Login from "./page/Login";
+import LoginPresenter from "./page/Login/LoginPresenter";
 import Signup from "./page/Signup";
 import Community from "./page/Community";
 import View from "./page/View";
-import Writing from "./page/WritingPresentation/Writing";
+import Writing from "./page/Writing/Writing";
 import MyPage from "./page/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <LoginPresenter />,
   },
   {
     path: "/signup",

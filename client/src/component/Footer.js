@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   display: flex;
   height: 80px;
   justify-content: center;
-  }
+
   div {
     font-size: ${(props) => props.theme.fontSizes.fs18};
   }
