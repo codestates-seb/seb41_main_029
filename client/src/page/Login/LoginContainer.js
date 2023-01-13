@@ -31,6 +31,7 @@ let SocialLogin = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 4px;
+  margin-bottom: 4px;
 `;
 let SocialLoginLogo = styled.img`
   width: 40px;
