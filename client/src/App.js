@@ -8,7 +8,7 @@ import LoginPresenter from "./page/Login/LoginPresenter";
 import Signup from "./page/Signup";
 import Community from "./page/Community";
 import View from "./page/View/ViewPresenter";
-import Writing from "./page/WritingPresentation/Writing";
+import Writing from "./page/Writing/Writing";
 import MyPage from "./page/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
