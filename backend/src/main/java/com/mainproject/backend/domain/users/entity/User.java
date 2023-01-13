@@ -42,7 +42,7 @@ public class User {
     @Size(max = 128)
     private String password;
 
-    @Column(name = "EMAIL", length = 512, unique = true)
+    @Column(name = "EMAIL", length = 512)
     @Nullable
     @Size(max = 512)
     private String email;

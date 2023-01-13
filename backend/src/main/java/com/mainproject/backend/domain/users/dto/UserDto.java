@@ -25,10 +25,11 @@ public class UserDto {
     @AllArgsConstructor
     public static class Response{
         private long userSeq;
-        private String UserId;
+        private String userId;
         private String username;
         private String password;
         private String providerType;
+        private String profileImageUrl;
         private String roleType;
         private LocalDateTime createdAt;
         private LocalDateTime ModifiedAt;
