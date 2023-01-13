@@ -7,7 +7,7 @@ import LandingPage from "./page/LandingPage";
 import LoginPresenter from "./page/Login/LoginPresenter";
 import Signup from "./page/Signup";
 import Community from "./page/Community";
-import View from "./page/View";
+import View from "./page/View/ViewPresenter";
 import Writing from "./page/Writing/Writing";
 import MyPage from "./page/MyPage";
 import MyPageEdit from "./page/MyPageEdit";

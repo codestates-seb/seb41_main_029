@@ -15,14 +15,14 @@ const LoginBtn = styled.button`
   }
 
   &:active {
-    transform: scale(0.9);
+    transform: scale(0.95);
     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
   }
 `;
 
-export const MainBtn = ({ text, width, height }) => {
+export const MainBtn = ({ text, width, height, style }) => {
   return (
-    <LoginBtn width={width} height={height}>
+    <LoginBtn style={style} width={width} height={height}>
       {text}
     </LoginBtn>
   );
