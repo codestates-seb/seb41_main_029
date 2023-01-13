@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   margin-bottom: ${(props) => (props.path === "/" ? "-80px" : "0")};
   position: relative;
   width: 100%;
-  z-index: 1000;
+  z-index: 2;
   a {
     color: ${(props) => (props.path === "/" ? "#ffffff" : "#331708")};
     text-decoration: none;

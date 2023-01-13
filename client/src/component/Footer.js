@@ -4,6 +4,7 @@ const Wrapper = styled.div`
   border-top: 1px solid;
   display: flex;
   height: 80px;
+  margin-top: ${(props) => (props.path === "/" ? "0" : "200px")};
   justify-content: center;
   }
   div {
@@ -21,7 +22,7 @@ const Wrapper = styled.div`
 
 export default function Footer() {
   return (
-    <Wrapper>
+    <Wrapper path={window.location.pathname}>
       <div className="va mr96">서비스 이름</div>
       <div className="va mr96">
         <div>고객센터 | mountain1234@gamil.com</div>
