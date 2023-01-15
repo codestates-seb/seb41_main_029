@@ -5,7 +5,7 @@ import { faUser } from "@fortawesome/free-solid-svg-icons";
 const Wrapper = styled.div`
   background-color: ${(props) =>
     props.path === "/" ? "rgba(0,0,0,0.3)" : "#ffffff"};
-  border-bottom: ${(props) => (props.path === "/" ? "none" : "1px solid")};
+  border-bottom: ${(props) => (props.path === "/" ? "0" : "1px solid")};
   display: flex;
   height: 80px;
   margin-bottom: ${(props) => (props.path === "/" ? "-80px" : "0")};
