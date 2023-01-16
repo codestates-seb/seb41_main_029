@@ -112,7 +112,6 @@ const PostTitle = styled.div`
   padding-left: 5px;
   cursor: pointer;
 `;
-
 const PostComment = styled.div`
   color: ${({ theme }) => theme.colors.gray_03};
   padding-left: 5px;
@@ -254,7 +253,7 @@ export default function Community() {
                     <PostWriter>{item.id}</PostWriter>
                   </Post>
                 );
-              })}
+              })} */}
           </PostsList>
         </ComuContainer>
       </Container>
