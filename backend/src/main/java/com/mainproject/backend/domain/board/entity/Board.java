@@ -14,7 +14,7 @@ public class Board extends Auditable { //시간 추가
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardId; // 게시판 ID
+    private Long boardSeq; // 게시판 ID
 
 
     @Column(nullable = false)
