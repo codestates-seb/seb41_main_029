@@ -9,7 +9,7 @@ spring:
     username: root
     password: 54255425
 #    url: jdbc:mysql://localhost:3306/MAIN029?serverTimezone=Asia/Seoul
-#    username: root
+#    username: root..
 #    password: 5425
   output:
     ansi:
@@ -91,6 +91,9 @@ cors:
 # jwt secret key 설정
 jwt.secret: "8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds"
 
+
+config:
+  domain: http://pre41-deploy-test.s3-website.ap-northeast-2.amazonaws.com/
 
 # 토큰 관련 secret Key 및 RedirectUri 설정
 app:
