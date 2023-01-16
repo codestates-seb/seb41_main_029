@@ -112,7 +112,6 @@ const PostTitle = styled.div`
   padding-left: 5px;
   cursor: pointer;
 `;
-
 const PostComment = styled.div`
   color: ${({ theme }) => theme.colors.gray_03};
   padding-left: 5px;
@@ -178,7 +177,7 @@ export default function Community() {
   const pagesVisited = pageNumber * postsPerPage; // 사용자가 본 post 개수
 
   console.log(data);
-  console.log(posts);
+  // console.log(posts);
 
   const displayPosts = posts.slice(pagesVisited, pagesVisited + postsPerPage);
   // .map((post) => {
@@ -224,7 +223,7 @@ export default function Community() {
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
-            {/* {data.map((post, i) => {
+            {data.map((post, i) => {
               return (
                 <Post>
                   <PostHead>
@@ -240,8 +239,8 @@ export default function Community() {
                   <PostWriter>{post.id}</PostWriter>
                 </Post>
               );
-            })} */}
-            {posts
+            })}
+            {/* {posts
               .slice(pagesVisited, pagesVisited + postsPerPage)
               .map((post) => {
                 return (
@@ -259,7 +258,7 @@ export default function Community() {
                     <PostWriter>{post.id}</PostWriter>
                   </Post>
                 );
-              })}
+              })} */}
           </PostsList>
         </ComuContainer>
       </Container>
