@@ -142,9 +142,19 @@ const PostWriter = styled.div`
   text-align: center;
 `;
 
-const Pagination = styled.div``;
+// 페이지네이션
+const Paginate = styled.div`
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  text-align: center;
+`;
 
-const Search = styled.div``;
+// 검색
+const Search = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const SearchInput = styled.input`
   background-color: ${({ theme }) => theme.colors.container};
@@ -156,49 +166,45 @@ const SearchInput = styled.input`
 `;
 
 export default function Community() {
+  // axios
+  const [items, setItems] = useState([]);
+
+  // search
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // 왜 데이터 500개 다받아오지?
+
   useEffect(() => {
     axios
-      .get("https://jsonplaceholder.typicode.com/posts")
+      .get(`https://jsonplaceholder.typicode.com/comments?_page=1&_limit=5`)
       .then((res) => {
-        // console.log(res.data);
-        setData(res.data);
+        console.log(res.data);
+        const total = res.headers.get("x-total-count");
+        console.log(total);
+        setItems(res.data);
       })
       .catch((err) => {
         console.log(err.response);
       });
   }, []);
 
-  const [data, setData] = useState([]);
-  const arr = Array.from(jsonData);
-  console.log(Array.isArray(arr));
-  const [posts, setPosts] = useState(arr.slice(0, 2));
-  const [pageNumber, setPageNumber] = useState(0);
+  const fetchComments = async (currentPage) => {
+    const res = await fetch(
+      `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=5`
+    );
+    const data = await res.json();
+    return data;
+  };
 
-  const postsPerPage = 10; // 페이지당 post 개수
-  const pagesVisited = pageNumber * postsPerPage; // 사용자가 본 post 개수
+  const handlePageClick = async (data) => {
+    console.log(data.selected);
 
-  console.log(data);
-  console.log(posts);
+    let currentPage = data.selected + 1;
 
-  const displayPosts = posts.slice(pagesVisited, pagesVisited + postsPerPage);
-  // .map((post) => {
-  //   return (
-  //     <Post>
-  //       <PostHead>
-  //         <PostHeadBox>정보</PostHeadBox>
-  //       </PostHead>
-  //       <PostTitleBox>
-  //         <PostTitle>{post.title}</PostTitle>
-  //         <PostComment>[1]</PostComment>
-  //       </PostTitleBox>
-  //       <PostDate>22/01/04</PostDate>
-  //       <PostView>123</PostView>
-  //       <PostLike>15</PostLike>
-  //       <PostWriter>{post.id}</PostWriter>
-  //     </Post>
-  //   );
-  // });
-  // 각 페이지에 표시할 post 개수
+    const commentsFormServer = await fetchComments(currentPage);
+
+    setItems(commentsFormServer);
+  };
 
   return (
     <>
@@ -224,48 +230,51 @@ export default function Community() {
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
-            {/* {data.map((post, i) => {
-              return (
-                <Post>
-                  <PostHead>
-                    <PostHeadBox>정보</PostHeadBox>
-                  </PostHead>
-                  <PostTitleBox>
-                    <PostTitle>{post.title}</PostTitle>
-                    <PostComment>[1]</PostComment>
-                  </PostTitleBox>
-                  <PostDate>22/01/04</PostDate>
-                  <PostView>123</PostView>
-                  <PostLike>15</PostLike>
-                  <PostWriter>{post.id}</PostWriter>
-                </Post>
-              );
-            })} */}
-            {posts
-              .slice(pagesVisited, pagesVisited + postsPerPage)
-              .map((post) => {
+            {items
+              .filter((item) => {
+                if (searchTerm === "") {
+                  return item;
+                } else if (item.name.includes(searchTerm)) {
+                  return item;
+                }
+              })
+              .map((item) => {
                 return (
-                  <Post>
+                  <Post key={item.id}>
                     <PostHead>
                       <PostHeadBox>정보</PostHeadBox>
                     </PostHead>
                     <PostTitleBox>
-                      <PostTitle>{post.title}</PostTitle>
+                      <PostTitle>{item.name}</PostTitle>
                       <PostComment>[1]</PostComment>
                     </PostTitleBox>
                     <PostDate>22/01/04</PostDate>
                     <PostView>123</PostView>
                     <PostLike>15</PostLike>
-                    <PostWriter>{post.id}</PostWriter>
+                    <PostWriter>{item.id}</PostWriter>
                   </Post>
                 );
               })}
           </PostsList>
         </ComuContainer>
       </Container>
-      <Pagination>1 2 3 4 5</Pagination>
+      <Paginate>
+        <ReactPaginate
+          previousLabel={"pre"}
+          nextLabel={"next"}
+          breakLabel={"..."}
+          pageCount={25}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={6}
+          onPageChange={handlePageClick}
+        />
+      </Paginate>
       <Search>
-        <SearchInput></SearchInput>
+        <SearchInput
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
+        ></SearchInput>
       </Search>
     </>
   );
