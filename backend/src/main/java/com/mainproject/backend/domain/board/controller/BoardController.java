@@ -38,48 +38,36 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
     //게시글 수정
-    @PatchMapping("/{board-id}")
-    public ResponseEntity patchBoard(@PathVariable("board-id") Long boardId,
+    @PatchMapping("/{board-seq}")
+    public ResponseEntity patchBoard(@PathVariable("board-seq") Long boardSeq,
                                      @Valid @RequestBody BoardDto.Patch patchDto) {
-        patchDto.setBoardId(boardId);
+        patchDto.setBoardSeq(boardSeq);
         Board board = boardService.updateBoard(boardMapper.boardPatchDtoToBoard(patchDto));
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.OK);
     }
     //게시글 가져오기
-    @GetMapping("/{board-id}")
-    public ResponseEntity getBoard(@PathVariable("board-id") Long boardId) {
-        Board findBoard = boardService.findBoardAndPlusViewCount(boardId);
+    @GetMapping("/{board-seq}")
+    public ResponseEntity getBoard(@PathVariable("board-seq") Long boardSeq) {
+        Board findBoard = boardService.findBoardAndPlusViewCount(boardSeq);
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(findBoard), HttpStatus.OK);
     }
-//    //추천수
-//    @PatchMapping("/votes/{board-id}")
-//    public ResponseEntity voteBoard(@PathVariable("board-id") Long boardId,
-//                                    @RequestParam boolean voteUp) {
-//        Board board = boardService.voteBoard(boardId, voteUp);
-//
-//        return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board),
-//        HttpStatus.OK);
-//    }
-//    @GetMapping
-//    public ResponseEntity getBoards(@RequestParam("page") @Positive int page,
-//                                    @RequestParam("size") @Positive int size) {
-//        Page<Board> board = boardService.getBoard(page -1, size);
-//
-//        List<Board> content = board.getContent();
-//        return new ResponseEntity(new MultiResponseDto<>(boardMapper.boardsToBoardResponsesDto(content), board),
-//                HttpStatus.OK);
-//
-//    }
-//    @GetMapping("/list/boards")
-//    public ResponseEntity<List<BoardDto.response>> findBoardNoPage(){
-//        return ResponseEntity.ok(boardService.getBoard());
-//    }
+
+    @GetMapping
+    public ResponseEntity getBoards(@RequestParam("page") @Positive int page,
+                                    @RequestParam("size") @Positive int size) {
+        Page<Board> board = boardService.getBoard(page -1, size);
+
+        List<Board> content = board.getContent();
+        return new ResponseEntity(new MultiResponseDto<>(boardMapper.boardsToBoardResponsesDto(content), board),
+                HttpStatus.OK);
+
+    }
 
     //게시글 삭제
-    @DeleteMapping("/{board-id}")
-    public ResponseEntity deleteBoard(@PathVariable("board-id") @Positive Long boardId){
-        boardService.deleteBoard(boardId);
+    @DeleteMapping("/{board-seq}")
+    public ResponseEntity deleteBoard(@PathVariable("board-seq") @Positive Long boardSeq){
+        boardService.deleteBoard(boardSeq);
 
         return new ResponseEntity<>("게시글 삭제",HttpStatus.NO_CONTENT);
     }

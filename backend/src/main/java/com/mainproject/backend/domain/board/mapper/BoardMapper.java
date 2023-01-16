@@ -25,7 +25,7 @@ public interface BoardMapper {
 
     default Board boardPatchDtoToBoard(BoardDto.Patch patchDto) {
         Board board = new Board();
-        board.setBoardId(patchDto.getBoardId());
+        board.setBoardSeq(patchDto.getBoardSeq());
         board.setCategory(patchDto.getCategory());
         board.setTitle(patchDto.getTitle());
         board.setContent(patchDto.getContent());

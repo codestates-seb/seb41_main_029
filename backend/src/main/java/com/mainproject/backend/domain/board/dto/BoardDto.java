@@ -28,7 +28,7 @@ public class BoardDto {
     @Getter
     @Setter
     public static class Patch{
-        private Long boardId;
+        private Long boardSeq;
 
         private Category category;
         @NotBlank
@@ -46,7 +46,7 @@ public class BoardDto {
     @Getter
     @Setter
     public static class response{
-        private Long boardId;
+        private Long boardSeq;
 
         private String category;
         private String title;
@@ -59,7 +59,7 @@ public class BoardDto {
         // 답변 가져오기
 
         public response(Board board) {
-            this.boardId = board.getBoardId();
+            this.boardSeq = board.getBoardSeq();
             this.category = board.getCategory().getValue();
             this.title = board.getTitle();
             this.content = board.getContent();
