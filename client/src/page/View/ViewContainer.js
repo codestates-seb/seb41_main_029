@@ -7,7 +7,9 @@ import Comments from "../../component/View/Comments";
 import CommentForm from "../../component/View/CommentForm";
 import { getWriting } from "../../api/writingAPI";
 import { Cookies } from "react-cookie";
-import DateFnsExample from "../../component/DateCalculator";
+import { Viewdate } from "../../component/DateCalculator";
+import { format, parseISO } from "date-fns";
+import { deleteComment } from "../../api/commentAPI";
 
 const ViewLayout = styled.div``;
 
@@ -100,6 +102,9 @@ const Profile = styled.div`
 `;
 
 const ViewContainer = () => {
+  // const cookie = new Cookies();
+  // const Token = cookie.get("token")
+  // const userId = JSON.parse(localStorage.getItem("userId"))
   const navigate = useNavigate();
   const { id } = useParams();
   const [viewInfo, setViewInfo] = useState();
@@ -111,15 +116,21 @@ const ViewContainer = () => {
     setIsBM(!isBM);
   };
 
-  useEffect(() => {
-    // async function getInfo() {
-    //   const res = await getWriting();
-    //   setViewInfo(res)
+  const handleClickDe = async () => {
+    // if (answer.userId * 1 !== userId * 1) {
+    //   return alert("not your comment");
+    // } else {
+    //   const res = await deleteComment();
+    //   boardsId, boards.commentId, Token, userId;
+    //   if (res.status === 204) {
+    //     window.location.replace(`/boards/${boardsId}`);
+    //   } else {
+    //     alert("fail to delete");
+    //   }
     // }
-    // getInfo();
-    // const cookie = new Cookies();
-    // const Token = cookie.get("token")
-    // const userId = JSON.parse(localStorage.getItem("userId"))
+  };
+
+  useEffect(() => {
     async function getInfo() {
       const res = await getWriting();
       setViewInfo(res);
@@ -150,8 +161,9 @@ const ViewContainer = () => {
               <DeleteImg
                 src={process.env.PUBLIC_URL + "/image/deleteIcon.svg"}
                 alt="delete"
+                onClick={handleClickDe}
               />
-              <EditWord1>삭제</EditWord1>
+              <EditWord>삭제</EditWord>
             </Icondiv1>
             <Icondiv1>
               {isBM ? (
@@ -197,16 +209,17 @@ const ViewContainer = () => {
           주며, 인생에 것이 우리의 가치를 인생을 위하여서. */}
           {viewInfo?.content}
         </BodyLayout>
-        <ViewVote />
+        <ViewVote voteResult={viewInfo?.voteResult} />
         <UserInfoLayout>
           <Profile></Profile>
           <div>
             {/* 박승철 */}
             {viewInfo?.userName}
             {/* <div>{viewInfo?.createdAt}</div> */}
-            <DateFnsExample createdAt={viewInfo?.createdAt} />
+            <Viewdate createdAt={viewInfo?.createdAt} />
+            {/* {format(parseISO(viewInfo?.createdAt), "yyyy.MM.dd")} */}
             {/* <div>조회수:137</div> */}
-            <div>{viewInfo?.viewCount}</div>
+            <div>조회수 : {viewInfo?.viewCount}</div>
           </div>
         </UserInfoLayout>
         {/* <Comments /> */}

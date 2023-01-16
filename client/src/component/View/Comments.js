@@ -29,13 +29,13 @@ const Comments = ({ comments }) => {
       <CommentsLayout>
         <CommentsHeader>
           {/* 댓글 (1) */}
-          댓글 {comments?.length}
+          댓글 ({comments?.length})
         </CommentsHeader>
         {/* <CommentLayout>
           <Comment />
         </CommentLayout> */}
-        {comments?.map((item) => (
-          <CommentLayout key={item.commentId}>
+        {comments?.map((item, index) => (
+          <CommentLayout key={index}>
             <Comment comment={item} />
           </CommentLayout>
         ))}

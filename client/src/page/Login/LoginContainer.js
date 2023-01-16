@@ -61,10 +61,10 @@ const LoginContainer = () => {
 
   const passwordValidation = {
     required: "비밀번호를 입력해주세요.",
-    pattern: {
-      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-      message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
-    },
+    // pattern: {
+    //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+    //   message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
+    // },
   };
   // const expireDate = new Date()
   // expireDate.setMinutes(expireDate.getMinutes() + 10)
@@ -78,6 +78,8 @@ const LoginContainer = () => {
       const { userId } = res.data;
       localStorage.setItem("userId", JSON.stringify(userId));
       const token = res.headers?.authorization.split(" ")[1];
+      // const token1 = res.body?.authorization.split(" ")[1];
+      // const token =  req.headers.authorization.split('Bearer ')[1];
       cookie.set("token", token);
       navigate("/");
     }

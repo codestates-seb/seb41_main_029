@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { MainBtn } from "../Button";
 import Input from "../Input";
 import { FormProvider, useForm } from "react-hook-form";
+import { postComment } from "../../api/commentAPI";
+import { useParams } from "react-router-dom";
+import { Cookies } from "react-cookie";
 
 const InputLayout = styled.div`
   margin-left: 88px;
@@ -13,9 +16,18 @@ const InputContainer = styled.div`
 
 const CommentForm = () => {
   const methods = useForm();
+  const id = useParams();
+  const cookie = new Cookies();
+  const Token = cookie.get("token");
+  // const userSeq = JSON.parse(localStorage.getItem("userId"));
+
   const onSubmit = (data) => {
+    // const res = await postComment(data, Token, id, userSeq);
+    // if (res.status === 201) {
+    //   window.location.replace(`/boards/${id.id}`);
     console.log(data);
   };
+
   return (
     <>
       <InputLayout>

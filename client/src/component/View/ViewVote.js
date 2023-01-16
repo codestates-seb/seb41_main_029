@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Count = styled.span`
@@ -18,33 +18,97 @@ const VoteContainer = styled.div`
 `;
 const VoteBtn = styled.button`
   border-radius: 10px;
+  margin-left: 20px;
+`;
+const VoteActBtn = styled.button`
+  margin-left: 20px;
+  border-radius: 10px;
+  color: ${({ theme }) => theme.colors.main_hover};
+  border: 2px solid #439a97;
+  /* background-color: ${({ theme }) => theme.colors.main_hover}; */
+`;
+const VoteActBtn1 = styled.button`
+  border-radius: 10px;
+  margin-left: 20px;
+  color: red;
+  border: 2px solid red;
+  /* background-color: ${({ theme }) => theme.colors.main_hover}; */
 `;
 
-const ViewVote = ({ viewInfo }) => {
+const ViewVote = ({ voteResult }) => {
+  const [isUpVote, setIsUpVote] = useState(false);
+  const [isDownVote, setIsDownVote] = useState(false);
+  const [voteCount, setVoteCount] = useState();
+  const [downVoteCount, setDownVoteCount] = useState();
+  const handleClickUp = () => {
+    if (isUpVote) return;
+    let updateVote = voteResult + 1;
+    setVoteCount(updateVote);
+    // commentUpVote( Token);
+    setIsUpVote(updateVote);
+  };
+  const handleDownVote = () => {
+    if (isDownVote) return;
+
+    let DownVote = voteResult + 1;
+    setDownVoteCount(DownVote);
+    // commentDownVote( Token);
+    setIsDownVote(true);
+  };
+
   return (
     <>
       <VoteLayout>
-        <VoteBtn style={{ marginLeft: "20px" }}>
-          <VoteContainer>
-            <img
-              src={process.env.PUBLIC_URL + "/image/upVote.svg"}
-              alt="delete"
-              width="40px"
-            />
-            <Count>3</Count>
-          </VoteContainer>
-        </VoteBtn>
-
-        <VoteBtn style={{ marginLeft: "20px" }}>
-          <VoteContainer>
-            <img
-              src={process.env.PUBLIC_URL + "/image/downVote.svg"}
-              alt="delete"
-              width="40px"
-            />
-            <Count style={{ marginTop: "7px" }}>1</Count>
-          </VoteContainer>
-        </VoteBtn>
+        {isUpVote ? (
+          <VoteActBtn onClick={handleClickUp}>
+            <VoteContainer>
+              <img
+                src={process.env.PUBLIC_URL + "/image/upVote.svg"}
+                alt="Up"
+                width="40px"
+              />
+              <Count>{voteCount === 0 ? 0 : voteCount || voteResult}</Count>
+            </VoteContainer>
+          </VoteActBtn>
+        ) : (
+          <VoteBtn onClick={handleClickUp}>
+            <VoteContainer>
+              <img
+                src={process.env.PUBLIC_URL + "/image/upVote.svg"}
+                alt="Up"
+                width="40px"
+              />
+              <Count>{voteCount === 0 ? 0 : voteCount || voteResult}</Count>
+            </VoteContainer>
+          </VoteBtn>
+        )}
+        {isDownVote ? (
+          <VoteActBtn1 onClick={handleDownVote} style={{ marginLeft: "20px" }}>
+            <VoteContainer>
+              <img
+                src={process.env.PUBLIC_URL + "/image/downVote.svg"}
+                alt="Down"
+                width="40px"
+              />
+              <Count style={{ marginTop: "7px" }}>
+                {downVoteCount === 0 ? 0 : downVoteCount || voteResult}
+              </Count>
+            </VoteContainer>
+          </VoteActBtn1>
+        ) : (
+          <VoteBtn onClick={handleDownVote} style={{ marginLeft: "20px" }}>
+            <VoteContainer>
+              <img
+                src={process.env.PUBLIC_URL + "/image/downVote.svg"}
+                alt="Down"
+                width="40px"
+              />
+              <Count style={{ marginTop: "7px" }}>
+                {downVoteCount === 0 ? 0 : downVoteCount || voteResult}
+              </Count>
+            </VoteContainer>
+          </VoteBtn>
+        )}
       </VoteLayout>
     </>
   );

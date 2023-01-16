@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import { CommentDate } from "../DateCalculator";
+import CommentVote from "./CommentVote";
 
 const CommentInfo = styled.div`
+  display: flex;
   padding-top: 16px;
   padding-left: 24px;
   height: 35px;
+  width: 440px;
 `;
 
 const EtcIcon = styled.span`
@@ -37,26 +41,6 @@ const CommentContainer = styled.div`
   padding-left: 8px;
 `;
 
-const VoteBtn = styled.button`
-  margin-top: 12px;
-  margin-left: 24px;
-  border-radius: 10px;
-`;
-const VoteBtn1 = styled.button`
-  margin-top: 12px;
-  margin-left: 12px;
-  border-radius: 10px;
-`;
-const VoteContainer = styled.div`
-  display: flex;
-`;
-
-const Count = styled.span`
-  font-size: ${({ theme }) => theme.fontSizes.fs16};
-  margin-top: 3px;
-  margin-left: 5px;
-`;
-
 const Comment = ({ comment }) => {
   return (
     <>
@@ -72,31 +56,12 @@ const Comment = ({ comment }) => {
       </EtcIcon>
       {/* <CommentInfo>박승철 (23/01/04)</CommentInfo> */}
       <CommentInfo>
-        {comment?.userName} {comment?.createdAt}{" "}
+        {comment?.userName}
+        <CommentDate createdAt={comment?.createdAt} />
       </CommentInfo>
       {/* <CommentContainer>좋은 글이네요! </CommentContainer> */}
       <CommentContainer>{comment?.content} </CommentContainer>
-      <VoteBtn>
-        <VoteContainer>
-          <img
-            src={process.env.PUBLIC_URL + "/image/upVote.svg"}
-            alt="delete"
-            width="30px"
-          />
-          <Count>3</Count>
-          <count></count>
-        </VoteContainer>
-      </VoteBtn>
-      <VoteBtn1>
-        <VoteContainer>
-          <img
-            src={process.env.PUBLIC_URL + "/image/downVote.svg"}
-            alt="delete"
-            width="28px"
-          />
-          <Count>0</Count>
-        </VoteContainer>
-      </VoteBtn1>
+      <CommentVote voteResult={comment?.voteResult} />
     </>
   );
 };

@@ -12,7 +12,7 @@ export const getWriting = async () => {
   return res.data;
 };
 
-export const dele = async (writingId, Token) => {
+export const deleteWriting = async (writingId, Token) => {
   const res = await axios({
     method: "delete",
     url: `${url}/community/${writingId}`,
@@ -20,4 +20,28 @@ export const dele = async (writingId, Token) => {
   });
   console.log(res);
   return res;
+};
+
+export const editWriting = async (data, token, boardSeq, userSeq) => {
+  if (!token || !userSeq) {
+    return alert("post after login");
+  }
+  const endpoint = ``;
+  const formData = {
+    userSeq,
+    content: data.content,
+    title: data.title,
+  };
+  try {
+    const response = await axios({
+      method: "patch",
+      url: endpoint,
+      data: formData,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
 };
