@@ -89,7 +89,7 @@ cors:
 
 # jwt secret key ??
 # jwt secret key 설정
-jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
+jwt.secret: "8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds"
 
 
 # 토큰 관련 secret Key 및 RedirectUri 설정

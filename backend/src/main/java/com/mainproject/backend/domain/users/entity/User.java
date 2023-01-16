@@ -31,15 +31,15 @@ public class User {
     @Size(max = 64)
     private String userId;
 
-    @Column(name = "USERNAME", length = 100)
+    @Column(name = "USERNAME", length = 32)
     @NotNull
-    @Size(max = 100)
+    @Size(max = 32)
     private String username;
 
     @JsonIgnore
-    @Column(name = "PASSWORD", length = 128)
+    @Column(name = "PASSWORD", length = 64)
     @NotNull
-    @Size(max = 128)
+    @Size(max = 64)
     private String password;
 
     @Column(name = "EMAIL", length = 512)
@@ -72,7 +72,7 @@ public class User {
 
     public User(
             @NotNull @Size(max = 64) String userId,
-            @NotNull @Size(max = 100) String username,
+            @NotNull @Size(max = 32) String username,
             @NotNull @Size(max = 512) String email,
             @NotNull @Size(max = 512) String profileImageUrl,
             @NotNull ProviderType providerType,

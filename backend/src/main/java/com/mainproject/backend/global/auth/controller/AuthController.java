@@ -48,12 +48,12 @@ public class AuthController {
     ){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        loginDto.getId(),
+                        loginDto.getUserId(),
                         loginDto.getPassword()
                 )
         );
 
-        String userId = loginDto.getId();
+        String userId = loginDto.getUserId();
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Date now = new Date();
