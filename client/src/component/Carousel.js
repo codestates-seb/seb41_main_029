@@ -25,7 +25,8 @@ const Wrapper = styled.div`
     align-items: center;
   }
   .window {
-    width: 1920px;
+    max-width: 1920px;
+    width: 100vw;
     height: 1000px;
     overflow: hidden;
   }
@@ -42,7 +43,8 @@ const Wrapper = styled.div`
     display: flex;
   }
   .img {
-    width: 1920px;
+    max-width: 1920px;
+    width: 100vw;
     height: 1000px;
     background-position: 50% 50%;
     background-size: cover;
