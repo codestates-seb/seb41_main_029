@@ -25,7 +25,6 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
-
     private final BoardMapper boardMapper;
 
     //게시글 등록
@@ -50,7 +49,7 @@ public class BoardController {
     public ResponseEntity getBoard(@PathVariable("board-seq") Long boardSeq) {
         Board findBoard = boardService.findBoardAndPlusViewCount(boardSeq);
 
-        return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(findBoard), HttpStatus.OK);
+        return new ResponseEntity<>(boardMapper.boardToBoardWithCommentResponseDto(findBoard), HttpStatus.OK);
     }
 
     //전체 게시물 조회
