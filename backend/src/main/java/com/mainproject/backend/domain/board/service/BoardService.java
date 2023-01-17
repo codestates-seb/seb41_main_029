@@ -57,8 +57,8 @@ public class BoardService {
         return findBoard;
     }
 
-    public Page<Board> getBoard(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page, size, Sort.by("boardSeq").descending()));
+    public Page<Board> findAllBoard(int page, int size) {
+        return boardRepository.findAll(PageRequest.of(page -1 , size, Sort.by("boardSeq").descending()));
     }
     //검색 조건에 따른 게시글 리스트 조회 + 페이징
 
@@ -68,6 +68,12 @@ public class BoardService {
         Board findBoard = optionalBoard.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
         return findBoard;
+    }
+
+    //제목 검색
+    public Page<Board> findAllBySearch(String keyword, int page, int size) {
+        return boardRepository.findAllByTitleContaining(keyword, PageRequest.of(page - 1, size,
+                Sort.by("boardSeq").descending()));
     }
 
     //게시글 삭제

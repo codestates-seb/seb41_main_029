@@ -53,15 +53,30 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(findBoard), HttpStatus.OK);
     }
 
+    //전체 게시물 조회
     @GetMapping
     public ResponseEntity getBoards(@RequestParam("page") @Positive int page,
                                     @RequestParam("size") @Positive int size) {
-        Page<Board> board = boardService.getBoard(page -1, size);
+//        Page<Board> board = boardService.getBoard(page -1, size);
+//
+//        List<Board> content = board.getContent();
+//        return new ResponseEntity(new MultiResponseDto<>(boardMapper.boardsToBoardResponsesDto(content), board),
+//                HttpStatus.OK);
 
-        List<Board> content = board.getContent();
-        return new ResponseEntity(new MultiResponseDto<>(boardMapper.boardsToBoardResponsesDto(content), board),
-                HttpStatus.OK);
+        List<Board> board = boardService.findAllBoard(page, size).getContent();
+        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
 
+    }
+
+    //검색 게시물 조회
+    @GetMapping("/search")
+    public ResponseEntity findAllBySearch(@RequestParam("keyword") String keyword,
+                                          @RequestParam("page") @Positive int page,
+                                          @RequestParam("size") @Positive int size) {
+
+        List<Board> boards = boardService.findAllBySearch(keyword, page, size).getContent();
+
+        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(boards), HttpStatus.OK);
     }
 
     //게시글 삭제
