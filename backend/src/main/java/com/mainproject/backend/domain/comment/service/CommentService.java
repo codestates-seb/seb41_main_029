@@ -24,7 +24,7 @@ public class CommentService {
 
     public Comment updateComment(Comment comment){
 
-        Comment findComment = findVerifiedComment(comment.getCommentId());
+        Comment findComment = findVerifiedComment(comment.getCommentSeq());
 
         Optional.ofNullable(comment.getContent())
                 .ifPresent(content -> findComment.setContent(content));
@@ -32,14 +32,14 @@ public class CommentService {
         return commentRepository.save(findComment);
     }
 
-    public void deleteComment(long commentId){
-        Comment findComment = findVerifiedComment(commentId);
+    public void deleteComment(long commentSeq){
+        Comment findComment = findVerifiedComment(commentSeq);
 
         commentRepository.delete(findComment);
     }
 
-    private Comment findVerifiedComment(Long commentId){
-        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+    private Comment findVerifiedComment(Long commentSeq){
+        Optional<Comment> optionalComment = commentRepository.findById(commentSeq);
         Comment findComment =
                 optionalComment.orElseThrow( () ->
                         new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND));
