@@ -14,7 +14,6 @@ import com.mainproject.backend.global.auth.service.CustomUserDetailsService;
 import com.mainproject.backend.global.auth.token.AuthTokenProvider;
 import com.mainproject.backend.global.config.properties.AppProperties;
 import com.mainproject.backend.global.config.properties.CorsProperties;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +37,6 @@ import java.util.Arrays;
 //Spring security를 위한 설정 파일
 
 @Configuration
-@AllArgsConstructor
 @RequiredArgsConstructor
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true) // 특정 주소 접근시 권한 및 인증을 위한 어노테이션 활성화

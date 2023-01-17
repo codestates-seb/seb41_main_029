@@ -1,7 +1,6 @@
 package com.mainproject.backend.domain.users.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mainproject.backend.domain.audit.Auditable;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.*;
@@ -20,7 +19,7 @@ import java.time.LocalDateTime;
 @Builder
 @Table(name = "USER")
 public class User {
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @JsonIgnore
     @Id
     @Column(name = "USER_SEQ")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
