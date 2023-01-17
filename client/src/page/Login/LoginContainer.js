@@ -77,9 +77,9 @@ const LoginContainer = () => {
     } else {
       const { userId } = res.data;
       localStorage.setItem("userId", JSON.stringify(userId));
-      const token = res.headers?.authorization.split(" ")[1];
+      // const token = res.headers?.authorization.split(" ")[1];
       // const token1 = res.body?.authorization.split(" ")[1];
-      // const token =  req.headers.authorization.split('Bearer ')[1];
+      const token = res.headers.authorization.split("Bearer ")[1];
       cookie.set("token", token);
       navigate("/");
     }
@@ -98,7 +98,7 @@ const LoginContainer = () => {
                 id="id"
                 width="15rem"
                 height="40px"
-                fieldName="id"
+                fieldName="userId"
                 validation={idValidation}
                 error={error.id}
               />

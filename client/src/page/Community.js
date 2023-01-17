@@ -143,10 +143,44 @@ const PostWriter = styled.div`
 
 // 페이지네이션
 const Paginate = styled.div`
+  /* display: flex;
+  justify-content: center;
+  list-style-type: none;
+  text-align: center; */
+`;
+
+const MyPaginate = styled(ReactPaginate).attrs({
+  // You can redefine classes here, if you want.
+  activeClassName: "active", // default to "selected"
+})`
+  margin: 50px 0px;
   display: flex;
   justify-content: center;
   list-style-type: none;
-  text-align: center;
+  padding: 0 5rem;
+  li a {
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a {
+    color: #62b6b7;
+  }
+  li.active a {
+    /* background-color: #62b6b7;
+    color: white; */
+    color: #91cccd;
+    font-weight: 700;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: ${({ theme }) => theme.colors.gray_03};
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
 `;
 
 // 검색
@@ -167,6 +201,7 @@ const SearchInput = styled.input`
 export default function Community() {
   // axios
   const [items, setItems] = useState([]);
+  const [searchItems, setSearchItems] = useState([]);
 
   // search
   const [searchTerm, setSearchTerm] = useState("");
@@ -181,17 +216,30 @@ export default function Community() {
         const total = res.headers.get("x-total-count");
         console.log(total);
         setItems(res.data);
+        // 여기서 filter 적용하는건???
       })
       .catch((err) => {
         console.log(err.response);
       });
   }, []);
 
-  const fetchComments = async (currentPage) => {
-    const res = await fetch(
+  useEffect(() => {
+    axios
+      .get(`https://jsonplaceholder.typicode.com/comments`)
+      .then((res) => {
+        console.log(res.data);
+        setSearchItems(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  }, []);
+
+  const axiosPosts = async (currentPage) => {
+    const res = await axios.get(
       `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=5`
     );
-    const data = await res.json();
+    const data = await res.data;
     return data;
   };
 
@@ -200,7 +248,7 @@ export default function Community() {
 
     let currentPage = data.selected + 1;
 
-    const commentsFormServer = await fetchComments(currentPage);
+    const commentsFormServer = await axiosPosts(currentPage);
 
     setItems(commentsFormServer);
   };
@@ -229,6 +277,18 @@ export default function Community() {
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
+            {/* 애초에 items가 _page=1&_limit=5의 데이터인데,
+            여기다가 .filter하면 당연히 그 데이터만 나오겠지
+            근데 모든 데이터를 나오게 하면, 페이지네이션은 어떻게 하지..
+            페이지네이션하려고 제한된 데이터를 받아온건데..?
+            삼항연산자를 써서 페이지네이션 시에는 분리된 데이터를 쓰고,
+            검색할때는 전체 데이터를 써야하나??????? */}
+
+            {/* 삼항연산자로 구현하려하니까 검색으로 추려진 데이터를 또 페이지네이션 해야하는데.. 
+            원래는 애초에 한페이지씩 잘라진 데이터를 받아왔는데.. 이 경우 어떻게 해야하지?  */}
+
+            {/* 카테고리 필터로 게시글 띄울때도 같은 문제... 즉.. 추려진 데이터를 또 페이지네이션 하려면
+            전체 데이터를 받아와서 페이지네이션 하는 방법을 찾아야할듯? */}
             {items
               .filter((item) => {
                 if (searchTerm === "") {
@@ -253,19 +313,27 @@ export default function Community() {
                     <PostWriter>{item.id}</PostWriter>
                   </Post>
                 );
-              })} */}
+              })}
           </PostsList>
         </ComuContainer>
       </Container>
       <Paginate>
-        <ReactPaginate
-          previousLabel={"pre"}
-          nextLabel={"next"}
+        <MyPaginate
+          previousLabel={"〈"}
+          nextLabel={"〉"}
           breakLabel={"..."}
           pageCount={25}
           marginPagesDisplayed={3}
           pageRangeDisplayed={6}
           onPageChange={handlePageClick}
+          containerClassName="pagination justify-content-center"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          activeClassName="active"
         />
       </Paginate>
       <Search>
