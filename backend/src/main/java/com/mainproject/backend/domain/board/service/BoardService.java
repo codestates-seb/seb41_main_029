@@ -23,7 +23,6 @@ import java.util.Optional;
 @Transactional
 public class BoardService {
     private final BoardRepository boardRepository;
-    private final BoardVoteRepository boardVoteRepository;
     //유저 서비스
 
     //게시글 등록
@@ -60,7 +59,6 @@ public class BoardService {
     public Page<Board> findAllBoard(int page, int size) {
         return boardRepository.findAll(PageRequest.of(page -1 , size, Sort.by("boardSeq").descending()));
     }
-    //검색 조건에 따른 게시글 리스트 조회 + 페이징
 
     //게시글 찾기
     public Board findVerifiedBoard(Long boardSeq) {

@@ -4,8 +4,6 @@ import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.mapper.BoardMapper;
 import com.mainproject.backend.domain.board.service.BoardService;
-import com.mainproject.backend.global.ResponseDTO.MultiResponseDto;
-import com.mainproject.backend.global.ResponseDTO.SingleResponseDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

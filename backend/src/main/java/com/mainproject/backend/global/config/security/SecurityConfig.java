@@ -70,6 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/image/**").permitAll()
                 .antMatchers("/users/signup", "/users/**").permitAll()
                 .antMatchers("/auth/login", "/auth/**").permitAll()
+                .antMatchers("/boards/**").permitAll()
                 .and()
                     .csrf().disable()
                     .formLogin().disable()

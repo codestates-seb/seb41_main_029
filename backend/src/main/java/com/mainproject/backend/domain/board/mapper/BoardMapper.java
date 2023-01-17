@@ -48,11 +48,6 @@ public interface BoardMapper {
 //        return responses;
 //    }
     List<PageBoardResponseDto> boardsToBoardResponsesDto(List<Board> boards);
-    default List<BoardDto.response> boardsToBoardResponsesDto(List<Board> boards) {
-        List<BoardDto.response> responses
-                = boards.stream().map(board -> boardToBoardResponseDto(board)).collect(Collectors.toList());
-        return responses;
-    }
 
     default BoardWithCommentDto boardToBoardWithCommentResponseDto(Board board){
        List<Comment> comments = board.getCommentList();
