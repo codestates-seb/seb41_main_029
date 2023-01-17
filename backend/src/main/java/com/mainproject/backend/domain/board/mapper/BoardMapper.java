@@ -1,6 +1,7 @@
 package com.mainproject.backend.domain.board.mapper;
 
 import com.mainproject.backend.domain.board.dto.BoardDto;
+import com.mainproject.backend.domain.board.dto.PageBoardResponseDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
@@ -38,9 +39,10 @@ public interface BoardMapper {
         return response;
     }
 
-    default List<BoardDto.response> boardsToBoardResponsesDto(List<Board> boards) {
-        List<BoardDto.response> responses
-                = boards.stream().map(board -> boardToBoardResponseDto(board)).collect(Collectors.toList());
-        return responses;
-    }
+//    default List<BoardDto.response> boardsToBoardResponsesDto(List<Board> boards) {
+//        List<BoardDto.response> responses
+//                = boards.stream().map(board -> boardToBoardResponseDto(board)).collect(Collectors.toList());
+//        return responses;
+//    }
+    List<PageBoardResponseDto> boardsToBoardResponsesDto(List<Board> boards);
 }
