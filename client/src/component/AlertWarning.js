@@ -1,0 +1,34 @@
+import React from "react";
+import styled from "styled-components";
+const Alert = styled.img`
+  width: 18px;
+  height: 18px;
+  display: block;
+  position: absolute;
+  bottom: 150%;
+  right: 0.7rem;
+`;
+export const AlertText = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  font-size: ${({ theme }) => theme.fontSizes.fs12};
+  color: red;
+  /* display: block; */
+`;
+
+const AlertContainer = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+`;
+const AlertWarning = ({ text }) => {
+  return (
+    <AlertContainer>
+      {/* <Alert src={process.env.PUBLIC_URL + "/images/alert.svg"} /> */}
+      <AlertText>{text}</AlertText>
+    </AlertContainer>
+  );
+};
+
+export default AlertWarning;
