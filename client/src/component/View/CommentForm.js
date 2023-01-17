@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { Cookies } from "react-cookie";
 
 const InputLayout = styled.div`
-  margin-left: 88px;
+  display: flex;
 `;
 const InputContainer = styled.div`
   margin-top: 20px;

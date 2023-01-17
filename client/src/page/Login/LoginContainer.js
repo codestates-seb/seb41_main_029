@@ -34,7 +34,8 @@ let SocialLogin = styled.div`
   margin-bottom: 4px;
 `;
 let SocialLoginLogo = styled.img`
-  width: 40px;
+  width: 100%;
+  max-width: 40px;
   height: 40px;
   margin: 20px;
 `;

@@ -8,7 +8,8 @@ const CommentInfo = styled.div`
   padding-top: 16px;
   padding-left: 24px;
   height: 35px;
-  width: 440px;
+  width: 100%;
+  max-width: 440px;
 `;
 
 const EtcIcon = styled.span`
@@ -32,7 +33,8 @@ const DeleteImg = styled.img`
   cursor: pointer;
 `;
 const CommentContainer = styled.div`
-  width: 1100px;
+  width: 100%;
+  max-width: 1100px;
   height: 65px;
   border-radius: 10px;
   margin-left: 24px;
