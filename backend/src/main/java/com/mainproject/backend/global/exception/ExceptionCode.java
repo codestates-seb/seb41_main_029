@@ -9,7 +9,8 @@ public enum ExceptionCode {
     COMMENT_NOT_FOUND(404, "Comment not found"),
     BOARD_NOT_FOUND(404, "Board not found"),
     TAG_NOT_FOUND(404, "Tag not found"),
-    UNAUTHORIZED_MEMBER(403, "Unauthorized member");
+    UNAUTHORIZED_MEMBER(403, "Unauthorized member"),
+    BOOKMARK_NOT_FOUND(404, "Bookmark not found");
 
     @Getter
     private int status;

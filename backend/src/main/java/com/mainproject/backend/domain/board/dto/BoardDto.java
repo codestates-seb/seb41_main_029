@@ -52,7 +52,9 @@ public class BoardDto {
         private String title;
         private String content;
         private Long voteResult;
-        private Integer viewCount;
+        private int viewCount;
+
+        private int bookmarkCount;
         // 멤버 닉네임
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
@@ -65,6 +67,7 @@ public class BoardDto {
             this.content = board.getContent();
             this.voteResult = board.getVoteResult();
             this.viewCount = board.getViewCount();
+            this.bookmarkCount = board.getBookmarks() == null ? 0 : board.getBookmarks().size();
             this.createdAt = board.getCreatedAt();
             this.modifiedAt = board.getModifiedAt();
         }

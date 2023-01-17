@@ -50,8 +50,8 @@ public class BoardService {
     }
 
     //특정 게시글 보기 & 조회수
-    public Board findBoardAndPlusViewCount(Long seq) {
-        Board findBoard = findVerifiedBoard(seq);
+    public Board findBoardAndPlusViewCount(Long boardSeq) {
+        Board findBoard = findVerifiedBoard(boardSeq);
         findBoard.plusViewCount();
 
         return findBoard;

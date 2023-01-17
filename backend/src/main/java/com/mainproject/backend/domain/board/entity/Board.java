@@ -1,14 +1,18 @@
 package com.mainproject.backend.domain.board.entity;
 
 import com.mainproject.backend.domain.board.option.Category;
+import com.mainproject.backend.domain.bookmark.entity.Bookmark;
 import com.mainproject.backend.global.audit.Auditable;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Board extends Auditable { //시간 추가
 
@@ -37,6 +41,9 @@ public class Board extends Auditable { //시간 추가
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member")
 //    private Member member;
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    private List<Bookmark> bookmarks = new ArrayList<>();
 
     public void plusViewCount() {
         this.viewCount += 1;
