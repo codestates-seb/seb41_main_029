@@ -7,6 +7,8 @@ import { login } from "../../api/userAPI";
 import { useNavigate } from "react-router-dom";
 import { MainBtn } from "../../component/Button";
 import { Cookies } from "react-cookie";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/usersReducer";
 import { setCookie } from "../../Cookies";
 
 const InputLayout = styled.div`
@@ -34,7 +36,8 @@ let SocialLogin = styled.div`
   margin-bottom: 4px;
 `;
 let SocialLoginLogo = styled.img`
-  width: 40px;
+  width: 100%;
+  max-width: 40px;
   height: 40px;
   margin: 20px;
 `;
@@ -42,6 +45,7 @@ let SocialLoginLogo = styled.img`
 const LoginContainer = () => {
   const [isAuthorized, setisAuthorized] = useState(true);
   // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const cookie = new Cookies();
   const methods = useForm();
@@ -77,10 +81,11 @@ const LoginContainer = () => {
     } else {
       const { userId } = res.data;
       localStorage.setItem("userId", JSON.stringify(userId));
-      const token = res.headers?.authorization.split(" ")[1];
+      // const token = res.headers?.authorization.split(" ")[1];
       // const token1 = res.body?.authorization.split(" ")[1];
-      // const token =  req.headers.authorization.split('Bearer ')[1];
+      const token = res.headers.authorization.split("Bearer ")[1];
       cookie.set("token", token);
+      dispatch(setUser({ token, userId }));
       navigate("/");
     }
   };
@@ -95,10 +100,10 @@ const LoginContainer = () => {
             </LabelLayout>
             <InputContainer>
               <Input
-                id="id"
+                id="userId"
                 width="15rem"
                 height="40px"
-                fieldName="id"
+                fieldName="userId"
                 validation={idValidation}
                 error={error.id}
               />

@@ -13,7 +13,6 @@ const LoginBackground = styled.div`
   margin-top: 120px;
   width: 100%;
   max-width: 316px;
-  /* height: 343px; */
   background-color: ${({ theme }) => theme.colors.container};
   border-radius: 10px;
   align-items: center;

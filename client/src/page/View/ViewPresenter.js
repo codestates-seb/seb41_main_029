@@ -9,13 +9,19 @@ const ViewLayout = styled.div`
 `;
 
 const ViewBackground = styled.div`
+  display: flex;
+  justify-content: center;
   margin-top: 120px;
-  width: 1336px;
-  height: 1413px;
+  width: 100%;
+  max-width: 1336px;
+  padding-bottom: 60px;
   background-color: ${({ theme }) => theme.colors.container};
   border-radius: 10px;
   display: flex;
-  /* align-items: center; */
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    max-width: 800px;
+  }
 `;
 
 const ViewPresenter = () => {
