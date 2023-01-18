@@ -5,11 +5,15 @@ import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
+import com.mainproject.backend.global.exception.BusinessLogicException;
+import com.mainproject.backend.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,17 @@ public class UserService {
 
         return userRepository.saveAndFlush(user);
     }
+
+    public User updateUser(String userId) {
+        return userRepository.findByUserId(userId);
+    }
+
+//    @Transactional
+//    public User editMemberInfo(User user, MemberEditRequestDto memberEditRequestDto) {
+//        // refreshToken 처리는 어떻게 할지 추후에 고민해보기
+//        user.editUser(memberEditRequestDto);
+//        return user;
+//    }
 
     private User createSignupFormOfUser(UserDto.post req) {
         LocalDateTime now = LocalDateTime.now();

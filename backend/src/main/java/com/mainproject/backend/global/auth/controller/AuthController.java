@@ -81,6 +81,7 @@ public class AuthController {
             userRefreshToken.setRefreshToken(refreshToken.getToken());
         }
         int cookeMaxAge = (int) refreshTokenExpiry / 60;
+        response.setHeader("Authorization", "Bearer " + accessToken.getToken());
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookeMaxAge);
 

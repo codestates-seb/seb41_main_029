@@ -2,7 +2,9 @@ package com.mainproject.backend.domain.users.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -16,6 +18,22 @@ public class UserDto {
 
         @NotNull(message = "닉네임은 공백이 아니어야 합니다.")
         private String username;
+
+        @NotNull(message = "비밀번호는 공백이 아니어야 합니다.")
+        private String password;
+    }
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class Patch {
+        private long userSeq;
+
+        @NotNull(message = "이름은 공백이 아니어야 합니다.")
+        private String username;
+
+        @NotNull(message = "이메일은 공백이 아니어야 합니다.")
+        @Email
+        private String profileImageUrl;
 
         @NotNull(message = "비밀번호는 공백이 아니어야 합니다.")
         private String password;
