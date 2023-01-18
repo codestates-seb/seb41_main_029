@@ -69,6 +69,7 @@ public class User {
     @NotNull
     private LocalDateTime modifiedAt;
 
+
     public User(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 32) String username,

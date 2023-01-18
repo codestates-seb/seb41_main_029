@@ -39,10 +39,10 @@ public class UserController {
     public ApiResponse getUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        User user = getPrincipal();
-        //User user = userService.getUser(principal.getUsername());
+        //User user = getPrincipal();
+        User user = userService.getUser(principal.getUsername());
 
-        return ApiResponse.success("user", user);
+        return ApiResponse.success("user", mapper.userToUserResponse(user));
     }
 
 //    @ResponseStatus(HttpStatus.OK)
