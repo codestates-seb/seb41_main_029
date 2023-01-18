@@ -33,6 +33,7 @@ const Input = ({
   defaultValue,
   height,
   get,
+  className,
 }) => {
   const [isValid, setIsvalid] = useState(true);
   const { register, setvalue } = useFormContext();
@@ -50,6 +51,7 @@ const Input = ({
       {...(fieldName ? { ...register(fieldName, validation) } : null)}
       onKeyUp={handleKeyup ? handleKeyup : null}
       defaultValue={defaultValue}
+      className={className}
     />
   );
 };
