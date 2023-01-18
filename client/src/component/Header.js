@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
@@ -87,7 +87,7 @@ const MenuModal = styled.div`
   width: 100vw;
   z-index: 2;
   a {
-    color: #000000;
+    color: #331708;
     text-decoration: none;
   }
   a:hover {
@@ -99,12 +99,18 @@ const MenuModal = styled.div`
     height: 80px;
     text-align: center;
   }
+  .flex {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
   .modal {
     background-color: #ffffff;
     height: 100vh;
+    max-width: 320px;
     position: absolute;
     right: 0;
-    width: 320px;
+    width: 50vw;
   }
 `;
 
@@ -112,16 +118,16 @@ const login = false;
 
 export default function Header() {
   const [modalOpen, setModalOpen] = useState(false);
-  const modalRef = useRef(null);
 
   const menuClick = () => {
-    modalOpen ? setModalOpen(false) : setModalOpen(true);
-    console.log(modalOpen);
+    if (modalOpen) {
+      setModalOpen(false);
+      document.body.style.cssText = `overflow: auto;`;
+    } else {
+      setModalOpen(true);
+      document.body.style.cssText = `overflow: hidden;`;
+    }
   };
-
-  useEffect(() => {
-    const modalOutsideClick = () => {};
-  });
 
   return (
     <>
@@ -182,27 +188,27 @@ export default function Header() {
       <MenuModal open={modalOpen}>
         <div className="modal">
           <div />
-          <div>
+          <div className="flex">
             <a href="community">커뮤니티</a>
           </div>
-          <div>
+          <div className="flex">
             <a href="hikingmap">등산지도</a>
           </div>
           {login ? (
             <>
-              <div>
+              <div className="flex">
                 <a href="mypage">마이페이지</a>
               </div>
-              <div>
+              <div className="flex">
                 <a href="/">로그아웃</a>
               </div>
             </>
           ) : (
             <>
-              <div>
+              <div className="flex">
                 <a href="login">로그인</a>
               </div>
-              <div>
+              <div className="flex">
                 <a href="signup">회원가입</a>
               </div>
             </>
