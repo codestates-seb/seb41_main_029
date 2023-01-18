@@ -298,7 +298,7 @@ export default function Community() {
                     <PostWriter>{item.id}</PostWriter>
                   </Post>
                 );
-              })}
+              })} */}
           </PostsList>
         </ComuContainer>
       </Container>
