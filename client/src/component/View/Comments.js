@@ -16,11 +16,15 @@ const CommentsHeader = styled.div`
 
 const CommentLayout = styled.div`
   width: 100%;
-  max-width: 1160px;
+  /* max-width: 1160px; */
   background-color: ${({ theme }) => theme.colors.gray_02};
+  /* background-color: white; */
   border-radius: 10px;
   margin-top: 24px;
   padding-bottom: 20px;
+  @media screen and (max-width: 1336px) {
+    margin-top: 24px;
+  }
 `;
 
 const Comments = ({ comments }) => {

@@ -18,7 +18,10 @@ const ViewBackground = styled.div`
   background-color: ${({ theme }) => theme.colors.container};
   border-radius: 10px;
   display: flex;
-  /* align-items: center; */
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    max-width: 800px;
+  }
 `;
 
 const ViewPresenter = () => {

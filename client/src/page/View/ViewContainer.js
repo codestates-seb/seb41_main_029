@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ViewVote from "../../component/View/ViewVote";
 import { BsBookmarkCheck } from "react-icons/bs";
 import Comments from "../../component/View/Comments";
@@ -8,27 +8,50 @@ import { getWriting } from "../../api/writingAPI";
 import { Cookies } from "react-cookie";
 import { Viewdate } from "../../component/DateCalculator";
 import { deleteComment } from "../../api/commentAPI";
+import Loading from "../../component/Loading";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/usersReducer";
 
-const ViewLayout = styled.div``;
+const ViewLayout = styled.div`
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    max-width: 800px;
+  }
+`;
 
 const TitleContainer = styled.div`
   display: flex;
   justify-content: center;
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    /* max-width: 1000px; */
+  }
 `;
 
 const TitleLayout = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  max-width: 1000px;
+  max-width: 970px;
   margin: 64px 0px;
   font-size: ${({ theme }) => theme.fontSizes.fs30};
+  padding-right: 30px;
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    /* max-width: 1000px; */
+    margin-left: 20px;
+    font-size: ${({ theme }) => theme.fontSizes.fs24};
+  }
 `;
 
 const IconLayout = styled.div`
   display: flex;
   float: right;
   margin-top: 72px;
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    max-width: 120px;
+  }
 `;
 
 const Icondiv = styled.div`
@@ -42,10 +65,19 @@ const Line = styled.div`
   width: 100%;
   width: 1136px;
   border: 3px solid #dbdbdb;
+  @media screen and (max-width: 1336px) {
+    width: 95%;
+  }
 `;
 const BodyContainer = styled.div`
   display: flex;
   justify-content: center;
+
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    max-width: 800px;
+    margin-left: 20px;
+  }
 `;
 
 const BodyLayout = styled.div`
@@ -53,11 +85,27 @@ const BodyLayout = styled.div`
   width: 100%;
   max-width: 1136px;
   font-size: ${({ theme }) => theme.fontSizes.fs18};
+  @media screen and (max-width: 1336px) {
+    /* display: flex;
+    justify-content: center; */
+    width: 100%;
+    max-width: 700px;
+    padding-right: 20px;
+  }
 `;
 const UserInfoLayout = styled.div`
-  float: right;
   display: flex;
+  float: right;
   margin-top: -70px;
+  @media screen and (max-width: 1336px) {
+    margin-right: 20px;
+  }
+  @media screen and (max-width: 666px) {
+    display: flex;
+    float: none;
+    justify-content: center;
+    margin-top: 20px;
+  }
 `;
 
 const EditWord = styled.div`
@@ -71,6 +119,7 @@ const EditWord1 = styled.div`
 const EditWord2 = styled.div`
   display: none;
   margin-left: -7px;
+  width: 45px;
 `;
 
 const EditImg = styled.img`
@@ -93,6 +142,9 @@ const DeleteImg = styled.img`
 
 const Icondiv1 = styled.div`
   margin-left: 18px;
+  @media screen and (max-width: 1336px) {
+    margin-left: 3px;
+  }
 `;
 
 const Bookmark2 = styled.div`
@@ -100,6 +152,11 @@ const Bookmark2 = styled.div`
   cursor: pointer;
   &:hover > ${EditWord2} {
     display: block;
+  }
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    max-width: 30px;
+    height: 32px;
   }
 `;
 
@@ -116,10 +173,16 @@ const Profile = styled.div`
   background-color: #5dd986;
 `;
 
+// const ViewVoteLayOut = styled.div`
+//   @media screen and (max-width: 1336px) {
+//     width: 100%;
+//     size: 20px;
+//   }
+// `;
+
 const ViewContainer = () => {
-  // const cookie = new Cookies();
-  // const Token = cookie.get("token")
-  // const userId = JSON.parse(localStorage.getItem("userId"))
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const [viewInfo, setViewInfo] = useState();
@@ -132,37 +195,52 @@ const ViewContainer = () => {
   };
 
   const handleClickDe = async () => {
-    // if (answer.userId * 1 !== userId * 1) {
-    //   return alert("not your comment");
-    // } else {
-    //   const res = await deleteComment();
-    //   boardsId, boards.commentId, Token, userId;
-    //   if (res.status === 204) {
-    //     window.location.replace(`/boards/${boardsId}`);
-    //   } else {
-    //     alert("fail to delete");
-    //   }
-    // }
+    if (!window.confirm("정말 삭제 하시겠습니까?")) {
+      // 취소(아니오) 버튼 클릭 시 이벤트
+      alert("취소했습니다.");
+    } else {
+      // 확인(예) 버튼 클릭 시 이벤트
+      // if (answer.userId * 1 !== userId * 1) {
+      //   return alert("not your comment");
+      // } else {
+      //   const res = await deleteComment();
+      //   boardsId, boards.commentId, Token, userId;
+      //   if (res.status === 204) {
+      //     window.location.replace(`/boards/${boardsId}`);
+      //   } else {
+      //     alert("fail to delete");
+      //   }
+      // }
+      navigate("/community");
+    }
   };
 
   useEffect(() => {
+    setLoading(true);
     async function getInfo() {
       const res = await getWriting();
       setViewInfo(res);
       // console.log(res.data);
+      setLoading(false);
     }
     getInfo();
-  }, []);
+    // const cookie = new Cookies();
+    // const Token = cookie.get("token");
+    // const userId = JSON.parse(localStorage.getItem("userId"));
+    // dispatch(setUser({ Token, userId, boardSeq: id }));
+  }, [id]);
   // console.log(viewInfo);
 
   return (
     <>
+      {loading ? <Loading /> : null}
       <ViewLayout>
         <TitleContainer>
           <TitleLayout>
             {/* 반갑습니다. */}
             {viewInfo?.title}
           </TitleLayout>
+          {/* {userId === viewInfo?.userSeq ? <IconLayout></IconLayout> : null} */}
           <IconLayout>
             <Icondiv>
               <EditImg
@@ -228,7 +306,9 @@ const ViewContainer = () => {
             {viewInfo?.content}
           </BodyLayout>
         </BodyContainer>
+        {/* <ViewVoteLayOut> */}
         <ViewVote voteResult={viewInfo?.voteResult} />
+        {/* </ViewVoteLayOut> */}
         <UserInfoLayout>
           <ProfileContainer>
             <Profile />

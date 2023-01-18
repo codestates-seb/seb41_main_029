@@ -9,9 +9,27 @@ import { Cookies } from "react-cookie";
 
 const InputLayout = styled.div`
   display: flex;
+  justify-content: center;
+  width: 100%;
 `;
 const InputContainer = styled.div`
   margin-top: 20px;
+  width: 100%;
+  @media screen and (max-width: 1336px) {
+    display: flex;
+    /* justify-content: center; */
+    /* align-items: center; */
+  }
+  .input {
+    @media screen and (max-width: 1336px) {
+      width: 620px;
+      margin-top: 20px;
+    }
+    @media screen and (max-width: 800px) {
+      width: 120%;
+      margin-top: 20px;
+    }
+  }
 `;
 
 const CommentForm = () => {
@@ -35,6 +53,7 @@ const CommentForm = () => {
           <FormProvider {...methods}>
             <InputContainer>
               <Input
+                className="input"
                 width="1033px"
                 height="50px"
                 placeholder="..."
