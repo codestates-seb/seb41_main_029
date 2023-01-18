@@ -1,7 +1,11 @@
 package com.mainproject.backend.domain.board.mapper;
 
 import com.mainproject.backend.domain.board.dto.BoardDto;
+import com.mainproject.backend.domain.board.dto.PageBoardResponseDto;
+import com.mainproject.backend.domain.board.dto.BoardWithCommentDto;
 import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.comment.dto.CommentResponseDto;
+import com.mainproject.backend.domain.comment.entity.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -38,9 +42,42 @@ public interface BoardMapper {
         return response;
     }
 
-    default List<BoardDto.response> boardsToBoardResponsesDto(List<Board> boards) {
-        List<BoardDto.response> responses
-                = boards.stream().map(board -> boardToBoardResponseDto(board)).collect(Collectors.toList());
-        return responses;
+//    default List<BoardDto.response> boardsToBoardResponsesDto(List<Board> boards) {
+//        List<BoardDto.response> responses
+//                = boards.stream().map(board -> boardToBoardResponseDto(board)).collect(Collectors.toList());
+//        return responses;
+//    }
+    List<PageBoardResponseDto> boardsToBoardResponsesDto(List<Board> boards);
+
+    default BoardWithCommentDto boardToBoardWithCommentResponseDto(Board board){
+       List<Comment> comments = board.getCommentList();
+       BoardWithCommentDto boardWithCommentResponseDto = new BoardWithCommentDto();
+
+       boardWithCommentResponseDto.setBoardSeq(board.getBoardSeq());
+       boardWithCommentResponseDto.setCategory(board.getCategory().getValue());
+       boardWithCommentResponseDto.setTitle(board.getTitle());
+       boardWithCommentResponseDto.setContent(board.getContent());
+       boardWithCommentResponseDto.setViewCount(board.getViewCount());
+       boardWithCommentResponseDto.setVoteResult(board.getVoteResult());
+       boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
+       boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
+
+       //답변
+        boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));
+
+        return boardWithCommentResponseDto;
+    }
+
+    //comment 리스트화
+    default List<CommentResponseDto> commentToBoardWithCommentResponseDtos(List<Comment> comments){
+        return comments
+                .stream()
+                .map(comment -> CommentResponseDto
+                        .builder()
+                        .commentSeq(comment.getCommentSeq())
+                        .boardSeq(comment.getBoard().getBoardSeq())
+                        .content(comment.getContent())
+                        .build())
+                .collect(Collectors.toList());
     }
 }

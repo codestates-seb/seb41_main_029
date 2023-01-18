@@ -23,7 +23,6 @@ import java.util.Optional;
 @Transactional
 public class BoardService {
     private final BoardRepository boardRepository;
-    private final BoardVoteRepository boardVoteRepository;
     //유저 서비스
 
     //게시글 등록
@@ -50,17 +49,16 @@ public class BoardService {
     }
 
     //특정 게시글 보기 & 조회수
-    public Board findBoardAndPlusViewCount(Long seq) {
-        Board findBoard = findVerifiedBoard(seq);
+    public Board findBoardAndPlusViewCount(Long boardSeq) {
+        Board findBoard = findVerifiedBoard(boardSeq);
         findBoard.plusViewCount();
 
         return findBoard;
     }
 
-    public Page<Board> getBoard(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page, size, Sort.by("boardSeq").descending()));
+    public Page<Board> findAllBoard(int page, int size) {
+        return boardRepository.findAll(PageRequest.of(page -1 , size, Sort.by("boardSeq").descending()));
     }
-    //검색 조건에 따른 게시글 리스트 조회 + 페이징
 
     //게시글 찾기
     public Board findVerifiedBoard(Long boardSeq) {
@@ -68,6 +66,12 @@ public class BoardService {
         Board findBoard = optionalBoard.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
         return findBoard;
+    }
+
+    //제목 검색
+    public Page<Board> findAllBySearch(String keyword, int page, int size) {
+        return boardRepository.findAllByTitleContaining(keyword, PageRequest.of(page - 1, size,
+                Sort.by("boardSeq").descending()));
     }
 
     //게시글 삭제
