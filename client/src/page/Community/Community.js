@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import ReactPaginate from "react-paginate";
-import jsonData from "../data/Posts";
+import jsonData from "../../data/Posts";
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +11,8 @@ const Container = styled.div`
 `;
 const ComuContainer = styled.div`
   margin: 10px;
-  width: 1336px;
+  width: 100%;
+  max-width: 1336px;
   height: 600px;
 `;
 
@@ -142,11 +143,38 @@ const PostWriter = styled.div`
 `;
 
 // 페이지네이션
-const Paginate = styled.div`
+const MyPaginate = styled(ReactPaginate).attrs({
+  // You can redefine classes here, if you want.
+  activeClassName: "active", // default to "selected"
+})`
+  margin: 50px 0px;
   display: flex;
   justify-content: center;
   list-style-type: none;
-  text-align: center;
+  padding: 0 5rem;
+  li a {
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a {
+    color: #62b6b7;
+  }
+  li.active a {
+    /* background-color: #62b6b7;
+    color: white; */
+    color: #91cccd;
+    font-weight: 700;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: ${({ theme }) => theme.colors.gray_03};
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
 `;
 
 // 검색
@@ -165,45 +193,62 @@ const SearchInput = styled.input`
 `;
 
 export default function Community() {
-  // axios
-  const [items, setItems] = useState([]);
+  //----------------------------------------------------------------------------------------//
+  // // axios
+  // const [items, setItems] = useState([]);
+  // const [searchItems, setSearchItems] = useState([]);
+
+  // // 왜 데이터 500개 다받아오지?
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://jsonplaceholder.typicode.com/comments?_page=1&_limit=5`)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       const total = res.headers.get("x-total-count");
+  //       console.log(total);
+  //       setItems(res.data);
+  //       // 여기서 filter 적용하는건???
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://jsonplaceholder.typicode.com/comments`)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setSearchItems(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response);
+  //     });
+  // }, []);
+
+  // const axiosPosts = async (currentPage) => {
+  //   const res = await axios.get(
+  //     `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=5`
+  //   );
+  //   const data = await res.data;
+  //   return data;
+  // };
+
+  // const handlePageClick = async (data) => {
+  //   console.log(data.selected);
+
+  //   let currentPage = data.selected + 1;
+
+  //   const commentsFormServer = await axiosPosts(currentPage);
+
+  //   setItems(commentsFormServer);
+  // };
+
+  //----------------------------------------------------------------------------------------//
 
   // search
   const [searchTerm, setSearchTerm] = useState("");
-
-  // 왜 데이터 500개 다받아오지?
-
-  useEffect(() => {
-    axios
-      .get(`https://jsonplaceholder.typicode.com/comments?_page=1&_limit=5`)
-      .then((res) => {
-        console.log(res.data);
-        const total = res.headers.get("x-total-count");
-        console.log(total);
-        setItems(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  }, []);
-
-  const fetchComments = async (currentPage) => {
-    const res = await fetch(
-      `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=5`
-    );
-    const data = await res.json();
-    return data;
-  };
-
-  const handlePageClick = async (data) => {
-    console.log(data.selected);
-
-    let currentPage = data.selected + 1;
-
-    const commentsFormServer = await fetchComments(currentPage);
-
-    setItems(commentsFormServer);
-  };
 
   return (
     <>
@@ -229,7 +274,7 @@ export default function Community() {
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
-            {items
+            {/* {items
               .filter((item) => {
                 if (searchTerm === "") {
                   return item;
@@ -257,17 +302,23 @@ export default function Community() {
           </PostsList>
         </ComuContainer>
       </Container>
-      <Paginate>
-        <ReactPaginate
-          previousLabel={"pre"}
-          nextLabel={"next"}
-          breakLabel={"..."}
-          pageCount={25}
-          marginPagesDisplayed={3}
-          pageRangeDisplayed={6}
-          onPageChange={handlePageClick}
-        />
-      </Paginate>
+      {/* <MyPaginate
+        previousLabel={"〈"}
+        nextLabel={"〉"}
+        breakLabel={"..."}
+        pageCount={25}
+        marginPagesDisplayed={3}
+        pageRangeDisplayed={6}
+        onPageChange={handlePageClick}
+        containerClassName="pagination justify-content-center"
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        activeClassName="active"
+      /> */}
       <Search>
         <SearchInput
           onChange={(e) => {
