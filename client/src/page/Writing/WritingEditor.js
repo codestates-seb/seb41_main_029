@@ -14,29 +14,36 @@ import WritingButton from "./WritingButton";
 
 const SpanTitle = styled.div`
   width: 100%;
-  height: 50px;
+  height: 40px;
   margin-top: 40px;
   display: flex;
   align-items: center;
-  margin-left: 92px;
+  justify-content: center;
   margin-bottom: 24px;
   span {
     font-size: ${({ theme }) => theme.fontSizes.fs24};
-    margin-right: 28px;
+    width: 100px;
+    /* margin-left: -24px; */
+    display: flex;
+
+    @media (max-width: 1336px) {
+      width: 10%;
+      display: flex;
+      margin-left: 4%;
+    }
   }
   input {
-    width: 850px;
-    height: 42px;
+    width: 800px;
+    height: 40px;
     border-radius: 8px;
     border: none;
-    margin-right: 32px;
+    /* margin-right: 28px; */
+
+    @media (max-width: 1336px) {
+      width: 90%;
+    }
   }
   .menu > {
-    span {
-      margin-right: 4px;
-      font-size: 16px;
-    }
-
     button {
       border: none;
       background-color: ${({ theme }) => theme.colors.white};
@@ -44,26 +51,51 @@ const SpanTitle = styled.div`
     }
   }
 `;
-
-const CategoryBox = styled(Box)``;
+const SpanContent = styled.div`
+  /* width: 1070px; */
+  width: 100%;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+`;
+const CategoryBox = styled(Box)`
+  width: 100%;
+`;
+// 카테고리 글씨 움직이는 틀
 const CategoryInputLabel = styled(InputLabel)`
+  width: 100%;
   margin: -8px 0 0px 12px;
+
+  /* @media (max-width: 1336px) {
+    width: 50%;
+  } */
 `;
 const CategorySelect = styled(Select)`
   height: 40px;
 
   // icon
+  // 반응형을 줬을 때 아이콘이 변함
   .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
     color: ${({ theme }) => theme.colors.main};
     font-size: ${({ theme }) => theme.fontSizes.fs64};
     margin-right: 8px;
+
+    @media (max-width: 1336px) {
+      width: 30%;
+    }
   }
 `;
+// 전체 크기
 const CategoryFormControl = styled(FormControl)`
-  width: 180px;
-  background-color: black;
+  width: 100%;
+
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.white};
+
+  /* @media (max-width: 1336px) {
+    width: 100%;
+  } */
+
   label {
     font-weight: 800;
     font-family: "Noto Sans CJK KR";
@@ -72,15 +104,18 @@ const CategoryFormControl = styled(FormControl)`
     margin: 8px 0 0 12px;
     font-size: ${({ theme }) => theme.fontSizes.fs18};
   }
+
   .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
     display: none;
   }
-`;
-const CategoryMenuItem = styled(MenuItem)`
-  &:hover {
-    background-color: red;
+  //전체 크기 확인 해보기
+  @media (max-width: 1336px) {
+    width: 75%;
   }
 `;
+
+// 아무 변화도 없음
+const CategoryMenuItem = styled(MenuItem)``;
 const WritingEditor = ({ setImage }) => {
   const [answer, setAnswer] = useState(""); //editor
   // const [flag, setFlag] = useState(false);
@@ -89,7 +124,7 @@ const WritingEditor = ({ setImage }) => {
     //input
     title: "",
   });
-
+  // 온클릭 3개 합치기
   const onClick = (e) => {
     // answer와 detail을 값을 넘겨줘서 클릭시 콘솔에 찍히게 해줘야 한다
     // setDetail(e.target.value),
@@ -131,7 +166,7 @@ const WritingEditor = ({ setImage }) => {
             })
               .then((res) => res.json())
               .then((res) => {
-                resolve({ default: `${API_URL}/${res.url}` });
+                resolve({ default: `https://ibb.co/TWfQMJN` });
               })
               .catch((err) => {
                 reject(err);
@@ -149,35 +184,37 @@ const WritingEditor = ({ setImage }) => {
     };
   }
   return (
-    <>
+    <div>
       <SpanTitle>
-        <span>제목</span>
-        <input type="text" value={detail.title} onChange={titleChange} />
-        <div className="menu">
-          {/* mui 사용 */}
-          <CategoryBox sx={{ minWidth: 180 }}>
-            <CategoryFormControl>
-              <CategoryInputLabel id="demo-simple-select-label">
-                카테고리
-              </CategoryInputLabel>
-              <CategorySelect
-                sx={{
-                  boxShadow: "none",
-                  ".MuiOutlinedInput-notchedOutline": { border: 0 },
-                }}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={category}
-                label="category"
-                onChange={handleChange}
-              >
-                <CategoryMenuItem value={"일반"}>일 반</CategoryMenuItem>
-                <CategoryMenuItem value={"정보"}>정 보</CategoryMenuItem>
-                <CategoryMenuItem value={"질문"}>질 문</CategoryMenuItem>
-              </CategorySelect>
-            </CategoryFormControl>
-          </CategoryBox>
-        </div>
+        <SpanContent>
+          <span>제목</span>
+          <input type="text" value={detail.title} onChange={titleChange} />
+          <div className="menu">
+            {/* mui 사용 */}
+            <CategoryBox sx={{ minWidth: 180 }}>
+              <CategoryFormControl>
+                <CategoryInputLabel id="demo-simple-select-label">
+                  카테고리
+                </CategoryInputLabel>
+                <CategorySelect
+                  sx={{
+                    boxShadow: "none",
+                    ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                  }}
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={category}
+                  label="category"
+                  onChange={handleChange}
+                >
+                  <CategoryMenuItem value={"일반"}>일 반</CategoryMenuItem>
+                  <CategoryMenuItem value={"정보"}>정 보</CategoryMenuItem>
+                  <CategoryMenuItem value={"질문"}>질 문</CategoryMenuItem>
+                </CategorySelect>
+              </CategoryFormControl>
+            </CategoryBox>
+          </div>
+        </SpanContent>
       </SpanTitle>
       <CKEditor
         editor={ClassicEditor}
@@ -223,7 +260,7 @@ const WritingEditor = ({ setImage }) => {
         onClicks={onClick}
         editorChange={editorChange}
       />
-    </>
+    </div>
   );
 };
 

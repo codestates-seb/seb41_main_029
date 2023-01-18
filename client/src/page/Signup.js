@@ -4,6 +4,8 @@ import { useRef } from "react";
 import Input from "../component/Input";
 import AlertWarning from "../component/AlertWarning";
 import { MainBtn } from "../component/Button";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginLayout = styled.div`
   display: flex;
@@ -46,13 +48,6 @@ const InputContainer = styled.div`
   margin-top: 4px;
 `;
 
-// ---------------FormPractice------------------------
-
-let Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-`;
 // ---------------SocialLogin------------------------
 
 let SocialLogin = styled.div`
@@ -72,9 +67,7 @@ export default function Signup() {
   const getValues = methods?.getValues;
   const password = useRef();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const navigate = useNavigate();
 
   const idValidation = {
     required: "아이디를 입력해주세요.",
@@ -116,6 +109,27 @@ export default function Signup() {
 
   const error = methods?.formState?.errors;
 
+  // 회원가입 요청
+  // 버튼을 누르면 validation이 완료된 후에 실행되서 각 필드를 다시 확인안해도됨
+  const onSubmit = (data) => {
+    // console.log(data);
+    axios
+      .post(
+        "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/signup",
+        data,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
+  };
+
   return (
     <>
       <LoginLayout>
@@ -131,7 +145,7 @@ export default function Signup() {
                     id="id"
                     width="15rem"
                     height="40px"
-                    fieldName="id"
+                    fieldName="userId"
                     validation={idValidation}
                     error={error.id}
                   />
@@ -145,7 +159,7 @@ export default function Signup() {
                     id="id"
                     width="15rem"
                     height="40px"
-                    fieldName="nickname"
+                    fieldName="username"
                     validation={nicknameValidation}
                     error={error.nickname}
                   />
@@ -169,25 +183,30 @@ export default function Signup() {
                     <AlertWarning text={error.password?.message} />
                   )}
                 </InputContainer>
-                <LabelLayout>
+                {/* <LabelLayout>
                   <label>비밀번호 확인</label>
-                </LabelLayout>
-                <InputContainer>
-                  <Input
+                </LabelLayout> */}
+                {/* <InputContainer> */}
+                {/* <Input
                     type="password"
                     width="15rem"
                     height="40px"
                     fieldName="confirmPassword"
                     validation={confirmPwdValidation}
                     error={error.confirmPassword}
-                  />
-                  {error?.confirmPassword && (
+                  /> */}
+                {/* {error?.confirmPassword && (
                     <AlertWarning text={error.confirmPassword?.message} />
-                  )}
-                </InputContainer>
+                  )} */}
+                {/* </InputContainer> */}
               </InputLayout>
               <BtnLayout>
-                <MainBtn text={"회원 가입"} width="210px" height="40px" />
+                <MainBtn
+                  type="submit"
+                  text={"회원 가입"}
+                  width="210px"
+                  height="40px"
+                />
                 {/* 폰트사이즈 16으로 */}
               </BtnLayout>
             </form>

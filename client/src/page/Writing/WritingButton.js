@@ -14,6 +14,10 @@ const BottomDiv = styled.div`
   justify-content: center;
   display: flex;
   margin-top: 40px;
+
+  @media (max-width: 1336px) {
+    width: 100%;
+  }
 `;
 // button or a 태그
 // button 이면 align,justify,display 삭제하기
@@ -25,7 +29,8 @@ const ViewButton = styled.a`
   background-color: ${(props) => props.bgColor};
   color: white;
   font-size: ${({ theme }) => theme.fontSizes.fs24};
-  margin: 0 60px 0px 60px;
+  margin: 0 36px 0px 36px;
+
   align-items: center;
   justify-content: center;
   display: flex;
@@ -65,9 +70,9 @@ const WritingButton = ({
         bgColor="#62B6B7"
         ckColor="#439A97"
         href="community"
-        // onClick={() => {
-        //   editorChange();
-        // }}
+        onClick={() => {
+          editorChange();
+        }}
       >
         등록
       </ViewButton>
