@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Count = styled.span`
@@ -10,18 +10,24 @@ const VoteLayout = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 120px;
-  margin-right: 22px;
 `;
 
 const VoteContainer = styled.div`
   display: flex;
+  @media screen and (max-width: 1336px) {
+    height: 35px;
+    width: 50px;
+  }
 `;
 const VoteBtn = styled.button`
   border-radius: 10px;
-  margin-left: 20px;
+  /* margin-left: 20px; */
+  @media screen and (max-width: 1336px) {
+    /* margin-left: 10px; */
+  }
 `;
 const VoteActBtn = styled.button`
-  margin-left: 20px;
+  /* margin-left: 20px; */
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.main_hover};
   border: 2px solid #439a97;
@@ -55,7 +61,7 @@ const ViewVote = ({ voteResult }) => {
     // commentDownVote( Token);
     setIsDownVote(true);
   };
-
+  useEffect(() => {});
   return (
     <>
       <VoteLayout>

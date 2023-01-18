@@ -2,25 +2,29 @@ import React from "react";
 import styled from "styled-components";
 
 import Comment from "./Comment";
+import CommentForm from "./CommentForm";
 
 const CommentsLayout = styled.div`
-  width: 1250px;
+  width: 100%;
+  max-width: 1250px;
   margin-top: 160px;
-  /* align-items: center;
-  justify-content: center; */
-  margin-left: 88px;
 `;
+
 const CommentsHeader = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.fs16};
 `;
 
 const CommentLayout = styled.div`
-  width: 1160px;
-  /* height: 160px; */
+  width: 100%;
+  /* max-width: 1160px; */
   background-color: ${({ theme }) => theme.colors.gray_02};
+  /* background-color: white; */
   border-radius: 10px;
   margin-top: 24px;
   padding-bottom: 20px;
+  @media screen and (max-width: 1336px) {
+    margin-top: 24px;
+  }
 `;
 
 const Comments = ({ comments }) => {
@@ -39,6 +43,7 @@ const Comments = ({ comments }) => {
             <Comment comment={item} />
           </CommentLayout>
         ))}
+        <CommentForm />
       </CommentsLayout>
     </>
   );

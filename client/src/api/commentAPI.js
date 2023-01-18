@@ -21,7 +21,7 @@ export const postComment = async (data, token, boardsId, userSeq) => {
   }
 };
 
-export const editAnswer = async (
+export const editComment = async (
   data,
   token,
   boardSeq,
