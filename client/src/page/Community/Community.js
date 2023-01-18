@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import ReactPaginate from "react-paginate";
-import jsonData from "../data/Posts";
+import jsonData from "../../data/Posts";
 
 const Container = styled.div`
   display: flex;
@@ -11,7 +11,8 @@ const Container = styled.div`
 `;
 const ComuContainer = styled.div`
   margin: 10px;
-  width: 1336px;
+  width: 100%;
+  max-width: 1336px;
   height: 600px;
 `;
 
@@ -142,13 +143,6 @@ const PostWriter = styled.div`
 `;
 
 // 페이지네이션
-const Paginate = styled.div`
-  /* display: flex;
-  justify-content: center;
-  list-style-type: none;
-  text-align: center; */
-`;
-
 const MyPaginate = styled(ReactPaginate).attrs({
   // You can redefine classes here, if you want.
   activeClassName: "active", // default to "selected"
@@ -199,59 +193,62 @@ const SearchInput = styled.input`
 `;
 
 export default function Community() {
-  // axios
-  const [items, setItems] = useState([]);
-  const [searchItems, setSearchItems] = useState([]);
+  //----------------------------------------------------------------------------------------//
+  // // axios
+  // const [items, setItems] = useState([]);
+  // const [searchItems, setSearchItems] = useState([]);
+
+  // // 왜 데이터 500개 다받아오지?
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://jsonplaceholder.typicode.com/comments?_page=1&_limit=5`)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       const total = res.headers.get("x-total-count");
+  //       console.log(total);
+  //       setItems(res.data);
+  //       // 여기서 filter 적용하는건???
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response);
+  //     });
+  // }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://jsonplaceholder.typicode.com/comments`)
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setSearchItems(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response);
+  //     });
+  // }, []);
+
+  // const axiosPosts = async (currentPage) => {
+  //   const res = await axios.get(
+  //     `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=5`
+  //   );
+  //   const data = await res.data;
+  //   return data;
+  // };
+
+  // const handlePageClick = async (data) => {
+  //   console.log(data.selected);
+
+  //   let currentPage = data.selected + 1;
+
+  //   const commentsFormServer = await axiosPosts(currentPage);
+
+  //   setItems(commentsFormServer);
+  // };
+
+  //----------------------------------------------------------------------------------------//
 
   // search
   const [searchTerm, setSearchTerm] = useState("");
-
-  // 왜 데이터 500개 다받아오지?
-
-  useEffect(() => {
-    axios
-      .get(`https://jsonplaceholder.typicode.com/comments?_page=1&_limit=5`)
-      .then((res) => {
-        console.log(res.data);
-        const total = res.headers.get("x-total-count");
-        console.log(total);
-        setItems(res.data);
-        // 여기서 filter 적용하는건???
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(`https://jsonplaceholder.typicode.com/comments`)
-      .then((res) => {
-        console.log(res.data);
-        setSearchItems(res.data);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  }, []);
-
-  const axiosPosts = async (currentPage) => {
-    const res = await axios.get(
-      `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=5`
-    );
-    const data = await res.data;
-    return data;
-  };
-
-  const handlePageClick = async (data) => {
-    console.log(data.selected);
-
-    let currentPage = data.selected + 1;
-
-    const commentsFormServer = await axiosPosts(currentPage);
-
-    setItems(commentsFormServer);
-  };
 
   return (
     <>
@@ -277,19 +274,7 @@ export default function Community() {
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
-            {/* 애초에 items가 _page=1&_limit=5의 데이터인데,
-            여기다가 .filter하면 당연히 그 데이터만 나오겠지
-            근데 모든 데이터를 나오게 하면, 페이지네이션은 어떻게 하지..
-            페이지네이션하려고 제한된 데이터를 받아온건데..?
-            삼항연산자를 써서 페이지네이션 시에는 분리된 데이터를 쓰고,
-            검색할때는 전체 데이터를 써야하나??????? */}
-
-            {/* 삼항연산자로 구현하려하니까 검색으로 추려진 데이터를 또 페이지네이션 해야하는데.. 
-            원래는 애초에 한페이지씩 잘라진 데이터를 받아왔는데.. 이 경우 어떻게 해야하지?  */}
-
-            {/* 카테고리 필터로 게시글 띄울때도 같은 문제... 즉.. 추려진 데이터를 또 페이지네이션 하려면
-            전체 데이터를 받아와서 페이지네이션 하는 방법을 찾아야할듯? */}
-            {items
+            {/* {items
               .filter((item) => {
                 if (searchTerm === "") {
                   return item;
@@ -313,29 +298,27 @@ export default function Community() {
                     <PostWriter>{item.id}</PostWriter>
                   </Post>
                 );
-              })}
+              })} */}
           </PostsList>
         </ComuContainer>
       </Container>
-      <Paginate>
-        <MyPaginate
-          previousLabel={"〈"}
-          nextLabel={"〉"}
-          breakLabel={"..."}
-          pageCount={25}
-          marginPagesDisplayed={3}
-          pageRangeDisplayed={6}
-          onPageChange={handlePageClick}
-          containerClassName="pagination justify-content-center"
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousClassName="page-item"
-          previousLinkClassName="page-link"
-          nextClassName="page-item"
-          nextLinkClassName="page-link"
-          activeClassName="active"
-        />
-      </Paginate>
+      {/* <MyPaginate
+        previousLabel={"〈"}
+        nextLabel={"〉"}
+        breakLabel={"..."}
+        pageCount={25}
+        marginPagesDisplayed={3}
+        pageRangeDisplayed={6}
+        onPageChange={handlePageClick}
+        containerClassName="pagination justify-content-center"
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        activeClassName="active"
+      /> */}
       <Search>
         <SearchInput
           onChange={(e) => {

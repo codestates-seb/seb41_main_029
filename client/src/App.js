@@ -6,13 +6,18 @@ import Footer from "./component/Footer";
 import LandingPage from "./page/LandingPage";
 import LoginPresenter from "./page/Login/LoginPresenter";
 import Signup from "./page/Signup";
-import Community from "./page/Community";
+import Community from "./page/Community/Community";
 import View from "./page/View/ViewPresenter";
 import Writing from "./page/Writing/Writing";
 import MyPage from "./page/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
+
+import Community2 from "./page/Community/Community2";
+import ComuGen from "./page/Community/ComuGen";
+import ComuInfo from "./page/Community/ComuInfo";
+import ComuQues from "./page/Community/ComuQues";
 
 const router = createBrowserRouter([
   {
@@ -30,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/community",
-    element: <Community />,
+    element: <Community2 />,
   },
   {
     path: "/view",
@@ -51,6 +56,18 @@ const router = createBrowserRouter([
   {
     path: "/hikingmap",
     element: <HikingMap />,
+  },
+  {
+    path: "/community/general",
+    element: <ComuGen />,
+  },
+  {
+    path: "/community/information",
+    element: <ComuInfo />,
+  },
+  {
+    path: "/community/question",
+    element: <ComuQues />,
   },
 ]);
 
