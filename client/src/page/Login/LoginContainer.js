@@ -82,8 +82,9 @@ const LoginContainer = () => {
       const { userId } = res.data;
       localStorage.setItem("userId", JSON.stringify(userId));
       // const token = res.headers?.authorization.split(" ")[1];
-      // const token1 = res.body?.authorization.split(" ")[1];
-      const token = res.headers.authorization.split("Bearer ")[1];
+      const token = res.data?.body.token;
+      // const token = res.headers?.authorization.split("bearer ")[1];
+      // const token = res.headers?.authorization;
       cookie.set("token", token);
       dispatch(setUser({ token, userId }));
       navigate("/");
