@@ -25,10 +25,10 @@ const Wrapper = styled.div`
     align-items: center;
   }
   .window {
+    height: 1080px;
     max-width: 1920px;
-    width: 100vw;
-    height: 1000px;
     overflow: hidden;
+    width: 100vw;
   }
   .btn {
     display: flex;
@@ -36,7 +36,7 @@ const Wrapper = styled.div`
     cursor: pointer;
     font-size: 3.3rem;
     color: gray;
-    margin: 0 -3.3rem;
+    margin: 0 -3.6rem;
     z-index: 1;
   }
   .flexbox {
@@ -45,12 +45,13 @@ const Wrapper = styled.div`
   .img {
     max-width: 1920px;
     width: 100vw;
-    height: 1000px;
+    height: 1080px;
     background-position: 50% 50%;
     background-size: cover;
     flex: none;
     display: flex;
     align-items: center;
+    justify-content: center;
   }
   .phrase {
     color: white;
@@ -58,9 +59,27 @@ const Wrapper = styled.div`
     font-weight: bold;
     text-align: center;
     width: 640px;
-    margin: auto;
     word-break: keep-all;
     filter: none;
+  }
+  @media (max-width: 1336px) {
+    .btn {
+      font-size: 2rem;
+      margin: 0 -3rem;
+    }
+    .phrase {
+      font-size: ${(props) => props.theme.fontSizes.fs30};
+      width: 445px;
+    }
+  }
+  @media (max-width: 600px) {
+    .btn {
+      display: none;
+    }
+    .phrase {
+      font-size: ${(props) => props.theme.fontSizes.fs24};
+      width: calc(100vw - 100px);
+    }
   }
 `;
 
