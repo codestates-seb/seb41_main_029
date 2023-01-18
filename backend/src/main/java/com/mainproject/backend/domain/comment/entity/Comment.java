@@ -18,7 +18,7 @@ public class Comment extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentSeq;
 
-    @Column(length = 65535,nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @JsonBackReference

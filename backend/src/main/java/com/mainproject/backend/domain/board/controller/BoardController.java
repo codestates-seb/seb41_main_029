@@ -53,16 +53,16 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(findBoard), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getBoards(@RequestParam("page") @Positive int page,
-                                    @RequestParam("size") @Positive int size) {
-        Page<Board> board = boardService.getBoard(page -1, size);
-
-        List<Board> content = board.getContent();
-        return new ResponseEntity(new MultiResponseDto<>(boardMapper.boardsToBoardResponsesDto(content), board),
-                HttpStatus.OK);
-
-    }
+//    @GetMapping
+//    public ResponseEntity getBoards(@RequestParam("page") @Positive int page,
+//                                    @RequestParam("size") @Positive int size) {
+//        Page<Board> board = boardService.getBoard(page -1, size);
+//
+//        List<Board> content = board.getContent();
+//        return new ResponseEntity(new MultiResponseDto<>(boardMapper.boardsToBoardResponsesDto(content), board),
+//                HttpStatus.OK);
+//
+//    }
 
     //게시글 삭제
     @DeleteMapping("/{board-seq}")
