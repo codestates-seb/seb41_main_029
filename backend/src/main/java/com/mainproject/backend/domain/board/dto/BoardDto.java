@@ -47,12 +47,12 @@ public class BoardDto {
     @Setter
     public static class response{
         private Long boardSeq;
-
         private String category;
         private String title;
         private String content;
         private int viewCount;
         private int likeCount;
+        private int dislikeCount;
 
         // 멤버 닉네임
         private LocalDateTime createdAt;
@@ -65,6 +65,7 @@ public class BoardDto {
             this.title = board.getTitle();
             this.content = board.getContent();
             this.likeCount = board.getLiked();
+            this.dislikeCount = board.getDisliked();
             this.viewCount = board.getViewCount();
             this.createdAt = board.getCreatedAt();
             this.modifiedAt = board.getModifiedAt();

@@ -1,8 +1,10 @@
 package com.mainproject.backend.domain.board.service;
 
 import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.board.entity.DislikeBoard;
 import com.mainproject.backend.domain.board.entity.LikeBoard;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
+import com.mainproject.backend.domain.board.repositoty.DislikeBoardRepository;
 import com.mainproject.backend.domain.board.repositoty.LikeBoardRepository;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.exception.BoardNotFoundException;
@@ -25,9 +27,11 @@ import java.util.Optional;
 @Transactional
 public class BoardService {
     private final static String SUCCESS_LIKE_BOARD = "좋아요 처리 완료";
+    private final static String SUCCESS_DISLIKE_BOARD = "좋아요 처리 완료";
     private final static String SUCCESS_UNLIKE_BOARD = "좋아요 취소 완료";
     private final BoardRepository boardRepository;
     private final LikeBoardRepository likeBoardRepository;
+    private final DislikeBoardRepository dislikeBoardRepository;
     //유저 서비스
 
     //게시글 등록
@@ -90,10 +94,23 @@ public class BoardService {
         if (!hasLikeBoard(board, user))
             board.increaseLikeCount();
             return createLikeBoard(board, user);
-
     }
+
+    @Transactional
+    public String updateDislikeOfBoard(Long boardSeq, User user) {
+        Board board = boardRepository.findById(boardSeq).orElseThrow(BoardNotFoundException::new);
+        if (!hasDislikeBoard(board, user))
+            board.increaseDislikeCount();
+        return createLikeBoard(board, user);
+    }
+
+
     public boolean hasLikeBoard(Board board, User user) {
         return likeBoardRepository.findByBoardAndUser(board, user).isPresent();
+    }
+
+    public boolean hasDislikeBoard(Board board, User user) {
+        return dislikeBoardRepository.findByBoardAndUser(board, user).isPresent();
     }
 
     //추천 기능
@@ -101,5 +118,11 @@ public class BoardService {
         LikeBoard likeBoard = new LikeBoard(board, user); // true 처리
         likeBoardRepository.save(likeBoard);
         return SUCCESS_LIKE_BOARD;
+    }
+    //추천 기능
+    public String createDislikeBoard(Board board, User user) {
+        DislikeBoard dislikeBoard = new DislikeBoard(board, user); // true 처리
+        dislikeBoardRepository.save(dislikeBoard);
+        return SUCCESS_DISLIKE_BOARD;
     }
 }

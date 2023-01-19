@@ -101,6 +101,13 @@ public class BoardController {
         return ApiResponse.success("boardLike", boardService.updateLikeOfBoard(boardSeq, user));
     }
 
+    @PostMapping("/dislike/{board-seq}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse dislikeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
+        User user = getPrincipal();
+        return ApiResponse.success("boardLike", boardService.updateDislikeOfBoard(boardSeq, user));
+    }
+
 
     //인증
     private User getPrincipal() {
