@@ -21,7 +21,8 @@ public class PageBoardResponseDto {
 
     private int bookmarkCount;
     // 멤버 닉네임
+    private String username;
+
     private LocalDateTime createdAt;
-    // 답변 가져오기
 
 }

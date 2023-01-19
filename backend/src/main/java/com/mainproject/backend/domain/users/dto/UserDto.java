@@ -2,6 +2,8 @@ package com.mainproject.backend.domain.users.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -21,8 +23,10 @@ public class UserDto {
         private String password;
     }
 
+    @Setter
     @Getter
     @AllArgsConstructor
+    @NoArgsConstructor
     public static class Response{
         private long userSeq;
         private String userId;

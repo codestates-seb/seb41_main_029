@@ -5,6 +5,8 @@ import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Board_Vote;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.repositoty.BoardVoteRepository;
+import com.mainproject.backend.domain.users.entity.User;
+import com.mainproject.backend.domain.users.service.UserService;
 import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,8 @@ import java.util.Optional;
 @Transactional
 public class BoardService {
     private final BoardRepository boardRepository;
+
+    private final UserService userService;
     //유저 서비스
 
     //게시글 등록
@@ -33,8 +37,8 @@ public class BoardService {
 
     //게시글 수정
     public Board updateBoard(Board board) {
+
         Board findBoard = findVerifiedBoard(board.getBoardSeq());
-        //로그인한 유저 정보가 등록한 유저정보와 같은지 확인 후 같지 않으면 에러 메세지 호출
 
         Optional.ofNullable(board.getCategory())
                 .ifPresent(findBoard::setCategory);
@@ -43,9 +47,8 @@ public class BoardService {
         Optional.ofNullable(board.getContent())
                 .ifPresent(findBoard::setContent);
 
-        Board updateBoard = boardRepository.save(findBoard);
-
-        return updateBoard;
+        Board updatedBoard = boardRepository.save(findBoard);
+        return updatedBoard;
     }
 
     //특정 게시글 보기 & 조회수
@@ -57,7 +60,12 @@ public class BoardService {
     }
 
     public Page<Board> findAllBoard(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page -1 , size, Sort.by("boardSeq").descending()));
+
+        Page<Board> findAllBoards = boardRepository.findAllByBoardStatus(
+                PageRequest.of(page -1, size, Sort.by("boardSeq").descending()),
+                Board.BoardStatus.BOARD_EXIST);
+
+        return findAllBoards;
     }
 
     //게시글 찾기
@@ -65,6 +73,11 @@ public class BoardService {
         Optional<Board> optionalBoard = boardRepository.findById(boardSeq);
         Board findBoard = optionalBoard.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+
+        //해당 글이 없거나 삭제된 경우 ExceptionCode를 발생한다.
+        if(findBoard.getBoardStatus() == Board.BoardStatus.BOARD_NOT_EXIST) {
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+        }
         return findBoard;
     }
 
@@ -75,8 +88,27 @@ public class BoardService {
     }
 
     //게시글 삭제
-    public void deleteBoard(Long boardSeq) {
+    public void deleteBoard(Long boardSeq, Long userSeq) {
         Board findBoard = findVerifiedBoard(boardSeq);
-        boardRepository.delete(findBoard);
+
+        long writerBoardSeq = findWriteBoardSeq(boardSeq);
+
+        if(userSeq != writerBoardSeq) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
+        }
+        findBoard.setBoardStatus(Board.BoardStatus.BOARD_NOT_EXIST);
+        boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 경정한다.
+    }
+
+    //질문 작성자 아읻 찾는 메서드
+    public long findWriteBoardSeq(long boardSeq) {
+        Board board = findVerifiedBoard(boardSeq);
+        return board.getUser().getUserSeq();
+    }
+
+    //질문 작성자만 질문을 수정, 삭제할 수 있도록 질문 작성자를 찾음
+    public User findBoardWriter(long boardSeq) {
+        Board findBoard = findVerifiedBoard(boardSeq);
+        return findBoard.getUser();
     }
 }
