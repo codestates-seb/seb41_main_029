@@ -85,7 +85,11 @@ public class AuthController {
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookeMaxAge);
 
-        return ApiResponse.success("token", accessToken.getToken());
+        UserRefreshToken userRefreshToken1 = new UserRefreshToken();
+        userRefreshToken1.setRefreshToken(accessToken.getToken());
+        userRefreshToken1.setUserId(userId);
+
+        return ApiResponse.success("token", userRefreshToken1);
     }
 
     @GetMapping("/refresh")
