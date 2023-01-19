@@ -1,6 +1,7 @@
 package com.mainproject.backend.domain.users.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.*;
@@ -89,5 +90,13 @@ public class User {
         this.roleType = roleType;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+    }
+
+    public void editUser(UserDto.Patch req) {
+        userId = req.getUserId();
+        username = req.getUsername();
+        password = req.getPassword();
+        profileImageUrl = req.getProfileImageUrl();
+
     }
 }

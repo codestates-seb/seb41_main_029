@@ -37,12 +37,19 @@ public class UserService {
         return userRepository.findByUserId(userId);
     }
 
-//    @Transactional
-//    public User editMemberInfo(User user, MemberEditRequestDto memberEditRequestDto) {
-//        // refreshToken 처리는 어떻게 할지 추후에 고민해보기
-//        user.editUser(memberEditRequestDto);
-//        return user;
-//    }
+    @Transactional
+    public User editMemberInfo(User user, UserDto.Patch req) {
+//        LocalDateTime now = LocalDateTime.now();
+//        user.setModifiedAt(now);
+        user.editUser(req);
+        return userRepository.save(user);
+    }
+
+    @Transactional
+    public void deleteMemberInfo(User user) {
+        // jwt 토큰 만료 처리는 어떻게 할지 추후에 고민해보기
+        userRepository.delete(user);
+    }
 
     private User createSignupFormOfUser(UserDto.post req) {
         LocalDateTime now = LocalDateTime.now();

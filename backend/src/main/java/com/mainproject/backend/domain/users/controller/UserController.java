@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.mainproject.backend.global.exception.ExceptionCode.UNAUTHORIZED_MEMBER;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class UserController {
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<UserDto.Response> postMember(@Valid @RequestBody UserDto.post requestBody){
-        User user = mapper.userPostToUser(requestBody);
+//        User user = mapper.userPostToUser(requestBody);
         User createUser = userService.createUser(requestBody);
 
         return ApiResponse.success("user", mapper.userToUserResponse(createUser));
@@ -43,6 +45,22 @@ public class UserController {
         User user = userService.getUser(principal.getUsername());
 
         return ApiResponse.success("user", mapper.userToUserResponse(user));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @PatchMapping("/mypage")
+    public ApiResponse<UserDto.Response> editMemberInfo(@RequestBody UserDto.Patch req) {
+        User user = getPrincipal();
+        User editUser = userService.editMemberInfo(user, req);
+        return ApiResponse.success("user", mapper.userToUserResponse(editUser));
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping()
+    public ApiResponse deleteMemberInfo() {
+        User user = getPrincipal();
+        userService.deleteMemberInfo(user);
+        return ApiResponse.success("회원 탈퇴 성공",null);
     }
 
 //    @ResponseStatus(HttpStatus.OK)
