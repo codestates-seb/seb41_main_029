@@ -51,8 +51,8 @@ public class BoardDto {
         private String category;
         private String title;
         private String content;
-        private Long voteResult;
         private int viewCount;
+        private int likeCount;
 
         // 멤버 닉네임
         private LocalDateTime createdAt;
@@ -64,7 +64,7 @@ public class BoardDto {
             this.category = board.getCategory().getValue();
             this.title = board.getTitle();
             this.content = board.getContent();
-            this.voteResult = board.getVoteResult();
+            this.likeCount = board.getLiked();
             this.viewCount = board.getViewCount();
             this.createdAt = board.getCreatedAt();
             this.modifiedAt = board.getModifiedAt();

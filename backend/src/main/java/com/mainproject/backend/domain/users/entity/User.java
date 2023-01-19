@@ -97,6 +97,5 @@ public class User {
         username = req.getUsername();
         password = req.getPassword();
         profileImageUrl = req.getProfileImageUrl();
-
     }
 }

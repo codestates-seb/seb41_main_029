@@ -1,33 +1,37 @@
 package com.mainproject.backend.domain.board.service;
 
-import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.board.entity.Board_Vote;
+import com.mainproject.backend.domain.board.entity.LikeBoard;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
-import com.mainproject.backend.domain.board.repositoty.BoardVoteRepository;
+import com.mainproject.backend.domain.board.repositoty.LikeBoardRepository;
+import com.mainproject.backend.domain.users.entity.User;
+import com.mainproject.backend.global.exception.BoardNotFoundException;
 import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
-
+/*
+*
+*
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class BoardService {
+    private final static String SUCCESS_LIKE_BOARD = "좋아요 처리 완료";
+    private final static String SUCCESS_UNLIKE_BOARD = "좋아요 취소 완료";
     private final BoardRepository boardRepository;
+    private final LikeBoardRepository likeBoardRepository;
     //유저 서비스
 
     //게시글 등록
     public Board createBoard(Board board) {
-        board.setVoteResult(0L);
         return boardRepository.save(board);
     }
 
@@ -78,5 +82,24 @@ public class BoardService {
     public void deleteBoard(Long boardSeq) {
         Board findBoard = findVerifiedBoard(boardSeq);
         boardRepository.delete(findBoard);
+    }
+
+    @Transactional
+    public String updateLikeOfBoard(Long boardSeq, User user) {
+        Board board = boardRepository.findById(boardSeq).orElseThrow(BoardNotFoundException::new);
+        if (!hasLikeBoard(board, user))
+            board.increaseLikeCount();
+            return createLikeBoard(board, user);
+
+    }
+    public boolean hasLikeBoard(Board board, User user) {
+        return likeBoardRepository.findByBoardAndUser(board, user).isPresent();
+    }
+
+    //추천 기능
+    public String createLikeBoard(Board board, User user) {
+        LikeBoard likeBoard = new LikeBoard(board, user); // true 처리
+        likeBoardRepository.save(likeBoard);
+        return SUCCESS_LIKE_BOARD;
     }
 }

@@ -23,6 +23,9 @@ public class Board extends Auditable { //시간 추가
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardSeq; // 게시판 ID
 
+    public void increaseLikeCount() {
+        this.liked += 1;
+    }
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -37,8 +40,9 @@ public class Board extends Auditable { //시간 추가
 
     private Integer viewCount = 0;  // 조회 수
 
-    @Column
-    private Long voteResult = 0L;  // 추천 수
+
+    @Column(nullable = true)
+    private int liked; // 추천 수
 
     // 멤버 연관매핑
 //    @ManyToOne(fetch = FetchType.LAZY)
