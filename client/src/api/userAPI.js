@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "";
+const url = `ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
 export const login = async (data) => {
   try {
@@ -8,8 +8,9 @@ export const login = async (data) => {
       method: "post",
       data,
       headers: { Authorization: null },
-      url: `${url}/auth/login`,
+      url: `${url}auth/login`,
     });
+    console.log(res);
     return res;
   } catch (e) {
     console.log(e);

@@ -1,100 +1,179 @@
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import Carousel from "../component/Carousel";
 
 const Wrapper = styled.div`
+  align-items: center;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   .flex {
     display: flex;
   }
 `;
 
-const Carousel = styled.div`
-  background: rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  height: 1000px;
-  width: 1920px;
+const Card = styled.div`
+  align-items: center;
+  background-color: ${(props) => (props.color ? props.color : "#f6f4eb")};
+  display: flex;
+  justify-content: center;
+  max-width: 1920px;
+  width: 100vw;
   img {
-    filter: brightness(70%);
-    flex: none;
-    height: 1000px;
+    height: auto;
+    max-width: 800px;
     object-fit: cover;
-    width: 1920px;
   }
-  .arrow {
-    display: flex;
-    position: absolute;
-    top: 488px;
-    width: 1920px;
-    z-index: 1000;
+  .sa {
+    justify-content: space-around;
   }
-  .phrase {
-    position: absolute;
-    height: 1000px;
-    width: 1920px;
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .text {
+    max-width: 400px;
   }
-  .spacing {
-    flex: 1;
+  .mr50 {
+    margin-right: 50px;
+  }
+  .mt80 {
+    margin-top: 80px;
+  }
+  .mtb200 {
+    margin: 200px 0;
+  }
+  .fs64 {
+    font-size: ${(props) => props.theme.fontSizes.fs64};
+    font-weight: bold;
+  }
+  .fs48 {
+    font-size: ${(props) => props.theme.fontSizes.fs48};
+    color: #dbdbdb;
+  }
+  .fs30 {
+    font-size: ${(props) => props.theme.fontSizes.fs30};
+  }
+  .tar {
+    text-align: right;
+  }
+  .tabletVer {
+    display: none;
+  }
+  @media (max-width: 1336px) {
+    justify-content: flex-start;
+    text-align: ${(props) => (props.color === "White" ? "right" : "left")};
+    img {
+      margin: ${(props) => (props.color === "White" ? "0 50px" : "0")};
+    }
+    .desktopVer {
+      display: none;
+    }
+    .flex {
+      flex-direction: ${(props) =>
+        props.color === "White" ? "column-reverse" : "column"};
+      width: 100vw;
+    }
+    .mr50 {
+      margin-left: 50px;
+    }
+    .mtb200 {
+      margin: 100px 0;
+    }
+    .mt80 {
+      margin-top: 40px;
+    }
+    .tabletVer {
+      display: block;
+    }
+    .text {
+      float: right;
+      margin: 0 50px;
+    }
+  }
+  @media (max-width: 600px) {
+    .fs64 {
+      font-size: ${(props) => props.theme.fontSizes.fs36};
+      font-weight: bold;
+    }
+    .fs48 {
+      font-size: ${(props) => props.theme.fontSizes.fs30};
+      color: #dbdbdb;
+    }
+    .fs30 {
+      font-size: ${(props) => props.theme.fontSizes.fs18};
+    }
+    .mtb200 {
+      margin: 50px 0;
+    }
+    .mt80 {
+      margin-top: 20px;
+    }
   }
 `;
 
-function clickLeft() {}
-
-function clickRight() {}
-
 export default function LandingPage() {
   return (
-    <Wrapper>
-      <Carousel className="flex">
-        <div className="arrow">
-          <FontAwesomeIcon
-            icon={faArrowLeft}
-            size="2x"
-            color="white"
-            onClick={clickLeft()}
-          />
-          <div className="spacing"></div>
-          <FontAwesomeIcon
-            icon={faArrowRight}
-            size="2x"
-            color="white"
-            onClick={clickRight()}
-          />
-        </div>
-        <div>
-          <div className="phrase">
-            대통령은 취임에 즈음하여 다음의 선서를 한다. 국가는 농·어민과
-            중소기업의 자조조직을 육성하여야 하며, 그 자율적 활동과 발전을
-            보장한다.
+    <>
+      <Wrapper>
+        <Carousel />
+        <Card>
+          <div className="flex mtb200 tar">
+            <img
+              src={
+                process.env.PUBLIC_URL +
+                "/image/marc-thunis-uGHqZRCEWag-unsplash 1.png"
+              }
+              alt="card 1"
+              className="mr50"
+            />
+            <div className="desktopVer text ra">
+              <div className="fs64 mt80">community</div>
+              <div className="fs48">커뮤니티</div>
+              <div className="fs30">
+                헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
+                재판관은 대통령이 임명한다.
+              </div>
+            </div>
+            <div>
+              <div className="tabletVer text">
+                <div className="fs64 mt80">community</div>
+                <div className="fs48">커뮤니티</div>
+                <div className="fs30">
+                  헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
+                  재판관은 대통령이 임명한다.
+                </div>
+              </div>
+            </div>
           </div>
-          <img
-            src={
-              process.env.PUBLIC_URL +
-              "/image/maciek-sulkowski-58tP7g7x1LQ-unsplash.jpg"
-            }
-            alt="Carousel 1"
-          />
-        </div>
-        <img
-          src={
-            process.env.PUBLIC_URL +
-            "/image/nicolas-houdayer-qMDhXONZdXk-unsplash.jpg"
-          }
-          alt="Carousel 2"
-        />
-        <img
-          src={
-            process.env.PUBLIC_URL +
-            "/image/matej-rieciciar-bPRxj7wNft8-unsplash.jpg"
-          }
-          alt="Carousel 3"
-        />
-      </Carousel>
-    </Wrapper>
+        </Card>
+        <Card color="White">
+          <div className="flex mtb200 sa">
+            <div>
+              <div className="tabletVer text">
+                <div className="fs64 mt80">hikingmap</div>
+                <div className="fs48">등산지도</div>
+                <div className="fs30">
+                  국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야
+                  한다. 제1항의 해임건의는 국회재적의원 3분의 1 이상의 발의에
+                  의하여 국회재적의원 과반수의 찬성이 있어야 한다.
+                </div>
+              </div>
+            </div>
+            <div className="desktopVer text mr50">
+              <div className="fs64 mt80">hikingmap</div>
+              <div className="fs48">등산지도</div>
+              <div className="fs30">
+                국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다.
+                제1항의 해임건의는 국회재적의원 3분의 1 이상의 발의에 의하여
+                국회재적의원 과반수의 찬성이 있어야 한다.
+              </div>
+            </div>
+            <img
+              src={
+                process.env.PUBLIC_URL +
+                "/image/sanket-darji-LKge0b91IU8-unsplash 2.png"
+              }
+              alt="card 2"
+            ></img>
+          </div>
+        </Card>
+      </Wrapper>
+    </>
   );
 }
