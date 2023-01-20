@@ -43,12 +43,12 @@ public class User {
     private String password;
 
     @Column(name = "EMAIL", length = 512)
-    @Nullable
+    @NotNull
     @Size(max = 512)
     private String email;
 
     @Column(name = "PROFILE_IMAGE_URL", length = 512)
-    @Nullable
+    @NotNull
     @Size(max = 512)
     private String profileImageUrl;
 

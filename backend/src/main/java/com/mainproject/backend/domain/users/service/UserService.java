@@ -1,7 +1,9 @@
 package com.mainproject.backend.domain.users.service;
 
 import com.mainproject.backend.domain.board.dto.BoardSimpleDto;
+import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
+import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
 import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
@@ -26,6 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final BookmarkRepository bookmarkRepository;
+    private final BoardRepository boardRepository;
     private final String NoEmail = "NO Email";
 
     public User getUser(String userId) {
@@ -72,6 +75,14 @@ public class UserService {
                 .build();
         return user;
     }
+//    @Transactional(readOnly = true)
+//    public List<BoardSimpleDto> findWrite(User user){
+//        List<Board> write = boardRepository.findAllByUser(user);
+//        List<BoardSimpleDto> boardSimpleDtoList = write.stream()
+//                .map(board -> new BoardSimpleDto().toDto(write.get(B)))
+//                .collect(Collectors.toList());
+//        return boardSimpleDtoList;
+//    }
 
     @Transactional(readOnly = true)
     public List<BoardSimpleDto> findBookmark(User user) {

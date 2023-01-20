@@ -95,7 +95,7 @@ public class BoardService {
     }
 
     @Transactional
-    public String updateOfFavoriteBoard(Long id, User user) {
+    public String updateOfBookmarkBoard(Long id, User user) {
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         if (!hasBookmarkBoard(board, user)) {
             board.increaseBookmarkCount();

@@ -111,11 +111,12 @@ public class BoardController {
         return ApiResponse.success("boardLike", boardService.updateDislikeOfBoard(boardSeq, user));
     }
 
-    @PostMapping("/{board-seq}/favorites")
+    //북마크
+    @PostMapping("/bookmark/{board-seq}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse BookmarkBoard(@PathVariable("board-seq") @Positive Long boardSeq){
         User user = getPrincipal();
-        return ApiResponse.success("북마크",boardService.updateOfFavoriteBoard(boardSeq, user));
+        return ApiResponse.success("북마크", boardService.updateOfBookmarkBoard(boardSeq, user));
     }
 
 
