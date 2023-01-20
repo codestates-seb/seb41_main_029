@@ -5,7 +5,7 @@ const Wrapper = styled.div`
   display: flex;
   height: 80px;
   margin-top: ${(props) =>
-    props.path === "/" || props.path === "/hikingmap" ? "0" : "200px"};
+    props.path === "/" || props.path === "/hikingmap" ? "0" : "120px"};
   justify-content: space-around;
   div {
     font-size: ${(props) => props.theme.fontSizes.fs18};

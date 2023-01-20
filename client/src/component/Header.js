@@ -178,12 +178,16 @@ export default function Header() {
           </>
         )}
       </Wrapper>
-      <TabletMenu onClick={menuClick}>
-        <FontAwesomeIcon
-          icon={faBars}
-          color={modalOpen ? "#000000" : "#ffffff"}
-          size="2xl"
-        />
+      <TabletMenu onClick={menuClick} path={window.location.pathname}>
+        {window.location.pathname === "/" ? (
+          <FontAwesomeIcon
+            icon={faBars}
+            color={modalOpen ? "#000000" : "#ffffff"}
+            size="2xl"
+          />
+        ) : (
+          <FontAwesomeIcon icon={faBars} color="#331708" size="2xl" />
+        )}
       </TabletMenu>
       <MenuModal open={modalOpen}>
         <div className="modal">
