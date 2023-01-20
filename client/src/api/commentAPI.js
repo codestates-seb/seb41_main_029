@@ -36,7 +36,7 @@ export const editComment = async (
   try {
     const response = await axios({
       method: "patch",
-      url: `${url}/boards/${boardSeq}/${commentSeq}`,
+      url: `${url}/boards/${boardSeq}/comments/${commentSeq}`,
       data: formData,
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -48,32 +48,44 @@ export const editComment = async (
 };
 
 export const deleteComment = async (boardSeq, userId, commentSeq, Token) => {
-  const res = await axios({
-    method: "delete",
-    url: ``,
-    headers: { Authorization: `Bearer ${Token}` },
-  });
-  console.log(res);
-  return res;
+  try {
+    const res = await axios({
+      method: "delete",
+      url: ``,
+      headers: { Authorization: `Bearer ${Token}` },
+    });
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const commentUpVote = async (boardSeq, userId, commentSeq, Token) => {
-  const res = await axios({
-    method: "post",
-    data: { data: 1 },
-    headers: { Authorization: `Bearer ${Token}` },
-    url: ``,
-  });
-  console.log(res);
-  return res;
+  try {
+    const res = await axios({
+      method: "post",
+      data: { data: 1 },
+      headers: { Authorization: `Bearer ${Token}` },
+      url: ``,
+    });
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 export const commentDownVote = async (boardSeq, userId, commentSeq, Token) => {
-  const res = await axios({
-    method: "post",
-    data: { data: 1 },
-    headers: { Authorization: `Bearer ${Token}` },
-    url: ``,
-  });
-  console.log(res);
-  return res;
+  try {
+    const res = await axios({
+      method: "post",
+      data: { data: 1 },
+      headers: { Authorization: `Bearer ${Token}` },
+      url: ``,
+    });
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };

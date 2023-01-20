@@ -6,6 +6,7 @@ import { CommentDate } from "../DateCalculator";
 import Input from "../Input";
 import CommentVote from "./CommentVote";
 import { useForm, FormProvider } from "react-hook-form";
+import CommentReply from "./CommentReply";
 
 const CommentInfo = styled.div`
   display: flex;
@@ -16,14 +17,15 @@ const CommentInfo = styled.div`
   max-width: 440px;
 `;
 
-const EtcIcon = styled.span`
+const EtcIcon = styled.div`
   float: right;
   margin-top: 5px;
-  margin-right: 5px;
+  height: 30px;
+  margin-right: 12px;
   @media screen and (max-width: 1336px) {
     /* width: 90%; */
     height: 0px;
-    margin-right: 25px;
+    margin-right: 12px;
   }
 `;
 const EditImg = styled.img`
@@ -41,17 +43,17 @@ const DeleteImg = styled.img`
   margin-right: 15px;
   cursor: pointer;
 `;
+
 const CommentContainer = styled.div`
   width: 100%;
-  max-width: 1100px;
+  max-width: 1135px;
   height: 100%;
   min-height: 65px;
   border-radius: 10px;
   margin-left: 24px;
+  margin-right: 24px;
   background-color: #f9f7f7;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 8px;
+  padding: 8px;
   @media screen and (max-width: 1336px) {
     width: 90%;
   }
@@ -93,7 +95,31 @@ const SubmitEdit = styled.button`
 `;
 
 const SubmitEditLayout = styled.div`
-  float: right;
+  /* float: right; */
+  width: 100%;
+  margin-left: 35px;
+  display: flex;
+  flex-direction: row-reverse;
+  .btn {
+    @media screen and (max-width: 1336px) {
+      margin-right: 35px;
+    }
+  }
+`;
+
+const CommentLayout = styled.div`
+  /* margin-right: 10px; */
+`;
+
+const CommentBottom = styled.div`
+  /* margin-right: 10px; */
+  display: flex;
+  width: 100%;
+`;
+
+const ReplyLayout = styled.div`
+  display: flex;
+  /* float: right; */
 `;
 
 const Comment = ({ comment }) => {
@@ -106,9 +132,11 @@ const Comment = ({ comment }) => {
     window.location.reload();
   };
   const [edit, setEdit] = useState(false);
-  // const UserId = JSON.parse(localStorage.getItem("userId"));
+  const userId = localStorage.getItem("userId");
   const cookie = new Cookies();
   const token = cookie.get("token");
+  const userId1 = JSON.parse(localStorage.getItem("userId"));
+  // console.log(userId1);
   const handleClickEdit = () => {
     if (2 !== 2) {
       alert("권한이 없습니다.");
@@ -121,22 +149,29 @@ const Comment = ({ comment }) => {
   };
   const handleDelete = () => {
     // deleteComment()
-    window.location.reload();
+    if (window.confirm("정말 삭제 하시겠습니까?")) {
+      // alert("삭제되었습니다")
+      window.location.reload();
+    } else {
+    }
   };
   return (
-    <>
-      <EtcIcon>
-        <EditImg
-          src={process.env.PUBLIC_URL + "/image/editIcon.svg"}
-          alt="edit"
-          onClick={handleClickEdit}
-        />
-        <DeleteImg
-          src={process.env.PUBLIC_URL + "/image/deleteIcon.svg"}
-          alt="delete"
-          onClick={handleDelete}
-        />
-      </EtcIcon>
+    <CommentLayout>
+      {userId1 === comment?.userId ? (
+        <EtcIcon>
+          <EditImg
+            src={process.env.PUBLIC_URL + "/image/editIcon.svg"}
+            alt="edit"
+            onClick={handleClickEdit}
+          />
+          <DeleteImg
+            src={process.env.PUBLIC_URL + "/image/deleteIcon.svg"}
+            alt="delete"
+            onClick={handleDelete}
+          />
+        </EtcIcon>
+      ) : null}
+
       <CommentInfo>
         {comment?.userName}
         <CommentDate createdAt={comment?.createdAt} />
@@ -148,31 +183,31 @@ const Comment = ({ comment }) => {
               <InputLayout>
                 <Input
                   className="input"
-                  width="1100px"
+                  width="1135px"
                   height="65px"
                   fieldName="content"
                   defaultValue={comment?.content}
                 />
+                <SubmitEditLayout>
+                  <SubmitEdit className="btn" onClick={EditSubmit} width="60px">
+                    등록
+                  </SubmitEdit>
+                </SubmitEditLayout>
               </InputLayout>
               {/* <EditInput defaultValue={comment?.content} /> */}
-              <SubmitEditLayout>
-                <SubmitEdit
-                  onClick={EditSubmit}
-                  width="60px"
-                  style={{ marginRight: "35px" }}
-                >
-                  등록
-                </SubmitEdit>
-              </SubmitEditLayout>
             </FormProvider>
           </form>
         </>
       ) : (
         <CommentContainer>{comment?.content} </CommentContainer>
       )}
-
-      <CommentVote voteResult={comment?.voteResult} />
-    </>
+      <CommentBottom>
+        <CommentVote voteResult={comment?.voteResult} />
+        <ReplyLayout>
+          <CommentReply />
+        </ReplyLayout>
+      </CommentBottom>
+    </CommentLayout>
   );
 };
 

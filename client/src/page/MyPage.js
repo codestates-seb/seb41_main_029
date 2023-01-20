@@ -5,6 +5,8 @@ import styled from "styled-components";
 import theme from "../Theme";
 import MyPageEdit from "./MyPageEdit";
 import jsonData from "../data/Posts";
+import { Cookies } from "react-cookie";
+import { getUser } from "../api/userAPI";
 
 /** 전체 컨테이너 */
 const MypageContainer = styled.div`
@@ -308,17 +310,31 @@ const InfoName = styled.div`
 `;
 
 export default function MyPage() {
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then((res) => {
-        setData(res.data);
-        console.log(res.data);
-      })
+  const cookie = new Cookies();
+  const Token = cookie.get("token");
+  // 수혁님 코드
+  // useEffect(() => {
+  //   axios
+  //     .get("https://jsonplaceholder.typicode.com/posts")
+  //     .then((res) => {
+  //       setData(res.data);
+  //       console.log(res.data);
+  //     })
 
-      .catch((err) => {
-        console.log(err.response);
-      });
+  //     .catch((err) => {
+  //       console.log(err.response);
+  //     });
+  // }, []);
+
+  // 박승철 코드
+  const [userInfo, setUserInfo] = useState();
+  useEffect(() => {
+    async function getUserInfo() {
+      const res = await getUser(Token);
+      setUserInfo(res.data.body.user);
+      console.log(res);
+    }
+    getUserInfo();
   }, []);
 
   const [data, setData] = useState([]);
@@ -338,8 +354,15 @@ export default function MyPage() {
     <MypageContainer>
       <MypageTitle>
         <MypageInfo>
-          <MypageProfile>프로필 사진</MypageProfile>
-          <MypageProfileInfo>유저 기본 정보</MypageProfileInfo>
+          <MypageProfile>
+            {/* 프로필 사진 */}
+            <img src={userInfo?.profileImageUrl} />
+            {/* {userInfo?.profileImageUrl} */}
+          </MypageProfile>
+          <MypageProfileInfo>
+            {/* 유저 기본 정보 */}
+            {userInfo?.username}
+          </MypageProfileInfo>
           <MypageProfileModify href="mypageEdit">
             회원정보 수정
           </MypageProfileModify>
