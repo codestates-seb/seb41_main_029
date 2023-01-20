@@ -75,6 +75,8 @@ public class UserController {
         User user = userRepository.findByUserId(authentication.getName());
         return user;
     }
+
+
 //    private boolean isAuthenticated() {
 //        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 //        if (authentication == null || AnonymousAuthenticationToken.class.

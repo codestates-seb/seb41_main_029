@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Setter
 @Builder
 @Entity
-public class Favorite extends Auditable {
+public class Bookmark extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,7 +32,7 @@ public class Favorite extends Auditable {
     @Column(nullable = false)
     private boolean status; // true = 즐겨찾기, false = 즐겨찾기 취소
 
-    public Favorite(Board board, User user) {
+    public Bookmark(Board board, User user) {
         this.board = board;
         this.user = user;
         this.status = true;

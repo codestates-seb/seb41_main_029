@@ -50,6 +50,20 @@ public class Board extends Auditable { //시간 추가
     @Column(nullable = true)
     private int disliked; // 비추천 수
 
+
+    @Column(nullable = true)
+    private int bookmarked; // 즐겨찾기 수
+
+    public void increaseBookmarkCount() {
+        this.bookmarked += 1;
+    }
+
+    public void decreaseBookmarkCount() {
+        this.bookmarked -= 1;
+    }
+
+
+
     // 멤버 연관매핑
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "member")
