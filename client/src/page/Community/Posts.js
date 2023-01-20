@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate, Link } from "react-router-dom";
 
 // 게시글 목록
 const PostsList = styled.div``;
@@ -85,6 +86,13 @@ const SearchInput = styled.input`
 `;
 
 const Posts = ({ posts, loading, searchTerm }) => {
+  const navigate = useNavigate();
+
+  // const handleTitleClick = () => {
+  //   // navigate(`/view2/${questionItem.questionId}`);
+  //   // navigate(`/view2/${items.id}`);
+  // };
+
   return (
     <>
       {loading && <div> loading... </div>}
@@ -102,13 +110,27 @@ const Posts = ({ posts, loading, searchTerm }) => {
           }
         })
         .map((item) => {
+          console.log(item);
+          const handleTitleClick = (item) => {
+            // navigate(`/view2/${questionItem.questionId}`);
+            navigate(`/view2/${item.id}`);
+            // 클릭한 게시물의 id랑 같은 item.id만 필터링할 수 있나?
+          };
           return (
             <Post key={item.id}>
               <PostHead>
                 <PostHeadBox>정보</PostHeadBox>
               </PostHead>
               <PostTitleBox>
-                <PostTitle>{item.title}</PostTitle>
+                <PostTitle
+                // onClick={({ e }) => {
+                //   handleTitleClick(console.log(e.innerHTML));
+                // }}
+                >
+                  {/* {item.title} */}
+                  {/* <a href=`/view2/${item.id}`>{item.title}</a> */}
+                  <Link to={`/view2/${item.id}`}>{item.title}</Link>
+                </PostTitle>
                 <PostComment>[1]</PostComment>
               </PostTitleBox>
               <PostDate>22/01/04</PostDate>

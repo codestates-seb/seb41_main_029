@@ -14,7 +14,7 @@ const LoginLayout = styled.div`
 `;
 
 let SignupBackground = styled.div`
-  margin-top: 120px;
+  margin: 120px 16px 0 16px;
   width: 316px;
   background-color: ${({ theme }) => theme.colors.container};
   border-radius: 10px;
@@ -110,7 +110,7 @@ export default function Signup() {
   const error = methods?.formState?.errors;
 
   // 회원가입 요청
-  // 버튼을 누르면 validation이 완료된 후에 실행되서 각 필드를 다시 확인안해도됨
+  // 버튼을 누르면 validation이 완료된 후에 실행되서 각 필드를 다시 확인안해도 됨
   const onSubmit = (data) => {
     // console.log(data);
     axios
@@ -129,6 +129,10 @@ export default function Signup() {
         console.log(err.data);
       });
   };
+
+  // 아이디 중복 체크
+  // 회원검색 get 요청해서 id 확인 후 input 밑에 에러문구 띄우기
+  // 이것도 react-hook-form으로 가능??
 
   return (
     <>

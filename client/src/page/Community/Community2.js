@@ -4,6 +4,7 @@ import Posts from "./Posts";
 import Pagination from "./Pagination";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { Cookies } from "react-cookie";
 
 const Container = styled.div`
   display: flex;
@@ -176,7 +177,7 @@ function App() {
   // search
   const [searchTerm, setSearchTerm] = useState("");
 
-  // json 데이터
+  // 더미 데이터
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -185,36 +186,61 @@ function App() {
       );
       setPosts(response.data);
       setLoading(false);
-      //   const filter = posts.filter((post) => {
-      //     if (post.title.includes("sunt")) {
-      //       return post;
-      //     }
-      //   });
-      //   setPosts(filter);
     };
     fetchData();
   }, []);
 
-  // 정식 데이터
-  //   useEffect(() => {
-  //     const url = "http://ec2-54-180-55-239.ap-northeast-2.compute.amazonaws.com:8080";
-  //     const token = localStorage.getItem("accessToken");
+  // const token = Cookies.get(token);
 
-  //     axios
-  //       .get(`${url}/boards?page=1&size=15`, {
-  //         headers: {
-  //           Accept: "application/json",
-  //           Authorization: token,
-  //         },
-  //       })
-  //       .then((res) => {
-  //         let AllPosts = res.data.data;
-  //         console.log(AllPosts);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err.response);
-  //       });
-  //   }, []);
+  // 정식 데이터 전체조회 (axios.async/awit)
+  // useEffect(() => {
+  //   const url = "http://ec2-54-180-55-239.ap-northeast-2.compute.amazonaws.com:8080";
+  //   const token = localStorage.getItem("accessToken");
+
+  //   const fetchData = async () => {
+  //     try{
+  //       setLoading(true);
+  //       const response = await axios.get(`${url}/boards?page=1&size=15`, {
+  //                 headers: {
+  //                   Accept: "application/json",
+  //                   Authorization: token,
+  //                 },
+  //               })
+  //       setPosts(response.data);
+  //       setLoading(false);
+  //     } catch(err) {
+  //       throw err;
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
+  // 정식 데이터 세부조회 (axios.async/awit)
+  // useEffect(() => {
+  //   const url = "http://ec2-54-180-55-239.ap-northeast-2.compute.amazonaws.com:8080";
+  //   const token = localStorage.getItem("accessToken");
+
+  //   const fetchData = async () => {
+  //     try{
+  //       setLoading(true);
+  //       const response = await axios.get(`${url}/boards/1`, {
+  //                 headers: {
+  //                   Accept: "application/json",
+  //                   Authorization: token,
+  //                 },
+  //               })
+  //       setPosts(response.data);
+  //       setLoading(false);
+  //     } catch(err) {
+  //       throw err;
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+
+  // 상세 조회 데이터 조회.. 유즈파람스 사용?
+  // 전체 게시글을 띄우고, 특정 게시물을 클릭하면 특정 게시물 조회
+  // 그러면.. {post.title}에 onClick = axios 요청?
 
   const indexOfLast = currentPage * postsPerPage;
   const indexOfFirst = indexOfLast - postsPerPage;
