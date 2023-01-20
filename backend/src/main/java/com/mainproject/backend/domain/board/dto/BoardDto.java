@@ -50,6 +50,7 @@ public class BoardDto {
         private String category;
         private String title;
         private String content;
+        private int bookmarkCount;
         private int viewCount;
         private int likeCount;
         private int dislikeCount;
@@ -64,6 +65,7 @@ public class BoardDto {
             this.category = board.getCategory().getValue();
             this.title = board.getTitle();
             this.content = board.getContent();
+            this.bookmarkCount = board.getBookmarked();
             this.likeCount = board.getLiked();
             this.dislikeCount = board.getDisliked();
             this.viewCount = board.getViewCount();
