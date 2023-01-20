@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 
 const VoteBtn = styled.button`
   margin-top: 12px;
@@ -36,24 +38,39 @@ const Count = styled.span`
 `;
 
 const CommentVote = ({ voteResult }) => {
+  const cookie = new Cookies();
+  const Token = cookie.get("token");
+  const navigate = useNavigate();
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
   const [upVoteCount, setupVoteCount] = useState();
   const [downVoteCount, setDownVoteCount] = useState();
   const handleClickUp = () => {
-    if (isUpVote) return;
-    let upVote = voteResult + 1;
-    setupVoteCount(upVote);
-    // commentUpVote(id, userId, answer.answerId, Token);
-    setIsUpVote(true);
+    if (!Token) {
+      if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
+        navigate("/login");
+      }
+    } else {
+      if (isUpVote) return;
+      let upVote = voteResult + 1;
+      setupVoteCount(upVote);
+      // commentUpVote(id, userId, answer.answerId, Token);
+      setIsUpVote(true);
+    }
   };
   const handleDownVote = () => {
-    if (isDownVote) return;
+    if (!Token) {
+      if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
+        navigate("/login");
+      }
+    } else {
+      if (isDownVote) return;
 
-    let DownVote = voteResult + 1;
-    setDownVoteCount(DownVote);
-    // commentDownVote(id, userId, answer.answerId, Token);
-    setIsDownVote(true);
+      let DownVote = voteResult + 1;
+      setDownVoteCount(DownVote);
+      // commentDownVote(id, userId, answer.answerId, Token);
+      setIsDownVote(true);
+    }
   };
 
   return (
@@ -62,8 +79,9 @@ const CommentVote = ({ voteResult }) => {
         <VoteActBtn1 onClick={handleClickUp}>
           <VoteContainer>
             <img
+              className="up"
               src={process.env.PUBLIC_URL + "/image/upVote.svg"}
-              alt="delete"
+              alt="Up"
               width="30px"
             />
             <Count>{upVoteCount === 0 ? 0 : upVoteCount || voteResult}</Count>
@@ -73,8 +91,9 @@ const CommentVote = ({ voteResult }) => {
         <VoteBtn onClick={handleClickUp}>
           <VoteContainer>
             <img
+              className="up"
               src={process.env.PUBLIC_URL + "/image/upVote.svg"}
-              alt="delete"
+              alt="Up"
               width="30px"
             />
             <Count>{upVoteCount === 0 ? 0 : upVoteCount || voteResult}</Count>
@@ -86,7 +105,7 @@ const CommentVote = ({ voteResult }) => {
           <VoteContainer onClick={handleDownVote}>
             <img
               src={process.env.PUBLIC_URL + "/image/downVote.svg"}
-              alt="delete"
+              alt="Down"
               width="30px"
               height="27px"
             />
@@ -100,7 +119,7 @@ const CommentVote = ({ voteResult }) => {
           <VoteContainer>
             <img
               src={process.env.PUBLIC_URL + "/image/downVote.svg"}
-              alt="delete"
+              alt="Down"
               width="30px"
               height="27px"
             />
