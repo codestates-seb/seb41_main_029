@@ -20,16 +20,22 @@ const SpanTitle = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
-  span {
+  .SpanTitle {
     font-size: ${({ theme }) => theme.fontSizes.fs24};
     width: 100px;
     /* margin-left: -24px; */
     display: flex;
 
     @media (max-width: 1336px) {
-      width: 10%;
+      width: 150px;
+      padding-left: 5%;
+    }
+    // 400이 되면 또 세로로 된다 카테고리가 너무 크다 줄여보자
+    @media (max-width: 455px) {
+      font-size: ${theme.fontSizes.fs18};
+      margin-top: 6px;
       display: flex;
-      margin-left: 4%;
+      justify-content: center;
     }
   }
   input {
@@ -37,6 +43,7 @@ const SpanTitle = styled.div`
     height: 40px;
     border-radius: 8px;
     border: none;
+
     /* margin-right: 28px; */
 
     @media (max-width: 1336px) {
@@ -58,6 +65,7 @@ const SpanContent = styled.div`
   gap: 20px;
   justify-content: center;
 `;
+// 전체
 const CategoryBox = styled(Box)`
   width: 100%;
 `;
@@ -66,10 +74,18 @@ const CategoryInputLabel = styled(InputLabel)`
   width: 100%;
   margin: -8px 0 0px 12px;
 
+  .CategorySpan {
+    @media (max-width: 1336px) {
+      font-size: 14px;
+    }
+  }
+
   /* @media (max-width: 1336px) {
     width: 50%;
+    font-size: 12px;
   } */
 `;
+//.
 const CategorySelect = styled(Select)`
   height: 40px;
 
@@ -88,33 +104,37 @@ const CategorySelect = styled(Select)`
 // 전체 크기
 const CategoryFormControl = styled(FormControl)`
   width: 100%;
-
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.white};
-
-  /* @media (max-width: 1336px) {
-    width: 100%;
-  } */
 
   label {
     font-weight: 800;
     font-family: "Noto Sans CJK KR";
   }
+  // X
   .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
     margin: 8px 0 0 12px;
     font-size: ${({ theme }) => theme.fontSizes.fs18};
   }
-
+  // x
   .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
     display: none;
   }
-  //전체 크기 확인 해보기
+  //전체 크기
   @media (max-width: 1336px) {
     width: 75%;
   }
+  /* @media (max-width: 850px) {
+    width: 75%;
+    background-color: black;
+  } */
+
+  .css-1m5xwth-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+    @media (max-width: 850px) {
+    }
+  }
 `;
 
-// 아무 변화도 없음
 const CategoryMenuItem = styled(MenuItem)``;
 const WritingEditor = ({ setImage }) => {
   const [answer, setAnswer] = useState(""); //editor
@@ -124,7 +144,7 @@ const WritingEditor = ({ setImage }) => {
     //input
     title: "",
   });
-  // 온클릭 3개 합치기
+
   const onClick = (e) => {
     // answer와 detail을 값을 넘겨줘서 클릭시 콘솔에 찍히게 해줘야 한다
     // setDetail(e.target.value),
@@ -187,14 +207,15 @@ const WritingEditor = ({ setImage }) => {
     <div>
       <SpanTitle>
         <SpanContent>
-          <span>제목</span>
+          <span className="SpanTitle">제목</span>
           <input type="text" value={detail.title} onChange={titleChange} />
           <div className="menu">
             {/* mui 사용 */}
             <CategoryBox sx={{ minWidth: 180 }}>
               <CategoryFormControl>
                 <CategoryInputLabel id="demo-simple-select-label">
-                  카테고리
+                  <span className="CategorySpan">카테고리</span>
+                  {/* 카테고리 */}
                 </CategoryInputLabel>
                 <CategorySelect
                   sx={{
@@ -239,7 +260,6 @@ const WritingEditor = ({ setImage }) => {
               "bulletedList",
               "numberedList",
               "|",
-              "imageUpload",
               "insertTable",
               "mediaEmbed",
               "undo",
@@ -247,17 +267,18 @@ const WritingEditor = ({ setImage }) => {
               "alignment",
               "fontSize",
               "highlight",
+              "imageUpload",
             ],
           },
         }}
       />
       <WritingButton
-        title={detail.title}
-        setDetail={setDetail}
-        handleChange={handleChange}
-        titleChange={titleChange}
-        answer={answer}
-        onClicks={onClick}
+        // title={detail.title}
+        // setDetail={setDetail}
+        // handleChange={handleChange}
+        // titleChange={titleChange}
+        // answer={answer}
+        // onClicks={onClick}
         editorChange={editorChange}
       />
     </div>

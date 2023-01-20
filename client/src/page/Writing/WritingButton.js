@@ -40,16 +40,13 @@ const ViewButton = styled.a`
     background-color: ${(props) => props.ckColor};
   }
 `;
-// title > detail.title
-// content> 에디터
-
 const WritingButton = ({
-  title,
-  setDetail,
-  handleChange,
-  titleChange,
-  answer,
-  onClicks,
+  // title,
+  // setDetail,
+  // handleChange,
+  // titleChange,
+  // answer,
+  // onClicks,
   editorChange,
 }) => {
   const [register, setRegister] = useState("");
@@ -70,9 +67,9 @@ const WritingButton = ({
         bgColor="#62B6B7"
         ckColor="#439A97"
         href="community"
-        onClick={() => {
-          editorChange();
-        }}
+        // onClick={() => {
+        //   editorChange();
+        // }}
       >
         등록
       </ViewButton>
