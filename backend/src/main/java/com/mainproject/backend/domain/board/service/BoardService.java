@@ -101,7 +101,7 @@ public class BoardService {
         Board board = boardRepository.findById(boardSeq).orElseThrow(BoardNotFoundException::new);
         if (!hasDislikeBoard(board, user))
             board.increaseDislikeCount();
-        return createLikeBoard(board, user);
+        return createDislikeBoard(board, user);
     }
 
 
