@@ -14,6 +14,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * 유저 컨트롤러
+ *
+ * @author 박민우
+ * 북마크 조회 기능 추가
+ *
+ */
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -23,6 +31,7 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserMapper mapper;
 
+    //회원 가입
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<UserDto.Response> postMember(@Valid @RequestBody UserDto.post requestBody){
@@ -34,6 +43,7 @@ public class UserController {
 
 
 
+    //마이 페이지 조회
     @GetMapping("/mypage")
     public ApiResponse getUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -44,6 +54,7 @@ public class UserController {
         return ApiResponse.success("user", mapper.userToUserResponse(user));
     }
 
+    //mypage 수정
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/mypage")
     public ApiResponse<UserDto.Response> editMemberInfo(@RequestBody UserDto.Patch req) {
@@ -52,6 +63,7 @@ public class UserController {
         return ApiResponse.success("user", mapper.userToUserResponse(editUser));
     }
 
+    //회원 탈퇴
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping()
     public ApiResponse deleteMemberInfo() {
