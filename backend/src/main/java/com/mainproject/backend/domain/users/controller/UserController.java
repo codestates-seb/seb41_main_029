@@ -1,8 +1,5 @@
 package com.mainproject.backend.domain.users.controller;
 
-import com.mainproject.backend.domain.board.dto.BoardSimpleDto;
-import com.mainproject.backend.domain.board.entity.Bookmark;
-import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
 import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.mapper.UserMapper;
@@ -11,18 +8,11 @@ import com.mainproject.backend.domain.users.service.UserService;
 import com.mainproject.backend.global.Response.api.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static com.mainproject.backend.global.exception.ExceptionCode.UNAUTHORIZED_MEMBER;
 
 @RestController
 @RequestMapping("/users")
@@ -70,11 +60,12 @@ public class UserController {
         return ApiResponse.success("회원 탈퇴 성공",null);
     }
 
+    //북마크 한 글 조회
     @ResponseStatus(HttpStatus.OK)
-    @GetMapping("/Bookmark")
+    @GetMapping("/bookmark")
     public ApiResponse findBookmark() {
         User user = getPrincipal();
-        return ApiResponse.success("Bookmark", userService.findBookmark(user));
+        return ApiResponse.success("bookmark",userService.findBookmark(user));
     }
 
 
