@@ -8,6 +8,7 @@ import com.mainproject.backend.global.auth.entity.RoleType;
 import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,8 +54,8 @@ public class UserService {
 
     //로그인 유저 정보
     public User getLoginUser(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userRepository.findByUserId(principal.toString());
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUserId(principal.getName());
         return user;
     }
 }

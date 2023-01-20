@@ -57,7 +57,7 @@ public class BoardDto {
     @Getter
     @Setter
     public static class response{
-//        private UserDto.Response user;
+        private UserDto.Response2 user;
         private Long boardSeq;
         private String category;
         private String title;
@@ -67,18 +67,16 @@ public class BoardDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
-        private UserDto.Response user;
-
-//        public response(Board board) {
-//            this.boardSeq = board.getBoardSeq();
-//            this.category = board.getCategory().getValue();
-//            this.title = board.getTitle();
-//            this.content = board.getContent();
-//            this.voteResult = board.getVoteResult();
-//            this.viewCount = board.getViewCount();
-//            this.createdAt = board.getCreatedAt();
-//            this.modifiedAt = board.getModifiedAt();
-//        }
+        public response(Board board) {
+            this.boardSeq = board.getBoardSeq();
+            this.category = board.getCategory().getValue();
+            this.title = board.getTitle();
+            this.content = board.getContent();
+            this.voteResult = board.getVoteResult();
+            this.viewCount = board.getViewCount();
+            this.createdAt = board.getCreatedAt();
+            this.modifiedAt = board.getModifiedAt();
+        }
     }
 
 }

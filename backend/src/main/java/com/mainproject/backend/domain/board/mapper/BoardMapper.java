@@ -62,7 +62,7 @@ public interface BoardMapper {
         return board;
     }
 
-//    BoardDto.response boardToBoardResponseDto(Board board);
+    BoardDto.response boardToBoardResponseDto(Board board);
 
     default BoardDto.response boardToBoardResponseDto(UserMapper userMapper, Board board) {
 
@@ -77,7 +77,7 @@ public interface BoardMapper {
         response.setModifiedAt(board.getModifiedAt());
 
         User user = board.getUser(); // 직문 작성자 속성 추가
-        response.setUser(userMapper.userToUserResponse(user));
+        response.setUser(userMapper.userToUserResponse2(user));
 
         return response;
     }

@@ -38,4 +38,14 @@ public class UserDto {
         private LocalDateTime createdAt;
         private LocalDateTime ModifiedAt;
     }
+
+    @Setter
+    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Response2{
+        private long userSeq;
+        private String username;
+        private String profileImageUrl;
+    }
 }

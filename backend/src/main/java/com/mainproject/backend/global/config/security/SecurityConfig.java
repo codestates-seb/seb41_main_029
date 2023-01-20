@@ -70,7 +70,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/image/**").permitAll()
                 .antMatchers("/users/signup", "/users/**").permitAll()
                 .antMatchers("/auth/login", "/auth/**").permitAll()
-                .antMatchers("/boards","/boards/**","/comments","/comments/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/boards/articles").hasRole("USER")
+//                .antMatchers(HttpMethod.PATCH,"/boards").hasRole("USER")
+                .antMatchers("/boards","/boards/**","/comments","/comments/**", "/bookmarks", "/bookmarks/**").permitAll()
                 .and()
                     .csrf().disable()
                     .formLogin().disable()
@@ -176,4 +178,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfigSource.registerCorsConfiguration("/**", corsConfig);
         return corsConfigSource;
     }
+
 }

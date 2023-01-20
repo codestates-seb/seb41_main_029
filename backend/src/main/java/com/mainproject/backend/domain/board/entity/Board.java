@@ -48,9 +48,8 @@ public class Board extends Auditable { //시간 추가
 
     // 멤버 연관매핑
     @ManyToOne(targetEntity = User.class, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "USER_SEQ")
+    @JoinColumn(name = "user_seq")
     private User user;
-
 
     @JsonManagedReference
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
@@ -66,16 +65,11 @@ public class Board extends Auditable { //시간 추가
             comment.setBoard(this);
         }
     }
-
     public enum BoardStatus {
-
         BOARD_EXIST("존재하는 게시물"),
-
         BOARD_NOT_EXIST("존재하지 않는 게시물");
-
         @Getter
         private String status;
-
         BoardStatus(String status) {
             this.status = status;
         }
