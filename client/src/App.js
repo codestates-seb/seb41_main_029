@@ -19,6 +19,8 @@ import ComuGen from "./page/Community/ComuGen";
 import ComuInfo from "./page/Community/ComuInfo";
 import ComuQues from "./page/Community/ComuQues";
 
+import Kakao from "./page/KakaoMap";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -68,6 +70,10 @@ const router = createBrowserRouter([
   {
     path: "/community/question",
     element: <ComuQues />,
+  },
+  {
+    path: "/kakao",
+    element: <Kakao />,
   },
 ]);
 

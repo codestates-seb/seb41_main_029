@@ -5,9 +5,12 @@ spring:
   profiles.active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/MAIN029?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://pre-database-1.cguixlvnvxu0.ap-northeast-2.rds.amazonaws.com:3306/MAIN029?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
-    password: 5425
+    password: 54255425
+  #    url: jdbc:mysql://localhost:3306/MAIN029?serverTimezone=Asia/Seoul
+  #    username: root
+  #    password: 5425
   output:
     ansi:
       enabled: always
@@ -15,12 +18,12 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
-        format_sql: true # SQL 쿼리 pretty print
-      show-sql: true # SQL 쿼리 출력
+        format_sql: true # SQL ?? pretty print
+      show-sql: true # SQL ?? ??
       open-in-view: true
       profiles:
         include: database
@@ -85,11 +88,11 @@ cors:
   max-age: 3600
 
 # jwt secret key ??
-# jwt secret key 설정
-jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'
+# jwt secret key ??
+jwt.secret: "8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds"
 
 
-# 토큰 관련 secret Key 및 RedirectUri 설정
+# ?? ?? secret Key ? RedirectUri ??
 app:
   auth:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
@@ -102,3 +105,4 @@ app:
 # application.yml
 #logging:
 #  config: classpath:log4j2.yml
+
