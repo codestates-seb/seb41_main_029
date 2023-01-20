@@ -7,8 +7,7 @@ import { login } from "../../api/userAPI";
 import { useNavigate } from "react-router-dom";
 import { MainBtn } from "../../component/Button";
 import { Cookies } from "react-cookie";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../redux/usersReducer";
+
 import { setCookie } from "../../Cookies";
 
 const InputLayout = styled.div`
@@ -36,8 +35,7 @@ let SocialLogin = styled.div`
   margin-bottom: 4px;
 `;
 let SocialLoginLogo = styled.img`
-  width: 100%;
-  max-width: 40px;
+  width: 40px;
   height: 40px;
   margin: 20px;
 `;
@@ -45,7 +43,6 @@ let SocialLoginLogo = styled.img`
 const LoginContainer = () => {
   const [isAuthorized, setisAuthorized] = useState(true);
   // const dispatch = useDispatch();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const cookie = new Cookies();
   const methods = useForm();
@@ -57,10 +54,10 @@ const LoginContainer = () => {
       value: 4,
       message: "최소 4자 이상의 아이디를 입력해주세요.",
     },
-    maxLength: {
-      value: 12,
-      message: "최대 12자 이하의 아이디를 입력해주세요.",
-    },
+    // maxLength: {
+    //   value: 12,
+    //   message: "최대 12자 이하의 아이디를 입력해주세요.",
+    // },
   };
 
   const passwordValidation = {
@@ -85,7 +82,6 @@ const LoginContainer = () => {
       // const token1 = res.body?.authorization.split(" ")[1];
       const token = res.headers.authorization.split("Bearer ")[1];
       cookie.set("token", token);
-      dispatch(setUser({ token, userId }));
       navigate("/");
     }
   };
@@ -100,14 +96,16 @@ const LoginContainer = () => {
             </LabelLayout>
             <InputContainer>
               <Input
-                id="userId"
+                id="id"
                 width="15rem"
                 height="40px"
                 fieldName="userId"
                 validation={idValidation}
                 error={error.id}
               />
-              {error?.id && <AlertWarning text={error.id?.message} />}
+              {error?.username && (
+                <AlertWarning text={error.username?.message} />
+              )}
             </InputContainer>
             <LabelLayout>
               <label>비밀번호</label>

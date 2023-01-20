@@ -15,6 +15,7 @@ const EditTitle = styled.div`
   display: flex;
   margin: 200px 0 200px 0;
   height: 1000px;
+  border-radius: 20px;
 `;
 const EditContent = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
