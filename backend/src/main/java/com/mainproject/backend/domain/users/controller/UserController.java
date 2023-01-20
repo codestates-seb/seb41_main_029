@@ -1,5 +1,8 @@
 package com.mainproject.backend.domain.users.controller;
 
+import com.mainproject.backend.domain.board.dto.BoardSimpleDto;
+import com.mainproject.backend.domain.board.entity.Bookmark;
+import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
 import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.mapper.UserMapper;
@@ -11,9 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.mainproject.backend.global.exception.ExceptionCode.UNAUTHORIZED_MEMBER;
 
@@ -62,6 +69,14 @@ public class UserController {
         userService.deleteMemberInfo(user);
         return ApiResponse.success("회원 탈퇴 성공",null);
     }
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/Bookmark")
+    public ApiResponse findBookmark() {
+        User user = getPrincipal();
+        return ApiResponse.success("Bookmark", userService.findBookmark(user));
+    }
+
 
 //    @ResponseStatus(HttpStatus.OK)
 //    @PutMapping("/users")

@@ -40,7 +40,8 @@ public class BoardService {
     //유저 서비스
 
     //게시글 등록
-    public Board createBoard(Board board) {
+    public Board createBoard(Board board, User user) {
+        board.setUser(user);
         return boardRepository.save(board);
     }
 

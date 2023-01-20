@@ -47,6 +47,7 @@ public class BoardDto {
     @Setter
     public static class response{
         private Long boardSeq;
+        private Long userSeq;
         private String category;
         private String title;
         private String content;
@@ -62,6 +63,7 @@ public class BoardDto {
 
         public response(Board board) {
             this.boardSeq = board.getBoardSeq();
+            this.userSeq = board.getUser().getUserSeq();
             this.category = board.getCategory().getValue();
             this.title = board.getTitle();
             this.content = board.getContent();

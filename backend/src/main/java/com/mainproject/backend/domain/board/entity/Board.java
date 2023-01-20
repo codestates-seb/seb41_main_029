@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mainproject.backend.domain.board.option.Category;
 //import com.mainproject.backend.domain.bookmark.entity.Bookmark;
 import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.audit.Auditable;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -61,6 +64,11 @@ public class Board extends Auditable { //시간 추가
     public void decreaseBookmarkCount() {
         this.bookmarked -= 1;
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_seq", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
 
 
 

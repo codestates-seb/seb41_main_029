@@ -34,14 +34,15 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardMapper boardMapper;
     private final UserRepository userRepository;
-    private final LikeBoardRepository likeBoardRepository;
 
     //게시글 등록
     @PostMapping("/articles")
     public ResponseEntity boardPost(@Valid @RequestBody BoardDto.Post postDto) {
 
-        Board board =
-                boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto));
+        User user = getPrincipal();
+
+        Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user);
+
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
@@ -94,6 +95,7 @@ public class BoardController {
         return new ResponseEntity<>("게시글 삭제",HttpStatus.NO_CONTENT);
     }
 
+    //추천
     @PostMapping("/{board-seq}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse likeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
@@ -101,6 +103,7 @@ public class BoardController {
         return ApiResponse.success("boardLike", boardService.updateLikeOfBoard(boardSeq, user));
     }
 
+    //비추천
     @PostMapping("/dislike/{board-seq}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse dislikeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
