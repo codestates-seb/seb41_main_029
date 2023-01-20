@@ -17,6 +17,8 @@ import NotFound from "./page/NotFound";
 import View2 from "./page/Community/View2";
 import Community2 from "./page/Community/Community2";
 
+import Kakao from "./page/KakaoMap";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -58,6 +60,10 @@ const router = createBrowserRouter([
   {
     path: "/view2/:boardSeq",
     element: <View2 />,
+  },
+  {
+    path: "/kakao",
+    element: <Kakao />,
   },
 ]);
 

@@ -70,18 +70,18 @@ const LoginContainer = () => {
   // const expireDate = new Date()
   // expireDate.setMinutes(expireDate.getMinutes() + 10)
   const onSubmit = async (data) => {
-    // console.log(data);
     const res = await login(data);
     if (res?.status !== 200) {
       alert("가입된 정보가 없습니다.");
       return setisAuthorized(false);
     } else {
-      const { userId } = res.data;
-      localStorage.setItem("userId", JSON.stringify(userId));
-      // const token = res.headers?.authorization.split(" ")[1];
-      // const token1 = res.body?.authorization.split(" ")[1];
-      const token = res.headers.authorization.split("Bearer ")[1];
+      // console.log(res?.data?.body?.token?.userId);
+      const userId1 = res?.data?.body?.token?.userId;
+      // console.log(userId1);
+      localStorage.setItem("userId", JSON.stringify(userId1));
+      const token = res.data?.body?.token?.refreshToken;
       cookie.set("token", token);
+      dispatch(setUser({ token, userId1 }));
       navigate("/");
     }
   };

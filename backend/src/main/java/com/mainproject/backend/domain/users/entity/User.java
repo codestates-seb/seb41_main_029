@@ -1,7 +1,7 @@
 package com.mainproject.backend.domain.users.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mainproject.backend.domain.audit.Auditable;
+import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.*;
@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @Builder
 @Table(name = "USER")
 public class User {
-    @com.fasterxml.jackson.annotation.JsonIgnore
+    @JsonIgnore
     @Id
     @Column(name = "USER_SEQ")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,24 +31,24 @@ public class User {
     @Size(max = 64)
     private String userId;
 
-    @Column(name = "USERNAME", length = 100)
+    @Column(name = "USERNAME", length = 32)
     @NotNull
-    @Size(max = 100)
+    @Size(max = 32)
     private String username;
 
     @JsonIgnore
-    @Column(name = "PASSWORD", length = 128)
+    @Column(name = "PASSWORD", length = 64)
     @NotNull
-    @Size(max = 128)
+    @Size(max = 64)
     private String password;
 
     @Column(name = "EMAIL", length = 512)
-    @Nullable
+    @NotNull
     @Size(max = 512)
     private String email;
 
     @Column(name = "PROFILE_IMAGE_URL", length = 512)
-    @Nullable
+    @NotNull
     @Size(max = 512)
     private String profileImageUrl;
 
@@ -70,9 +70,10 @@ public class User {
     @NotNull
     private LocalDateTime modifiedAt;
 
+
     public User(
             @NotNull @Size(max = 64) String userId,
-            @NotNull @Size(max = 100) String username,
+            @NotNull @Size(max = 32) String username,
             @NotNull @Size(max = 512) String email,
             @NotNull @Size(max = 512) String profileImageUrl,
             @NotNull ProviderType providerType,
@@ -89,5 +90,12 @@ public class User {
         this.roleType = roleType;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+    }
+
+    public void editUser(UserDto.Patch req) {
+        userId = req.getUserId();
+        username = req.getUsername();
+        password = req.getPassword();
+        profileImageUrl = req.getProfileImageUrl();
     }
 }
