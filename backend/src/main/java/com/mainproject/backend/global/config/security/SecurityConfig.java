@@ -71,6 +71,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/users/signup", "/users/**").permitAll()
                 .antMatchers("/auth/login", "/auth/**").permitAll()
                 .antMatchers("/boards", "/boards/**", "/comments", "/comments/**").permitAll()
+                .antMatchers("/boards/**").permitAll()
                 .and()
                     .csrf().disable()
                     .formLogin().disable()

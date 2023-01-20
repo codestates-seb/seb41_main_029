@@ -48,9 +48,11 @@ public class BoardDto {
     public static class response{
         private Long boardSeq;
         private Long userSeq;
+        private String username;
         private String category;
         private String title;
         private String content;
+        private boolean BookmarkStatus;
         private int bookmarkCount;
         private int viewCount;
         private int likeCount;
@@ -64,9 +66,11 @@ public class BoardDto {
         public response(Board board) {
             this.boardSeq = board.getBoardSeq();
             this.userSeq = board.getUser().getUserSeq();
+            this.username = board.getUser().getUsername();
             this.category = board.getCategory().getValue();
             this.title = board.getTitle();
             this.content = board.getContent();
+            this.BookmarkStatus = board.isBookmarkStatus();
             this.bookmarkCount = board.getBookmarked();
             this.likeCount = board.getLiked();
             this.dislikeCount = board.getDisliked();

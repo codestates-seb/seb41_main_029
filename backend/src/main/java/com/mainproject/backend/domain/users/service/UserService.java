@@ -79,7 +79,7 @@ public class UserService {
 //    public List<BoardSimpleDto> findWrite(User user){
 //        List<Board> write = boardRepository.findAllByUser(user);
 //        List<BoardSimpleDto> boardSimpleDtoList = write.stream()
-//                .map(board -> new BoardSimpleDto().toDto(write.get(B)))
+//                .map(board -> new BoardSimpleDto().toDto(board.getBoard))
 //                .collect(Collectors.toList());
 //        return boardSimpleDtoList;
 //    }

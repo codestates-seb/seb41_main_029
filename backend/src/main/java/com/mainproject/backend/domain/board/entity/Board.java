@@ -57,12 +57,23 @@ public class Board extends Auditable { //시간 추가
     @Column(nullable = true)
     private int bookmarked; // 즐겨찾기 수
 
+    @Column(nullable = true)
+    private boolean BookmarkStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
+
+
+
     public void increaseBookmarkCount() {
         this.bookmarked += 1;
+    }
+    public void increaseBookmarkStatus(){
+        this.BookmarkStatus = true;
     }
 
     public void decreaseBookmarkCount() {
         this.bookmarked -= 1;
+    }
+    public void decreaseBookmarkStatus(){
+        this.BookmarkStatus = false;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -92,7 +103,10 @@ public class Board extends Auditable { //시간 추가
         this.commentList.add(comment);
         if (comment.getBoard() != this){
             comment.setBoard(this);
-
         }
     }
+//    public Board(Board board, User user){
+//        this.board = board;
+//        this.user = user;
+//    }
 }

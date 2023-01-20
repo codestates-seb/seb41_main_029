@@ -9,6 +9,7 @@ import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
 import com.mainproject.backend.domain.board.repositoty.DislikeBoardRepository;
 import com.mainproject.backend.domain.board.repositoty.LikeBoardRepository;
 import com.mainproject.backend.domain.users.entity.User;
+import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.exception.BoardNotFoundException;
 import com.mainproject.backend.global.exception.BookmarkNotFoundException;
 import com.mainproject.backend.global.exception.BusinessLogicException;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,19 +32,26 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Transactional
 public class BoardService {
-    private final static String SUCCESS_LIKE_BOARD = "좋아요 처리 완료";
-    private final static String SUCCESS_DISLIKE_BOARD = "좋아요 처리 완료";
+    private final static String SUCCESS_LIKE_BOARD = "추천 처리 완료";
+    private final static String SUCCESS_DISLIKE_BOARD = "비추천 처리 완료";
     private final static String SUCCESS_BOOKMARK_BOARD = "즐겨찾기 처리 완료";
     private final static String SUCCESS_UNBOOKMARK_BOARD = "즐겨찾기 취소 완료";
     private final BoardRepository boardRepository;
     private final LikeBoardRepository likeBoardRepository;
     private final DislikeBoardRepository dislikeBoardRepository;
     private final BookmarkRepository bookmarkRepository;
+    private final UserRepository userRepository;
     //유저 서비스
 
     //게시글 등록
     public Board createBoard(Board board, User user) {
         board.setUser(user);
+//        if (!hasBookmarkBoard(board, user)) {
+//            board.increaseBookmarkCount();
+//            board.setBookmarkStatus(false);
+//        }else board.setBookmarkStatus(true);
+
+
         return boardRepository.save(board);
     }
 
@@ -64,8 +74,13 @@ public class BoardService {
 
     //특정 게시글 보기 & 조회수
     public Board findBoardAndPlusViewCount(Long boardSeq) {
+        User user = getPrincipal();
         Board findBoard = findVerifiedBoard(boardSeq);
         findBoard.plusViewCount();
+        if (!hasBookmarkBoard(findBoard, user)) {
+            findBoard.increaseBookmarkCount();
+            findBoard.setBookmarkStatus(false);
+        }else findBoard.setBookmarkStatus(true);
 
         return findBoard;
     }
@@ -99,10 +114,12 @@ public class BoardService {
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
         if (!hasBookmarkBoard(board, user)) {
             board.increaseBookmarkCount();
-            return createFavoriteBoard(board, user);
+            board.increaseBookmarkStatus();
+            return createBookmarkBoard(board, user);
         }
         board.decreaseBookmarkCount();
-        return removeFavoriteBoard(board, user);
+        board.decreaseBookmarkStatus();
+        return removeBookmarkBoard(board, user);
     }
 
     @Transactional
@@ -143,19 +160,24 @@ public class BoardService {
         return SUCCESS_DISLIKE_BOARD;
     }
 
-    public String createFavoriteBoard(Board board, User user) {
-        Bookmark favorite = new Bookmark(board, user); // true 처리
-        bookmarkRepository.save(favorite);
+    public String createBookmarkBoard(Board board, User user) {
+        Bookmark bookmark = new Bookmark(board, user); // true 처리
+        bookmarkRepository.save(bookmark);
         return SUCCESS_BOOKMARK_BOARD;
     }
 
-    public String removeFavoriteBoard(Board board, User user) {
-        Bookmark favorite = bookmarkRepository.findByBoardAndUser(board, user)
+    public String removeBookmarkBoard(Board board, User user) {
+        Bookmark bookmark = bookmarkRepository.findByBoardAndUser(board, user)
                 .orElseThrow(BookmarkNotFoundException::new);
-        bookmarkRepository.delete(favorite);
+        bookmarkRepository.delete(bookmark);
         return SUCCESS_UNBOOKMARK_BOARD;
     }
     public boolean hasBookmarkBoard(Board board, User user) {
         return bookmarkRepository.findByBoardAndUser(board, user).isPresent();
+    }
+    private User getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUserId(authentication.getName());
+        return user;
     }
 }

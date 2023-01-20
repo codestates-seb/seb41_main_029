@@ -57,6 +57,7 @@ public class BoardController {
     //게시글 가져오기
     @GetMapping("/{board-seq}")
     public ResponseEntity getBoard(@PathVariable("board-seq") Long boardSeq) {
+
         Board findBoard = boardService.findBoardAndPlusViewCount(boardSeq);
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(findBoard), HttpStatus.OK);
@@ -108,10 +109,10 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse dislikeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
         User user = getPrincipal();
-        return ApiResponse.success("boardLike", boardService.updateDislikeOfBoard(boardSeq, user));
+        return ApiResponse.success("boardDislike", boardService.updateDislikeOfBoard(boardSeq, user));
     }
 
-    //북마크
+    //북마크 추가
     @PostMapping("/bookmark/{board-seq}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse BookmarkBoard(@PathVariable("board-seq") @Positive Long boardSeq){
