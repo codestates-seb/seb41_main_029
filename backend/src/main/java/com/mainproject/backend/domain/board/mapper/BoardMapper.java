@@ -93,7 +93,6 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setTitle(board.getTitle());
        boardWithCommentResponseDto.setContent(board.getContent());
        boardWithCommentResponseDto.setViewCount(board.getViewCount());
-       boardWithCommentResponseDto.setVoteResult(board.getVoteResult());
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
 

@@ -74,6 +74,7 @@ public class User {
     @NotNull
     private LocalDateTime modifiedAt;
 
+
     public User(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 32) String username,
@@ -93,6 +94,13 @@ public class User {
         this.roleType = roleType;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
+    }
+
+    public void editUser(UserDto.Patch req) {
+        userId = req.getUserId();
+        username = req.getUsername();
+        password = req.getPassword();
+        profileImageUrl = req.getProfileImageUrl();
     }
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})

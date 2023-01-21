@@ -7,10 +7,13 @@ import { login } from "../../api/userAPI";
 import { useNavigate } from "react-router-dom";
 import { MainBtn } from "../../component/Button";
 import { Cookies } from "react-cookie";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/usersReducer";
+import { setCookie } from "../../Cookies";
 
 const InputLayout = styled.div`
   margin-top: 30px;
-  margin-left: 30px;
+  margin-left: 35px;
 `;
 
 const LabelLayout = styled.div`
@@ -20,7 +23,7 @@ const LabelLayout = styled.div`
 const LoginBtnLayout = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 12px;
+  margin-top: 4px;
 `;
 
 const InputContainer = styled.div`
@@ -29,10 +32,12 @@ const InputContainer = styled.div`
 let SocialLogin = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 `;
 let SocialLoginLogo = styled.img`
-  width: 40px;
+  width: 100%;
+  max-width: 40px;
   height: 40px;
   margin: 20px;
 `;
@@ -40,13 +45,14 @@ let SocialLoginLogo = styled.img`
 const LoginContainer = () => {
   const [isAuthorized, setisAuthorized] = useState(true);
   // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const cookie = new Cookies();
   const methods = useForm();
   const error = methods?.formState?.errors;
 
   const idValidation = {
-    required: "입력해주세요.",
+    required: "아이디를 입력해주세요.",
     minLength: {
       value: 4,
       message: "최소 4자 이상의 아이디를 입력해주세요.",
@@ -58,13 +64,14 @@ const LoginContainer = () => {
   };
 
   const passwordValidation = {
-    required: "입력해주세요.",
-    pattern: {
-      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-      message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
-    },
+    required: "비밀번호를 입력해주세요.",
+    // pattern: {
+    //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+    //   message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
+    // },
   };
-
+  // const expireDate = new Date()
+  // expireDate.setMinutes(expireDate.getMinutes() + 10)
   const onSubmit = async (data) => {
     // console.log(data);
     const res = await login(data);
@@ -74,9 +81,11 @@ const LoginContainer = () => {
     } else {
       const { userId } = res.data;
       localStorage.setItem("userId", JSON.stringify(userId));
-      const token = res.headers?.authorization.split(" ")[1];
-      //dispatch(setUser({token,userId}));
+      // const token = res.headers?.authorization.split(" ")[1];
+      // const token1 = res.body?.authorization.split(" ")[1];
+      const token = res.headers.authorization.split("Bearer ")[1];
       cookie.set("token", token);
+      dispatch(setUser({ token, userId }));
       navigate("/");
     }
   };
@@ -91,10 +100,10 @@ const LoginContainer = () => {
             </LabelLayout>
             <InputContainer>
               <Input
-                id="id"
+                id="userId"
                 width="15rem"
                 height="40px"
-                fieldName="id"
+                fieldName="userId"
                 validation={idValidation}
                 error={error.id}
               />
@@ -116,9 +125,9 @@ const LoginContainer = () => {
               {error?.password && (
                 <AlertWarning text={error.password?.message} />
               )}
-              {/* {!error?.password && !isAuthorized && (
+              {!error?.password && !isAuthorized && (
                 <AlertWarning text="아이디와 비밀번호를 다시 확인해주세요." />
-              )} */}
+              )}
             </InputContainer>
           </InputLayout>
           <LoginBtnLayout>

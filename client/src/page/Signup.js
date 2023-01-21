@@ -4,6 +4,8 @@ import { useRef } from "react";
 import Input from "../component/Input";
 import AlertWarning from "../component/AlertWarning";
 import { MainBtn } from "../component/Button";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginLayout = styled.div`
   display: flex;
@@ -12,17 +14,16 @@ const LoginLayout = styled.div`
 `;
 
 let SignupBackground = styled.div`
-  margin-top: 100px;
+  margin-top: 120px;
   width: 316px;
-  background-color: #f2f2f2;
-  /* ${({ theme }) => theme.colors.container}; */
+  background-color: ${({ theme }) => theme.colors.container};
   border-radius: 10px;
   align-items: center;
 `;
 
 const InputLayout = styled.div`
   margin-top: 30px;
-  margin-left: 30px;
+  margin-left: 35px;
 `;
 
 const LabelLayout = styled.div`
@@ -40,26 +41,20 @@ let SignupBtn = styled.button``;
 let BtnLayout = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 12px;
+  margin-top: 4px;
 `;
 
 const InputContainer = styled.div`
   margin-top: 4px;
 `;
 
-// ---------------FormPractice------------------------
-
-let Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-`;
 // ---------------SocialLogin------------------------
 
 let SocialLogin = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 12px;
+  margin-top: 4px;
+  margin-bottom: 4px;
 `;
 let SocialLoginLogo = styled.img`
   width: 40px;
@@ -72,12 +67,10 @@ export default function Signup() {
   const getValues = methods?.getValues;
   const password = useRef();
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const navigate = useNavigate();
 
   const idValidation = {
-    required: "입력해주세요.",
+    required: "아이디를 입력해주세요.",
     minLength: {
       value: 4,
       message: "최소 4자 이상의 아이디를 입력해주세요.",
@@ -89,23 +82,22 @@ export default function Signup() {
   };
 
   const nicknameValidation = {
-    required: "입력해주세요.",
+    required: "닉네임을 입력해주세요.",
     maxLength: {
       value: 8,
-      message: "최대 8자 이하의 아이디를 입력해주세요.",
+      message: "최대 8자 이하의 닉네임을 입력해주세요.",
     },
   };
 
   const pwdValidation = {
-    required: "입력해주세요.",
+    required: "비밀번호를 입력해주세요.",
     pattern: {
       value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
       message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
     },
   };
-
   const confirmPwdValidation = {
-    required: "입력해주세요",
+    required: "비밀번호를 입력해주세요.",
     validate: {
       check: (val) => {
         if (getValues("password") !== val) {
@@ -116,6 +108,27 @@ export default function Signup() {
   };
 
   const error = methods?.formState?.errors;
+
+  // 회원가입 요청
+  // 버튼을 누르면 validation이 완료된 후에 실행되서 각 필드를 다시 확인안해도됨
+  const onSubmit = (data) => {
+    // console.log(data);
+    axios
+      .post(
+        "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/signup",
+        data,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err.data);
+      });
+  };
 
   return (
     <>
@@ -131,8 +144,8 @@ export default function Signup() {
                   <Input
                     id="id"
                     width="15rem"
-                    height="35px"
-                    fieldName="id"
+                    height="40px"
+                    fieldName="userId"
                     validation={idValidation}
                     error={error.id}
                   />
@@ -145,8 +158,8 @@ export default function Signup() {
                   <Input
                     id="id"
                     width="15rem"
-                    height="35px"
-                    fieldName="nickname"
+                    height="40px"
+                    fieldName="username"
                     validation={nicknameValidation}
                     error={error.nickname}
                   />
@@ -161,7 +174,7 @@ export default function Signup() {
                   <Input
                     type="password"
                     width="15rem"
-                    height="35px"
+                    height="40px"
                     fieldName="password"
                     validation={pwdValidation}
                     error={error.password}
@@ -170,25 +183,30 @@ export default function Signup() {
                     <AlertWarning text={error.password?.message} />
                   )}
                 </InputContainer>
-                <LabelLayout>
+                {/* <LabelLayout>
                   <label>비밀번호 확인</label>
-                </LabelLayout>
-                <InputContainer>
-                  <Input
+                </LabelLayout> */}
+                {/* <InputContainer> */}
+                {/* <Input
                     type="password"
                     width="15rem"
-                    height="35px"
+                    height="40px"
                     fieldName="confirmPassword"
                     validation={confirmPwdValidation}
                     error={error.confirmPassword}
-                  />
-                  {error?.confirmPassword && (
+                  /> */}
+                {/* {error?.confirmPassword && (
                     <AlertWarning text={error.confirmPassword?.message} />
-                  )}
-                </InputContainer>
+                  )} */}
+                {/* </InputContainer> */}
               </InputLayout>
               <BtnLayout>
-                <MainBtn text={"회원 가입"} width="230px" height="40px" />
+                <MainBtn
+                  type="submit"
+                  text={"회원 가입"}
+                  width="210px"
+                  height="40px"
+                />
                 {/* 폰트사이즈 16으로 */}
               </BtnLayout>
             </form>
@@ -212,10 +230,3 @@ export default function Signup() {
     </>
   );
 }
-
-// 회원가입 버튼 폰트 및 크기
-// 인풋창 높이 40px
-// 입력해주세요 밑에 폭 줄이기
-// 로그인 버튼 마진 줄이기
-// 소셜로그인 윗 간격 줄이기
-// 폰트 설정

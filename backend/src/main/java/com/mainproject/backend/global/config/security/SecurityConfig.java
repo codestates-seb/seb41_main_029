@@ -32,6 +32,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
 //Spring security를 위한 설정 파일
@@ -70,9 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/image/**").permitAll()
                 .antMatchers("/users/signup", "/users/**").permitAll()
                 .antMatchers("/auth/login", "/auth/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/boards/articles").hasRole("USER")
-//                .antMatchers(HttpMethod.PATCH,"/boards").hasRole("USER")
-                .antMatchers("/boards","/boards/**","/comments","/comments/**", "/bookmarks", "/bookmarks/**").permitAll()
+                .antMatchers("/boards", "/boards/**", "/comments", "/comments/**").permitAll()
+                .antMatchers("/boards/**").permitAll()
                 .and()
                     .csrf().disable()
                     .formLogin().disable()
@@ -178,5 +178,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfigSource.registerCorsConfiguration("/**", corsConfig);
         return corsConfigSource;
     }
-
 }
