@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ViewVote from "../../component/View/ViewVote";
 import { BsBookmarkCheck } from "react-icons/bs";
 import Comments from "../../component/View/Comments";
-import { bookMarking, getWriting } from "../../api/writingAPI";
+import { bookMarking, deleteWriting, getWriting } from "../../api/writingAPI";
 import { Cookies } from "react-cookie";
 import { Viewdate } from "../../component/DateCalculator";
 import { deleteComment } from "../../api/commentAPI";
@@ -33,7 +33,7 @@ const TitleLayout = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  max-width: 1050px;
+  max-width: 1000px;
   margin: 64px 0px;
   font-size: ${({ theme }) => theme.fontSizes.fs30};
   padding-right: 30px;
@@ -156,6 +156,7 @@ const Icondiv11 = styled.div`
 
 const Bookmark2 = styled.div`
   width: 40px;
+  margin-left: 35px;
   cursor: pointer;
   &:hover > ${EditWord2} {
     display: block;
@@ -226,7 +227,7 @@ const ViewContainer = () => {
       alert("취소했습니다.");
     } else {
       // 확인(예) 버튼 클릭 시 이벤트
-
+      deleteWriting(Token);
       //   const res = await deleteComment();
       //   boardsId, boards.commentId, Token, userId;
       //   if (res.status === 204) {
@@ -249,9 +250,9 @@ const ViewContainer = () => {
     setLoading(true);
     getInfo();
     // dispatch(setUser({ Token, userId, boardSeq: id }));
-    console.log(viewInfo);
+    // console.log(viewInfo?.userId);
   }, [id]);
-  // console.log(viewInfo);
+  console.log(viewInfo);
 
   return (
     <>
@@ -279,7 +280,7 @@ const ViewContainer = () => {
                   <EditWord1>삭제</EditWord1>
                 </Icondiv1>
                 <Icondiv1>
-                  {isBM || viewInfo?.bookmarkCount === 1 ? (
+                  {isBM || viewInfo?.bookmarkStatus === true ? (
                     <Bookmark2>
                       <BsBookmarkCheck
                         className="BmIcon"
@@ -305,7 +306,7 @@ const ViewContainer = () => {
               </>
             ) : (
               <Icondiv11>
-                {isBM || viewInfo?.bookmarkCount === 1 ? (
+                {isBM || viewInfo?.bookmarkStatus === true ? (
                   <Bookmark2>
                     <BsBookmarkCheck
                       className="BmIcon"
@@ -343,11 +344,11 @@ const ViewContainer = () => {
         />
         <UserInfoLayout>
           <ProfileContainer>
-            <Profile />
-            {/* <img src={viewInfo?.profileImageUrl} /> */}
+            {/* <Profile /> */}
+            <img src={viewInfo?.profileImageUrl} style={{ width: "100px" }} />
           </ProfileContainer>
           <div>
-            {viewInfo?.userName}
+            {viewInfo?.username}
             <Viewdate createdAt={viewInfo?.createdAt} />
             <div>조회수 : {viewInfo?.viewCount}</div>
           </div>

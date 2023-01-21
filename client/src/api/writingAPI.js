@@ -7,7 +7,7 @@ export const getWriting = async () => {
     const res = await axios({
       method: "get",
       // url: `${url}/boards/${id}`,
-      url: `${url}boards/5`,
+      url: `${url}boards/1`,
     });
     return res.data;
   } catch (error) {
@@ -15,11 +15,12 @@ export const getWriting = async () => {
   }
 };
 
-export const deleteWriting = async (writingId, Token) => {
+export const deleteWriting = async (Token) => {
   try {
     const res = await axios({
       method: "delete",
-      url: `${url}/community/${writingId}`,
+      // url: `${url}/community/${writingId}`,
+      url: `${url}boards/7`,
       headers: { Authorization: `Bearer ${Token}` },
     });
     console.log(res);
@@ -53,15 +54,15 @@ export const editWriting = async (data, token, boardSeq, userSeq) => {
   }
 };
 
-export const bookMarking = async (token) => {
-  const endpoint = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/bookmark/5`;
+export const bookMarking = async (Token) => {
+  const endpoint = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/bookmark/1`;
   try {
     const response = await axios({
       method: "post",
       url: endpoint,
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${Token}` },
     });
-
+    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
@@ -74,7 +75,7 @@ export const viewUpVote = async (/*boardSeq, userId, commentSeq,*/ Token) => {
       method: "post",
       // data: { data: 1 },
       headers: { Authorization: `Bearer ${Token}` },
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/5`,
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/1`,
     });
     console.log(res);
     return res;
@@ -88,7 +89,7 @@ export const viewDownVote = async (/*boardSeq, userId, commentSeq,*/ Token) => {
       method: "post",
       // data: { data: 1 },
       headers: { Authorization: `Bearer ${Token}` },
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/dislike/5`,
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/dislike/1`,
     });
     console.log(res);
     return res;

@@ -17,6 +17,21 @@ export const login = async (data) => {
   }
 };
 
+export const socialLogin = async (data) => {
+  try {
+    const res = await axios({
+      method: "post",
+      data,
+      headers: { Authorization: null },
+      url: `${url}auth/login`,
+    });
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const getUser = async (Token, userId) => {
   try {
     const res = await axios({
