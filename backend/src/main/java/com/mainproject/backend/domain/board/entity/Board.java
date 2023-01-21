@@ -58,7 +58,10 @@ public class Board extends Auditable { //시간 추가
     private int bookmarked; // 즐겨찾기 수
 
     @Column(nullable = true)
-    private boolean BookmarkStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
+    private boolean BookmarkStatus; // true = 즐겨찾기, false = 즐겨찾기 취소
+
+//    @Column(nullable = true)
+//    private int bookmarked1; // 즐겨찾기 수
 
 
 
@@ -68,6 +71,9 @@ public class Board extends Auditable { //시간 추가
     public void increaseBookmarkStatus(){
         this.BookmarkStatus = true;
     }
+//    public void increaseBookmarkStatus1(){
+//        this.bookmarked1 += 1;
+//    }
 
     public void decreaseBookmarkCount() {
         this.bookmarked -= 1;
@@ -75,6 +81,9 @@ public class Board extends Auditable { //시간 추가
     public void decreaseBookmarkStatus(){
         this.BookmarkStatus = false;
     }
+//    public void decreaseBookmarkStatus1(){
+//        this.bookmarked1 -= 1;
+//    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq", nullable = false)

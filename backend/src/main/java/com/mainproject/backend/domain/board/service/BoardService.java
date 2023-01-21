@@ -74,12 +74,9 @@ public class BoardService {
 
     //특정 게시글 보기 & 조회수
     public Board findBoardAndPlusViewCount(Long boardSeq) {
-        User user = getPrincipal();
+//        User user = getPrincipal();
         Board findBoard = findVerifiedBoard(boardSeq);
         findBoard.plusViewCount();
-        if (!hasBookmarkBoard(findBoard, user)) {
-            findBoard.setBookmarkStatus(false);
-        }else findBoard.setBookmarkStatus(true);
 
         return findBoard;
     }
