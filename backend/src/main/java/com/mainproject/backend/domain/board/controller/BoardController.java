@@ -46,6 +46,7 @@ public class BoardController {
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
+
     //게시글 수정
     @PatchMapping("/{board-seq}")
     public ResponseEntity patchBoard(@PathVariable("board-seq") Long boardSeq,
@@ -54,7 +55,8 @@ public class BoardController {
         Board board = boardService.updateBoard(boardMapper.boardPatchDtoToBoard(patchDto));
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.OK);
     }
-    //게시글 가져오기
+
+    //게시글
     @GetMapping("/{board-seq}")
     public ResponseEntity getBoard(@PathVariable("board-seq") Long boardSeq) {
 
@@ -63,18 +65,44 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(findBoard), HttpStatus.OK);
     }
 
-    @GetMapping
+
+    //전체 게시물 조회(날짜순)
+    @GetMapping("/questions")
     public ResponseEntity getBoards(@RequestParam("page") @Positive int page,
                                     @RequestParam("size") @Positive int size) {
-//        Page<Board> board = boardService.getBoard(page -1, size);
-//
-//        List<Board> content = board.getContent();
-//        return new ResponseEntity(new MultiResponseDto<>(boardMapper.boardsToBoardResponsesDto(content), board),
-//                HttpStatus.OK);
 
         List<Board> board = boardService.findAllBoard(page, size).getContent();
         return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
+    }
 
+    //전체 게시물 조회(조회순)
+    @GetMapping("/view")
+    public ResponseEntity findAllByViewCount(@RequestParam("page") @Positive int page,
+                                             @RequestParam("size") @Positive int size) {
+
+        List<Board> board = boardService.findAllByViewCount(page, size).getContent();
+
+        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
+    }
+
+    //전체 게시물 조회(좋아요순)
+    @GetMapping("/liked")
+    public ResponseEntity findAllByliked(@RequestParam("page") @Positive int page,
+                                         @RequestParam("size") @Positive int size) {
+
+        List<Board> board = boardService.findAllByLiked(page, size).getContent();
+
+        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
+    }
+
+    //전체 게시물 조회(북마크순)
+    @GetMapping("/bookmark")
+    public ResponseEntity findAllByBookmark(@RequestParam("page") @Positive int page,
+                                            @RequestParam("size") @Positive int size) {
+
+        List<Board> board = boardService.findAllByBookmark(page, size).getContent();
+
+        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
     }
 
     //검색 게시물 조회
@@ -91,7 +119,7 @@ public class BoardController {
     //게시글 삭제
     @DeleteMapping("/{board-seq}")
     public ResponseEntity deleteBoard(@PathVariable("board-seq") @Positive Long boardSeq){
-        boardService.deleteBoard(boardSeq);
+        boardService.deleteBoard(boardSeq, getPrincipal().getUserSeq());
 
         return new ResponseEntity<>("게시글 삭제",HttpStatus.NO_CONTENT);
     }

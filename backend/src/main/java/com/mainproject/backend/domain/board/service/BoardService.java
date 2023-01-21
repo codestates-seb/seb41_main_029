@@ -46,11 +46,6 @@ public class BoardService {
     //게시글 등록
     public Board createBoard(Board board, User user) {
         board.setUser(user);
-//        if (!hasBookmarkBoard(board, user)) {
-//            board.increaseBookmarkCount();
-//            board.setBookmarkStatus(false);
-//        }else board.setBookmarkStatus(true);
-
 
         return boardRepository.save(board);
     }
@@ -84,13 +79,28 @@ public class BoardService {
         return findBoard;
     }
 
+    //최신순
     public Page<Board> findAllBoard(int page, int size) {
+        return boardRepository.findAll(PageRequest.of(page -1 , size,
+                Sort.by("boardSeq").descending()));
+    }
 
-        Page<Board> findAllBoards = boardRepository.findAllByBoardStatus(
-                PageRequest.of(page -1, size, Sort.by("boardSeq").descending()),
-                Board.BoardStatus.BOARD_EXIST);
+    //조회순
+    public Page<Board> findAllByViewCount(int page, int size) {
+        return boardRepository.findAll(PageRequest.of(page -1, size,
+                Sort.by("viewCount").descending()));
+    }
 
-        return findAllBoards;
+    //좋아요순
+    public Page<Board> findAllByLiked(int page, int size) {
+        return boardRepository.findAll(PageRequest.of(page -1, size,
+                Sort.by("liked").descending()));
+    }
+
+    //북마크순
+    public Page<Board> findAllByBookmark(int page, int size) {
+        return boardRepository.findAll(PageRequest.of(page -1, size,
+                Sort.by("bookmarked").descending()));
     }
 
     //게시글 찾기
@@ -131,12 +141,6 @@ public class BoardService {
         return board.getUser().getUserSeq();
     }
 
-    //질문 작성자만 질문을 수정, 삭제할 수 있도록 질문 작성자를 찾음
-    public User findBoardWriter(long boardSeq) {
-        Board findBoard = findVerifiedBoard(boardSeq);
-        return findBoard.getUser();
-    }
-
     @Transactional
     public String updateOfBookmarkBoard(Long id, User user) {
         Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
@@ -155,7 +159,7 @@ public class BoardService {
         Board board = boardRepository.findById(boardSeq).orElseThrow(BoardNotFoundException::new);
         if (!hasLikeBoard(board, user))
             board.increaseLikeCount();
-            return createLikeBoard(board, user);
+        return createLikeBoard(board, user);
     }
 
     @Transactional

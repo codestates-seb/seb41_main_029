@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class Board extends Auditable { //시간 추가
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+
+    @NotNull
     private Category category; // 카테고리
 
     @Column(nullable = false)
@@ -43,24 +46,15 @@ public class Board extends Auditable { //시간 추가
     @Lob
     @Column(nullable = false)
     private String content; // 게시판 내용
-
-    private Integer viewCount = 0;  // 조회 수
-
-
+    private int viewCount = 0;  // 조회 수
     @Column(nullable = true)
     private int liked; // 추천 수
-
     @Column(nullable = true)
     private int disliked; // 비추천 수
-
-
     @Column(nullable = true)
     private int bookmarked; // 즐겨찾기 수
-
     @Column(nullable = true)
     private boolean BookmarkStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
-
-
 
     public void increaseBookmarkCount() {
         this.bookmarked += 1;
@@ -81,21 +75,9 @@ public class Board extends Auditable { //시간 추가
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private BoardStatus boardStatus = BoardStatus.BOARD_EXIST;
-
-    @Column
-    private Long voteResult = 0L;  // 추천 수
-
-    // 멤버 연관매핑
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member")
-//    private Member member;
-
-//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-//    private List<Bookmark> bookmarks = new ArrayList<>();
 
     @JsonManagedReference
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)

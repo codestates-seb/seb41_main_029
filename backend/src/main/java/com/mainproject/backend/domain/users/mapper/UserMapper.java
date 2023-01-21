@@ -12,6 +12,5 @@ public interface UserMapper {
     User userPostToUser(UserDto.post requestBody);
     UserDto.Response userToUserResponse(User user);
 
-    UserDto.Response2 userToUserResponse2(User user);
 
 }

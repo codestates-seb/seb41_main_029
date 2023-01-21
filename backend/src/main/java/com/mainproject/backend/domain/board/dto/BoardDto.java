@@ -3,11 +3,10 @@ package com.mainproject.backend.domain.board.dto;
 
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.option.Category;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
@@ -75,6 +74,37 @@ public class BoardDto {
             this.viewCount = board.getViewCount();
             this.createdAt = board.getCreatedAt();
             this.modifiedAt = board.getModifiedAt();
+        }
+    }
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class PageBoardResponse {
+        private Long boardSeq;
+
+        private Long userSeq;
+        private String username;
+        private String category;
+        private String title;
+        private boolean BookmarkStatus;
+        private int bookmarkCount;
+        private int viewCount;
+        private int likeCount;
+        private int dislikeCount;
+        private LocalDateTime createdAt;
+
+        public PageBoardResponse(Board board) {
+            this.boardSeq = board.getBoardSeq();
+            this.userSeq = board.getUser().getUserSeq();
+            this.username = board.getUser().getUsername();
+            this.category = board.getCategory().getValue();
+            this.title = board.getTitle();
+            this.BookmarkStatus = board.isBookmarkStatus();
+            this.bookmarkCount = board.getBookmarked();
+            this.likeCount = board.getLiked();
+            this.dislikeCount = board.getDisliked();
+            this.viewCount = board.getViewCount();
+            this.createdAt = board.getCreatedAt();
         }
     }
 }

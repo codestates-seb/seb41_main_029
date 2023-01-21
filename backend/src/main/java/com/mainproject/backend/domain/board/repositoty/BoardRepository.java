@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    Page<Board> findAll(Pageable pageable);
+//    Page<Board> findAll(Pageable pageable);
     List<Board> findAllByUser(User user);
 
 
@@ -25,4 +25,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 //    Page<Board> findAllByUserContainting(String keyword, Pageable pageable);
 
     Page<Board> findAllByBoardStatus(Pageable pageable, Board.BoardStatus boardStatus);
+
 }
