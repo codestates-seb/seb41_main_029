@@ -58,7 +58,7 @@ const router = createBrowserRouter([
     element: <HikingMap />,
   },
   {
-    path: "/view2/:boardSeq",
+    path: "/boards/:boardSeq",
     element: <View2 />,
   },
   {
