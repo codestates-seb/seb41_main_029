@@ -1,25 +1,16 @@
 package com.mainproject.backend.domain.board.option;
 
-import javax.swing.plaf.PanelUI;
+import lombok.Getter;
 
-public enum Category implements EnumModel{
+public enum Category {
     GENERAL("# 자유 게시판"),
     INFORMATION("# 정보 공유"),
     QUESTION("질문 사항");
 
-    public String value;
+    @Getter
+    public String category;
 
-    Category(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String getKey() {
-        return name();
-    }
-
-    @Override
-    public String getValue(){
-        return value;
+    Category(String category) {
+        this.category = category;
     }
 }

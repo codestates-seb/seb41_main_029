@@ -49,7 +49,7 @@ public interface BoardMapper {
                         .boardSeq(board.getBoardSeq())
                         .userSeq(board.getUser().getUserSeq())
                                 .username(board.getUser().getUsername())
-                                .category(board.getCategory().value)
+                                .category(board.getCategory().category)
                                 .title(board.getTitle())
                                 .bookmarkCount(board.getBookmarked())
                                 .BookmarkStatus(board.isBookmarkStatus())
@@ -65,7 +65,7 @@ public interface BoardMapper {
         BoardWithCommentDto boardWithCommentResponseDto = new BoardWithCommentDto();
 
         boardWithCommentResponseDto.setBoardSeq(board.getBoardSeq());
-        boardWithCommentResponseDto.setCategory(board.getCategory().getValue());
+        boardWithCommentResponseDto.setCategory(board.getCategory().category);
         boardWithCommentResponseDto.setTitle(board.getTitle());
         boardWithCommentResponseDto.setContent(board.getContent());
         boardWithCommentResponseDto.setViewCount(board.getViewCount());

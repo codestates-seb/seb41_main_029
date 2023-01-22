@@ -13,6 +13,7 @@ import com.mainproject.backend.global.Response.api.ApiResponse;
 import com.mainproject.backend.global.exception.MemberNotFoundException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.bridge.Message;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,47 +66,28 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(findBoard), HttpStatus.OK);
     }
 
-
-    //전체 게시물 조회(날짜순)
-    @GetMapping("/questions")
-    public ResponseEntity getBoards(@RequestParam("page") @Positive int page,
-                                    @RequestParam("size") @Positive int size) {
-
-        List<Board> board = boardService.findAllBoard(page, size).getContent();
+    //전체 게시글 조회
+    @GetMapping("/all")
+    public ResponseEntity getAllBoard(@RequestParam(value = "sort-by") String sortBy,
+                                      @Positive @RequestParam("page") int page,
+                                      @Positive @RequestParam("size") int size) {
+        List<Board> board = boardService.findAllBoard(page -1, size, sortBy).getContent();
         return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
     }
 
-    //전체 게시물 조회(조회순)
-    @GetMapping("/view")
-    public ResponseEntity findAllByViewCount(@RequestParam("page") @Positive int page,
-                                             @RequestParam("size") @Positive int size) {
+    //카테고리별 조회
+    @GetMapping("/all/{category-id}")
+    public ResponseEntity getAllBoardCategory(@PathVariable("category-id") Long categoryId,
+                                              @RequestParam(value = "sort-by") String sortBy,
+                                              @Positive @RequestParam("page") int page,
+                                              @Positive @RequestParam("size") int size) {
 
-        List<Board> board = boardService.findAllByViewCount(page, size).getContent();
-
+        List<Board> board = boardService.findAllCategoryBoard(categoryId, page -1, size, sortBy).getContent();
         return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
     }
 
-    //전체 게시물 조회(좋아요순)
-    @GetMapping("/liked")
-    public ResponseEntity findAllByliked(@RequestParam("page") @Positive int page,
-                                         @RequestParam("size") @Positive int size) {
 
-        List<Board> board = boardService.findAllByLiked(page, size).getContent();
-
-        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
-    }
-
-    //전체 게시물 조회(북마크순)
-    @GetMapping("/bookmark")
-    public ResponseEntity findAllByBookmark(@RequestParam("page") @Positive int page,
-                                            @RequestParam("size") @Positive int size) {
-
-        List<Board> board = boardService.findAllByBookmark(page, size).getContent();
-
-        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
-    }
-
-    //검색 게시물 조회
+    //게시물 검색
     @GetMapping("/search")
     public ResponseEntity findAllBySearch(@RequestParam("keyword") String keyword,
                                           @RequestParam("page") @Positive int page,

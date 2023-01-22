@@ -1,9 +1,11 @@
 package com.mainproject.backend.domain.board.service;
 
+import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
 import com.mainproject.backend.domain.board.entity.DislikeBoard;
 import com.mainproject.backend.domain.board.entity.LikeBoard;
+import com.mainproject.backend.domain.board.option.Category;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
 import com.mainproject.backend.domain.board.repositoty.DislikeBoardRepository;
@@ -18,12 +20,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 /*
 *
 *
@@ -79,28 +85,44 @@ public class BoardService {
         return findBoard;
     }
 
-    //최신순
-    public Page<Board> findAllBoard(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page -1 , size,
-                Sort.by("boardSeq").descending()));
+    //전체 게시물 조회
+    public Page<Board> findAllBoard(int page, int size, String sortBy) {
+        return boardRepository.findAll(getPageRequest(page, size, sortBy));
     }
 
-    //조회순
-    public Page<Board> findAllByViewCount(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page -1, size,
-                Sort.by("viewCount").descending()));
+    //카테고리 별 게시물 조회
+    public Page<Board> findAllCategoryBoard(Long categoryId, int page, int size, String sortBy) {
+        Category boardCategory = categoryIdToboardCategory(categoryId);
+        return boardRepository.findByCategory(boardCategory, getPageRequest(page, size, sortBy))
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
     }
 
-    //좋아요순
-    public Page<Board> findAllByLiked(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page -1, size,
-                Sort.by("liked").descending()));
+    //정렬
+    private PageRequest getPageRequest(int page, int size, String sortBy){
+        if(sortBy.equals("boardSeq"))
+            sortBy = "boardSeq";
+        else if(sortBy.equals("viewCount"))
+            sortBy = "viewCount";
+        else if(sortBy.equals("liked"))
+            sortBy = "liked";
+        else if(sortBy.equals("bookmark"))
+            sortBy = "bookmarked";
+
+        return PageRequest.of(page, size, Sort.by(sortBy).descending());
     }
 
-    //북마크순
-    public Page<Board> findAllByBookmark(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page -1, size,
-                Sort.by("bookmarked").descending()));
+    // 카테고리 id -> 카테고리 enum으로 변환
+    private Category categoryIdToboardCategory(Long categoryId){
+        Category boardCategory = null;
+
+        if(categoryId == 1) {
+            boardCategory = Category.GENERAL;
+        }else if(categoryId == 2) {
+            boardCategory = Category.INFORMATION;
+        }else if(categoryId == 3) {
+            boardCategory = Category.QUESTION;
+        }
+        return boardCategory;
     }
 
     //게시글 찾기
