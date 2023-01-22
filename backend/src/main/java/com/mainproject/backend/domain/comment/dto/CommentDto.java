@@ -16,9 +16,7 @@ public class CommentDto {
     @Getter
     @Setter
     public static class CommentPostDto{
-//        private long userSeq;
-        private long commentSeq;
-        private long boardSeq;
+
         @NotBlank
         private String content;
     }
@@ -28,9 +26,7 @@ public class CommentDto {
     @Getter
     @Setter
     public static class CommentPatchDto{
-//        private long userSeq;
-        private long commentSeq;
-        private long boardSeq;
+
         @NotBlank
         private String content;
     }
@@ -39,7 +35,7 @@ public class CommentDto {
     @Setter
     public static class Response{
         private long commentSeq;
-        //    private long userSeq;
+        private long userSeq;
         private long boardSeq;
         private String content;
         private LocalDateTime createdAt;

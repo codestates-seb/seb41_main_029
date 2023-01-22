@@ -24,6 +24,7 @@ public interface BoardMapper {
         board.setTitle(postDto.getTitle());
         board.setContent(postDto.getContent());
 
+
         return board;
     }
 
@@ -61,7 +62,7 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
 
-       //답변
+       //커맨트
         boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));
 
         return boardWithCommentResponseDto;

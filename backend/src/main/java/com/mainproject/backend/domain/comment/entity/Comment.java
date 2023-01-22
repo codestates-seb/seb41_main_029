@@ -2,6 +2,7 @@ package com.mainproject.backend.domain.comment.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.audit.Auditable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +27,8 @@ public class Comment extends Auditable {
     @JoinColumn(name = "BOARD_ID")
     private Board board;
 
-//    @JsonBackReference
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "USER_ID")
-//    private User user;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_seq")
+    private User user;
 }

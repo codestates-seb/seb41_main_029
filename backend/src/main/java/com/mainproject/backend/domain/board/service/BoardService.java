@@ -47,7 +47,7 @@ public class BoardService {
     public Board createBoard(Board board, User user) {
         board.setUser(user);
 //        if (!hasBookmarkBoard(board, user)) {
-//            board.increaseBookmarkCount();
+////            board.increaseBookmarkCount();
 //            board.setBookmarkStatus(false);
 //        }else board.setBookmarkStatus(true);
 
@@ -74,8 +74,11 @@ public class BoardService {
 
     //특정 게시글 보기 & 조회수
     public Board findBoardAndPlusViewCount(Long boardSeq) {
-//        User user = getPrincipal();
+        User user = getPrincipal();
         Board findBoard = findVerifiedBoard(boardSeq);
+        if(!hasBookmarkBoard(findBoard, user)){
+            findBoard.setBookmarkStatus(false);
+        }else findBoard.setBookmarkStatus(true);
         findBoard.plusViewCount();
 
         return findBoard;
