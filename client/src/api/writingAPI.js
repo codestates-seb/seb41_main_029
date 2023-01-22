@@ -7,7 +7,7 @@ export const getWriting = async () => {
     const res = await axios({
       method: "get",
       // url: `${url}/boards/${id}`,
-      url: `${url}boards/1`,
+      url: `${url}boards/7`,
     });
     return res.data;
   } catch (error) {

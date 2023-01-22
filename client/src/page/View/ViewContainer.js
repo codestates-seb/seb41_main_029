@@ -168,6 +168,20 @@ const Bookmark2 = styled.div`
     height: 32px;
   }
 `;
+const Bookmark23 = styled.div`
+  width: 40px;
+  /* margin-left: 35px; */
+  cursor: pointer;
+  &:hover > ${EditWord2} {
+    display: block;
+  }
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    /* margin-left: 35px; */
+    max-width: 30px;
+    height: 32px;
+  }
+`;
 
 const Bookmark22 = styled.div`
   width: 40px;
@@ -281,7 +295,7 @@ const ViewContainer = () => {
                 </Icondiv1>
                 <Icondiv1>
                   {isBM || viewInfo?.bookmarkStatus === true ? (
-                    <Bookmark2>
+                    <Bookmark23>
                       <BsBookmarkCheck
                         className="BmIcon"
                         color="#62B6B7"
@@ -290,9 +304,9 @@ const ViewContainer = () => {
                         onClick={handleClickBm}
                       />
                       <EditWord2>북마크</EditWord2>
-                    </Bookmark2>
+                    </Bookmark23>
                   ) : (
-                    <Bookmark2>
+                    <Bookmark23>
                       <BsBookmarkCheck
                         className="BmIcon"
                         size="30px"
@@ -300,7 +314,7 @@ const ViewContainer = () => {
                         onClick={handleClickBm}
                       />
                       <EditWord2>북마크</EditWord2>
-                    </Bookmark2>
+                    </Bookmark23>
                   )}
                 </Icondiv1>
               </>
