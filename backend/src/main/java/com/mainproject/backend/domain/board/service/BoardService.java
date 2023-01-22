@@ -99,13 +99,13 @@ public class BoardService {
 
     //정렬
     private PageRequest getPageRequest(int page, int size, String sortBy){
-        if(sortBy.equals("boardSeq"))
+        if(sortBy.equals("최신순"))
             sortBy = "boardSeq";
-        else if(sortBy.equals("viewCount"))
+        else if(sortBy.equals("조회순"))
             sortBy = "viewCount";
-        else if(sortBy.equals("liked"))
+        else if(sortBy.equals("추천순"))
             sortBy = "liked";
-        else if(sortBy.equals("bookmark"))
+        else if(sortBy.equals("북마크순"))
             sortBy = "bookmarked";
 
         return PageRequest.of(page, size, Sort.by(sortBy).descending());
