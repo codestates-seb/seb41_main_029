@@ -52,7 +52,6 @@ public interface BoardMapper {
                                 .category(board.getCategory().category)
                                 .title(board.getTitle())
                                 .bookmarkCount(board.getBookmarked())
-                                .BookmarkStatus(board.isBookmarkStatus())
                                 .viewCount(board.getViewCount())
                                 .likeCount(board.getLiked())
                                 .createdAt(board.getCreatedAt())
