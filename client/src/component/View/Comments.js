@@ -12,6 +12,9 @@ const CommentsLayout = styled.div`
 
 const CommentsHeader = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.fs16};
+  @media screen and (max-width: 1336px) {
+    margin-left: 24px;
+  }
 `;
 
 const CommentLayout = styled.div`
@@ -20,10 +23,16 @@ const CommentLayout = styled.div`
   background-color: ${({ theme }) => theme.colors.gray_02};
   /* background-color: white; */
   border-radius: 10px;
-  margin-top: 24px;
-  padding-bottom: 20px;
+  margin: 24px 0px;
+  /* margin-top: 24px; */
+  padding-bottom: 12px;
+
   @media screen and (max-width: 1336px) {
+    width: 94%;
+    /* max-width: 400px; */
     margin-top: 24px;
+    margin-left: 24px;
+    /* margin-right: 24px; */
   }
 `;
 

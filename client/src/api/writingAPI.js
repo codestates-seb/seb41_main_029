@@ -1,14 +1,13 @@
 import axios from "axios";
 
-const url = "";
+const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
 export const getWriting = async () => {
   try {
     const res = await axios({
       method: "get",
-      // url: `${url}/community/${writingId}`,
-      // url: `http://localhost:3001/boards/${boardSeq}`,
-      url: `http://localhost:3001/boards`,
+      // url: `${url}/boards/${id}`,
+      url: `${url}boards/5`,
     });
     return res.data;
   } catch (error) {
@@ -34,7 +33,7 @@ export const editWriting = async (data, token, boardSeq, userSeq) => {
   if (!token || !userSeq) {
     return alert("post after login");
   }
-  const endpoint = ``;
+  const endpoint = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
   const formData = {
     userSeq,
     content: data.content,
@@ -55,15 +54,44 @@ export const editWriting = async (data, token, boardSeq, userSeq) => {
 };
 
 export const bookMarking = async (token) => {
-  const endpoint = ``;
+  const endpoint = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/bookmark/5`;
   try {
     const response = await axios({
-      method: "patch",
+      method: "post",
       url: endpoint,
       headers: { Authorization: `Bearer ${token}` },
     });
 
     return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const viewUpVote = async (/*boardSeq, userId, commentSeq,*/ Token) => {
+  try {
+    const res = await axios({
+      method: "post",
+      // data: { data: 1 },
+      headers: { Authorization: `Bearer ${Token}` },
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/5`,
+    });
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const viewDownVote = async (/*boardSeq, userId, commentSeq,*/ Token) => {
+  try {
+    const res = await axios({
+      method: "post",
+      // data: { data: 1 },
+      headers: { Authorization: `Bearer ${Token}` },
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/dislike/5`,
+    });
+    console.log(res);
+    return res;
   } catch (error) {
     console.log(error);
   }

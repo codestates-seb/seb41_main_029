@@ -1,6 +1,7 @@
 package com.mainproject.backend.domain.board.mapper;
 
 import com.mainproject.backend.domain.board.dto.BoardDto;
+import com.mainproject.backend.domain.board.dto.PageBoardResponseDto;
 import com.mainproject.backend.domain.board.dto.BoardWithCommentDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.dto.CommentResponseDto;
@@ -23,6 +24,7 @@ public interface BoardMapper {
         board.setCategory(postDto.getCategory());
         board.setTitle(postDto.getTitle());
         board.setContent(postDto.getContent());
+
 
         return board;
     }
@@ -60,18 +62,21 @@ public interface BoardMapper {
     }
 
     default BoardWithCommentDto boardToBoardWithCommentResponseDto(Board board){
-        List<Comment> comments = board.getCommentList();
-        BoardWithCommentDto boardWithCommentResponseDto = new BoardWithCommentDto();
+       List<Comment> comments = board.getCommentList();
+       BoardWithCommentDto boardWithCommentResponseDto = new BoardWithCommentDto();
 
-        boardWithCommentResponseDto.setBoardSeq(board.getBoardSeq());
-        boardWithCommentResponseDto.setCategory(board.getCategory().category);
-        boardWithCommentResponseDto.setTitle(board.getTitle());
-        boardWithCommentResponseDto.setContent(board.getContent());
-        boardWithCommentResponseDto.setViewCount(board.getViewCount());
-        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
-        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
+       boardWithCommentResponseDto.setBoardSeq(board.getBoardSeq());
+       boardWithCommentResponseDto.setCategory(board.getCategory().category());
+       boardWithCommentResponseDto.setTitle(board.getTitle());
+       boardWithCommentResponseDto.setContent(board.getContent());
+       boardWithCommentResponseDto.setBookmarkCount(board.getBookmarked());
+       boardWithCommentResponseDto.setLikeCount(board.getLiked());
+       boardWithCommentResponseDto.setDislikeCount(board.getDisliked());
+       boardWithCommentResponseDto.setViewCount(board.getViewCount());
+       boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
+       boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
 
-        //답변
+       //커맨트
         boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));
 
         return boardWithCommentResponseDto;
@@ -84,8 +89,13 @@ public interface BoardMapper {
                 .map(comment -> CommentResponseDto
                         .builder()
                         .commentSeq(comment.getCommentSeq())
+                        .userSeq(comment.getUser().getUserSeq())
                         .boardSeq(comment.getBoard().getBoardSeq())
+                        .username(comment.getUser().getUsername())
+                        .userId(comment.getUser().getUserId())
                         .content(comment.getContent())
+                        .createdAt(comment.getCreatedAt())
+                        .modifiedAt(comment.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
     }

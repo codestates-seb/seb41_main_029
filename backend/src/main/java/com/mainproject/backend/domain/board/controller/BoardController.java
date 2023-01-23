@@ -63,7 +63,7 @@ public class BoardController {
 
         Board findBoard = boardService.findBoardAndPlusViewCount(boardSeq);
 
-        return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(findBoard), HttpStatus.OK);
+        return new ResponseEntity<>(boardMapper.boardToBoardWithCommentResponseDto(findBoard), HttpStatus.OK);
     }
 
     //전체 게시글 조회

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import styled from "styled-components";
 
@@ -34,6 +34,7 @@ const Input = ({
   height,
   get,
   className,
+  onClick,
 }) => {
   const [isValid, setIsvalid] = useState(true);
   const { register, setvalue } = useFormContext();
@@ -52,6 +53,7 @@ const Input = ({
       onKeyUp={handleKeyup ? handleKeyup : null}
       defaultValue={defaultValue}
       className={className}
+      onClick={onClick}
     />
   );
 };

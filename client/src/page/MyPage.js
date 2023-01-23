@@ -5,6 +5,8 @@ import styled from "styled-components";
 import theme from "../Theme";
 import MyPageEdit from "./MyPageEdit";
 import jsonData from "../data/Posts";
+import { Cookies } from "react-cookie";
+import { getUser } from "../api/userAPI";
 
 /** 전체 컨테이너 */
 const MypageContainer = styled.div`
@@ -20,7 +22,7 @@ const MypageTitle = styled.div`
   height: 1000px;
   /* min-width: 500px; */
 
-  @media (max-width: 1336px) {
+  @media screen and (max-width: 1336px) {
     width: 100%;
   }
 `;
@@ -31,7 +33,7 @@ const MypageInfo = styled.div`
   border-bottom: 1.5px solid #939393;
   display: flex;
   justify-content: space-between;
-  @media (max-width: 1336px) {
+  @media screen and (max-width: 1336px) {
     width: 100%;
   }
 `;
@@ -48,79 +50,96 @@ const MypageProfile = styled.div`
   justify-content: center;
   background-color: #bfbfbf;
 
-  /* @media (max-width: 1336px) {
-    width: 10%;
-  } */
+  @media screen and (max-width: 500px) {
+    /* width: 15%; */
+    margin-right: 10px;
+  }
 `;
 /** 유저 기본 정보 */
 const MypageProfileInfo = styled.div`
   display: flex;
-  margin-right: 40px;
+  /* margin-right: 40px; */
   align-items: center;
+  width: 147px;
 `;
 /** 회원정보 수정 */
 const MypageProfileModify = styled.a`
   height: 24px;
   border: none;
   cursor: pointer;
-  margin: 44px 60px 0 0;
+  margin-right: 28px;
+  padding-right: 30px;
+  padding-top: 40px;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.black};
+  @media screen and (max-width: 495px) {
+    width: 140px;
+    padding-right: 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
 `;
 /** 전체, 댓글, 북마크 버튼을 감싸는 큰 틀 */
 const MypageBtns = styled.div`
-  @media (max-width: 1336px) {
-    width: 80%;
-    display: flex;
+  width: 120px;
+  margin-left: 4%;
+
+  /* position: relative;
+  left: 60px; */
+  display: flex;
+  /* padding-left: 30px; */
+
+  .Btn {
+    width: 120px;
+    padding-right: 20px;
+    @media screen and (max-width: 1336px) {
+      width: 100%;
+      display: flex;
+    }
   }
+  /** 작성,댓글 북마크 버튼 */
+  // 다 적용
+
   .submenu {
-    // 다 적용
     width: 100px;
     height: 50px;
     border: none;
     cursor: pointer;
+
     border-radius: 10px;
-    margin: 50px 40px 0 60px;
+    margin: 30px 0 0 0;
+    text-align: center;
     color: ${theme.colors.white};
     background-color: #bfbfbf;
     font-size: ${theme.fontSizes.fs18};
     &:hover {
       background-color: #828282;
     }
+    @media screen and (max-width: 1336px) {
+      width: 100px;
+    }
+    @media screen and (max-width: 510px) {
+      /* display: flex; */
+      /* font-size: 12px; */
+    }
   }
 
   .focused {
     // 누른 것만 적용
     background-color: ${theme.colors.main};
+
     &:hover {
       background-color: ${theme.colors.main};
     }
   }
 `;
 
-/** 작성,댓글 북마크 버튼 */
-const MypageBtn = styled.button`
-  width: 100px;
-  height: 50px;
-  border: none;
-  border-radius: 10px;
-  font-size: ${({ theme }) => theme.fontSizes.fs18};
-  color: ${({ theme }) => theme.colors.white};
-  background-color: #bdbdbd;
-  margin: 50px 40px 0 60px;
-  cursor: pointer;
-  &:hover {
-    background-color: #828282;
-  }
-  &:focus {
-    background-color: ${({ theme }) => theme.colors.main};
-  }
-`;
 /**  제목, 날짜 등등 정보들 감싸는 가장 큰틀*/
 const TitleContainer = styled.div`
   justify-content: center;
   display: flex;
-  @media (max-width: 1336px) {
+  @media screen and (max-width: 1336px) {
     width: 100%;
   }
 `;
@@ -132,7 +151,7 @@ const TitleDiv = styled.div`
   margin-top: 32px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};
-  @media (max-width: 1336px) {
+  @media screen and (max-width: 1336px) {
     width: 90%;
   }
 `;
@@ -143,53 +162,61 @@ const TitleInfo = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  justify-content: space-between;
+  /* padding-left: 10px; */
+  justify-content: center;
   border-bottom: 1px solid #939393;
 
-  @media (max-width: 1336px) {
+  /* @media screen and (max-width: 1336px) {
     width: 100%;
-  }
+  } */
 `;
 
 /** 제목 */
 const TitleContent = styled.div`
   width: 650px;
-  @media (max-width: 1336px) {
+  /* @media screen and (max-width: 1336px) {
     width: 700px;
-  }
+  } */
 `;
 
-/** 날짜 */
+/** 날짜 닉네임 */
 const TitleDate = styled.div`
   width: 150px;
+  /* width: 100%; */
   text-align: center;
   border-left: 1px solid #000;
+  @media screen and (max-width: 400px) {
+    white-space: nowrap;
+  }
 `;
 
 /** 조회, 추천*/
 const TitleDateMini = styled.div`
   width: 110px;
+  /* width: 100%; */
   text-align: center;
   border-left: 1px solid #000;
+  @media screen and (max-width: 375px) {
+    white-space: nowrap;
+  }
 `;
 
 /** 내가 등록 한 정보를 나타내는 가장 큰 틀 */
 const InfoContainer = styled.div`
   border-bottom: 1px solid #939393;
-  height: 120px;
+  height: 90px; // 원래는 120px
   display: flex;
-  align-content: center;
+  align-items: center;
+  padding: 0 6px;
+
+  /* justify-content: center; */
 `;
 /** 등록 한 정보 감싸는 두번째 틀 */
 const InfoIcon = styled.div`
-  width: 160px;
+  width: 60px;
   align-items: center;
   display: flex;
   justify-content: center;
-
-  @media (max-width: 1336px) {
-    width: 350px;
-  }
 `;
 
 /** 등록 한 정보 나타내는  */
@@ -197,85 +224,117 @@ const Info = styled.div`
   background-color: ${({ theme }) => theme.colors.main};
   color: ${({ theme }) => theme.colors.white};
   border-radius: 10px;
-  margin-left: 8px;
-  padding: 4px 8px;
+  /* margin-left: 8px; */
+  padding: 3px 8px;
+  @media screen and (max-width: 1336px) {
+    width: 30px;
+  }
 `;
 
-/** 작성한 제목과 댓글 수 */
+/** 작성한 제목과 댓글 수 전체 창*/
 const InfoContent = styled.div`
-  width: 100%;
+  width: 600px; // or 100 %
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   display: flex;
-  align-items: center;
-  margin-left: 12px;
-  cursor: pointer;
+  align-items: center; // 1줄로 만들면 필요없다
+
+  /* padding-left: 12px; */
+  @media screen and (max-width: 1336px) {
+    width: 50%;
+  }
 `;
-const InfoTitle = styled.div``;
+const InfoTitle = styled.span`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 20px;
+  cursor: pointer;
+
+  /* @media screen and (max-width: 1336px) {
+    width: 200px;
+  } */
+`;
 /** 댓글 수 */
-const InfoComment = styled.div`
+const InfoComment = styled.span`
   color: ${({ theme }) => theme.colors.gray_03};
   margin-left: 8px;
 `;
 /** 작성한 날짜 조회 추천 나오는 전체 틀 */
 const InfoDiv = styled.div`
-  width: 700px;
+  /* width: 700px; */
   display: flex;
   align-items: center;
   text-align: center;
-  justify-content: flex-end;
-  padding-left: 40px;
+  /* padding-left: 40px; */
+  /* justify-content: center; */
 
-  @media (max-width: 1336px) {
+  @media screen and (max-width: 1336px) {
     width: 100%;
   }
 `;
 /** 내가 등록한 날짜*/
 const InfoDate = styled.div`
   width: 150px;
-  @media (max-width: 1336px) {
+  text-align: center;
+  /* @media screen and (max-width: 1336px) {
     width: 100%;
-  }
+  } */
 `;
 /** 내가 받은 조회수 */
 const InfoView = styled.div`
-  width: 130px;
+  width: 120px;
   color: #a67b48;
-
-  @media (max-width: 1336px) {
+  text-align: center;
+  /* @media screen and (max-width: 1336px) {
     width: 80%;
-  }
+  } */
 `;
 /**  내가 받은 추천 수 */
 const InfoLike = styled.div`
-  width: 140px;
-
+  width: 120px;
+  text-align: center;
   color: #95cecf;
 
-  @media (max-width: 1336px) {
+  /* @media screen and (max-width: 1336px) {
     width: 80%;
-  }
+  } */
 `;
 /** 나의 닉네임*/
 const InfoName = styled.div`
-  width: 140px;
-
-  @media (max-width: 1336px) {
+  width: 150px;
+  text-align: center;
+  /* 
+  @media screen and (max-width: 1336px) {
     width: 80%;
-  }
+  } */
 `;
 
 export default function MyPage() {
-  useEffect(() => {
-    axios
-      .get("https://jsonplaceholder.typicode.com/posts")
-      .then((res) => {
-        setData(res.data);
-        console.log(res.data);
-      })
+  const cookie = new Cookies();
+  const Token = cookie.get("token");
+  // 수혁님 코드
+  // useEffect(() => {
+  //   axios
+  //     .get("https://jsonplaceholder.typicode.com/posts")
+  //     .then((res) => {
+  //       setData(res.data);
+  //       console.log(res.data);
+  //     })
 
-      .catch((err) => {
-        console.log(err.response);
-      });
+  //     .catch((err) => {
+  //       console.log(err.response);
+  //     });
+  // }, []);
+
+  // 박승철 코드
+  const [userInfo, setUserInfo] = useState();
+  useEffect(() => {
+    async function getUserInfo() {
+      const res = await getUser(Token);
+      setUserInfo(res.data.body.user);
+      console.log(res);
+    }
+    getUserInfo();
   }, []);
 
   const [data, setData] = useState([]);
@@ -295,8 +354,15 @@ export default function MyPage() {
     <MypageContainer>
       <MypageTitle>
         <MypageInfo>
-          <MypageProfile>프로필 사진</MypageProfile>
-          <MypageProfileInfo>유저 기본 정보</MypageProfileInfo>
+          <MypageProfile>
+            {/* 프로필 사진 */}
+            <img src={userInfo?.profileImageUrl} />
+            {/* {userInfo?.profileImageUrl} */}
+          </MypageProfile>
+          <MypageProfileInfo>
+            {/* 유저 기본 정보 */}
+            {userInfo?.username}
+          </MypageProfileInfo>
           <MypageProfileModify href="mypageEdit">
             회원정보 수정
           </MypageProfileModify>
@@ -304,13 +370,15 @@ export default function MyPage() {
         <MypageBtns>
           {munuArr.map((ele, index) => {
             return (
-              <button
-                key={index}
-                className={current === index ? "submenu focused" : "submenu"}
-                onClick={() => currentClick(index)}
-              >
-                {ele.name}
-              </button>
+              <div className="Btn">
+                <button
+                  key={index}
+                  className={current === index ? "submenu focused" : "submenu"}
+                  onClick={() => currentClick(index)}
+                >
+                  {ele.name}
+                </button>
+              </div>
             );
           })}
           {/* <MypageBtn onClick={WritingClick}>작성글</MypageBtn>
@@ -337,12 +405,12 @@ export default function MyPage() {
                     <InfoTitle>{item.title}</InfoTitle>
                     <InfoComment>[3]</InfoComment>
                   </InfoContent>
-                  <InfoDiv>
-                    <InfoDate>23/01/15</InfoDate>
-                    <InfoView>115</InfoView>
-                    <InfoLike>777</InfoLike>
-                    <InfoName>{item.id}</InfoName>
-                  </InfoDiv>
+                  {/* <InfoDiv> */}
+                  <InfoDate>23/01/15</InfoDate>
+                  <InfoView>115</InfoView>
+                  <InfoLike>777</InfoLike>
+                  <InfoName>{item.id}</InfoName>
+                  {/* </InfoDiv> */}
                 </InfoContainer>
               ) : (
                 ""
@@ -355,15 +423,15 @@ export default function MyPage() {
                     <Info>댓글</Info>
                   </InfoIcon>
                   <InfoContent>
-                    <div>{item.content}</div>
+                    <InfoTitle>{item.content}</InfoTitle>
                     <InfoComment>[3]</InfoComment>
                   </InfoContent>
-                  <InfoDiv>
-                    <InfoDate>23/01/15</InfoDate>
-                    <InfoView>{item.voteResult}</InfoView>
-                    <InfoLike>{item.viewCount}</InfoLike>
-                    <InfoName>{item.id}</InfoName>
-                  </InfoDiv>
+                  {/* <InfoDiv> */}
+                  <InfoDate>23/01/15</InfoDate>
+                  <InfoView>{item.voteResult}</InfoView>
+                  <InfoLike>{item.viewCount}</InfoLike>
+                  <InfoName>{item.id}</InfoName>
+                  {/* </InfoDiv> */}
                 </InfoContainer>
               ) : (
                 ""

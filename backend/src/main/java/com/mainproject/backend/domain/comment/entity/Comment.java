@@ -24,14 +24,11 @@ public class Comment extends Auditable {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "BOARD_SEQ")
+    @JoinColumn(name = "board_seq")
     private Board board;
-
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_SEQ")
+    @JoinColumn(name = "user_seq")
     private User user;
-
-
 }

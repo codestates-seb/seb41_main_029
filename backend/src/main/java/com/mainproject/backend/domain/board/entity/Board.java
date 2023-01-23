@@ -12,7 +12,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +35,6 @@ public class Board extends Auditable { //시간 추가
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-
-    @NotNull
     private Category category; // 카테고리
 
     @Column(nullable = false)
@@ -46,7 +43,10 @@ public class Board extends Auditable { //시간 추가
     @Lob
     @Column(nullable = false)
     private String content; // 게시판 내용
-    private int viewCount = 0;  // 조회 수
+
+    private Integer viewCount = 0;  // 조회 수
+
+
     @Column(nullable = true)
     private int liked; // 추천 수
     @Column(nullable = true)
