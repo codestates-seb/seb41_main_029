@@ -13,6 +13,7 @@ public class CommentResponseDto {
     private long commentSeq;
     private long userSeq;
     private String userId;
+    private String username;
     private String content;
     private long boardSeq;
     private LocalDateTime createdAt;

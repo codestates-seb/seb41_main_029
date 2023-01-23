@@ -75,6 +75,7 @@ public interface BoardMapper {
                         .commentSeq(comment.getCommentSeq())
                         .userSeq(comment.getUser().getUserSeq())
                         .boardSeq(comment.getBoard().getBoardSeq())
+                        .username(comment.getUser().getUsername())
                         .userId(comment.getUser().getUserId())
                         .content(comment.getContent())
                         .createdAt(comment.getCreatedAt())
