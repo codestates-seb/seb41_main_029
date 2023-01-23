@@ -1,7 +1,6 @@
 package com.mainproject.backend.domain.board.mapper;
 
 import com.mainproject.backend.domain.board.dto.BoardDto;
-import com.mainproject.backend.domain.board.dto.PageBoardResponseDto;
 import com.mainproject.backend.domain.board.dto.BoardWithCommentDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.dto.CommentResponseDto;
@@ -66,13 +65,17 @@ public interface BoardMapper {
        BoardWithCommentDto boardWithCommentResponseDto = new BoardWithCommentDto();
 
        boardWithCommentResponseDto.setBoardSeq(board.getBoardSeq());
-       boardWithCommentResponseDto.setCategory(board.getCategory().category());
+       boardWithCommentResponseDto.setUserSeq(board.getUser().getUserSeq());
+       boardWithCommentResponseDto.setUsername(board.getUser().getUsername());
+       boardWithCommentResponseDto.setProfileImageUrl(board.getUser().getProfileImageUrl());
+       boardWithCommentResponseDto.setCategory(board.getCategory().category);
        boardWithCommentResponseDto.setTitle(board.getTitle());
        boardWithCommentResponseDto.setContent(board.getContent());
+       boardWithCommentResponseDto.setViewCount(board.getViewCount());
+       boardWithCommentResponseDto.setBookmarkStatus(board.isBookmarkStatus());
        boardWithCommentResponseDto.setBookmarkCount(board.getBookmarked());
        boardWithCommentResponseDto.setLikeCount(board.getLiked());
        boardWithCommentResponseDto.setDislikeCount(board.getDisliked());
-       boardWithCommentResponseDto.setViewCount(board.getViewCount());
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
 

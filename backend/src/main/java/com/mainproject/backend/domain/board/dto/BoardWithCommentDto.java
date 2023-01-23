@@ -11,10 +11,14 @@ import java.util.List;
 @Setter
 public class BoardWithCommentDto {
     private long boardSeq;
+    private long userSeq;
+    private String username;
+    private String profileImageUrl;
     private String category;
     private String title;
     private String content;
     private Integer viewCount;
+    private boolean BookmarkStatus;
     private int bookmarkCount;
     private int likeCount;
     private int dislikeCount;
