@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { viewDownVote, viewUpVote } from "../../api/writingAPI";
 
 const Count = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.fs16};
   margin-top: 3px;
   margin-left: 5px;
+
+  @media screen and (max-width: 1336px) {
+    margin-top: 7px;
+  }
 `;
 const VoteLayout = styled.div`
   display: flex;
@@ -41,27 +48,65 @@ const VoteActBtn1 = styled.button`
   /* background-color: ${({ theme }) => theme.colors.main_hover}; */
 `;
 
-const ViewVote = ({ voteResult }) => {
+const ViewVote = ({ likeCount, dislikeCount }) => {
+  const cookie = new Cookies();
+  const Token = cookie.get("token");
+  const navigate = useNavigate();
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
   const [voteCount, setVoteCount] = useState();
   const [downVoteCount, setDownVoteCount] = useState();
+
+  // if(res?.data !== 200) {
+  //   alert("이미 추천을 하셨습니다.")
+  // }
+
+  // async function getInfo() {
+  //   const res = await getWriting();
+  //   // const res = await getWriting(id);
+  //   setViewInfo(res);
+  //   // console.log(res?.userId);
+  //   setLoading(false);
+  // }
+
   const handleClickUp = () => {
-    if (isUpVote) return;
-    let updateVote = voteResult + 1;
-    setVoteCount(updateVote);
-    // commentUpVote( Token);
-    setIsUpVote(updateVote);
+    if (!Token) {
+      if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
+        navigate("/login");
+      }
+    } else {
+      // if (res?.data !== 200) {
+      //   alert("이미 추천을 하셨습니다.");
+      // } else {
+      //   if (isUpVote) return;
+      //   let updateVote = likeCount + 1;
+      //   setVoteCount(updateVote);
+      //   viewUpVote(Token);
+      //   setIsUpVote(updateVote);
+      // }
+      if (isUpVote) return;
+      let updateVote = likeCount + 1;
+      setVoteCount(updateVote);
+      viewUpVote(Token);
+      setIsUpVote(updateVote);
+    }
   };
   const handleDownVote = () => {
-    if (isDownVote) return;
-
-    let DownVote = voteResult + 1;
-    setDownVoteCount(DownVote);
-    // commentDownVote( Token);
-    setIsDownVote(true);
+    if (!Token) {
+      if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
+        navigate("/login");
+      }
+    } else {
+      if (isDownVote) return;
+      let DownVote = dislikeCount + 1;
+      setDownVoteCount(DownVote);
+      viewDownVote(Token);
+      setIsDownVote(true);
+    }
   };
-  useEffect(() => {});
+  useEffect(() => {
+    console.log(Token);
+  });
   return (
     <>
       <VoteLayout>
@@ -73,7 +118,7 @@ const ViewVote = ({ voteResult }) => {
                 alt="Up"
                 width="40px"
               />
-              <Count>{voteCount === 0 ? 0 : voteCount || voteResult}</Count>
+              <Count>{voteCount === 0 ? 0 : voteCount || likeCount}</Count>
             </VoteContainer>
           </VoteActBtn>
         ) : (
@@ -84,7 +129,7 @@ const ViewVote = ({ voteResult }) => {
                 alt="Up"
                 width="40px"
               />
-              <Count>{voteCount === 0 ? 0 : voteCount || voteResult}</Count>
+              <Count>{voteCount === 0 ? 0 : voteCount || likeCount}</Count>
             </VoteContainer>
           </VoteBtn>
         )}
@@ -97,7 +142,7 @@ const ViewVote = ({ voteResult }) => {
                 width="40px"
               />
               <Count style={{ marginTop: "7px" }}>
-                {downVoteCount === 0 ? 0 : downVoteCount || voteResult}
+                {downVoteCount === 0 ? 0 : downVoteCount || dislikeCount}
               </Count>
             </VoteContainer>
           </VoteActBtn1>
@@ -110,7 +155,7 @@ const ViewVote = ({ voteResult }) => {
                 width="40px"
               />
               <Count style={{ marginTop: "7px" }}>
-                {downVoteCount === 0 ? 0 : downVoteCount || voteResult}
+                {downVoteCount === 0 ? 0 : downVoteCount || dislikeCount}
               </Count>
             </VoteContainer>
           </VoteBtn>

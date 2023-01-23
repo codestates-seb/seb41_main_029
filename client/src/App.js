@@ -14,10 +14,10 @@ import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
 
+import View2 from "./page/Community/View2";
 import Community2 from "./page/Community/Community2";
-import ComuGen from "./page/Community/ComuGen";
-import ComuInfo from "./page/Community/ComuInfo";
-import ComuQues from "./page/Community/ComuQues";
+
+import Kakao from "./page/KakaoMap";
 
 const router = createBrowserRouter([
   {
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/community",
-    element: <Community2 />,
+    element: <Community />,
   },
   {
     path: "/view",
@@ -58,16 +58,12 @@ const router = createBrowserRouter([
     element: <HikingMap />,
   },
   {
-    path: "/community/general",
-    element: <ComuGen />,
+    path: "/view2/:boardSeq",
+    element: <View2 />,
   },
   {
-    path: "/community/information",
-    element: <ComuInfo />,
-  },
-  {
-    path: "/community/question",
-    element: <ComuQues />,
+    path: "/kakao",
+    element: <Kakao />,
   },
 ]);
 

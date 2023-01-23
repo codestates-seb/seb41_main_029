@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = `ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
+const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
 export const login = async (data) => {
   try {
@@ -14,5 +14,19 @@ export const login = async (data) => {
     return res;
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const getUser = async (Token, userId) => {
+  try {
+    const res = await axios({
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/mypage`,
+      method: "get",
+      headers: { Authorization: `Bearer ${Token}` },
+    });
+    // return res.data.data;
+    return res;
+  } catch (error) {
+    console.log(error);
   }
 };
