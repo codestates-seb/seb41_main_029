@@ -10,9 +10,9 @@ const TotalContainer = styled.div`
   justify-content: center;
   display: flex;
   margin-top: 80px;
-
   /* !importantf를 하면 css 안먹는걸 우선적으로 적용하게 해준다  */
 
+  // outline: none; 적용되는 걸 찾자
   // 글 쓰는 창 중앙으로 정렬
   .ck-editor__main {
     display: flex;
@@ -31,19 +31,21 @@ const TotalContainer = styled.div`
 
     @media (max-width: 1336px) {
       width: 100%;
+      height: 100%;
     }
   }
   // 글 쓰는 창
   .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) {
     border-radius: 0 0 10px 10px;
+    outline: none;
   }
+
   //--------------------------------------------------------------------------------------------
 
   // 아이콘 부분 ,반응형 크기 조절
   // 앤 그냥 전체 부분이네 아예
   .ck-reset_all :not(.ck-reset_all-excluded *),
   .ck.ck-reset_all {
-    /* border: 2px solid red; */
     // 처음 이걸 써서 왼쪽으로 살짝 밀려 있는 걸
     @media (max-width: 1336px) {
       /* width: 1123px; */
@@ -68,7 +70,6 @@ const TotalContainer = styled.div`
   // 아이콘 끝의 버튼 2개 건들이지 말것@@@@@@@
   .ck.ck-button.ck-disabled .ck-button__icon,
   a.ck.ck-button.ck-disabled .ck-button__icon {
-    /* border: 2px solid red; */
     /* @media (max-width: 1336px) {
       width: 50px;
     } */
@@ -83,7 +84,6 @@ const TotalContainer = styled.div`
   } */
   // 이미지 아이콘 옆의 아이콘 4개가 사라진다 ㅅㅂ 뭔 4개야 맨 앞에 아이콘도 같이 사라진다
   .ck.ck-dropdown {
-    /* border: 2px solid red; */
     /* @media (max-width: 390px) {
       display: none;
     } */
@@ -91,7 +91,6 @@ const TotalContainer = styled.div`
   // 아이콘들 세부 기능 건드리지 말것@@@@@@@
   .ck.ck-toolbar.ck-toolbar_grouping > .ck-toolbar__items {
     button {
-      /* border: 2px solid red; */
       @media (max-width: 1336px) {
         width: 80px;
       }
@@ -103,7 +102,6 @@ const TotalContainer = styled.div`
     div {
       /* border: 2px solid red; */
       @media (max-width: 1336px) {
-        /* border: 2px solid red; */
         width: 100px;
       }
     }
@@ -125,6 +123,11 @@ const TotalContainer = styled.div`
   .ck-toolbar {
     width: 1141px;
     border-radius: 20px 20px 0 0;
+    @media (max-width: 1336px) {
+      margin-top: 4%;
+
+      // 앨 하면 이것만 하면 된다
+    }
   }
 
   //아이콘들 설정 건들이지 말것@@@@@@@@@@@@@
@@ -149,7 +152,6 @@ const TotalContainer = styled.div`
   } */
   .ck.ck-button.ck-dropdown__button {
     svg {
-      /* border: 2px solid red; */
       @media (max-width: 470px) {
         display: none;
       }
@@ -166,6 +168,7 @@ export const ContainerView = styled.div`
 
   @media (max-width: 1336px) {
     width: 100%;
+    height: 100%;
   }
 `;
 // ${(props) => props.editMode ? '':'filter: blur(1rem);'}

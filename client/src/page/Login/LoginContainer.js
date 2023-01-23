@@ -7,7 +7,6 @@ import { login } from "../../api/userAPI";
 import { useNavigate } from "react-router-dom";
 import { MainBtn } from "../../component/Button";
 import { Cookies } from "react-cookie";
-
 import { setCookie } from "../../Cookies";
 
 const InputLayout = styled.div`
@@ -81,7 +80,7 @@ const LoginContainer = () => {
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
       cookie.set("token", token);
-      dispatch(setUser({ token, userId1 }));
+      // dispatch(setUser({ token, userId1 }));
       navigate("/");
     }
   };

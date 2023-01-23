@@ -2,11 +2,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
-import theme from "../Theme";
-import MyPageEdit from "./MyPageEdit";
-import jsonData from "../data/Posts";
+import theme from "../../Theme";
+import jsonData from "../../data/Posts";
 import { Cookies } from "react-cookie";
-import { getUser } from "../api/userAPI";
+import { getUser } from "../../api/userAPI";
+import ReactPaginate from "react-paginate";
+import Posts from "./Posts";
+import Paginations from "./Paginations";
 
 /** 전체 컨테이너 */
 const MypageContainer = styled.div`
@@ -97,6 +99,10 @@ const MypageBtns = styled.div`
       width: 100%;
       display: flex;
     }
+    @media screen and (max-width: 380px) {
+      width: 70%;
+      display: flex;
+    }
   }
   /** 작성,댓글 북마크 버튼 */
   // 다 적용
@@ -118,10 +124,6 @@ const MypageBtns = styled.div`
     }
     @media screen and (max-width: 1336px) {
       width: 100px;
-    }
-    @media screen and (max-width: 510px) {
-      /* display: flex; */
-      /* font-size: 12px; */
     }
   }
 
@@ -162,21 +164,18 @@ const TitleInfo = styled.div`
   display: flex;
   align-items: center;
   text-align: center;
-  /* padding-left: 10px; */
+
   justify-content: center;
   border-bottom: 1px solid #939393;
 
   /* @media screen and (max-width: 1336px) {
-    width: 100%;
+    width: 90%;
   } */
 `;
 
 /** 제목 */
 const TitleContent = styled.div`
   width: 650px;
-  /* @media screen and (max-width: 1336px) {
-    width: 700px;
-  } */
 `;
 
 /** 날짜 닉네임 */
@@ -221,109 +220,156 @@ const InfoIcon = styled.div`
 
 /** 등록 한 정보 나타내는  */
 const Info = styled.div`
+  width: 40px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
   background-color: ${({ theme }) => theme.colors.main};
   color: ${({ theme }) => theme.colors.white};
   border-radius: 10px;
-  /* margin-left: 8px; */
-  padding: 3px 8px;
-  @media screen and (max-width: 1336px) {
-    width: 30px;
+  padding: 3px 3px;
+
+  @media screen and (max-width: 540px) {
+    font-size: ${theme.fontSizes.fs12};
+    white-space: nowrap;
   }
 `;
 
 /** 작성한 제목과 댓글 수 전체 창*/
 const InfoContent = styled.div`
-  width: 600px; // or 100 %
+  width: 620px; // or 100 %
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   display: flex;
-  align-items: center; // 1줄로 만들면 필요없다
 
-  /* padding-left: 12px; */
   @media screen and (max-width: 1336px) {
     width: 50%;
   }
+  @media screen and (max-width: 540px) {
+    font-size: ${theme.fontSizes.fs12};
+  }
 `;
+// 내 생각엔 제목에 내용이 중간 정도로만 오게 최대 이렇게마 하며 될듯
 const InfoTitle = styled.span`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding-left: 20px;
+  padding-left: 8px;
   cursor: pointer;
-
-  /* @media screen and (max-width: 1336px) {
-    width: 200px;
-  } */
 `;
 /** 댓글 수 */
 const InfoComment = styled.span`
   color: ${({ theme }) => theme.colors.gray_03};
   margin-left: 8px;
+
+  /* @media screen and (max-width: 1336px) {
+    padding-right: 12px;
+  } */
 `;
 /** 작성한 날짜 조회 추천 나오는 전체 틀 */
 const InfoDiv = styled.div`
   /* width: 700px; */
   display: flex;
-  align-items: center;
-  text-align: center;
-  /* padding-left: 40px; */
-  /* justify-content: center; */
-
-  @media screen and (max-width: 1336px) {
-    width: 100%;
-  }
 `;
+// 작업 할것은 날짜 조회 재가 적은 것들을 반응형을 100%로 고정해보자
 /** 내가 등록한 날짜*/
 const InfoDate = styled.div`
   width: 150px;
   text-align: center;
-  /* @media screen and (max-width: 1336px) {
-    width: 100%;
-  } */
+  @media screen and (max-width: 1336px) {
+    width: 12%;
+    @media screen and (max-width: 540px) {
+      font-size: ${theme.fontSizes.fs12};
+    }
+  }
 `;
 /** 내가 받은 조회수 */
 const InfoView = styled.div`
   width: 120px;
   color: #a67b48;
   text-align: center;
-  /* @media screen and (max-width: 1336px) {
-    width: 80%;
-  } */
+  @media screen and (max-width: 1336px) {
+    width: 12%;
+    @media screen and (max-width: 540px) {
+      font-size: ${theme.fontSizes.fs12};
+    }
+  }
 `;
 /**  내가 받은 추천 수 */
 const InfoLike = styled.div`
   width: 120px;
   text-align: center;
   color: #95cecf;
-
-  /* @media screen and (max-width: 1336px) {
-    width: 80%;
-  } */
+  @media screen and (max-width: 1336px) {
+    width: 8%;
+  }
+  @media screen and (max-width: 540px) {
+    font-size: ${theme.fontSizes.fs12};
+  }
 `;
 /** 나의 닉네임*/
 const InfoName = styled.div`
-  width: 150px;
+  width: 120px;
   text-align: center;
-  /* 
   @media screen and (max-width: 1336px) {
-    width: 80%;
-  } */
+    width: 13%;
+  }
+  @media screen and (max-width: 540px) {
+    font-size: ${theme.fontSizes.fs12};
+  }
 `;
-
+const MyPaginate = styled(ReactPaginate).attrs({
+  // You can redefine classes here, if you want.
+  activeClassName: "active", // default to "selected"
+})`
+  margin: 50px 16px;
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0 5rem;
+  border: 2px solid red;
+  li a {
+    border-radius: 7px;
+    padding: 0.1rem 1rem;
+    cursor: pointer;
+  }
+  li.previous a,
+  li.next a {
+    color: #62b6b7;
+  }
+  li.active a {
+    /* background-color: #62b6b7;
+    color: white; */
+    color: #91cccd;
+    font-weight: 700;
+    min-width: 32px;
+  }
+  li.disabled a {
+    color: ${({ theme }) => theme.colors.gray_03};
+  }
+  li.disable,
+  li.disabled a {
+    cursor: default;
+  }
+  @media (max-width: 600px) {
+    font-size: ${({ theme }) => theme.fontSizes.fs10};
+  }
+`;
 export default function MyPage() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
   // 수혁님 코드
   // useEffect(() => {
-  //   axios
-  //     .get("https://jsonplaceholder.typicode.com/posts")
-  //     .then((res) => {
-  //       setData(res.data);
-  //       console.log(res.data);
-  //     })
-
-  //     .catch((err) => {
-  //       console.log(err.response);
-  //     });
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     const response = await axios
+  //       .get("https://jsonplaceholder.typicode.com/posts")
+  //       .then((res) => {
+  //         setData(res.data);
+  //         setLoading(false);
+  //         console.log(res.data);
+  //       });
+  //     fetchData();
+  //   };
   // }, []);
 
   // 박승철 코드
@@ -336,32 +382,48 @@ export default function MyPage() {
     }
     getUserInfo();
   }, []);
+  console.log(userInfo);
 
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   const [current, setCurrent] = useState(0);
-
-  // const [Writing, setWriting] = useState(false);
-  // const [Comments, setComments] = useState(false);
-
   const munuArr = [{ name: "작성글" }, { name: "댓글" }, { name: "북마크" }];
+  const limit = 15;
 
   const currentClick = (index) => {
     setCurrent(index);
     console.log(current);
   };
+  const axiosPosts = async (currentPage) => {
+    const res = await axios.get;
+    // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
+    "https://jsonplaceholder.typicode.com/posts"();
+    const data = await res.data;
+    return data;
+  };
 
+  const handlePageClick = async (data) => {
+    console.log(data.selected);
+
+    let currentPage = data.selected + 1;
+
+    const commentsFormServer = await axiosPosts(currentPage);
+
+    setData(commentsFormServer);
+  };
   return (
     <MypageContainer>
       <MypageTitle>
         <MypageInfo>
           <MypageProfile>
             {/* 프로필 사진 */}
-            <img src={userInfo?.profileImageUrl} />
+            {/* <img src={userInfo?.profileImageUrl} /> */}
             {/* {userInfo?.profileImageUrl} */}
           </MypageProfile>
           <MypageProfileInfo>
             {/* 유저 기본 정보 */}
-            {userInfo?.username}
+            {/* {userInfo?.username} */}
           </MypageProfileInfo>
           <MypageProfileModify href="mypageEdit">
             회원정보 수정
@@ -381,9 +443,6 @@ export default function MyPage() {
               </div>
             );
           })}
-          {/* <MypageBtn onClick={WritingClick}>작성글</MypageBtn>
-          <MypageBtn onClick={CommentsClick}>댓글</MypageBtn>
-          <MypageBtn>북마크</MypageBtn> */}
         </MypageBtns>
         <TitleContainer>
           <TitleDiv>
@@ -394,19 +453,22 @@ export default function MyPage() {
               <TitleDateMini>추천</TitleDateMini>
               <TitleDate>닉네임</TitleDate>
             </TitleInfo>
-
             {data.map((item, id) =>
+              // {test.map((item, id) =>
               current === 0 ? (
                 <InfoContainer key={item.id}>
                   <InfoIcon>
-                    <Info>정보</Info>
+                    <Info>
+                      {/* {item.category} */}
+                      정보
+                    </Info>
                   </InfoIcon>
                   <InfoContent>
                     <InfoTitle>{item.title}</InfoTitle>
                     <InfoComment>[3]</InfoComment>
                   </InfoContent>
                   {/* <InfoDiv> */}
-                  <InfoDate>23/01/15</InfoDate>
+                  <InfoDate>2023/01/22</InfoDate>
                   <InfoView>115</InfoView>
                   <InfoLike>777</InfoLike>
                   <InfoName>{item.id}</InfoName>
@@ -419,15 +481,15 @@ export default function MyPage() {
             {jsonData.map((item, id) =>
               current === 1 ? (
                 <InfoContainer key={item.id}>
-                  <InfoIcon>
-                    <Info>댓글</Info>
-                  </InfoIcon>
+                  {/* <InfoIcon> */}
+                  <Info>댓글</Info>
+                  {/* </InfoIcon> */}
                   <InfoContent>
                     <InfoTitle>{item.content}</InfoTitle>
                     <InfoComment>[3]</InfoComment>
                   </InfoContent>
                   {/* <InfoDiv> */}
-                  <InfoDate>23/01/15</InfoDate>
+                  <InfoDate>{item.createdAt}</InfoDate>
                   <InfoView>{item.voteResult}</InfoView>
                   <InfoLike>{item.viewCount}</InfoLike>
                   <InfoName>{item.id}</InfoName>
@@ -452,6 +514,29 @@ export default function MyPage() {
               </InfoDiv> */}
           </TitleDiv>
         </TitleContainer>
+        <MyPaginate
+          previousLabel={"〈"}
+          nextLabel={"〉"}
+          breakLabel={"..."}
+          pageCount={25}
+          marginPagesDisplayed={3}
+          pageRangeDisplayed={2}
+          onPageChange={handlePageClick}
+          containerClassName="pagination justify-content-center"
+          pageClassName="page-item"
+          pageLinkClassName="page-link"
+          previousClassName="page-item"
+          previousLinkClassName="page-link"
+          nextClassName="page-item"
+          nextLinkClassName="page-link"
+          activeClassName="active"
+        />
+        {/* <Posts data={data} loading={loading} /> */}
+        <Paginations
+        // postsPerPage={postsPerPage}
+        // totalPosts={data.length}
+        // paginate={setCurrentPage}
+        ></Paginations>
       </MypageTitle>
     </MypageContainer>
   );
