@@ -87,7 +87,7 @@ public class BoardService {
 
     //전체 게시물 조회
     public Page<Board> findAllBoard(int page, int size, String sortBy) {
-        return boardRepository.findAll(getPageRequest(page, size, sortBy));
+        return boardRepository.findAllByBoardStatus(getPageRequest(page, size, sortBy), Board.BoardStatus.BOARD_EXIST);
     }
 
     //카테고리 별 게시물 조회
@@ -153,8 +153,7 @@ public class BoardService {
         if(userSeq != writerBoardSeq) {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
         }
-        findBoard.setBoardStatus(Board.BoardStatus.BOARD_NOT_EXIST);
-        boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 경정한다.
+        boardRepository.delete(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 경정한다.
     }
 
     //질문 작성자 아읻 찾는 메서드
