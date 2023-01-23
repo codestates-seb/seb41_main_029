@@ -3,9 +3,9 @@ package com.mainproject.backend.domain.board.option;
 import lombok.Getter;
 
 public enum Category {
-    GENERAL("# 자유 게시판"),
-    INFORMATION("# 정보 공유"),
-    QUESTION("질문 사항");
+    GENERAL("# 일반"),
+    INFORMATION("# 정보"),
+    QUESTION("# 질문");
 
     @Getter
     public String category;
