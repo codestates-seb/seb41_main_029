@@ -14,8 +14,10 @@ public class BoardWithCommentDto {
     private String category;
     private String title;
     private String content;
-    private Long voteResult;
     private Integer viewCount;
+    private int bookmarkCount;
+    private int likeCount;
+    private int dislikeCount;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> comments;
