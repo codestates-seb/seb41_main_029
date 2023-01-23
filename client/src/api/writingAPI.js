@@ -2,25 +2,26 @@ import axios from "axios";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
-export const getWriting = async () => {
+export const getWriting = async (Token, boardSeq) => {
   try {
     const res = await axios({
       method: "get",
-      // url: `${url}/boards/${id}`,
-      url: `${url}boards/7`,
+      url: `${url}boards/${boardSeq}`,
+      headers: { Authorization: `Bearer ${Token}` },
+      // url: `${url}boards/11`,
     });
-    return res.data;
+    return res;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const deleteWriting = async (Token) => {
+export const deleteWriting = async (Token, boardSeq) => {
   try {
     const res = await axios({
       method: "delete",
-      // url: `${url}/community/${writingId}`,
-      url: `${url}boards/7`,
+      url: `${url}boards/${boardSeq}`,
+      // url: `${url}boards/7`,
       headers: { Authorization: `Bearer ${Token}` },
     });
     console.log(res);
@@ -54,12 +55,11 @@ export const editWriting = async (data, token, boardSeq, userSeq) => {
   }
 };
 
-export const bookMarking = async (Token) => {
-  const endpoint = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/bookmark/1`;
+export const bookMarking = async (Token, boardSeq) => {
   try {
     const response = await axios({
       method: "post",
-      url: endpoint,
+      url: `${url}boards/bookmark/${boardSeq}`,
       headers: { Authorization: `Bearer ${Token}` },
     });
     console.log(response);
@@ -69,13 +69,13 @@ export const bookMarking = async (Token) => {
   }
 };
 
-export const viewUpVote = async (/*boardSeq, userId, commentSeq,*/ Token) => {
+export const viewUpVote = async (Token, boardSeq) => {
   try {
     const res = await axios({
       method: "post",
-      // data: { data: 1 },
       headers: { Authorization: `Bearer ${Token}` },
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/1`,
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`,
+      // url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/11`,
     });
     console.log(res);
     return res;
@@ -83,13 +83,12 @@ export const viewUpVote = async (/*boardSeq, userId, commentSeq,*/ Token) => {
     console.log(error);
   }
 };
-export const viewDownVote = async (/*boardSeq, userId, commentSeq,*/ Token) => {
+export const viewDownVote = async (Token, boardSeq) => {
   try {
     const res = await axios({
       method: "post",
-      // data: { data: 1 },
       headers: { Authorization: `Bearer ${Token}` },
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/dislike/1`,
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/dislike/${boardSeq}`,
     });
     console.log(res);
     return res;

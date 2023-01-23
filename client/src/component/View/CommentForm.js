@@ -36,7 +36,7 @@ const InputContainer = styled.div`
 
 const CommentForm = () => {
   const methods = useForm();
-  const id = useParams();
+  const { boardSeq } = useParams();
   const navigate = useNavigate();
   const cookie = new Cookies();
   const Token = cookie.get("token");
@@ -58,8 +58,8 @@ const CommentForm = () => {
         navigate("/login");
       }
     } else {
-      // postComment()
-      // navigate("/writing")
+      postComment(data, Token, boardSeq);
+      window.location.reload();
       console.log(data);
     }
   };

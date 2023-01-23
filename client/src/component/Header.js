@@ -148,16 +148,16 @@ export default function Header() {
           </a>
         </div>
         <div className="decktopVer ml96 va">
-          <a href="community">커뮤니티</a>
+          <a href="/community">커뮤니티</a>
         </div>
         <div className="decktopVer ml96 va">
-          <a href="hikingmap">등산지도</a>
+          <a href="/hikingmap">등산지도</a>
         </div>
         <div className="decktopVer spacing"></div>
         {login ? (
           <>
             <div className="decktopVer mr96 va">
-              <a href="mypage">
+              <a href="/mypage">
                 <FontAwesomeIcon icon={faUser} />
               </a>
             </div>
@@ -169,11 +169,11 @@ export default function Header() {
           <>
             <div className="decktopVer mr96 va">
               <a href="login">
-                <a href="login">로그인</a>
+                <a href="/login">로그인</a>
               </a>
             </div>
             <div className="decktopVer mr192 va">
-              <a href="signup">회원가입</a>
+              <a href="/signup">회원가입</a>
             </div>
           </>
         )}
@@ -193,15 +193,15 @@ export default function Header() {
         <div className="modal">
           <div />
           <div className="flex">
-            <a href="community">커뮤니티</a>
+            <a href="/community">커뮤니티</a>
           </div>
           <div className="flex">
-            <a href="hikingmap">등산지도</a>
+            <a href="/hikingmap">등산지도</a>
           </div>
           {login ? (
             <>
               <div className="flex">
-                <a href="mypage">마이페이지</a>
+                <a href="/mypage">마이페이지</a>
               </div>
               <div className="flex">
                 <a href="/">로그아웃</a>
@@ -210,10 +210,10 @@ export default function Header() {
           ) : (
             <>
               <div className="flex">
-                <a href="login">로그인</a>
+                <a href="/login">로그인</a>
               </div>
               <div className="flex">
-                <a href="signup">회원가입</a>
+                <a href="/signup">회원가입</a>
               </div>
             </>
           )}

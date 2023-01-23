@@ -214,25 +214,38 @@ const ViewContainer = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { boardSeq } = useParams();
   const [viewInfo, setViewInfo] = useState();
   const cookie = new Cookies();
   const Token = cookie.get("token");
   const userId1 = JSON.parse(localStorage.getItem("userId"));
   // console.log(userId1);
   const handleClick = () => {
-    navigate("/writing");
+    navigate(`/boards/edit/${boardSeq}`);
   };
-  const [isBM, setIsBM] = useState(false);
+  const [isBM, setIsBM] = useState(
+    // viewInfo?.data?.bookmarkStatus
+    false
+  );
   const handleClickBm = () => {
     if (!Token) {
       if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
         navigate("/login");
       }
     } else {
-      bookMarking(Token);
-      setIsBM(!isBM);
+      bookMarking(Token, boardSeq);
+      // setIsBM(!isBM);
+      {
+        viewInfo?.data?.bookmarkStatus === true
+          ? setIsBM(true)
+          : setIsBM(false);
+      }
+      // viewInfo?.data?.bookmarkStatus === true ? setIsBM(!isBM) : setIsBM(!isBM);
     }
+  };
+  const handleClickBm1 = () => {
+    bookMarking(Token, boardSeq);
+    setIsBM(false);
   };
 
   const handleClickDe = async () => {
@@ -241,7 +254,7 @@ const ViewContainer = () => {
       alert("취소했습니다.");
     } else {
       // 확인(예) 버튼 클릭 시 이벤트
-      deleteWriting(Token);
+      deleteWriting(Token, boardSeq);
       //   const res = await deleteComment();
       //   boardsId, boards.commentId, Token, userId;
       //   if (res.status === 204) {
@@ -254,28 +267,44 @@ const ViewContainer = () => {
     }
   };
   async function getInfo() {
-    const res = await getWriting();
+    const res = await getWriting(Token, boardSeq);
     // const res = await getWriting(id);
     setViewInfo(res);
-    // console.log(res?.userId);
-    setLoading(false);
+    // console.log(res);
+    // if (res?.status !== 200) {
+    //   setLoading(true);
+    // }
   }
-  useEffect(() => {
-    setLoading(true);
-    getInfo();
-    // dispatch(setUser({ Token, userId, boardSeq: id }));
-    // console.log(viewInfo?.userId);
-  }, [id]);
-  console.log(viewInfo);
+  console.log(isBM);
+  console.log(viewInfo?.data?.bookmarkStatus);
+  useEffect(
+    () => {
+      setLoading(true);
+      getInfo();
+      dispatch(setUser({ Token, userId1, boardSeq }));
+      setLoading(false);
+    },
+    [
+      // viewInfo?.data?.bookmarkStatus
+    ]
+  );
+  // useEffect(()=>{
+  // {
+  //   viewInfo?.data?.bookmarkStatus === true
+  //     ? setIsBM(true)
+  //     : setIsBM(false);
+  // }
+  // },      // viewInfo?.data?.bookmarkStatus])
+  // console.log(viewInfo);
 
   return (
     <>
       {loading ? <Loading /> : null}
       <ViewLayout>
         <TitleContainer>
-          <TitleLayout>{viewInfo?.title}</TitleLayout>
+          <TitleLayout>{viewInfo?.data?.title}</TitleLayout>
           <IconLayout>
-            {userId1 === viewInfo?.userId ? (
+            {userId1 === viewInfo?.data?.userId ? (
               <>
                 <Icondiv>
                   <EditImg
@@ -294,7 +323,7 @@ const ViewContainer = () => {
                   <EditWord1>삭제</EditWord1>
                 </Icondiv1>
                 <Icondiv1>
-                  {isBM || viewInfo?.bookmarkStatus === true ? (
+                  {isBM || viewInfo?.data?.bookmarkStatus === true ? (
                     <Bookmark23>
                       <BsBookmarkCheck
                         className="BmIcon"
@@ -320,14 +349,14 @@ const ViewContainer = () => {
               </>
             ) : (
               <Icondiv11>
-                {isBM || viewInfo?.bookmarkStatus === true ? (
+                {isBM || viewInfo?.data?.bookmarkStatus === true ? (
                   <Bookmark2>
                     <BsBookmarkCheck
                       className="BmIcon"
                       color="#62B6B7"
                       size="30px"
                       style={{ marginTop: "6px" }}
-                      onClick={handleClickBm}
+                      onClick={handleClickBm1}
                     />
                     <EditWord2>북마크</EditWord2>
                   </Bookmark2>
@@ -350,24 +379,27 @@ const ViewContainer = () => {
           <Line />
         </LineLayOut>
         <BodyContainer>
-          <BodyLayout>{viewInfo?.content}</BodyLayout>
+          <BodyLayout>{viewInfo?.data?.content}</BodyLayout>
         </BodyContainer>
         <ViewVote
-          likeCount={viewInfo?.likeCount}
-          dislikeCount={viewInfo?.dislikeCount}
+          likeCount={viewInfo?.data?.likeCount}
+          dislikeCount={viewInfo?.data?.dislikeCount}
         />
         <UserInfoLayout>
           <ProfileContainer>
             {/* <Profile /> */}
-            <img src={viewInfo?.profileImageUrl} style={{ width: "100px" }} />
+            <img
+              src={viewInfo?.data?.profileImageUrl}
+              style={{ width: "100px" }}
+            />
           </ProfileContainer>
           <div>
-            {viewInfo?.username}
-            <Viewdate createdAt={viewInfo?.createdAt} />
-            <div>조회수 : {viewInfo?.viewCount}</div>
+            {viewInfo?.data?.username}
+            <Viewdate createdAt={viewInfo?.data?.createdAt} />
+            <div>조회수 : {viewInfo?.data?.viewCount}</div>
           </div>
         </UserInfoLayout>
-        <Comments comments={viewInfo?.comments} />
+        <Comments comments={viewInfo?.data?.comments} />
       </ViewLayout>
     </>
   );

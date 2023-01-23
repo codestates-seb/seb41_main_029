@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { viewDownVote, viewUpVote } from "../../api/writingAPI";
 
@@ -21,6 +21,7 @@ const VoteLayout = styled.div`
 
 const VoteContainer = styled.div`
   display: flex;
+  width: 55px;
   @media screen and (max-width: 1336px) {
     height: 35px;
     width: 50px;
@@ -52,6 +53,7 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
   const cookie = new Cookies();
   const Token = cookie.get("token");
   const navigate = useNavigate();
+  const { boardSeq } = useParams();
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
   const [voteCount, setVoteCount] = useState();
@@ -87,7 +89,7 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
       if (isUpVote) return;
       let updateVote = likeCount + 1;
       setVoteCount(updateVote);
-      viewUpVote(Token);
+      viewUpVote(Token, boardSeq);
       setIsUpVote(updateVote);
     }
   };
@@ -100,7 +102,7 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
       if (isDownVote) return;
       let DownVote = dislikeCount + 1;
       setDownVoteCount(DownVote);
-      viewDownVote(Token);
+      viewDownVote(Token, boardSeq);
       setIsDownVote(true);
     }
   };
@@ -116,7 +118,9 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
               <img
                 src={process.env.PUBLIC_URL + "/image/upVote.svg"}
                 alt="Up"
-                width="40px"
+                width="36px"
+                height="30px"
+                style={{ marginTop: "2px" }}
               />
               <Count>{voteCount === 0 ? 0 : voteCount || likeCount}</Count>
             </VoteContainer>
@@ -126,8 +130,10 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
             <VoteContainer>
               <img
                 src={process.env.PUBLIC_URL + "/image/upVote.svg"}
+                style={{ marginTop: "2px" }}
                 alt="Up"
-                width="40px"
+                width="36px"
+                height="30px"
               />
               <Count>{voteCount === 0 ? 0 : voteCount || likeCount}</Count>
             </VoteContainer>

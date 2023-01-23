@@ -1,4 +1,10 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import theme from "./Theme";
 import Header from "./component/Header";
@@ -18,6 +24,7 @@ import View2 from "./page/Community/View2";
 import Community2 from "./page/Community/Community2";
 
 import Kakao from "./page/KakaoMap";
+import EditWriting from "./page/EditWriting/EditWritingPresenter";
 
 const router = createBrowserRouter([
   {
@@ -38,12 +45,17 @@ const router = createBrowserRouter([
     element: <Community />,
   },
   {
-    path: "/view",
+    path: "/boards/:boardSeq",
+    // path: "/view",
     element: <View />,
   },
   {
     path: "/writing",
     element: <Writing />,
+  },
+  {
+    path: "/boards/edit/:boardSeq",
+    element: <EditWriting />,
   },
   {
     path: "/mypage",
@@ -57,10 +69,11 @@ const router = createBrowserRouter([
     path: "/hikingmap",
     element: <HikingMap />,
   },
-  {
-    path: "/boards/:boardSeq",
-    element: <View2 />,
-  },
+  ,
+  // {
+  //   path: "/boards/:boardSeq",
+  //   element: <View2 />,
+  // }
   {
     path: "/kakao",
     element: <Kakao />,
