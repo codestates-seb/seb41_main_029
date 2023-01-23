@@ -15,7 +15,6 @@ import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
 
 import View2 from "./page/Community/View2";
-import Community2 from "./page/Community/Community2";
 
 import Kakao from "./page/KakaoMap";
 

@@ -5,6 +5,8 @@ import ReactPaginate from "react-paginate";
 import jsonData from "../../data/Posts";
 import { useNavigate, Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   display: flex;
@@ -244,31 +246,44 @@ const MyPaginate = styled(ReactPaginate).attrs({
 `;
 
 // 검색
-const Search = styled.div`
+const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const SearchInput = styled.input`
+const Search = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${({ theme }) => theme.colors.container};
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  width: 300px;
-  font-size: ${({ theme }) => theme.fontSizes.fs16};
+  width: 290px;
+  border-radius: 10px;
+  padding-right: 13px;
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs12};
     width: 200px;
-    padding: 7px;
   }
 `;
 
+const SearchInput = styled.input`
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  width: 280px;
+  padding: 10px 10px 10px 13px;
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
+  @media (max-width: 600px) {
+    font-size: ${({ theme }) => theme.fontSizes.fs12};
+    width: 190px;
+  }
+`;
 export default function Community() {
   // axios
   const [items, setItems] = useState([]);
 
-  const [searchItems, setSearchItems] = useState([]);
-  const limit = 1;
+  const [current, setCurrent] = useState(0);
+  const limit = 3;
 
   const navigate = useNavigate();
 
@@ -282,6 +297,18 @@ export default function Community() {
     // }
   };
 
+  const categories = [
+    { name: "전체" },
+    { name: "일반" },
+    { name: "정보" },
+    { name: "질문" },
+  ];
+
+  const currentClick = (index) => {
+    setCurrent(index);
+    console.log(current);
+  };
+
   //----------------------------------------------------------------------------
 
   // 정식 데이터 전체조회 (axios.async/awit)
@@ -292,12 +319,17 @@ export default function Community() {
   const handleLoadAll = async () => {
     try {
       // setLoading(true);
-      const res = await axios.get(`${url}/boards?page=1&size=${limit}`, {
-        headers: {
-          "Content-Type": "application/json",
-          // Authorization: token,
-        },
-      });
+      const res =
+        // await axios.get(`${url}/boards?page=1&size=${limit}`
+        await axios.get(
+          `${url}/boards/all?page=1&size=${limit}&sort-by={sortby}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              // Authorization: token,
+            },
+          }
+        );
       // setPosts(response.data);
       // setLoading(false);
 
@@ -308,60 +340,79 @@ export default function Community() {
     }
   };
 
-  useEffect(() => {
-    handleLoadAll();
-  }, []);
-
   //----------------------------------------------------------------------------
 
   // 카테고리별 데이터
-  // const handleLoadAll = async (page) => {
-  //   await axios
-  //     .get(
-  //       `https://jsonplaceholder.typicode.com/comments?_page=1&_limit=${limit}`
-  //     )
-  //     .then((res) => {
-  //       const arr = res.data;
-  //       // console.log(arr);
-  //       const total = res.headers.get("x-total-count"); // 500
-  //       setItems(arr);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.response);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   handleLoadAll();
-  // }, []);
-
-  const handleLoadGeneral = async (page) => {
-    // await axios
-    //   .get(`https://jsonplaceholder.typicode.com/comments`)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     const total = res.headers.get("x-total-count");
-    //     console.log(total);
-    //     setItems(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.response);
-    //   });
+  const handleLoadGeneral = async () => {
+    // try {
+    //   // setLoading(true);
+    //   const res = await axios.get(
+    //     `${url}/boards/all/${category}?page=1&size=${limit}&sort-by={sortby}`,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         // Authorization: token,
+    //       },
+    //     }
+    //   );
+    //   // setPosts(response.data);
+    //   // setLoading(false);
+    //   console.log(res.data);
+    //   setItems(res.data);
+    // } catch (err) {
+    //   throw err;
+    // }
   };
 
-  const handleLoadQues = async (page) => {
-    // await axios
-    //   .get(`https://jsonplaceholder.typicode.com/comments`)
-    //   .then((res) => {
+  const handleLoadQues = async () => {
+    //   try {
+    //     // setLoading(true);
+    //     const res = await axios.get(
+    //       `${url}/boards?page=1&size=${limit}&sort-by="INFORMATION"`,
+    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by={sortby}`
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           // Authorization: token,
+    //         },
+    //       }
+    //     );
+    //     // setPosts(response.data);
+    //     // setLoading(false);
     //     console.log(res.data);
-    //     const total = res.headers.get("x-total-count");
-    //     console.log(total);
     //     setItems(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.response);
-    //   });
+    //   } catch (err) {
+    //     throw err;
+    //   }
   };
+
+  // 검색 데이터
+  const handleLoadQuery = async () => {
+    //   try {
+    //     // setLoading(true);
+    //     const res = await axios.get(
+    //       `${url}/boards?page=1&size=${limit}&sort-by="INFORMATION"`,
+    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by={sortby}`
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           // Authorization: token,
+    //         },
+    //       }
+    //     );
+    //     // setPosts(response.data);
+    //     // setLoading(false);
+    //     console.log(res.data);
+    //     setItems(res.data);
+    //   } catch (err) {
+    //     throw err;
+    //   }
+  };
+
+  useEffect(() => {
+    handleLoadAll();
+    // handleLoadGeneral();
+  }, []);
 
   //----------------------------------------------------------------------------
 
@@ -390,6 +441,14 @@ export default function Community() {
 
   // search
   const [searchTerm, setSearchTerm] = useState("");
+
+  // 날짜 변환
+  const value = "2023-01-22T11:17:31.407494";
+  const date = new Date(value);
+  // console.log(date);
+  var str =
+    date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+  // console.log(str);
 
   return (
     <>
@@ -420,13 +479,13 @@ export default function Community() {
           </TopBox>
           <PostsList>
             {items
-              .filter((item) => {
-                if (searchTerm === "") {
-                  return item;
-                } else if (item.name.includes(searchTerm)) {
-                  return item;
-                }
-              })
+              // .filter((item) => {
+              //   if (searchTerm === "") {
+              //     return item;
+              //   } else if (item.name.includes(searchTerm)) {
+              //     return item;
+              //   }
+              // })
               .map((item) => {
                 // console.log(item.id);
                 // const handleTitleClick = (item) => {
@@ -451,7 +510,6 @@ export default function Community() {
                     <PostDate>
                       22/01/04
                       {/* {item.createdAt} */}
-                      {/* 날짜 변환!! */}
                     </PostDate>
                     <PostView>{item.viewCount}</PostView>
                     <PostLike>{item.voteResult}</PostLike>
@@ -479,13 +537,92 @@ export default function Community() {
         nextLinkClassName="page-link"
         activeClassName="active"
       />
-      <Search>
-        <SearchInput
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-        ></SearchInput>
-      </Search>
+      <SearchContainer>
+        <Search>
+          <SearchInput
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          ></SearchInput>
+          <FontAwesomeIcon icon={faMagnifyingGlass} color="gray" size="lg" />
+        </Search>
+      </SearchContainer>
+      <Tabmenutest>
+        {categories.map((el, i) => {
+          return (
+            <div className="Btn">
+              <span
+                key={i}
+                className={current === i ? "submenu focused" : "submenu"}
+                onClick={() => currentClick(i)}
+              >
+                {el.name}
+              </span>
+            </div>
+          );
+        })}
+      </Tabmenutest>
+      {items.map((item) => (current === 0 ? <div>0</div> : ""))}
+      {items.map((item) => (current === 1 ? <div>1</div> : ""))}
+      {items.map((item) => (current === 2 ? <div>2</div> : ""))}
+      {items.map((item) => (current === 3 ? <div>3</div> : ""))}
     </>
   );
 }
+
+const Tabmenutest = styled.div`
+  width: 120px;
+  margin-left: 4%;
+
+  /* position: relative;
+  left: 60px; */
+  display: flex;
+  /* padding-left: 30px; */
+
+  .Btn {
+    width: 120px;
+    padding-right: 20px;
+    @media screen and (max-width: 1336px) {
+      width: 100%;
+      display: flex;
+    }
+  }
+  /** 작성,댓글 북마크 버튼 */
+  // 다 적용
+
+  .submenu {
+    width: 100px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+
+    border-radius: 10px;
+    margin: 30px 0 0 0;
+    text-align: center;
+    color: #000;
+    /* background-color: #bfbfbf; */
+    font-size: 16px;
+    &:hover {
+      /* background-color: #828282; */
+      font-weight: 700;
+    }
+    @media screen and (max-width: 1336px) {
+      width: 100px;
+    }
+    @media screen and (max-width: 510px) {
+      /* display: flex; */
+      /* font-size: 12px; */
+    }
+  }
+
+  .focused {
+    // 누른 것만 적용
+    /* background-color: gray; */
+    font-weight: 700;
+
+    &:hover {
+      /* background-color: gray; */
+      font-weight: 700;
+    }
+  }
+`;
