@@ -76,9 +76,9 @@ public class BoardService {
     public Board findBoardAndPlusViewCount(Long boardSeq) {
         User user = getPrincipal();
         Board findBoard = findVerifiedBoard(boardSeq);
-        if(!hasBookmarkBoard(findBoard, user)){
-            findBoard.setBookmarkStatus(false);
-        }else findBoard.setBookmarkStatus(true);
+        if(hasBookmarkBoard(findBoard, user)){
+            findBoard.setBookmarkStatus(true);
+        }else findBoard.setBookmarkStatus(false);
         findBoard.plusViewCount();
 
         return findBoard;
