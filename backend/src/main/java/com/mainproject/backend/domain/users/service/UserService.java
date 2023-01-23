@@ -75,14 +75,14 @@ public class UserService {
                 .build();
         return user;
     }
-//    @Transactional(readOnly = true)
-//    public List<BoardSimpleDto> findWrite(User user){
-//        List<Board> write = boardRepository.findAllByUser(user);
-//        List<BoardSimpleDto> boardSimpleDtoList = write.stream()
-//                .map(board -> new BoardSimpleDto().toDto(board.getBoard))
-//                .collect(Collectors.toList());
-//        return boardSimpleDtoList;
-//    }
+    @Transactional(readOnly = true)
+    public List<BoardSimpleDto> findWrite(User user){
+        List<Board> write = boardRepository.findAllByUser(user);
+        List<BoardSimpleDto> boardSimpleDtoList = write.stream()
+                .map(board -> new BoardSimpleDto().toDto(board))
+                .collect(Collectors.toList());
+        return boardSimpleDtoList;
+    }
 
     @Transactional(readOnly = true)
     public List<BoardSimpleDto> findBookmark(User user) {

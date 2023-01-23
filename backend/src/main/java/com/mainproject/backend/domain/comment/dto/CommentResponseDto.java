@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 public class CommentResponseDto {
     private long commentSeq;
-//    private long userSeq;
+    private long userSeq;
     private String content;
     private long boardSeq;
 

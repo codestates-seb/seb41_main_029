@@ -1,7 +1,12 @@
 package com.mainproject.backend.domain.comment.service;
 
+import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.repository.CommentRepository;
+import com.mainproject.backend.domain.users.entity.User;
+import com.mainproject.backend.domain.users.entity.UserRefreshToken;
+import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +21,16 @@ import java.util.Optional;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     public Comment createComment(Comment comment){
+
+        User user = userRepository.getReferenceById(comment.getUser().getUserSeq());
+        Board board = boardRepository.getReferenceById(comment.getBoard().getBoardSeq());
+
+        comment.setUser(user);
+        comment.setBoard(board);
 
         return commentRepository.save(comment);
     }

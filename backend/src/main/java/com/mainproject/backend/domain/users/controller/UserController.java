@@ -80,6 +80,13 @@ public class UserController {
         return ApiResponse.success("bookmark",userService.findBookmark(user));
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/write")
+    public ApiResponse findWrite() {
+        User user = getPrincipal();
+        return ApiResponse.success("bookmark",userService.findWrite(user));
+    }
+
 
 //    @ResponseStatus(HttpStatus.OK)
 //    @PutMapping("/users")

@@ -1,6 +1,7 @@
 package com.mainproject.backend.domain.comment.dto;
 
 import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.users.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ public class CommentDto {
     @Getter
     @Setter
     public static class CommentPostDto{
-//        private long userSeq;
+        private long userSeq;
         private long commentSeq;
         private long boardSeq;
         @NotBlank
@@ -28,7 +29,7 @@ public class CommentDto {
     @Getter
     @Setter
     public static class CommentPatchDto{
-//        private long userSeq;
+        private long userSeq;
         private long commentSeq;
         private long boardSeq;
         @NotBlank
@@ -39,7 +40,7 @@ public class CommentDto {
     @Setter
     public static class Response{
         private long commentSeq;
-        //    private long userSeq;
+        private long userSeq;
         private long boardSeq;
         private String content;
         private LocalDateTime createdAt;
@@ -48,6 +49,9 @@ public class CommentDto {
         public void setBoard(Board board){
             this.boardSeq = board.getBoardSeq();
         }
+
+        public void setUser(User user) { this.userSeq = user.getUserSeq();}
+
     }
 
 
