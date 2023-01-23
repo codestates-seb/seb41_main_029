@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.*;
