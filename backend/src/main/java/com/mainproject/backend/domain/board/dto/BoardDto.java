@@ -68,7 +68,7 @@ public class BoardDto {
             this.username = board.getUser().getUsername();
             this.profileImageUrl = board.getUser().getProfileImageUrl();
             this.userId = board.getUser().getUserId();
-            this.category = board.getCategory().getValue();
+            this.category = board.getCategory().category;
             this.title = board.getTitle();
             this.content = board.getContent();
             this.BookmarkStatus = board.isBookmarkStatus();
@@ -101,7 +101,7 @@ public class BoardDto {
             this.boardSeq = board.getBoardSeq();
             this.userSeq = board.getUser().getUserSeq();
             this.username = board.getUser().getUsername();
-            this.category = board.getCategory().getValue();
+            this.category = board.getCategory().category;
             this.title = board.getTitle();
             this.BookmarkStatus = board.isBookmarkStatus();
             this.bookmarkCount = board.getBookmarked();
