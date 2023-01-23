@@ -87,7 +87,7 @@ export default function CkEditor({ setImage, title, category }) {
   console.log("글내용", answer);
   console.log("카테코리", category);
 
-  const onClicks = async () => {
+  const onClicks = async (Token) => {
     await axios
       .post(
         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
@@ -98,8 +98,7 @@ export default function CkEditor({ setImage, title, category }) {
         },
         {
           headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${getCookie("token")}`,
+            Authorization: `Bearer ${Token}`,
           },
         }
       )
