@@ -10,8 +10,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,8 +73,12 @@ public interface BoardMapper {
                 .map(comment -> CommentResponseDto
                         .builder()
                         .commentSeq(comment.getCommentSeq())
+                        .userSeq(comment.getUser().getUserSeq())
                         .boardSeq(comment.getBoard().getBoardSeq())
+                        .userId(comment.getUser().getUserId())
                         .content(comment.getContent())
+                        .createdAt(comment.getCreatedAt())
+                        .modifiedAt(comment.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
     }

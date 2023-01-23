@@ -41,6 +41,7 @@ public class CommentDto {
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
+
         public void setBoard(Board board){
             this.boardSeq = board.getBoardSeq();
         }
