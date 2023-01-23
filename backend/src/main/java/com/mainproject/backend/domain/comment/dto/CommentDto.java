@@ -17,9 +17,13 @@ public class CommentDto {
     @Getter
     @Setter
     public static class CommentPostDto{
+<<<<<<< HEAD
         private long userSeq;
         private long commentSeq;
         private long boardSeq;
+=======
+
+>>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
         @NotBlank
         private String content;
     }
@@ -29,9 +33,13 @@ public class CommentDto {
     @Getter
     @Setter
     public static class CommentPatchDto{
+<<<<<<< HEAD
         private long userSeq;
         private long commentSeq;
         private long boardSeq;
+=======
+
+>>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
         @NotBlank
         private String content;
     }
@@ -45,6 +53,7 @@ public class CommentDto {
         private String content;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+
 
         public void setBoard(Board board){
             this.boardSeq = board.getBoardSeq();

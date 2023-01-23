@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../Theme";
 import jsonData from "../../data/Posts";
@@ -373,12 +373,12 @@ export default function MyPage() {
   // }, []);
 
   // 박승철 코드
-  const [userInfo, setUserInfo] = useState();
+  const [userInfo, setUserInfo] = useState([]);
   useEffect(() => {
     async function getUserInfo() {
       const res = await getUser(Token);
       setUserInfo(res.data.body.user);
-      console.log(res);
+      console.log(res.data.body);
     }
     getUserInfo();
   }, []);
@@ -413,93 +413,97 @@ export default function MyPage() {
     setData(commentsFormServer);
   };
   return (
-    <MypageContainer>
-      <MypageTitle>
-        <MypageInfo>
-          <MypageProfile>
-            {/* 프로필 사진 */}
-            {/* <img src={userInfo?.profileImageUrl} /> */}
-            {/* {userInfo?.profileImageUrl} */}
-          </MypageProfile>
-          <MypageProfileInfo>
-            {/* 유저 기본 정보 */}
-            {/* {userInfo?.username} */}
-          </MypageProfileInfo>
-          <MypageProfileModify href="mypageEdit">
-            회원정보 수정
-          </MypageProfileModify>
-        </MypageInfo>
-        <MypageBtns>
-          {munuArr.map((ele, index) => {
-            return (
-              <div className="Btn">
-                <button
-                  key={index}
-                  className={current === index ? "submenu focused" : "submenu"}
-                  onClick={() => currentClick(index)}
-                >
-                  {ele.name}
-                </button>
-              </div>
-            );
-          })}
-        </MypageBtns>
-        <TitleContainer>
-          <TitleDiv>
-            <TitleInfo>
-              <TitleContent>제목</TitleContent>
-              <TitleDate>날짜</TitleDate>
-              <TitleDateMini>조회</TitleDateMini>
-              <TitleDateMini>추천</TitleDateMini>
-              <TitleDate>닉네임</TitleDate>
-            </TitleInfo>
-            {data.map((item, id) =>
-              // {test.map((item, id) =>
-              current === 0 ? (
-                <InfoContainer key={item.id}>
-                  <InfoIcon>
-                    <Info>
-                      {/* {item.category} */}
-                      정보
-                    </Info>
-                  </InfoIcon>
-                  <InfoContent>
-                    <InfoTitle>{item.title}</InfoTitle>
-                    <InfoComment>[3]</InfoComment>
-                  </InfoContent>
-                  {/* <InfoDiv> */}
-                  <InfoDate>2023/01/22</InfoDate>
-                  <InfoView>115</InfoView>
-                  <InfoLike>777</InfoLike>
-                  <InfoName>{item.id}</InfoName>
-                  {/* </InfoDiv> */}
-                </InfoContainer>
-              ) : (
-                ""
-              )
-            )}
-            {jsonData.map((item, id) =>
-              current === 1 ? (
-                <InfoContainer key={item.id}>
-                  {/* <InfoIcon> */}
-                  <Info>댓글</Info>
-                  {/* </InfoIcon> */}
-                  <InfoContent>
-                    <InfoTitle>{item.content}</InfoTitle>
-                    <InfoComment>[3]</InfoComment>
-                  </InfoContent>
-                  {/* <InfoDiv> */}
-                  <InfoDate>{item.createdAt}</InfoDate>
-                  <InfoView>{item.voteResult}</InfoView>
-                  <InfoLike>{item.viewCount}</InfoLike>
-                  <InfoName>{item.id}</InfoName>
-                  {/* </InfoDiv> */}
-                </InfoContainer>
-              ) : (
-                ""
-              )
-            )}
-            {/* <InfoIcon>
+    <>
+      {Token !== undefined ? (
+        <MypageContainer>
+          <MypageTitle>
+            <MypageInfo>
+              <MypageProfile>
+                {/* 프로필 사진 */}
+                {/* <img src={userInfo?.profileImageUrl} /> */}
+                {/* {userInfo?.profileImageUrl} */}
+              </MypageProfile>
+              <MypageProfileInfo>
+                {/* 유저 기본 정보 */}
+                {/* {userInfo?.username} */}
+              </MypageProfileInfo>
+              <MypageProfileModify href="mypageEdit">
+                회원정보 수정
+              </MypageProfileModify>
+            </MypageInfo>
+            <MypageBtns>
+              {munuArr.map((ele, index) => {
+                return (
+                  <div className="Btn">
+                    <button
+                      key={index}
+                      className={
+                        current === index ? "submenu focused" : "submenu"
+                      }
+                      onClick={() => currentClick(index)}
+                    >
+                      {ele.name}
+                    </button>
+                  </div>
+                );
+              })}
+            </MypageBtns>
+            <TitleContainer>
+              <TitleDiv>
+                <TitleInfo>
+                  <TitleContent>제목</TitleContent>
+                  <TitleDate>날짜</TitleDate>
+                  <TitleDateMini>조회</TitleDateMini>
+                  <TitleDateMini>추천</TitleDateMini>
+                  <TitleDate>닉네임</TitleDate>
+                </TitleInfo>
+                {data.map((item, id) =>
+                  // {test.map((item, id) =>
+                  current === 0 ? (
+                    <InfoContainer key={item.id}>
+                      <InfoIcon>
+                        <Info>
+                          {/* {item.category} */}
+                          정보
+                        </Info>
+                      </InfoIcon>
+                      <InfoContent>
+                        <InfoTitle>{item.title}</InfoTitle>
+                        <InfoComment>[3]</InfoComment>
+                      </InfoContent>
+                      {/* <InfoDiv> */}
+                      <InfoDate>2023/01/22</InfoDate>
+                      <InfoView>115</InfoView>
+                      <InfoLike>777</InfoLike>
+                      <InfoName>{item.id}</InfoName>
+                      {/* </InfoDiv> */}
+                    </InfoContainer>
+                  ) : (
+                    ""
+                  )
+                )}
+                {userInfo.map((item, id) =>
+                  current === 1 ? (
+                    <InfoContainer key={item.id}>
+                      {/* <InfoIcon> */}
+                      <Info>댓글</Info>
+                      {/* </InfoIcon> */}
+                      <InfoContent>
+                        <InfoTitle>{item.content}</InfoTitle>
+                        <InfoComment>[3]</InfoComment>
+                      </InfoContent>
+                      {/* <InfoDiv> */}
+                      <InfoDate>{item.createdAt}</InfoDate>
+                      <InfoView>{item.voteResult}</InfoView>
+                      <InfoLike>{item.viewCount}</InfoLike>
+                      <InfoName>{item.id}</InfoName>
+                      {/* </InfoDiv> */}
+                    </InfoContainer>
+                  ) : (
+                    ""
+                  )
+                )}
+                {/* <InfoIcon>
                 <Info>정보</Info>
               </InfoIcon>
               <InfoContent>
@@ -512,32 +516,39 @@ export default function MyPage() {
                 <InfoLike>777</InfoLike>
                 <InfoName>shtngur</InfoName>
               </InfoDiv> */}
-          </TitleDiv>
-        </TitleContainer>
-        <MyPaginate
-          previousLabel={"〈"}
-          nextLabel={"〉"}
-          breakLabel={"..."}
-          pageCount={25}
-          marginPagesDisplayed={3}
-          pageRangeDisplayed={2}
-          onPageChange={handlePageClick}
-          containerClassName="pagination justify-content-center"
-          pageClassName="page-item"
-          pageLinkClassName="page-link"
-          previousClassName="page-item"
-          previousLinkClassName="page-link"
-          nextClassName="page-item"
-          nextLinkClassName="page-link"
-          activeClassName="active"
-        />
-        {/* <Posts data={data} loading={loading} /> */}
-        <Paginations
-        // postsPerPage={postsPerPage}
-        // totalPosts={data.length}
-        // paginate={setCurrentPage}
-        ></Paginations>
-      </MypageTitle>
-    </MypageContainer>
+              </TitleDiv>
+            </TitleContainer>
+            <MyPaginate
+              previousLabel={"〈"}
+              nextLabel={"〉"}
+              breakLabel={"..."}
+              pageCount={25}
+              marginPagesDisplayed={3}
+              pageRangeDisplayed={2}
+              onPageChange={handlePageClick}
+              containerClassName="pagination justify-content-center"
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+              activeClassName="active"
+            />
+            {/* <Posts data={data} loading={loading} /> */}
+            <Paginations
+            // postsPerPage={postsPerPage}
+            // totalPosts={data.length}
+            // paginate={setCurrentPage}
+            ></Paginations>
+          </MypageTitle>
+        </MypageContainer>
+      ) : (
+        <>
+          {alert("로그인이 되어 있지 않습니다!")}
+          <Navigate to="/login" />
+        </>
+      )}
+    </>
   );
 }

@@ -23,6 +23,7 @@ export const getUser = async (Token, userId) => {
       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/mypage`,
       method: "get",
       headers: { Authorization: `Bearer ${Token}` },
+      // "Content-Type": "application/json",
     });
     // return res.data.data;
     return res;

@@ -39,6 +39,7 @@ const ViewButton = styled.button`
     background-color: ${(props) => props.ckColor};
   }
 `;
+
 export default function CkEditor({ setImage, title, category }) {
   const [answer, setAnswer] = useState(""); //editor
   // const API_URL = "https://noteyard-backend.herokuapp.com";
@@ -87,10 +88,11 @@ export default function CkEditor({ setImage, title, category }) {
   console.log("글내용", answer);
   console.log("카테코리", category);
 
-  const onClicks = async (Token) => {
+  const onClicks = async () => {
     await axios
       .post(
         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
+
         {
           title: title,
           content: answer,
@@ -98,7 +100,9 @@ export default function CkEditor({ setImage, title, category }) {
         },
         {
           headers: {
-            Authorization: `Bearer ${Token}`,
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${getCookie("token")}`,
           },
         }
       )

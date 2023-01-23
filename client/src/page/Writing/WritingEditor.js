@@ -196,9 +196,11 @@ const WritingEditor = ({ setImage }) => {
                   label="category"
                   onChange={handleChange}
                 >
-                  <CategoryMenuItem value={"일반"}>일 반</CategoryMenuItem>
-                  <CategoryMenuItem value={"정보"}>정 보</CategoryMenuItem>
-                  <CategoryMenuItem value={"질문"}>질 문</CategoryMenuItem>
+                  <CategoryMenuItem value={"GENERAL"}>일 반</CategoryMenuItem>
+                  <CategoryMenuItem value={"INFORMATION"}>
+                    정 보
+                  </CategoryMenuItem>
+                  <CategoryMenuItem value={"QUESTION"}>질 문</CategoryMenuItem>
                 </CategorySelect>
               </CategoryFormControl>
             </CategoryBox>

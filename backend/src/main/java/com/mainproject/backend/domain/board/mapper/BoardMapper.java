@@ -9,9 +9,12 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 
+<<<<<<< HEAD
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+=======
+>>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +26,7 @@ public interface BoardMapper {
         board.setCategory(postDto.getCategory());
         board.setTitle(postDto.getTitle());
         board.setContent(postDto.getContent());
+
 
         return board;
     }
@@ -61,6 +65,7 @@ public interface BoardMapper {
     }
 
     default BoardWithCommentDto boardToBoardWithCommentResponseDto(Board board){
+<<<<<<< HEAD
         List<Comment> comments = board.getCommentList();
         BoardWithCommentDto boardWithCommentResponseDto = new BoardWithCommentDto();
 
@@ -73,6 +78,20 @@ public interface BoardMapper {
         boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
 
         //답변
+=======
+       List<Comment> comments = board.getCommentList();
+       BoardWithCommentDto boardWithCommentResponseDto = new BoardWithCommentDto();
+
+       boardWithCommentResponseDto.setBoardSeq(board.getBoardSeq());
+       boardWithCommentResponseDto.setCategory(board.getCategory().getValue());
+       boardWithCommentResponseDto.setTitle(board.getTitle());
+       boardWithCommentResponseDto.setContent(board.getContent());
+       boardWithCommentResponseDto.setViewCount(board.getViewCount());
+       boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
+       boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
+
+       //커맨트
+>>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
         boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));
 
         return boardWithCommentResponseDto;
@@ -85,8 +104,12 @@ public interface BoardMapper {
                 .map(comment -> CommentResponseDto
                         .builder()
                         .commentSeq(comment.getCommentSeq())
+                        .userSeq(comment.getUser().getUserSeq())
                         .boardSeq(comment.getBoard().getBoardSeq())
+                        .userId(comment.getUser().getUserId())
                         .content(comment.getContent())
+                        .createdAt(comment.getCreatedAt())
+                        .modifiedAt(comment.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
     }
