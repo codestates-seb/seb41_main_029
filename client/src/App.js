@@ -6,13 +6,18 @@ import Footer from "./component/Footer";
 import LandingPage from "./page/LandingPage";
 import LoginPresenter from "./page/Login/LoginPresenter";
 import Signup from "./page/Signup";
-import Community from "./page/Community";
-import View from "./page/View";
-import Writing from "./page/WritingPresentation/Writing";
+import Community from "./page/Community/Community";
+import View from "./page/View/ViewPresenter";
+import Writing from "./page/Writing/Writing";
 import MyPage from "./page/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
+
+import View2 from "./page/Community/View2";
+import Community2 from "./page/Community/Community2";
+
+import Kakao from "./page/KakaoMap";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +56,14 @@ const router = createBrowserRouter([
   {
     path: "/hikingmap",
     element: <HikingMap />,
+  },
+  {
+    path: "/view2/:boardSeq",
+    element: <View2 />,
+  },
+  {
+    path: "/kakao",
+    element: <Kakao />,
   },
 ]);
 

@@ -74,17 +74,22 @@ public class AuthController {
         if(userRefreshToken == null){
             //없는 경우 새로 등록
             userRefreshToken = new UserRefreshToken(userId, refreshToken.getToken());
-            response.setHeader("Authorization", "Bearer " + refreshToken.getToken());
+            response.setHeader("Authorization", "Bearer " + accessToken.getToken());
             userRefreshTokenRepository.saveAndFlush(userRefreshToken);
         }else {
             //DB에 refresh 토큰 업데이트
             userRefreshToken.setRefreshToken(refreshToken.getToken());
         }
         int cookeMaxAge = (int) refreshTokenExpiry / 60;
+        response.setHeader("Authorization", "Bearer " + accessToken.getToken());
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookeMaxAge);
 
-        return ApiResponse.success("token", accessToken.getToken());
+        UserRefreshToken userRefreshToken1 = new UserRefreshToken();
+        userRefreshToken1.setRefreshToken(accessToken.getToken());
+        userRefreshToken1.setUserId(userId);
+
+        return ApiResponse.success("token", userRefreshToken1);
     }
 
     @GetMapping("/refresh")

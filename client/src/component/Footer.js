@@ -4,8 +4,9 @@ const Wrapper = styled.div`
   border-top: 1px solid;
   display: flex;
   height: 80px;
-  justify-content: center;
-  }
+  margin-top: ${(props) =>
+    props.path === "/" || props.path === "/hikingmap" ? "0" : "120px"};
+  justify-content: space-around;
   div {
     font-size: ${(props) => props.theme.fontSizes.fs18};
   }
@@ -17,13 +18,23 @@ const Wrapper = styled.div`
     flex-direction: column;
     justify-content: center;
   }
+  @media (max-width: 1336px) {
+    div {
+      font-size: ${(props) => props.theme.fontSizes.fs12};
+    }
+  }
+  @media (max-width: 600px) {
+    div {
+      font-size: ${(props) => props.theme.fontSizes.fs10};
+    }
+  }
 `;
 
 export default function Footer() {
   return (
-    <Wrapper>
-      <div className="va mr96">서비스 이름</div>
-      <div className="va mr96">
+    <Wrapper path={window.location.pathname}>
+      <div className="va">서비스 이름</div>
+      <div className="va">
         <div>고객센터 | mountain1234@gamil.com</div>
         <div>전화번호 | 010-1234-5678</div>
       </div>

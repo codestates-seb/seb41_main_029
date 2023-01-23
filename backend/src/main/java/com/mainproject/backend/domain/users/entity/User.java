@@ -1,9 +1,7 @@
 package com.mainproject.backend.domain.users.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.*;
@@ -13,8 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -47,12 +43,12 @@ public class User {
     private String password;
 
     @Column(name = "EMAIL", length = 512)
-    @Nullable
+    @NotNull
     @Size(max = 512)
     private String email;
 
     @Column(name = "PROFILE_IMAGE_URL", length = 512)
-    @Nullable
+    @NotNull
     @Size(max = 512)
     private String profileImageUrl;
 
@@ -73,6 +69,7 @@ public class User {
     @Column(name = "MODIFIED_AT")
     @NotNull
     private LocalDateTime modifiedAt;
+
 
     public User(
             @NotNull @Size(max = 64) String userId,
@@ -95,13 +92,10 @@ public class User {
         this.modifiedAt = modifiedAt;
     }
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Board> boards = new ArrayList<>();
-
-    @JsonIgnore
-    @JsonManagedReference
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
-
-
+    public void editUser(UserDto.Patch req) {
+        userId = req.getUserId();
+        username = req.getUsername();
+        password = req.getPassword();
+        profileImageUrl = req.getProfileImageUrl();
+    }
 }

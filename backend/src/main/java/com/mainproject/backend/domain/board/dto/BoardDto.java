@@ -3,24 +3,17 @@ package com.mainproject.backend.domain.board.dto;
 
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.option.Category;
-import com.mainproject.backend.domain.comment.dto.CommentResponseDto;
-import com.mainproject.backend.domain.users.dto.UserDto;
-import com.mainproject.backend.domain.users.entity.User;
-import com.mainproject.backend.domain.users.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 public class BoardDto {
 
     @Getter
-    @Setter
     @AllArgsConstructor
     public static class Post{
 
@@ -29,21 +22,19 @@ public class BoardDto {
         private String title;
         @NotBlank
         private String content;
-
+        //카테고리
     }
 
     @Getter
     @Setter
     public static class Patch{
-
         private Long boardSeq;
+
         private Category category;
         @NotBlank
         private String title;
         @NotBlank
         private String content;
-
-        private LocalDateTime updateAt;
 
         public Patch(Category category, String title, String content) {
             this.category = category;
@@ -51,34 +42,46 @@ public class BoardDto {
             this.content = content;
         }
     }
-
     @AllArgsConstructor
-    @NoArgsConstructor
     @Getter
     @Setter
     public static class response{
-//        private UserDto.Response user;
         private Long boardSeq;
+        private Long userSeq;
+        private String username;
         private String category;
         private String title;
         private String content;
-        private Long voteResult;
+        private String profileImageUrl;
+        private String userId;
+        private boolean BookmarkStatus;
+        private int bookmarkCount;
         private int viewCount;
+        private int likeCount;
+        private int dislikeCount;
+
+
+        // 멤버 닉네임
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
+        // 답변 가져오기
 
-        private UserDto.Response user;
-
-//        public response(Board board) {
-//            this.boardSeq = board.getBoardSeq();
-//            this.category = board.getCategory().getValue();
-//            this.title = board.getTitle();
-//            this.content = board.getContent();
-//            this.voteResult = board.getVoteResult();
-//            this.viewCount = board.getViewCount();
-//            this.createdAt = board.getCreatedAt();
-//            this.modifiedAt = board.getModifiedAt();
-//        }
+        public response(Board board) {
+            this.boardSeq = board.getBoardSeq();
+            this.userSeq = board.getUser().getUserSeq();
+            this.username = board.getUser().getUsername();
+            this.profileImageUrl = board.getUser().getProfileImageUrl();
+            this.userId = board.getUser().getUserId();
+            this.category = board.getCategory().getValue();
+            this.title = board.getTitle();
+            this.content = board.getContent();
+            this.BookmarkStatus = board.isBookmarkStatus();
+            this.bookmarkCount = board.getBookmarked();
+            this.likeCount = board.getLiked();
+            this.dislikeCount = board.getDisliked();
+            this.viewCount = board.getViewCount();
+            this.createdAt = board.getCreatedAt();
+            this.modifiedAt = board.getModifiedAt();
+        }
     }
-
 }
