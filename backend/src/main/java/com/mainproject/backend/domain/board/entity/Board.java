@@ -12,6 +12,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class Board extends Auditable { //시간 추가
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
+
+    @NotNull
     private Category category; // 카테고리
 
     @Column(nullable = false)
@@ -43,28 +46,24 @@ public class Board extends Auditable { //시간 추가
     @Lob
     @Column(nullable = false)
     private String content; // 게시판 내용
-
-    private Integer viewCount = 0;  // 조회 수
-
-
+    private int viewCount = 0;  // 조회 수
     @Column(nullable = true)
     private int liked; // 추천 수
-
     @Column(nullable = true)
     private int disliked; // 비추천 수
-
-
     @Column(nullable = true)
     private int bookmarked; // 즐겨찾기 수
-
     @Column(nullable = true)
     private boolean BookmarkStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
 
+<<<<<<< HEAD
+=======
 //    @Column(nullable = true)
 //    private int bookmarked1; // 즐겨찾기 수
 
 
 
+>>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
     public void increaseBookmarkCount() {
         this.bookmarked += 1;
     }
@@ -90,15 +89,9 @@ public class Board extends Auditable { //시간 추가
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-
-
-    // 멤버 연관매핑
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "member")
-//    private Member member;
-
-//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
-//    private List<Bookmark> bookmarks = new ArrayList<>();
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private BoardStatus boardStatus = BoardStatus.BOARD_EXIST;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "board",cascade = CascadeType.ALL)
@@ -114,9 +107,13 @@ public class Board extends Auditable { //시간 추가
             comment.setBoard(this);
         }
     }
-
-//    public Board(Board board, User user){
-//        this.board = board;
-//        this.user = user;
-//    }
+    public enum BoardStatus {
+        BOARD_EXIST("존재하는 게시물"),
+        BOARD_NOT_EXIST("존재하지 않는 게시물");
+        @Getter
+        private String status;
+        BoardStatus(String status) {
+            this.status = status;
+        }
+    }
 }

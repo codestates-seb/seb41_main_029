@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Cookies } from "react-cookie";
 import styled from "styled-components";
-import { deleteComment, editComment } from "../../api/commentAPI";
+import { deleteComment, editComment, postComment } from "../../api/commentAPI";
 import { CommentDate } from "../DateCalculator";
 import Input from "../Input";
 import CommentVote from "./CommentVote";
 import { useForm, FormProvider } from "react-hook-form";
 import CommentReply from "./CommentReply";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const CommentInfo = styled.div`
   display: flex;
@@ -102,7 +104,8 @@ const SubmitEditLayout = styled.div`
   flex-direction: row-reverse;
   .btn {
     @media screen and (max-width: 1336px) {
-      margin-right: 35px;
+      margin-right: 70px;
+      /* display: flex; */
     }
   }
 `;
@@ -123,20 +126,22 @@ const ReplyLayout = styled.div`
 `;
 
 const Comment = ({ comment }) => {
+  const { boardSeq } = useParams();
   const methods = useForm();
-  const onSubmit = (data) => {
-    // const res = await postComment(data, Token, id, userSeq);
-    // if (res.status === 201) {
-    //   window.location.replace(`/boards/${id.id}`);
+  const onSubmit = async (data) => {
+    editComment(data, token, boardSeq, commentSeq);
+    // window.location.reload();
     console.log(data);
-    window.location.reload();
   };
   const [edit, setEdit] = useState(false);
-  const userId = localStorage.getItem("userId");
+  // const userId = localStorage.getItem("userId");
   const cookie = new Cookies();
   const token = cookie.get("token");
   const userId1 = JSON.parse(localStorage.getItem("userId"));
-  // console.log(userId1);
+  const commentSeq = comment?.commentSeq;
+  console.log(comment?.commentSeq);
+
+  // console.log(boardSeq);
   const handleClickEdit = () => {
     if (2 !== 2) {
       alert("권한이 없습니다.");
@@ -144,15 +149,15 @@ const Comment = ({ comment }) => {
       setEdit(!edit);
     }
   };
-  const EditSubmit = () => {
-    // editComment();
-  };
+  // const EditSubmit = () => {
+  //   // editComment();
+  //   editComment(boardSeq);
+  // };
   const handleDelete = () => {
-    // deleteComment()
     if (window.confirm("정말 삭제 하시겠습니까?")) {
       // alert("삭제되었습니다")
+      deleteComment(token, boardSeq, commentSeq);
       window.location.reload();
-    } else {
     }
   };
   return (
@@ -173,7 +178,7 @@ const Comment = ({ comment }) => {
       ) : null}
 
       <CommentInfo>
-        {comment?.userName}
+        {comment?.username}
         <CommentDate createdAt={comment?.createdAt} />
       </CommentInfo>
       {edit ? (
@@ -189,7 +194,7 @@ const Comment = ({ comment }) => {
                   defaultValue={comment?.content}
                 />
                 <SubmitEditLayout>
-                  <SubmitEdit className="btn" onClick={EditSubmit} width="60px">
+                  <SubmitEdit className="btn" width="60px">
                     등록
                   </SubmitEdit>
                 </SubmitEditLayout>

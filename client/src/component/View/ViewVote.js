@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { viewDownVote, viewUpVote } from "../../api/writingAPI";
 
@@ -21,6 +21,7 @@ const VoteLayout = styled.div`
 
 const VoteContainer = styled.div`
   display: flex;
+  width: 55px;
   @media screen and (max-width: 1336px) {
     height: 35px;
     width: 50px;
@@ -52,6 +53,7 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
   const cookie = new Cookies();
   const Token = cookie.get("token");
   const navigate = useNavigate();
+  const { boardSeq } = useParams();
   const [isUpVote, setIsUpVote] = useState(false);
   const [isDownVote, setIsDownVote] = useState(false);
   const [voteCount, setVoteCount] = useState();
@@ -68,27 +70,29 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
   //   // console.log(res?.userId);
   //   setLoading(false);
   // }
-
+  const res = viewUpVote(Token, boardSeq);
   const handleClickUp = () => {
     if (!Token) {
       if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
         navigate("/login");
       }
     } else {
-      // if (res?.data !== 200) {
-      //   alert("이미 추천을 하셨습니다.");
-      // } else {
-      //   if (isUpVote) return;
-      //   let updateVote = likeCount + 1;
-      //   setVoteCount(updateVote);
-      //   viewUpVote(Token);
-      //   setIsUpVote(updateVote);
-      // }
-      if (isUpVote) return;
-      let updateVote = likeCount + 1;
-      setVoteCount(updateVote);
-      viewUpVote(Token);
-      setIsUpVote(updateVote);
+      if (res?.data?.body === "이미 추천을 누르셨습니다.") {
+        alert("이미 추천을 하셨습니다.");
+      } else {
+        if (isUpVote) return;
+        let updateVote = likeCount + 1;
+        setVoteCount(updateVote);
+        viewUpVote(Token);
+        setIsUpVote(updateVote);
+        res();
+      }
+      // if (isUpVote) return;
+      // let updateVote = likeCount + 1;
+      // setVoteCount(updateVote);
+      // res();
+      // setIsUpVote(updateVote);
+      // console.log(res?.data?.body);
     }
   };
   const handleDownVote = () => {
@@ -100,12 +104,12 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
       if (isDownVote) return;
       let DownVote = dislikeCount + 1;
       setDownVoteCount(DownVote);
-      viewDownVote(Token);
+      viewDownVote(Token, boardSeq);
       setIsDownVote(true);
     }
   };
   useEffect(() => {
-    console.log(Token);
+    // console.log(status?.boardLike);
   });
   return (
     <>
@@ -116,7 +120,9 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
               <img
                 src={process.env.PUBLIC_URL + "/image/upVote.svg"}
                 alt="Up"
-                width="40px"
+                width="36px"
+                height="30px"
+                style={{ marginTop: "2px" }}
               />
               <Count>{voteCount === 0 ? 0 : voteCount || likeCount}</Count>
             </VoteContainer>
@@ -126,8 +132,10 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
             <VoteContainer>
               <img
                 src={process.env.PUBLIC_URL + "/image/upVote.svg"}
+                style={{ marginTop: "2px" }}
                 alt="Up"
-                width="40px"
+                width="36px"
+                height="30px"
               />
               <Count>{voteCount === 0 ? 0 : voteCount || likeCount}</Count>
             </VoteContainer>
