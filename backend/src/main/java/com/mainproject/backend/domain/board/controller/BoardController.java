@@ -129,7 +129,7 @@ public class BoardController {
         User user = getPrincipal();
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
-        if(boardService.hasLikeBoard(currentBoard, user)){
+        if(boardService.hasDislikeBoard(currentBoard, user)){
             return ApiResponse.fail();
         }
         return ApiResponse.success("boardDislike", boardService.updateDislikeOfBoard(boardSeq, user));
