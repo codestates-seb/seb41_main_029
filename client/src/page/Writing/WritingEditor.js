@@ -1,18 +1,15 @@
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { useState } from "react";
 import styled from "styled-components";
 import theme from "../../Theme";
-import axios from "axios";
 import * as React from "react";
+import CkEditor from "./CkEditor";
 import Box from "@mui/material/Box";
 import { InputLabel } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import WritingButton from "./WritingButton";
 
-const SpanTitle = styled.div`
+const SpanContainer = styled.div`
   width: 100%;
   height: 40px;
   margin-top: 40px;
@@ -29,6 +26,7 @@ const SpanTitle = styled.div`
     @media (max-width: 1336px) {
       width: 150px;
       padding-left: 5%;
+      display: none;
     }
     // 400이 되면 또 세로로 된다 카테고리가 너무 크다 줄여보자
     @media (max-width: 455px) {
@@ -40,34 +38,53 @@ const SpanTitle = styled.div`
   }
   input {
     width: 800px;
+    min-width: 200px;
     height: 40px;
     border-radius: 8px;
+    outline: none;
     border: none;
-
-    /* margin-right: 28px; */
 
     @media (max-width: 1336px) {
       width: 90%;
     }
   }
-  .menu > {
-    button {
-      border: none;
-      background-color: ${({ theme }) => theme.colors.white};
-      cursor: pointer;
-    }
-  }
 `;
+
 const SpanContent = styled.div`
   /* width: 1070px; */
   width: 100%;
   display: flex;
   gap: 20px;
   justify-content: center;
+
+  @media (max-width: 1336px) {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+  }
 `;
-// 전체
+const MuiContainer = styled.div`
+  button {
+    border: none;
+    background-color: ${({ theme }) => theme.colors.white};
+    cursor: pointer;
+  }
+`;
 const CategoryBox = styled(Box)`
-  width: 100%;
+  width: 180px;
+
+  @media (max-width: 1336px) {
+    width: 100%;
+    margin-top: 8%;
+  }
+  @media (max-width: 456px) {
+    margin-top: 27%;
+  }
+  // 방금 한것
+  .css-1nrlq1o-MuiFormControl-root {
+    @media (max-width: 1336px) {
+    }
+  }
 `;
 // 카테고리 글씨 움직이는 틀
 const CategoryInputLabel = styled(InputLabel)`
@@ -104,6 +121,7 @@ const CategorySelect = styled(Select)`
 // 전체 크기
 const CategoryFormControl = styled(FormControl)`
   width: 100%;
+
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.white};
 
@@ -134,83 +152,30 @@ const CategoryFormControl = styled(FormControl)`
     }
   }
 `;
-
 const CategoryMenuItem = styled(MenuItem)``;
-const WritingEditor = ({ setImage }) => {
-  const [answer, setAnswer] = useState(""); //editor
-  // const [flag, setFlag] = useState(false);
-  const [category, setCategory] = useState("");
-  const [detail, setDetail] = useState({
-    //input
-    title: "",
-  });
 
-  const onClick = (e) => {
-    // answer와 detail을 값을 넘겨줘서 클릭시 콘솔에 찍히게 해줘야 한다
-    // setDetail(e.target.value),
-    // setAnswer(e.target.value)
-  };
-  /** */
+const WritingEditor = ({ setImage }) => {
+  // const [answer, setAnswer] = useState(""); //editor
+  // const [flag, setFlag] = useState(false);
+  const [category, setCategory] = useState(""); // M ui
+
+  const [title, setTitle] = useState("");
+
   const handleChange = (event) => {
     setCategory(event.target.value);
-    console.log(category);
-  };
-  const editorChange = (event) => {
-    setAnswer({
-      ...answer,
-      content: event.target.value,
-    });
-    console.log(answer);
   };
   const titleChange = (event) => {
-    setDetail({
-      ...detail,
-      title: event.target.value,
-    });
-    console.log(detail);
-  };
-  const API_URL = "https://noteyard-backend.herokuapp.com";
-  const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
-
-  const uploadAdapter = (loader) => {
-    // (2)
-    return {
-      upload: () => {
-        return new Promise((resolve, reject) => {
-          const body = new FormData();
-          loader.file.then((file) => {
-            body.append("uploadImg", file);
-            fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
-              method: "post",
-              body: body,
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                resolve({ default: `https://ibb.co/TWfQMJN` });
-              })
-              .catch((err) => {
-                reject(err);
-              });
-          });
-        });
-      },
-    };
+    setTitle(event.target.value);
   };
 
-  function uploadPlugin(editor) {
-    // (3)
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-      return uploadAdapter(loader);
-    };
-  }
   return (
     <div>
-      <SpanTitle>
+      <SpanContainer>
         <SpanContent>
           <span className="SpanTitle">제목</span>
-          <input type="text" value={detail.title} onChange={titleChange} />
-          <div className="menu">
-            {/* mui 사용 */}
+          <input type="text" value={title.title} onChange={titleChange} />
+          {/* <Mui /> */}
+          <MuiContainer>
             <CategoryBox sx={{ minWidth: 180 }}>
               <CategoryFormControl>
                 <CategoryInputLabel id="demo-simple-select-label">
@@ -219,8 +184,11 @@ const WritingEditor = ({ setImage }) => {
                 </CategoryInputLabel>
                 <CategorySelect
                   sx={{
+                    // 카테고리 테두리 지우는 부분
                     boxShadow: "none",
-                    ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                    ".MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                    },
                   }}
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -228,59 +196,18 @@ const WritingEditor = ({ setImage }) => {
                   label="category"
                   onChange={handleChange}
                 >
-                  <CategoryMenuItem value={"일반"}>일 반</CategoryMenuItem>
-                  <CategoryMenuItem value={"정보"}>정 보</CategoryMenuItem>
-                  <CategoryMenuItem value={"질문"}>질 문</CategoryMenuItem>
+                  <CategoryMenuItem value={"GENERAL"}>일 반</CategoryMenuItem>
+                  <CategoryMenuItem value={"INFORMATION"}>
+                    정 보
+                  </CategoryMenuItem>
+                  <CategoryMenuItem value={"QUESTION"}>질 문</CategoryMenuItem>
                 </CategorySelect>
               </CategoryFormControl>
             </CategoryBox>
-          </div>
+          </MuiContainer>
         </SpanContent>
-      </SpanTitle>
-      <CKEditor
-        editor={ClassicEditor}
-        data=""
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          setAnswer({
-            ...answer,
-            content: data,
-          });
-          console.log(answer);
-        }}
-        config={{
-          extraPlugins: [uploadPlugin],
-          toolbar: {
-            items: [
-              "heading",
-              "|",
-              "bold",
-              "italic",
-              "link",
-              "bulletedList",
-              "numberedList",
-              "|",
-              "insertTable",
-              "mediaEmbed",
-              "undo",
-              "redo",
-              "alignment",
-              "fontSize",
-              "highlight",
-              "imageUpload",
-            ],
-          },
-        }}
-      />
-      <WritingButton
-        // title={detail.title}
-        // setDetail={setDetail}
-        // handleChange={handleChange}
-        // titleChange={titleChange}
-        // answer={answer}
-        // onClicks={onClick}
-        editorChange={editorChange}
-      />
+      </SpanContainer>
+      <CkEditor title={title} category={category} />
     </div>
   );
 };

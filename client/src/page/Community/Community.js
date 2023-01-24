@@ -268,7 +268,7 @@ export default function Community() {
   const [items, setItems] = useState([]);
 
   const [searchItems, setSearchItems] = useState([]);
-  const limit = 15;
+  const limit = 1;
 
   const navigate = useNavigate();
 
@@ -285,79 +285,55 @@ export default function Community() {
   //----------------------------------------------------------------------------
 
   // 정식 데이터 전체조회 (axios.async/awit)
-  useEffect(() => {
-    const url =
-      "http://ec2-54-180-55-239.ap-northeast-2.compute.amazonaws.com:8080";
-    // const token = Cookies.get("token");
+  const url =
+    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+  // const token = Cookies.get("token");
 
-    const fetchData = async () => {
-      try {
-        // setLoading(true);
-        const res = await axios.get(`${url}/boards?page=1&size=15`, {
-          headers: {
-            Accept: "application/json",
-            // Authorization: token,
-          },
-        });
-        // setPosts(response.data);
-        // setLoading(false);
-
-        console.log(res.data);
-        const total = res.headers.get("x-total-count");
-        console.log(total);
-        setItems(res.data);
-      } catch (err) {
-        throw err;
-      }
-    };
-    fetchData();
-  }, []);
-
-  // 정식 데이터 세부조회 (axios.async/awit)
-  // useEffect(() => {
-  //   const url = "http://ec2-54-180-55-239.ap-northeast-2.compute.amazonaws.com:8080";
-  //   const token = localStorage.getItem("accessToken");
-
-  //   const fetchData = async () => {
-  //     try{
-  //       setLoading(true);
-  //       const response = await axios.get(`${url}/boards/1`, {
-  //                 headers: {
-  //                   Accept: "application/json",
-  //                   Authorization: token,
-  //                 },
-  //               })
-  //       setPosts(response.data);
-  //       setLoading(false);
-  //     } catch(err) {
-  //       throw err;
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
-
-  //----------------------------------------------------------------------------
-
-  // 카테고리별 데이터
-  const handleLoadAll = async (page) => {
-    await axios
-      .get(
-        `https://jsonplaceholder.typicode.com/comments?_page=1&_limit=${limit}`
-      )
-      .then((res) => {
-        const arr = res.data;
-        console.log(arr);
-        const total = res.headers.get("x-total-count"); // 500
-        setItems(arr);
-      })
-      .catch((err) => {
-        console.log(err.response);
+  const handleLoadAll = async () => {
+    try {
+      // setLoading(true);
+      const res = await axios.get(`${url}/boards?page=1&size=${limit}`, {
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: token,
+        },
       });
+      // setPosts(response.data);
+      // setLoading(false);
+
+      console.log(res.data);
+      setItems(res.data);
+    } catch (err) {
+      throw err;
+    }
   };
 
   useEffect(() => {
     handleLoadAll();
   }, []);
+
+  //----------------------------------------------------------------------------
+
+  // 카테고리별 데이터
+  // const handleLoadAll = async (page) => {
+  //   await axios
+  //     .get(
+  //       `https://jsonplaceholder.typicode.com/comments?_page=1&_limit=${limit}`
+  //     )
+  //     .then((res) => {
+  //       const arr = res.data;
+  //       // console.log(arr);
+  //       const total = res.headers.get("x-total-count"); // 500
+  //       setItems(arr);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.response);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   handleLoadAll();
+  // }, []);
 
   const handleLoadGeneral = async (page) => {
     // await axios
@@ -391,8 +367,12 @@ export default function Community() {
 
   // 페이지네이션 데이터
   const axiosPosts = async (currentPage) => {
+    const url =
+      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+
     const res = await axios.get(
-      `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
+      // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
+      `${url}/boards?page=${currentPage}&size=${limit}`
     );
     const data = await res.data;
     return data;
@@ -418,7 +398,11 @@ export default function Community() {
           <TopBox>
             <CategoryWritingBtnBar>
               <Categories>
-                <Cate onClick={handleLoadAll}>전체</Cate>
+                <Cate
+                // onClick={handleLoadAll}
+                >
+                  전체
+                </Cate>
                 <Cate onClick={handleLoadGeneral}>일반</Cate>
                 <Cate>정보</Cate>
                 <Cate>질문</Cate>
@@ -450,23 +434,28 @@ export default function Community() {
                 //   navigate(`/view2/${item.id}`);
                 // };
                 return (
-                  <Post key={item.id}>
+                  <Post key={item.boardSeq}>
                     <PostHead>
                       <PostHeadBox>정보</PostHeadBox>
                     </PostHead>
                     <PostTitleBox>
                       <PostTitle className="ellipsis">
-                        <StyledLink to={`/view2/${item.id}`}>
-                          {item.name}
+                        <StyledLink to={`/boards/${item.boardSeq}`}>
+                          {item.title}
                         </StyledLink>
                       </PostTitle>
 
                       <PostComment>[1]</PostComment>
+                      {/* 댓글 수 확인하려면 특정게시물 조회? */}
                     </PostTitleBox>
-                    <PostDate>22/01/04</PostDate>
-                    <PostView>123</PostView>
-                    <PostLike>15</PostLike>
-                    <PostWriter>{item.id}</PostWriter>
+                    <PostDate>
+                      22/01/04
+                      {/* {item.createdAt} */}
+                      {/* 날짜 변환!! */}
+                    </PostDate>
+                    <PostView>{item.viewCount}</PostView>
+                    <PostLike>{item.voteResult}</PostLike>
+                    <PostWriter>{item.boardSeq}</PostWriter>
                   </Post>
                 );
               })}
@@ -477,7 +466,7 @@ export default function Community() {
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={25}
+        pageCount={15}
         marginPagesDisplayed={3}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}

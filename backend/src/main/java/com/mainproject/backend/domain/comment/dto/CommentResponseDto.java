@@ -12,7 +12,10 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
     private long commentSeq;
     private long userSeq;
+<<<<<<< HEAD
+=======
     private String userId;
+>>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
     private String content;
     private long boardSeq;
     private LocalDateTime createdAt;

@@ -3,11 +3,10 @@ import { FormProvider, useForm } from "react-hook-form";
 import styled from "styled-components";
 import Input from "../../component/Input";
 import AlertWarning from "../../component/AlertWarning";
-import { login } from "../../api/userAPI";
+import { login, socialLogin } from "../../api/userAPI";
 import { useNavigate } from "react-router-dom";
 import { MainBtn } from "../../component/Button";
 import { Cookies } from "react-cookie";
-
 import { setCookie } from "../../Cookies";
 
 const InputLayout = styled.div`
@@ -36,6 +35,7 @@ let SocialLogin = styled.div`
 `;
 let SocialLoginLogo = styled.img`
   width: 40px;
+  max-width: 40px;
   height: 40px;
   margin: 20px;
 `;
@@ -43,10 +43,15 @@ let SocialLoginLogo = styled.img`
 const LoginContainer = () => {
   const [isAuthorized, setisAuthorized] = useState(true);
   // const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const cookie = new Cookies();
   const methods = useForm();
   const error = methods?.formState?.errors;
+
+  const handleSocial = () => {
+    // socialLogin;
+  };
 
   const idValidation = {
     required: "아이디를 입력해주세요.",
@@ -62,10 +67,10 @@ const LoginContainer = () => {
 
   const passwordValidation = {
     required: "비밀번호를 입력해주세요.",
-    // pattern: {
-    //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-    //   message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
-    // },
+    pattern: {
+      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+      message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
+    },
   };
   // const expireDate = new Date()
   // expireDate.setMinutes(expireDate.getMinutes() + 10)
@@ -138,6 +143,7 @@ const LoginContainer = () => {
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/google.svg"}
           alt=""
+          // onClick={handleSocial}
         />
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/naver.svg"}

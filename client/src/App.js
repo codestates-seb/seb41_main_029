@@ -9,13 +9,19 @@ import Signup from "./page/Signup";
 import Community from "./page/Community/Community";
 import View from "./page/View/ViewPresenter";
 import Writing from "./page/Writing/Writing";
-import MyPage from "./page/MyPage";
+import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
 
 import View2 from "./page/Community/View2";
 import Community2 from "./page/Community/Community2";
+
+import EditWriting from "./page/EditWriting/EditWritingPresenter";
+
+//   path: "/boards/edit/:boardSeq",
+//   element: <EditWriting />,
+// },
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -39,12 +45,13 @@ function App() {
             <Route path="/login" element={<LoginPresenter />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/community" element={<Community />} />
-            <Route path="/view" element={<View />} />
             <Route path="/writing" element={<Writing />} />
+            {/* <Route path="/boards/edit/:boardSeq" element={<Writing />} /> */}
+            <Route path="/boards/edit/:boardSeq" element={<EditWriting />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypageedit" element={<MyPageEdit />} />
             <Route path="/hikingmap" element={<HikingMap />} />
-            <Route path="/view2/:boardSeq" element={<View2 />} />
+            <Route path="/boards/:boardSeq" element={<View />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
