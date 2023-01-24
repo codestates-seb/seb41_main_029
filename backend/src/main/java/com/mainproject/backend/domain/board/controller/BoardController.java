@@ -107,7 +107,7 @@ public class BoardController {
     }
 
     //추천
-    @PostMapping("/{board-seq}")
+    @PostMapping("/like/{board-seq}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse likeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
         User user = getPrincipal();
