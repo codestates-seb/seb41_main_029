@@ -44,7 +44,7 @@ public class CommentController {
     }
 
     //답변 수정
-    @PatchMapping("/{board-seq}/{comment-id}")
+    @PatchMapping("/{board-seq}/{comment-seq}")
     public ResponseEntity patchComment(@PathVariable("board-seq") Long boardSeq,
                                        @PathVariable("comment-seq") Long commentSeq,
                                        @Valid @RequestBody CommentDto.CommentPatchDto commentPatchDto){
@@ -52,11 +52,14 @@ public class CommentController {
         User user = getPrincipal();
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
-        Comment comment = commentMapper.commentPatchDtoToComment(commentPatchDto);
-        comment = commentService.updateComment(comment);
+        Comment currentComment = commentMapper.commentPatchDtoToComment(commentPatchDto);
+        currentComment.setCommentSeq(commentSeq);
+        currentComment.setBoard(currentBoard);
+        currentComment.setUser(user);
+        currentComment = commentService.updateComment(currentComment);
 
 //        Comment comment = commentService.updateComment(commentMapper.commentPatchDtoToComment(commentPatchDto));
-        return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(comment), HttpStatus.OK);
+        return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(currentComment), HttpStatus.OK);
     }
 
     //답변조회

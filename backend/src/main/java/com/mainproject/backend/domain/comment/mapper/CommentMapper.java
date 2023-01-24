@@ -19,10 +19,7 @@ public interface CommentMapper {
     }
     default  Comment commentPatchDtoToComment(CommentDto.CommentPatchDto commentPatchDto){
         Comment comment = new Comment();
-        Board board = new Board();
-        board.setBoardSeq(comment.getBoard().getBoardSeq());
 
-        comment.setBoard(board);
         comment.setContent(commentPatchDto.getContent());
 
         return comment;

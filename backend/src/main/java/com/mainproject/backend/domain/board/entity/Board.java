@@ -58,7 +58,7 @@ public class Board extends Auditable { //시간 추가
     private int bookmarked; // 즐겨찾기 수
 
     @Column(nullable = true)
-    private boolean BookmarkStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
+    private boolean bookmarkStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
 
 //    @Column(nullable = true)
 //    private int bookmarked1; // 즐겨찾기 수
@@ -69,7 +69,7 @@ public class Board extends Auditable { //시간 추가
         this.bookmarked += 1;
     }
     public void increaseBookmarkStatus(){
-        this.BookmarkStatus = true;
+        this.bookmarkStatus = true;
     }
 //    public void increaseBookmarkStatus1(){
 //        this.bookmarked1 += 1;
@@ -79,7 +79,7 @@ public class Board extends Auditable { //시간 추가
         this.bookmarked -= 1;
     }
     public void decreaseBookmarkStatus(){
-        this.BookmarkStatus = false;
+        this.bookmarkStatus = false;
     }
 //    public void decreaseBookmarkStatus1(){
 //        this.bookmarked1 -= 1;
