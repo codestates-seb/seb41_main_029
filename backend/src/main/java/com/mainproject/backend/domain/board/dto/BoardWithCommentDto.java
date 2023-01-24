@@ -16,6 +16,7 @@ public class BoardWithCommentDto {
     private String content;
     private Integer viewCount;
     private String userId;
+    private String username;
     private String profileImageUrl;
     private boolean bookmarkStatus;
     private int bookmarkCount;

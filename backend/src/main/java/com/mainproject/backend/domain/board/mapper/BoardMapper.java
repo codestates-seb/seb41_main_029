@@ -56,6 +56,7 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setCategory(board.getCategory().getValue());
        boardWithCommentResponseDto.setTitle(board.getTitle());
        boardWithCommentResponseDto.setUserId(board.getUser().getUserId());
+       boardWithCommentResponseDto.setUsername(board.getUser().getUsername());
        boardWithCommentResponseDto.setProfileImageUrl(board.getUser().getProfileImageUrl());
        boardWithCommentResponseDto.setBookmarkStatus(board.isBookmarkStatus());
        boardWithCommentResponseDto.setContent(board.getContent());
