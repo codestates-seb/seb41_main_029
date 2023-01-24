@@ -17,12 +17,6 @@ import NotFound from "./page/NotFound";
 import View2 from "./page/Community/View2";
 import Community2 from "./page/Community/Community2";
 
-import EditWriting from "./page/EditWriting/EditWritingPresenter";
-
-//   path: "/boards/edit/:boardSeq",
-//   element: <EditWriting />,
-// },
-
 const GlobalStyle = createGlobalStyle`
 *{
   font-family:"Noto Sans CJK KR"
@@ -52,6 +46,7 @@ function App() {
             <Route path="/mypageedit" element={<MyPageEdit />} />
             <Route path="/hikingmap" element={<HikingMap />} />
             <Route path="/boards/:boardSeq" element={<View />} />
+            <Route path="/hikingInfo" element={<HikingInfo />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
