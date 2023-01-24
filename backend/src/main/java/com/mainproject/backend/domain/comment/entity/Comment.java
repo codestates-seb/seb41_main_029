@@ -7,6 +7,8 @@ import com.mainproject.backend.global.audit.Auditable;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -15,6 +17,15 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class Comment extends Auditable {
+
+
+    public void increaseLikeCount() {
+        this.liked += 1;
+    }
+    public void increaseDislikeCount() {
+        this.disliked += 1;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentSeq;
@@ -25,10 +36,17 @@ public class Comment extends Auditable {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_seq")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Board board;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
     private User user;
+
+    @Column(nullable = true)
+    private int liked; // 추천 수
+
+    @Column(nullable = true)
+    private int disliked; // 비추천 수
 }

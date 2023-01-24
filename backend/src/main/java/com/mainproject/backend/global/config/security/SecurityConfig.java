@@ -73,6 +73,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/login", "/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/boards", "/boards/**", "/comments", "/comments/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/boards/**").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/comments/**").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/boards/**").permitAll()
                 .and()
                     .csrf().disable()
                     .formLogin().disable()
@@ -172,6 +174,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
         corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
         corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
+        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
 

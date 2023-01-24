@@ -13,6 +13,7 @@ import com.mainproject.backend.global.Response.api.ApiResponse;
 import com.mainproject.backend.global.exception.MemberNotFoundException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.bridge.Message;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +47,7 @@ public class BoardController {
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
+
     //게시글 수정
     @PatchMapping("/{board-seq}")
     public ResponseEntity patchBoard(@PathVariable("board-seq") Long boardSeq,
@@ -54,7 +56,8 @@ public class BoardController {
         Board board = boardService.updateBoard(boardMapper.boardPatchDtoToBoard(patchDto));
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.OK);
     }
-    //게시글 가져오기
+
+    //게시글 조회
     @GetMapping("/{board-seq}")
     public ResponseEntity getBoard(@PathVariable("board-seq") Long boardSeq) {
 
@@ -63,21 +66,28 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardWithCommentResponseDto(findBoard), HttpStatus.OK);
     }
 
-    @GetMapping
-    public ResponseEntity getBoards(@RequestParam("page") @Positive int page,
-                                    @RequestParam("size") @Positive int size) {
-//        Page<Board> board = boardService.getBoard(page -1, size);
-//
-//        List<Board> content = board.getContent();
-//        return new ResponseEntity(new MultiResponseDto<>(boardMapper.boardsToBoardResponsesDto(content), board),
-//                HttpStatus.OK);
-
-        List<Board> board = boardService.findAllBoard(page, size).getContent();
+    //전체 게시글 조회
+    @GetMapping("/all")
+    public ResponseEntity getAllBoard(@RequestParam(value = "sort-by") String sortBy,
+                                      @Positive @RequestParam("page") int page,
+                                      @Positive @RequestParam("size") int size) {
+        List<Board> board = boardService.findAllBoard(page -1, size, sortBy).getContent();
         return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
-
     }
 
-    //검색 게시물 조회
+    //카테고리별 조회
+    @GetMapping("/all/{category-id}")
+    public ResponseEntity getAllBoardCategory(@PathVariable("category-id") Long categoryId,
+                                              @RequestParam(value = "sort-by") String sortBy,
+                                              @Positive @RequestParam("page") int page,
+                                              @Positive @RequestParam("size") int size) {
+
+        List<Board> board = boardService.findAllCategoryBoard(categoryId, page -1, size, sortBy).getContent();
+        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
+    }
+
+
+    //게시물 검색
     @GetMapping("/search")
     public ResponseEntity findAllBySearch(@RequestParam("keyword") String keyword,
                                           @RequestParam("page") @Positive int page,
@@ -91,24 +101,37 @@ public class BoardController {
     //게시글 삭제
     @DeleteMapping("/{board-seq}")
     public ResponseEntity deleteBoard(@PathVariable("board-seq") @Positive Long boardSeq){
-        boardService.deleteBoard(boardSeq);
+        boardService.deleteBoard(boardSeq, getPrincipal().getUserSeq());
 
         return new ResponseEntity<>("게시글 삭제",HttpStatus.NO_CONTENT);
     }
 
     //추천
-    @PostMapping("/{board-seq}")
+    @PostMapping("/like/{board-seq}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse likeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
         User user = getPrincipal();
+
+        //추천 중복 처리
+        Board currentBoard = new Board();
+        currentBoard.setBoardSeq(boardSeq);
+        if(boardService.hasLikeBoard(currentBoard, user)){
+            return ApiResponse.fail();
+        }
         return ApiResponse.success("boardLike", boardService.updateLikeOfBoard(boardSeq, user));
     }
+
 
     //비추천
     @PostMapping("/dislike/{board-seq}")
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse dislikeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
         User user = getPrincipal();
+        Board currentBoard = new Board();
+        currentBoard.setBoardSeq(boardSeq);
+        if(boardService.hasDislikeBoard(currentBoard, user)){
+            return ApiResponse.fail();
+        }
         return ApiResponse.success("boardDislike", boardService.updateDislikeOfBoard(boardSeq, user));
     }
 

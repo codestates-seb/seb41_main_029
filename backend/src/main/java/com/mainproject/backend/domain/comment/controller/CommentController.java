@@ -8,6 +8,7 @@ import com.mainproject.backend.domain.comment.mapper.CommentMapper;
 import com.mainproject.backend.domain.comment.service.CommentService;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
+import com.mainproject.backend.global.Response.api.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,36 +45,68 @@ public class CommentController {
     }
 
     //답변 수정
-    @PatchMapping("/{board-seq}/{comment-id}")
-    public ResponseEntity patchComment(@PathVariable("board-seq") Long boardSeq,
-                                       @PathVariable("comment-seq") Long commentSeq,
+    @PatchMapping("/{board-seq}/{comment-seq}")
+    public ResponseEntity patchComment(@PathVariable("board-seq") long boardSeq,
+                                       @PathVariable("comment-seq") long commentSeq,
                                        @Valid @RequestBody CommentDto.CommentPatchDto commentPatchDto){
 
-        User user = getPrincipal();
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
-        Comment comment = commentMapper.commentPatchDtoToComment(commentPatchDto);
-        comment = commentService.updateComment(comment);
+        Comment currentComment = commentMapper.commentPatchDtoToComment(commentPatchDto);
+        currentComment.setCommentSeq(commentSeq);
+        currentComment.setBoard(currentBoard);
+        currentComment = commentService.updateComment(currentComment);
 
 //        Comment comment = commentService.updateComment(commentMapper.commentPatchDtoToComment(commentPatchDto));
-        return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(comment), HttpStatus.OK);
+        return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(currentComment), HttpStatus.OK);
     }
 
-    //답변조회
-    @GetMapping("/{comment-id}")
-    public ResponseEntity getComment(@PathVariable("comment-id")long commentId){
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    //답변조회
+//    @GetMapping("/{comment-id}")
+//    public ResponseEntity getComment(@PathVariable("comment-id")long commentId){
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     //답변 삭제
-    @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteComment(@PathVariable("comment-id") long commentId){
+    @DeleteMapping("/{board-seq}/{comment-seq}")
+    public ResponseEntity deleteComment(@PathVariable("board-seq") long boardSeq,
+                                        @PathVariable("comment-seq") long commentSeq){
 
-        commentService.deleteComment(commentId);
+        Board currentBoard = new Board();
+        currentBoard.setBoardSeq(boardSeq);
+        commentService.deleteComment(commentSeq);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    //추천
+    @PostMapping("/like/{comment-seq}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse likeComment(@PathVariable("comment-seq") @Positive Long commentSeq) {
+        User user = getPrincipal();
+        Comment currentComment = new Comment();
+        currentComment.setCommentSeq(commentSeq);
+        //추천 중복 처리
+        if(commentService.hasLikeComment(currentComment, user)){
+            return ApiResponse.fail();
+        }
+        return ApiResponse.success("boardLike", commentService.updateLikeOfComment(commentSeq, user));
+    }
+
+
+    //비추천
+    @PostMapping("/dislike/{comment-seq}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse dislikeComment(@PathVariable("comment-seq") @Positive Long commentSeq) {
+        User user = getPrincipal();
+        Comment currentComment = new Comment();
+        currentComment.setCommentSeq(commentSeq);
+        if(commentService.hasDislikeComment(currentComment, user)){
+            return ApiResponse.fail();
+        }
+        return ApiResponse.success("boardDislike", commentService.updateDislikeOfComment(commentSeq, user));
+    }
+
     //인증
     private User getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
