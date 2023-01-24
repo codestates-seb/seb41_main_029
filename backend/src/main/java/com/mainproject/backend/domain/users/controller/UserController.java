@@ -89,9 +89,6 @@ public class UserController {
     }
 
     //작성자가 쓴 댓글 조회
-
-
-
 //    @ResponseStatus(HttpStatus.OK)
 //    @PutMapping("/users")
 //    public ApiResponse editUserInfo(@RequestBody MemberEditRequestDto memberEditRequestDto) {
