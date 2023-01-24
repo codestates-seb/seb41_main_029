@@ -4,6 +4,7 @@ import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
 import com.mainproject.backend.domain.board.entity.DislikeBoard;
 import com.mainproject.backend.domain.board.entity.LikeBoard;
+import com.mainproject.backend.domain.board.option.Category;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
 import com.mainproject.backend.domain.board.repositoty.DislikeBoardRepository;
@@ -18,12 +19,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 /*
 *
 *
@@ -48,11 +53,6 @@ public class BoardService {
     //게시글 등록
     public Board createBoard(Board board, User user) {
         board.setUser(user);
-//        if (!hasBookmarkBoard(board, user)) {
-////            board.increaseBookmarkCount();
-//            board.setBookmarkStatus(false);
-//        }else board.setBookmarkStatus(true);
-
 
         return boardRepository.save(board);
     }
@@ -78,16 +78,52 @@ public class BoardService {
     public Board findBoardAndPlusViewCount(Long boardSeq) {
         User user = getPrincipal();
         Board findBoard = findVerifiedBoard(boardSeq);
-        if(hasBookmarkBoard(findBoard, user)){
+        findBoard.plusViewCount();
+        if (!hasBookmarkBoard(findBoard, user)) {
             findBoard.setBookmarkStatus(true);
         }else findBoard.setBookmarkStatus(false);
-        findBoard.plusViewCount();
 
         return findBoard;
     }
 
-    public Page<Board> findAllBoard(int page, int size) {
-        return boardRepository.findAll(PageRequest.of(page -1 , size, Sort.by("boardSeq").descending()));
+    //전체 게시물 조회
+    public Page<Board> findAllBoard(int page, int size, String sortBy) {
+        return boardRepository.findAllByBoardStatus(getPageRequest(page, size, sortBy), Board.BoardStatus.BOARD_EXIST);
+    }
+
+    //카테고리 별 게시물 조회
+    public Page<Board> findAllCategoryBoard(Long categoryId, int page, int size, String sortBy) {
+        Category boardCategory = categoryIdToboardCategory(categoryId);
+        return boardRepository.findByCategoryAndBoardStatus(boardCategory, getPageRequest(page, size, sortBy), Board.BoardStatus.BOARD_EXIST)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+    }
+
+    //정렬
+    private PageRequest getPageRequest(int page, int size, String sortBy){
+        if(sortBy.equals("최신순"))
+            sortBy = "boardSeq";
+        else if(sortBy.equals("조회순"))
+            sortBy = "viewCount";
+        else if(sortBy.equals("추천순"))
+            sortBy = "liked";
+        else if(sortBy.equals("북마크순"))
+            sortBy = "bookmarked";
+
+        return PageRequest.of(page, size, Sort.by(sortBy).descending());
+    }
+
+    // 카테고리 id -> 카테고리 enum으로 변환
+    private Category categoryIdToboardCategory(Long categoryId){
+        Category boardCategory = null;
+
+        if(categoryId == 1) {
+            boardCategory = Category.GENERAL;
+        }else if(categoryId == 2) {
+            boardCategory = Category.INFORMATION;
+        }else if(categoryId == 3) {
+            boardCategory = Category.QUESTION;
+        }
+        return boardCategory;
     }
 
     //게시글 찾기
@@ -95,6 +131,11 @@ public class BoardService {
         Optional<Board> optionalBoard = boardRepository.findById(boardSeq);
         Board findBoard = optionalBoard.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+
+        //해당 글이 없거나 삭제된 경우 ExceptionCode를 발생한다.
+        if(findBoard.getBoardStatus() == Board.BoardStatus.BOARD_NOT_EXIST) {
+            throw new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND);
+        }
         return findBoard;
     }
 
@@ -105,14 +146,28 @@ public class BoardService {
     }
 
     //게시글 삭제
-    public void deleteBoard(Long boardSeq) {
+    public void deleteBoard(Long boardSeq, Long userSeq) {
         Board findBoard = findVerifiedBoard(boardSeq);
-        boardRepository.delete(findBoard);
+
+        long writerBoardSeq = findWriteBoardSeq(boardSeq);
+
+        if(userSeq != writerBoardSeq) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
+        }
+        findBoard.setBoardStatus(Board.BoardStatus.BOARD_NOT_EXIST);
+        boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 경정한다.
     }
 
+    //질문 작성자 아이디 찾는 메서드
+    public long findWriteBoardSeq(long boardSeq) {
+        Board board = findVerifiedBoard(boardSeq);
+        return board.getUser().getUserSeq();
+    }
+
+    //북마크 추가
     @Transactional
-    public String updateOfBookmarkBoard(Long id, User user) {
-        Board board = boardRepository.findById(id).orElseThrow(BoardNotFoundException::new);
+    public String updateOfBookmarkBoard(Long boardSeq, User user) {
+        Board board = findVerifiedBoard(boardSeq);
         if (!hasBookmarkBoard(board, user)) {
             board.increaseBookmarkCount();
             board.increaseBookmarkStatus();
@@ -123,24 +178,25 @@ public class BoardService {
         return removeBookmarkBoard(board, user);
     }
 
+    //추천
     @Transactional
     public String updateLikeOfBoard(Long boardSeq, User user) {
-        Board board = boardRepository.findById(boardSeq).orElseThrow(BoardNotFoundException::new);
+        Board board = findVerifiedBoard(boardSeq);
         if (!hasLikeBoard(board, user)) {
             board.increaseLikeCount();
             return createLikeBoard(board, user);
         }else return FAIL_LIKE_BOARD;
     }
 
+    //비추천
     @Transactional
     public String updateDislikeOfBoard(Long boardSeq, User user) {
-        Board board = boardRepository.findById(boardSeq).orElseThrow(BoardNotFoundException::new);
+        Board board = findVerifiedBoard(boardSeq);
         if (!hasDislikeBoard(board, user)) {
             board.increaseDislikeCount();
             return createDislikeBoard(board, user);
         }else return FAIL_DISLIKE_BOARD;
     }
-
 
 
     //추천 기능
@@ -167,7 +223,7 @@ public class BoardService {
                 .orElseThrow(BookmarkNotFoundException::new);
         bookmarkRepository.delete(bookmark);
         return SUCCESS_UNBOOKMARK_BOARD;
-    }
+}
 
     public boolean hasLikeBoard(Board board, User user){
         return likeBoardRepository.findByBoardAndUser(board, user).isPresent();
