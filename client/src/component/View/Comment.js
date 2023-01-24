@@ -157,11 +157,10 @@ const Comment = ({ comment }) => {
     // editComment();
   };
   const handleDelete = () => {
-    // deleteComment()
     if (window.confirm("정말 삭제 하시겠습니까?")) {
       // alert("삭제되었습니다")
+      deleteComment(token);
       window.location.reload();
-    } else {
     }
   };
   return (

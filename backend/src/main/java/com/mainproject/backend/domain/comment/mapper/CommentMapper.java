@@ -2,7 +2,6 @@ package com.mainproject.backend.domain.comment.mapper;
 
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.dto.CommentDto;
-import com.mainproject.backend.domain.comment.dto.CommentResponseDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import org.mapstruct.Mapper;
 
@@ -11,7 +10,6 @@ public interface CommentMapper {
     default Comment commentPostDtoToComment(CommentDto.CommentPostDto commentPostDto){
         Comment comment = new Comment();
         Board board = new Board();
-        board.setBoardSeq(commentPostDto.getBoardSeq());
 
         comment.setBoard(board);
         comment.setContent(commentPostDto.getContent());
@@ -22,7 +20,7 @@ public interface CommentMapper {
     default  Comment commentPatchDtoToComment(CommentDto.CommentPatchDto commentPatchDto){
         Comment comment = new Comment();
         Board board = new Board();
-        board.setBoardSeq(commentPatchDto.getBoardSeq());
+        board.setBoardSeq(comment.getBoard().getBoardSeq());
 
         comment.setBoard(board);
         comment.setContent(commentPatchDto.getContent());
@@ -33,6 +31,7 @@ public interface CommentMapper {
         CommentDto.Response commentResponseDto = new CommentDto.Response();
 
         commentResponseDto.setCommentSeq(comment.getCommentSeq());
+        commentResponseDto.setUserSeq(comment.getUser().getUserSeq());
         commentResponseDto.setBoard(comment.getBoard());
         commentResponseDto.setContent(comment.getContent());
 

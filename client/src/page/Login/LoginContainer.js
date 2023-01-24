@@ -89,6 +89,7 @@ const LoginContainer = () => {
       cookie.set("token", token);
       // dispatch(setUser({ token, userId1 }));
       navigate("/");
+      window.location.reload();
     }
   };
 
