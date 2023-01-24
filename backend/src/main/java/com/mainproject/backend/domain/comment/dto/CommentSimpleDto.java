@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class CommentSimpleDto {
     private Long CommentSeq;
     private Long boardSeq;
-    private String username;
     private String content;
+    private String username;
     private int liked;
     private int disliked;
 
