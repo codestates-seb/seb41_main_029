@@ -50,13 +50,11 @@ public class CommentController {
                                        @PathVariable("comment-seq") long commentSeq,
                                        @Valid @RequestBody CommentDto.CommentPatchDto commentPatchDto){
 
-        User user = getPrincipal();
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
         Comment currentComment = commentMapper.commentPatchDtoToComment(commentPatchDto);
         currentComment.setCommentSeq(commentSeq);
         currentComment.setBoard(currentBoard);
-        currentComment.setUser(user);
         currentComment = commentService.updateComment(currentComment);
 
 //        Comment comment = commentService.updateComment(commentMapper.commentPatchDtoToComment(commentPatchDto));
