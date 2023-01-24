@@ -59,6 +59,7 @@ public class Board extends Auditable { //시간 추가
     public void increaseBookmarkCount() {
         this.bookmarked += 1;
     }
+
     public void increaseBookmarkStatus(){
         this.bookmarkStatus = true;
     }
@@ -66,6 +67,7 @@ public class Board extends Auditable { //시간 추가
     public void decreaseBookmarkCount() {
         this.bookmarked -= 1;
     }
+
     public void decreaseBookmarkStatus(){
         this.bookmarkStatus = false;
     }

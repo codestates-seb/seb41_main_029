@@ -56,7 +56,7 @@ public class UserController {
         return ApiResponse.success("user", mapper.userToUserResponse(user));
     }
 
-    //mypage 수정
+    //마이 페이지 수정
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/mypage")
     public ApiResponse<UserDto.Response> editMemberInfo(@RequestBody UserDto.Patch req) {

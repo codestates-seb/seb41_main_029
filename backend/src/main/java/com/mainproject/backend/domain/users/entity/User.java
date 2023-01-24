@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.users.dto.UserDto;
+import com.mainproject.backend.global.audit.Auditable;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.*;
@@ -24,7 +25,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name = "USER")
-public class User {
+public class User extends Auditable {
 
     @JsonIgnore
     @Id
@@ -68,24 +69,24 @@ public class User {
     @NotNull
     private RoleType roleType;
 
-    @Column(name = "CREATED_AT")
-    @NotNull
-    private LocalDateTime createdAt;
-
-    @Column(name = "MODIFIED_AT")
-    @NotNull
-    private LocalDateTime modifiedAt;
+//    @Column(name = "CREATED_AT")
+//    @NotNull
+//    private LocalDateTime createdAt;
+//
+//    @Column(name = "MODIFIED_AT")
+//    @NotNull
+//    private LocalDateTime modifiedAt;
 
 
     public User(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 32) String username,
-            @NotNull @Size(max = 512) String email,
+            @NotNull @Size(max = 64) String email,
             @NotNull @Size(max = 512) String profileImageUrl,
             @NotNull ProviderType providerType,
-            @NotNull RoleType roleType,
-            @NotNull LocalDateTime createdAt,
-            @NotNull LocalDateTime modifiedAt
+            @NotNull RoleType roleType
+//            @NotNull LocalDateTime createdAt,
+//            @NotNull LocalDateTime modifiedAt
     ) {
         this.userId = userId;
         this.username = username;
@@ -94,8 +95,8 @@ public class User {
         this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "https://user-images.githubusercontent.com/95069395/211246989-dd36a342-bf18-412e-b3ec-841ab3280d56.png";
         this.providerType = providerType;
         this.roleType = roleType;
-        this.createdAt = createdAt;
-        this.modifiedAt = modifiedAt;
+//        this.createdAt = createdAt;
+//        this.modifiedAt = modifiedAt;
     }
 
     public void editUser(UserDto.Patch req) {

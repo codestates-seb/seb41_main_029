@@ -50,6 +50,6 @@ public class UserDto {
         private String profileImageUrl;
         private String roleType;
         private LocalDateTime createdAt;
-        private LocalDateTime ModifiedAt;
+        private LocalDateTime modifiedAt;
     }
 }
