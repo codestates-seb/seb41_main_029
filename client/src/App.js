@@ -13,7 +13,7 @@ import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
-
+// import EditWritig from "./page/EditWriting/EditWritingPresenter";
 import View2 from "./page/Community/View2";
 import Community2 from "./page/Community/Community2";
 

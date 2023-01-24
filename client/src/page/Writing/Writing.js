@@ -2,7 +2,7 @@ import styled from "styled-components";
 import theme from "../../Theme";
 import axios from "axios";
 import * as React from "react";
-import WritingEditor from "./WritingEditor";
+import WritingMui from "./WritingMui";
 
 const TotalContainer = styled.div`
   width: 100%;
@@ -21,6 +21,7 @@ const TotalContainer = styled.div`
 
     @media (max-width: 1336px) {
       padding: 0 4% 0 4%;
+      /* margin: 0 4% 0 4%; */
     }
   }
   // 글 쓰는 창 크기 조절
@@ -176,7 +177,7 @@ export default function Writing() {
   return (
     <TotalContainer>
       <ContainerView>
-        <WritingEditor />
+        <WritingMui />
       </ContainerView>
     </TotalContainer>
   );
