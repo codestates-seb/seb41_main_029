@@ -104,7 +104,8 @@ const SubmitEditLayout = styled.div`
   flex-direction: row-reverse;
   .btn {
     @media screen and (max-width: 1336px) {
-      margin-right: 35px;
+      margin-right: 70px;
+      /* display: flex; */
     }
   }
 `;
@@ -128,24 +129,19 @@ const Comment = ({ comment }) => {
   const { boardSeq } = useParams();
   const methods = useForm();
   const onSubmit = async (data) => {
-    axios.post();
-    // const res = await postComment(data, token, boardSeq);
-    // if (res?.data?.status === 201) {
-    //   res();
-    //   window.location.reload();
-    //   console.log(data);
-    // }
-
-    // if (res.status === 201) {
-    //   window.location.replace(`/boards/${id.id}`);
+    editComment(data, token, boardSeq, commentSeq);
     // window.location.reload();
+    console.log(data);
   };
   const [edit, setEdit] = useState(false);
-  const userId = localStorage.getItem("userId");
+  // const userId = localStorage.getItem("userId");
   const cookie = new Cookies();
   const token = cookie.get("token");
   const userId1 = JSON.parse(localStorage.getItem("userId"));
-  // console.log(userId1);
+  const commentSeq = comment?.commentSeq;
+  console.log(comment?.commentSeq);
+
+  // console.log(boardSeq);
   const handleClickEdit = () => {
     if (2 !== 2) {
       alert("권한이 없습니다.");
@@ -153,13 +149,14 @@ const Comment = ({ comment }) => {
       setEdit(!edit);
     }
   };
-  const EditSubmit = () => {
-    // editComment();
-  };
+  // const EditSubmit = () => {
+  //   // editComment();
+  //   editComment(boardSeq);
+  // };
   const handleDelete = () => {
     if (window.confirm("정말 삭제 하시겠습니까?")) {
       // alert("삭제되었습니다")
-      deleteComment(token);
+      deleteComment(token, boardSeq, commentSeq);
       window.location.reload();
     }
   };
@@ -197,7 +194,7 @@ const Comment = ({ comment }) => {
                   defaultValue={comment?.content}
                 />
                 <SubmitEditLayout>
-                  <SubmitEdit className="btn" onClick={EditSubmit} width="60px">
+                  <SubmitEdit className="btn" width="60px">
                     등록
                   </SubmitEdit>
                 </SubmitEditLayout>

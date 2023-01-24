@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
+import { Cookies } from "react-cookie";
 import { Navigate } from "react-router-dom";
 import styled from "styled-components";
-import { Cookies } from "react-cookie";
 
 const Wrapper = styled.div`
   align-items: center;

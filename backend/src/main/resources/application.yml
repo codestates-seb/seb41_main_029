@@ -5,12 +5,21 @@ spring:
   profiles.active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+<<<<<<< HEAD
+    url: jdbc:mysql://localhost:3306/main?serverTimezone=Asia/Seoul
+    username: root
+    password: 1490431@#qwe
+  #    url: jdbc:mysql://localhost:3306/MAIN029?serverTimezone=Asia/Seoul
+  #    username: root
+  #    password: 5425
+=======
 #    url: jdbc:mysql://pre-database-1.cguixlvnvxu0.ap-northeast-2.rds.amazonaws.com:3306/MAIN029?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
 #    username: root
 #    password: 54255425
     url: jdbc:mysql://localhost:3306/MAIN029?serverTimezone=Asia/Seoul
     username: root
     password: 5425
+>>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
   output:
     ansi:
       enabled: always

@@ -2,6 +2,20 @@ import axios from "axios";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
+// export const postWriting = async (Token) => {
+//   try {
+//     const res = await axios({
+//       method: "post",
+//       url: `${url}boards/articles`,
+//       // Token이 있어야 접속 가능
+//       headers: { Authorization: `Bearer ${Token}` },
+//     });
+//     return res.data;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 export const getWriting = async (Token, boardSeq) => {
   try {
     const res = await axios({
@@ -31,13 +45,9 @@ export const deleteWriting = async (Token, boardSeq) => {
   }
 };
 
-export const editWriting = async (data, token, boardSeq, userSeq) => {
-  if (!token || !userSeq) {
-    return alert("post after login");
-  }
-  const endpoint = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
+export const editWriting = async (data, token, boardSeq) => {
+  const endpoint = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`;
   const formData = {
-    userSeq,
     content: data.content,
     title: data.title,
   };

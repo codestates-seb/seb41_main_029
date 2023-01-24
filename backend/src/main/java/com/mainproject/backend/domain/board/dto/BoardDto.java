@@ -3,11 +3,10 @@ package com.mainproject.backend.domain.board.dto;
 
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.option.Category;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 
@@ -22,7 +21,7 @@ public class BoardDto {
         private String title;
         @NotBlank
         private String content;
-        //카테고리
+
     }
 
     @Getter
@@ -60,11 +59,13 @@ public class BoardDto {
         private int likeCount;
         private int dislikeCount;
 
+<<<<<<< HEAD
+=======
 
         // 멤버 닉네임
+>>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-        // 답변 가져오기
 
         public response(Board board) {
             this.boardSeq = board.getBoardSeq();
@@ -82,6 +83,37 @@ public class BoardDto {
             this.viewCount = board.getViewCount();
             this.createdAt = board.getCreatedAt();
             this.modifiedAt = board.getModifiedAt();
+        }
+    }
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class PageBoardResponse {
+        private Long boardSeq;
+
+        private Long userSeq;
+        private String username;
+        private String category;
+        private String title;
+        private boolean BookmarkStatus;
+        private int bookmarkCount;
+        private int viewCount;
+        private int likeCount;
+        private int dislikeCount;
+        private LocalDateTime createdAt;
+
+        public PageBoardResponse(Board board) {
+            this.boardSeq = board.getBoardSeq();
+            this.userSeq = board.getUser().getUserSeq();
+            this.username = board.getUser().getUsername();
+            this.category = board.getCategory().getValue();
+            this.title = board.getTitle();
+            this.BookmarkStatus = board.isBookmarkStatus();
+            this.bookmarkCount = board.getBookmarked();
+            this.likeCount = board.getLiked();
+            this.dislikeCount = board.getDisliked();
+            this.viewCount = board.getViewCount();
+            this.createdAt = board.getCreatedAt();
         }
     }
 }

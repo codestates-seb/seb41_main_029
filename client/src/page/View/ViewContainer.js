@@ -223,26 +223,26 @@ const ViewContainer = () => {
   const handleClick = () => {
     navigate(`/boards/edit/${boardSeq}`);
   };
-  const [isBM, setIsBM] = useState(
-    // viewInfo?.data?.bookmarkStatus
-    false
-  );
+  const [isBM, setIsBM] = useState();
+  // viewInfo?.data?.bookmarkStatus
+  // false
   const handleClickBm = () => {
     if (!Token) {
       if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
         navigate("/login");
       }
     } else {
+      setIsBM(!isBM);
       bookMarking(Token, boardSeq);
-      // setIsBM(!isBM);
-      {
-        viewInfo?.data?.bookmarkStatus === true
-          ? setIsBM(true)
-          : setIsBM(false);
-      }
+      // {
+      //   viewInfo?.data?.bookmarkStatus === true
+      //     ? setIsBM(true)
+      //     : setIsBM(false);
+      // }
       // viewInfo?.data?.bookmarkStatus === true ? setIsBM(!isBM) : setIsBM(!isBM);
     }
   };
+  console.log(isBM);
   const handleClickBm1 = () => {
     bookMarking(Token, boardSeq);
     setIsBM(false);
@@ -275,8 +275,8 @@ const ViewContainer = () => {
     //   setLoading(true);
     // }
   }
-  console.log(isBM);
-  console.log(viewInfo?.data?.bookmarkStatus);
+  // console.log(isBM);
+  // console.log(viewInfo?.data?.bookmarkStatus);
   useEffect(
     () => {
       setLoading(true);
@@ -288,14 +288,12 @@ const ViewContainer = () => {
       // viewInfo?.data?.bookmarkStatus
     ]
   );
-  // useEffect(()=>{
-  // {
-  //   viewInfo?.data?.bookmarkStatus === true
-  //     ? setIsBM(true)
-  //     : setIsBM(false);
-  // }
-  // },      // viewInfo?.data?.bookmarkStatus])
-  // console.log(viewInfo);
+  useEffect(() => {
+    {
+      viewInfo?.data?.bookmarkStatus === true ? setIsBM(true) : setIsBM(false);
+    }
+  }, [setIsBM]);
+  console.log(viewInfo);
 
   return (
     <>
@@ -323,7 +321,7 @@ const ViewContainer = () => {
                   <EditWord1>삭제</EditWord1>
                 </Icondiv1>
                 <Icondiv1>
-                  {isBM || viewInfo?.data?.bookmarkStatus === true ? (
+                  {isBM === true ? (
                     <Bookmark23>
                       <BsBookmarkCheck
                         className="BmIcon"
@@ -349,14 +347,14 @@ const ViewContainer = () => {
               </>
             ) : (
               <Icondiv11>
-                {isBM || viewInfo?.data?.bookmarkStatus === true ? (
+                {isBM === true ? (
                   <Bookmark2>
                     <BsBookmarkCheck
                       className="BmIcon"
                       color="#62B6B7"
                       size="30px"
                       style={{ marginTop: "6px" }}
-                      onClick={handleClickBm1}
+                      onClick={handleClickBm}
                     />
                     <EditWord2>북마크</EditWord2>
                   </Bookmark2>
@@ -384,6 +382,7 @@ const ViewContainer = () => {
         <ViewVote
           likeCount={viewInfo?.data?.likeCount}
           dislikeCount={viewInfo?.data?.dislikeCount}
+          // status={viewInfo?.data?.body}
         />
         <UserInfoLayout>
           <ProfileContainer>

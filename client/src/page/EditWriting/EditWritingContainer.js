@@ -10,12 +10,11 @@ import { InputLabel } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import WritingButton from "../Writing/WritingButton";
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Cookies } from "react-cookie";
-import { getWriting } from "../../api/writingAPI";
+import { editWriting, getWriting } from "../../api/writingAPI";
 
 const SpanTitle = styled.div`
   width: 100%;
@@ -193,9 +192,12 @@ const EditWritingEditor = ({ setImage }) => {
   }
   useEffect(() => {
     getInfo();
-    console.log(viewInfo);
   }, []);
+  console.log(viewInfo?.data?.title);
 
+  const editwriting = () => {
+    editWriting(Token, boardSeq);
+  };
   const [answer, setAnswer] = useState(""); //editor
   // const [flag, setFlag] = useState(false);
   const [category, setCategory] = useState("");
@@ -267,7 +269,14 @@ const EditWritingEditor = ({ setImage }) => {
       <SpanTitle>
         <SpanContent>
           <span className="SpanTitle">제목</span>
-          <input type="text" value={detail.title} onChange={titleChange} />
+          <input
+            type="text"
+            value={
+              // detail.title
+              viewInfo?.data?.title
+            }
+            onChange={titleChange}
+          />
           <div className="menu">
             {/* mui 사용 */}
             <CategoryBox sx={{ minWidth: 180 }}>
@@ -287,9 +296,11 @@ const EditWritingEditor = ({ setImage }) => {
                   label="category"
                   onChange={handleChange}
                 >
-                  <CategoryMenuItem value={"일반"}>일 반</CategoryMenuItem>
-                  <CategoryMenuItem value={"정보"}>정 보</CategoryMenuItem>
-                  <CategoryMenuItem value={"질문"}>질 문</CategoryMenuItem>
+                  <CategoryMenuItem value={"GENERAL"}>일 반</CategoryMenuItem>
+                  <CategoryMenuItem value={"INFORMATION"}>
+                    정 보
+                  </CategoryMenuItem>
+                  <CategoryMenuItem value={"QUESTION"}>질 문</CategoryMenuItem>
                 </CategorySelect>
               </CategoryFormControl>
             </CategoryBox>
@@ -298,7 +309,7 @@ const EditWritingEditor = ({ setImage }) => {
       </SpanTitle>
       <CKEditor
         editor={ClassicEditor}
-        data=""
+        data={viewInfo?.data?.content}
         onChange={(event, editor) => {
           const data = editor.getData();
           setAnswer({
@@ -340,9 +351,7 @@ const EditWritingEditor = ({ setImage }) => {
           bgColor="#62B6B7"
           ckColor="#439A97"
           href="community"
-          // onClick={() => {
-          //   editorChange();
-          // }}
+          onClick={editwriting}
         >
           수정
         </ViewButton>

@@ -7,7 +7,6 @@ import { login, socialLogin } from "../../api/userAPI";
 import { useNavigate } from "react-router-dom";
 import { MainBtn } from "../../component/Button";
 import { Cookies } from "react-cookie";
-
 import { setCookie } from "../../Cookies";
 
 const InputLayout = styled.div`

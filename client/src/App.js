@@ -9,7 +9,7 @@ import Signup from "./page/Signup";
 import Community from "./page/Community/Community";
 import View from "./page/View/ViewPresenter";
 import Writing from "./page/Writing/Writing";
-import MyPage from "./page/MyPage";
+import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
