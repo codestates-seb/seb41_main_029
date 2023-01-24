@@ -62,18 +62,18 @@ public class CommentController {
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(currentComment), HttpStatus.OK);
     }
 
-    //답변조회
-    @GetMapping("/{comment-id}")
-    public ResponseEntity getComment(@PathVariable("comment-id")long commentId){
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    //답변조회
+//    @GetMapping("/{comment-id}")
+//    public ResponseEntity getComment(@PathVariable("comment-id")long commentId){
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
     //답변 삭제
-    @DeleteMapping("/{comment-id}")
-    public ResponseEntity deleteComment(@PathVariable("comment-id") long commentId){
+    @DeleteMapping("/{comment-seq}")
+    public ResponseEntity deleteComment(@PathVariable("comment-seq") long commentSeq){
 
-        commentService.deleteComment(commentId);
+        commentService.deleteComment(commentSeq);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

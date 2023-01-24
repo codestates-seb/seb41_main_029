@@ -99,9 +99,15 @@ public class BoardController {
     //추천
     @PostMapping("/{board-seq}")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse likeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
+    public ResponseEntity likeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
         User user = getPrincipal();
-        return ApiResponse.success("boardLike", boardService.updateLikeOfBoard(boardSeq, user));
+        Board currentBoard = new Board();
+        currentBoard.setBoardSeq(boardSeq);
+        if(boardService.hasLikeBoard(currentBoard, user)){
+            return new ResponseEntity("이미 등록된 유저입니다.", HttpStatus.FORBIDDEN);
+        }
+        boardService.updateLikeOfBoard(boardSeq, user);
+        return new ResponseEntity("boardLike", HttpStatus.OK);
     }
 
     //비추천
