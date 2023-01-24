@@ -48,8 +48,6 @@ public class CommentDto {
             this.boardSeq = board.getBoardSeq();
         }
     }
-
-
 }
 
 

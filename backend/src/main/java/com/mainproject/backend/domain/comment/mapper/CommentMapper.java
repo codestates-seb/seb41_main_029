@@ -2,11 +2,19 @@ package com.mainproject.backend.domain.comment.mapper;
 
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.dto.CommentDto;
+import com.mainproject.backend.domain.comment.dto.CommentReplyDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.comment.entity.Reply;
+import com.mainproject.backend.domain.users.dto.UserDto;
+import com.mainproject.backend.domain.users.entity.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
+
+
+//    CommentReplyDto.ReplyResponse replyToReplyResponse(Reply reply);
+
     default Comment commentPostDtoToComment(CommentDto.CommentPostDto commentPostDto){
         Comment comment = new Comment();
 
@@ -36,5 +44,19 @@ public interface CommentMapper {
         commentResponseDto.setModifiedAt(comment.getModifiedAt());
 
         return commentResponseDto;
+    }
+
+    default CommentReplyDto.ReplyResponse replyToReplyResponse(Reply reply){
+        CommentReplyDto.ReplyResponse replyResponse = new CommentReplyDto.ReplyResponse();
+
+        replyResponse.setReplySeq(reply.getReplySeq());
+        replyResponse.setUsername(reply.getUser().getUsername());
+        replyResponse.setUserSeq(reply.getUser().getUserSeq());
+        replyResponse.setCommentSeq(reply.getComment().getCommentSeq());
+        replyResponse.setContent(reply.getContent());
+        replyResponse.setCreatedAt(reply.getCreatedAt());
+        replyResponse.setModifiedAt(reply.getModifiedAt());
+
+        return replyResponse;
     }
 }

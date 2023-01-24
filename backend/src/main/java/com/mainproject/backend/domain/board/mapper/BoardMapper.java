@@ -2,9 +2,13 @@ package com.mainproject.backend.domain.board.mapper;
 
 import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.dto.BoardWithCommentDto;
+import com.mainproject.backend.domain.board.dto.SimpleReplyDto;
 import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.comment.dto.CommentReplyDto;
 import com.mainproject.backend.domain.comment.dto.CommentResponseDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.comment.entity.Reply;
+import com.mainproject.backend.domain.comment.repository.ReplyRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -91,6 +95,7 @@ public interface BoardMapper {
 
     //comment 리스트화
     default List<CommentResponseDto> commentToBoardWithCommentResponseDtos(List<Comment> comments){
+
         return comments
                 .stream()
                 .map(comment -> CommentResponseDto
@@ -105,6 +110,27 @@ public interface BoardMapper {
                         .content(comment.getContent())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())
+                        .reply(replyToCommentWithCommentResponseDto(comment.getReplies()))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    default List<SimpleReplyDto> replyToCommentWithCommentResponseDto(List<Reply> replies){
+        return replies
+                .stream()
+                .map(reply -> SimpleReplyDto
+                        .builder()
+                        .commentSeq(reply.getComment().getCommentSeq())
+                        .replySeq(reply.getReplySeq())
+                        .userSeq(reply.getUser().getUserSeq())
+//                        .boardSeq(comment.getBoard().getBoardSeq())
+                        .username(reply.getUser().getUsername())
+//                        .liked(comment.getLiked())
+//                        .disliked(comment.getDisliked())
+//                        .userId(comment.getUser().getUserId())
+                        .content(reply.getContent())
+                        .createdAt(reply.getCreatedAt())
+                        .modifiedAt(reply.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
     }
