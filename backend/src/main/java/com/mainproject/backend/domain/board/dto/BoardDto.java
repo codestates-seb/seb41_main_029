@@ -52,11 +52,14 @@ public class BoardDto {
         private String category;
         private String title;
         private String content;
+        private String profileImageUrl;
+        private String userId;
         private boolean BookmarkStatus;
         private int bookmarkCount;
         private int viewCount;
         private int likeCount;
         private int dislikeCount;
+
 
         // 멤버 닉네임
         private LocalDateTime createdAt;
@@ -67,6 +70,8 @@ public class BoardDto {
             this.boardSeq = board.getBoardSeq();
             this.userSeq = board.getUser().getUserSeq();
             this.username = board.getUser().getUsername();
+            this.profileImageUrl = board.getUser().getProfileImageUrl();
+            this.userId = board.getUser().getUserId();
             this.category = board.getCategory().getValue();
             this.title = board.getTitle();
             this.content = board.getContent();

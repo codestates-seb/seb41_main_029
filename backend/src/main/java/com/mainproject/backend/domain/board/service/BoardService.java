@@ -33,7 +33,9 @@ import java.util.Optional;
 @Transactional
 public class BoardService {
     private final static String SUCCESS_LIKE_BOARD = "추천 처리 완료";
+    private final static String FAIL_LIKE_BOARD = "이미 추천을 누르셨습니다.";
     private final static String SUCCESS_DISLIKE_BOARD = "비추천 처리 완료";
+    private final static String FAIL_DISLIKE_BOARD = "이미 비추천을 누르셨습니다.";
     private final static String SUCCESS_BOOKMARK_BOARD = "즐겨찾기 처리 완료";
     private final static String SUCCESS_UNBOOKMARK_BOARD = "즐겨찾기 취소 완료";
     private final BoardRepository boardRepository;
@@ -47,7 +49,7 @@ public class BoardService {
     public Board createBoard(Board board, User user) {
         board.setUser(user);
 //        if (!hasBookmarkBoard(board, user)) {
-//            board.increaseBookmarkCount();
+////            board.increaseBookmarkCount();
 //            board.setBookmarkStatus(false);
 //        }else board.setBookmarkStatus(true);
 
@@ -76,10 +78,10 @@ public class BoardService {
     public Board findBoardAndPlusViewCount(Long boardSeq) {
         User user = getPrincipal();
         Board findBoard = findVerifiedBoard(boardSeq);
+        if(hasBookmarkBoard(findBoard, user)){
+            findBoard.setBookmarkStatus(true);
+        }else findBoard.setBookmarkStatus(false);
         findBoard.plusViewCount();
-        if (!hasBookmarkBoard(findBoard, user)) {
-            findBoard.setBookmarkStatus(false);
-        }else findBoard.setBookmarkStatus(true);
 
         return findBoard;
     }
@@ -124,27 +126,22 @@ public class BoardService {
     @Transactional
     public String updateLikeOfBoard(Long boardSeq, User user) {
         Board board = boardRepository.findById(boardSeq).orElseThrow(BoardNotFoundException::new);
-        if (!hasLikeBoard(board, user))
+        if (!hasLikeBoard(board, user)) {
             board.increaseLikeCount();
             return createLikeBoard(board, user);
+        }else return FAIL_LIKE_BOARD;
     }
 
     @Transactional
     public String updateDislikeOfBoard(Long boardSeq, User user) {
         Board board = boardRepository.findById(boardSeq).orElseThrow(BoardNotFoundException::new);
-        if (!hasDislikeBoard(board, user))
+        if (!hasDislikeBoard(board, user)) {
             board.increaseDislikeCount();
-        return createDislikeBoard(board, user);
+            return createDislikeBoard(board, user);
+        }else return FAIL_DISLIKE_BOARD;
     }
 
 
-    public boolean hasLikeBoard(Board board, User user) {
-        return likeBoardRepository.findByBoardAndUser(board, user).isPresent();
-    }
-
-    public boolean hasDislikeBoard(Board board, User user) {
-        return dislikeBoardRepository.findByBoardAndUser(board, user).isPresent();
-    }
 
     //추천 기능
     public String createLikeBoard(Board board, User user) {
@@ -171,6 +168,16 @@ public class BoardService {
         bookmarkRepository.delete(bookmark);
         return SUCCESS_UNBOOKMARK_BOARD;
     }
+
+    public boolean hasLikeBoard(Board board, User user){
+        return likeBoardRepository.findByBoardAndUser(board, user).isPresent();
+    }
+
+    public boolean hasDislikeBoard(Board board, User user) {
+        return dislikeBoardRepository.findByBoardAndUser(board, user).isPresent();
+    }
+
+
     public boolean hasBookmarkBoard(Board board, User user) {
         return bookmarkRepository.findByBoardAndUser(board, user).isPresent();
     }

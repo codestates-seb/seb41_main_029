@@ -32,7 +32,7 @@ const CategoryWritingBtnBar = styled.div`
   justify-content: space-between;
   /* padding: 30px; */
   padding: 20px 3%;
-  border-bottom: 1px solid #c5ac90;
+  border-bottom: 1px solid #92bdbd;
   /* font-size: ${({ theme }) => theme.fontSizes.fs24}; */
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   @media (max-width: 600px) {
@@ -103,7 +103,7 @@ const Post = styled.div`
   align-items: center;
   /* height: 90px; */
   height: 70px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray_03};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray_02};
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   padding: 0 10px;
   @media (max-width: 600px) {
@@ -124,7 +124,9 @@ const PostHead = styled.div`
 `;
 
 const PostHeadBox = styled.div`
-  background-color: #62b6b7;
+  // 카테고리에 따라 색 변경
+  /* background-color: #62b6b7; */
+  background-color: ${(props) => props.bgColor};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -194,7 +196,8 @@ const PostDate = styled.div`
 const PostView = styled.div`
   width: 110px;
   text-align: center;
-  color: #a67b48;
+  color:
+  /* #a67b48; */ gray;
 `;
 
 const PostLike = styled.div`
@@ -279,13 +282,29 @@ const SearchInput = styled.input`
   }
 `;
 export default function Community() {
+  const navigate = useNavigate();
+
   // axios
   const [items, setItems] = useState([]);
 
+  // 페이지네이션
   const [current, setCurrent] = useState(0);
   const limit = 3;
 
-  const navigate = useNavigate();
+  // 인증
+  const cookies = new Cookies();
+  const token = cookies.get("token");
+
+  const [hasToken, setHasToken] = useState(false);
+
+  // 필터링,카테고리,검색
+  const [sortby, setSortby] = useState("boardSeq");
+  const [cate, setCate] = useState(0); // 전체0, 일반1, 정보2, 질문3
+  const [searchTitle, setSearchTitle] = useState("");
+
+  useEffect(() => {
+    token ? setHasToken(true) : setHasToken(false);
+  }, [token]);
 
   const handleClick = () => {
     // if (user === null) {
@@ -293,10 +312,12 @@ export default function Community() {
     // alert("로그인을 먼저 진행해주세요");
     // } else {
     //   //로그인 된 경우
-    navigate("/writing");
+    // navigate("/writing");
     // }
+    hasToken ? navigate("/writing") : alert("로그인을 먼저 진행해주세요");
   };
 
+  // 탭메뉴
   const categories = [
     { name: "전체" },
     { name: "일반" },
@@ -319,17 +340,23 @@ export default function Community() {
   const handleLoadAll = async () => {
     try {
       // setLoading(true);
-      const res =
-        // await axios.get(`${url}/boards?page=1&size=${limit}`
-        await axios.get(
-          `${url}/boards/all?page=1&size=${limit}&sort-by={sortby}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              // Authorization: token,
-            },
-          }
-        );
+      const res = await axios.get(
+        `${url}/boards?page=1&size=${limit}`,
+        // cate === 0이면
+        // `${url}/boards/all?page=1&size=${limit}&sort-by=${sortby}`,
+        // `${url}/boards/all?page=1&size=${limit}&sort-by='boardSeq'`,
+        // else
+        // `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
+        // 삼항연산자로 /${cate}을 넣고 뺄 수 있나? ((cate===0? 위url : 아래url))
+        // `${url}/boards/all` + `/${cate}` + `?page=1&size=${limit}&sort-by=${sortby}`
+        // `{ `${url}/boards/all` + ${cate === 0 ? "" : `/${cate}`} + `?page=1&size=${limit}&sort-by=${sortby}` }`
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: token,
+          },
+        }
+      );
       // setPosts(response.data);
       // setLoading(false);
 
@@ -343,11 +370,12 @@ export default function Community() {
   //----------------------------------------------------------------------------
 
   // 카테고리별 데이터
-  const handleLoadGeneral = async () => {
+  // 카테고리 클릭 시 카테고리 상태 변경
+  const handleLoadCate = async () => {
     // try {
     //   // setLoading(true);
     //   const res = await axios.get(
-    //     `${url}/boards/all/${category}?page=1&size=${limit}&sort-by={sortby}`,
+    //     `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
     //     {
     //       headers: {
     //         "Content-Type": "application/json",
@@ -368,8 +396,7 @@ export default function Community() {
     //   try {
     //     // setLoading(true);
     //     const res = await axios.get(
-    //       `${url}/boards?page=1&size=${limit}&sort-by="INFORMATION"`,
-    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by={sortby}`
+    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by=${sortby}`
     //       {
     //         headers: {
     //           "Content-Type": "application/json",
@@ -387,12 +414,12 @@ export default function Community() {
   };
 
   // 검색 데이터
-  const handleLoadQuery = async () => {
+  const handleLoadSearch = async () => {
     //   try {
     //     // setLoading(true);
     //     const res = await axios.get(
-    //       `${url}/boards?page=1&size=${limit}&sort-by="INFORMATION"`,
-    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by={sortby}`
+    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by=${sortby}`
+    // `${url}/boards/search?keyword = ${searchTitle}&page=1&size=${limit}`
     //       {
     //         headers: {
     //           "Content-Type": "application/json",
@@ -410,7 +437,9 @@ export default function Community() {
   };
 
   useEffect(() => {
+    // cate===0이면
     handleLoadAll();
+    // else
     // handleLoadGeneral();
   }, []);
 
@@ -446,9 +475,12 @@ export default function Community() {
   const value = "2023-01-22T11:17:31.407494";
   const date = new Date(value);
   // console.log(date);
+  // const year = date.getFullYear();
+  // const year2 = year.slice(-2);
+  // console.log(year2);
   var str =
     date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
-  // console.log(str);
+  console.log(str);
 
   return (
     <>
@@ -457,22 +489,23 @@ export default function Community() {
           <TopBox>
             <CategoryWritingBtnBar>
               <Categories>
-                <Cate
-                // onClick={handleLoadAll}
-                >
-                  전체
-                </Cate>
-                <Cate onClick={handleLoadGeneral}>일반</Cate>
-                <Cate>정보</Cate>
-                <Cate>질문</Cate>
+                <Cate onClick={() => setCate(0)}>전체</Cate>
+                <Cate onClick={() => setCate(1)}>일반</Cate>
+                <Cate onClick={() => setCate(2)}>정보</Cate>
+                <Cate onClick={() => setCate(3)}>질문</Cate>
+                {console.log(cate)}
               </Categories>
               <WritingBtn onClick={handleClick}>글 작성</WritingBtn>
             </CategoryWritingBtnBar>
             <PostInfoBar>
               <TitleInfo>제목</TitleInfo>
-              <PostInfo>날짜</PostInfo>
-              <PostInfoMini>조회</PostInfoMini>
-              <PostInfoMini>추천</PostInfoMini>
+              <PostInfo onClick={() => setSortby("최신순")}>날짜</PostInfo>
+              <PostInfoMini onClick={() => setSortby("조회순")}>
+                조회
+              </PostInfoMini>
+              <PostInfoMini onClick={() => setSortby("추천순")}>
+                추천
+              </PostInfoMini>
               <PostInfo>닉네임</PostInfo>
             </PostInfoBar>
             <PostInfoBarMargin></PostInfoBarMargin>
@@ -495,7 +528,21 @@ export default function Community() {
                 return (
                   <Post key={item.boardSeq}>
                     <PostHead>
-                      <PostHeadBox>정보</PostHeadBox>
+                      {item.category === "GENERAL" ? (
+                        <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "INFORMATION" ? (
+                        <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "QUESTION" ? (
+                        <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
+                      ) : (
+                        ""
+                      )}
                     </PostHead>
                     <PostTitleBox>
                       <PostTitle className="ellipsis">
@@ -505,10 +552,9 @@ export default function Community() {
                       </PostTitle>
 
                       <PostComment>[1]</PostComment>
-                      {/* 댓글 수 확인하려면 특정게시물 조회? */}
                     </PostTitleBox>
                     <PostDate>
-                      22/01/04
+                      23/01/04
                       {/* {item.createdAt} */}
                     </PostDate>
                     <PostView>{item.viewCount}</PostView>

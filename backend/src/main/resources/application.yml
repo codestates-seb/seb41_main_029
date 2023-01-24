@@ -5,12 +5,12 @@ spring:
   profiles.active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://pre-database-1.cguixlvnvxu0.ap-northeast-2.rds.amazonaws.com:3306/MAIN029?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+#    url: jdbc:mysql://pre-database-1.cguixlvnvxu0.ap-northeast-2.rds.amazonaws.com:3306/MAIN029?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+#    username: root
+#    password: 54255425
+    url: jdbc:mysql://localhost:3306/MAIN029?serverTimezone=Asia/Seoul
     username: root
-    password: 54255425
-  #    url: jdbc:mysql://localhost:3306/MAIN029?serverTimezone=Asia/Seoul
-  #    username: root
-  #    password: 5425
+    password: 5425
   output:
     ansi:
       enabled: always
@@ -35,7 +35,7 @@ spring:
         google:
           clientId: '137375647876-vrq0va0ke0v5joslff4vg9m39bqo752d.apps.googleusercontent.com'
           clientSecret: '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'
-          redirect-uri: "http://localhost:8080/login/oauth2/google"
+          redirect-uri: "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/google"
           scope:
             - email
             - profile
@@ -50,7 +50,7 @@ spring:
           clientSecret: 'zH3kq27uOG'
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "http://localhost:8080/login/oauth2/naver"
+          redirectUri: "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/naver"
           scope:
             - nickname
             - email
@@ -61,7 +61,7 @@ spring:
           clientSecret: 'BGNSrvJx7BfjhL00i1roZ8oXc0QKuAQB'
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "http://localhost:8080/login/oauth2/kakao"
+          redirectUri: "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao"
           scope:
             - profile_nickname
             - profile_image

@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import theme from "./Theme";
 import Header from "./component/Header";
@@ -13,58 +13,9 @@ import MyPage from "./page/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
+import HikingInfo from "./page/HikingInfo";
 
 import View2 from "./page/Community/View2";
-
-import Kakao from "./page/KakaoMap";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LandingPage />,
-    errorElement: <NotFound />,
-  },
-  {
-    path: "/login",
-    element: <LoginPresenter />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/community",
-    element: <Community />,
-  },
-  {
-    path: "/view",
-    element: <View />,
-  },
-  {
-    path: "/writing",
-    element: <Writing />,
-  },
-  {
-    path: "/mypage",
-    element: <MyPage />,
-  },
-  {
-    path: "/mypageedit",
-    element: <MyPageEdit />,
-  },
-  {
-    path: "/hikingmap",
-    element: <HikingMap />,
-  },
-  {
-    path: "/boards/:boardSeq",
-    element: <View2 />,
-  },
-  {
-    path: "/kakao",
-    element: <Kakao />,
-  },
-]);
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -81,9 +32,24 @@ function App() {
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Header />
-        <RouterProvider router={router} />
-        <Footer />
+        <BrowserRouter>
+          <Header />
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPresenter />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/community" element={<Community />} />
+            <Route path="/view" element={<View />} />
+            <Route path="/writing" element={<Writing />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypageedit" element={<MyPageEdit />} />
+            <Route path="/hikingmap" element={<HikingMap />} />
+            <Route path="/view2/:boardSeq" element={<View2 />} />
+            <Route path="/hikingInfo" element={<HikingInfo />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Footer />
+        </BrowserRouter>
       </ThemeProvider>
     </>
   );

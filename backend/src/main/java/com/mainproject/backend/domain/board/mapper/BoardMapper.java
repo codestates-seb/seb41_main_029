@@ -10,8 +10,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +21,7 @@ public interface BoardMapper {
         board.setCategory(postDto.getCategory());
         board.setTitle(postDto.getTitle());
         board.setContent(postDto.getContent());
+
 
         return board;
     }
@@ -61,7 +60,7 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
 
-       //답변
+       //커맨트
         boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));
 
         return boardWithCommentResponseDto;
@@ -74,8 +73,12 @@ public interface BoardMapper {
                 .map(comment -> CommentResponseDto
                         .builder()
                         .commentSeq(comment.getCommentSeq())
+                        .userSeq(comment.getUser().getUserSeq())
                         .boardSeq(comment.getBoard().getBoardSeq())
+                        .userId(comment.getUser().getUserId())
                         .content(comment.getContent())
+                        .createdAt(comment.getCreatedAt())
+                        .modifiedAt(comment.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
     }
