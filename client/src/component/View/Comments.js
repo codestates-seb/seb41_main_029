@@ -8,6 +8,7 @@ const CommentsLayout = styled.div`
   width: 100%;
   max-width: 1250px;
   margin-top: 160px;
+  /* padding: 0 4% 0 4%; */
 `;
 
 const CommentsHeader = styled.div`
@@ -27,6 +28,7 @@ const CommentLayout = styled.div`
   /* margin-top: 24px; */
   padding-bottom: 12px;
 
+  //이부분 고쳐야됨 반응형 오른쪽 먹힘
   @media screen and (max-width: 1336px) {
     width: 94%;
     /* max-width: 400px; */

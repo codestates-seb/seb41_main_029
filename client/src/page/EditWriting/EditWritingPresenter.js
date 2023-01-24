@@ -4,6 +4,8 @@ import axios from "axios";
 import * as React from "react";
 import EditWritingEditor from "./EditWritingContainer";
 import { useLocation } from "react-router-dom";
+import { Cookies } from "react-cookie";
+import { Navigate } from "react-router-dom";
 
 const TotalContainer = styled.div`
   width: 100%;
@@ -171,11 +173,22 @@ export const ContainerView = styled.div`
 `;
 // ${(props) => props.editMode ? '':'filter: blur(1rem);'}
 export default function EditWriting() {
+  const cookie = new Cookies();
+  const token = cookie.get("token");
   return (
-    <TotalContainer>
-      <ContainerView>
-        <EditWritingEditor />
-      </ContainerView>
-    </TotalContainer>
+    <>
+      {token ? (
+        <TotalContainer>
+          <ContainerView>
+            <EditWritingEditor />
+          </ContainerView>
+        </TotalContainer>
+      ) : (
+        <>
+          {alert("로그인이 되어 있지 않습니다!")}
+          <Navigate to="/login" />
+        </>
+      )}
+    </>
   );
 }
