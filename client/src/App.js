@@ -13,7 +13,7 @@ import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
-
+// import EditWritig from "./page/EditWriting/EditWritingPresenter";
 import View2 from "./page/Community/View2";
 import Community2 from "./page/Community/Community2";
 
@@ -39,12 +39,12 @@ function App() {
             <Route path="/login" element={<LoginPresenter />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/community" element={<Community />} />
-            <Route path="/view" element={<View />} />
             <Route path="/writing" element={<Writing />} />
+            {/* <Route path="/boards/edit/:boardSeq" element={<EditWritig />} /> */}
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypageedit" element={<MyPageEdit />} />
             <Route path="/hikingmap" element={<HikingMap />} />
-            <Route path="/view2/:boardSeq" element={<View2 />} />
+            <Route path="/boards/:boardSeq" element={<View />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

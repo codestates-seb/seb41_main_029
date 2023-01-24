@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { Cookies } from "react-cookie";
 import styled from "styled-components";
-import { deleteComment, editComment } from "../../api/commentAPI";
+import { deleteComment, editComment, postComment } from "../../api/commentAPI";
 import { CommentDate } from "../DateCalculator";
 import Input from "../Input";
 import CommentVote from "./CommentVote";
 import { useForm, FormProvider } from "react-hook-form";
 import CommentReply from "./CommentReply";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const CommentInfo = styled.div`
   display: flex;
@@ -123,13 +125,20 @@ const ReplyLayout = styled.div`
 `;
 
 const Comment = ({ comment }) => {
+  const { boardSeq } = useParams();
   const methods = useForm();
-  const onSubmit = (data) => {
-    // const res = await postComment(data, Token, id, userSeq);
+  const onSubmit = async (data) => {
+    axios.post();
+    // const res = await postComment(data, token, boardSeq);
+    // if (res?.data?.status === 201) {
+    //   res();
+    //   window.location.reload();
+    //   console.log(data);
+    // }
+
     // if (res.status === 201) {
     //   window.location.replace(`/boards/${id.id}`);
-    console.log(data);
-    window.location.reload();
+    // window.location.reload();
   };
   const [edit, setEdit] = useState(false);
   const userId = localStorage.getItem("userId");
@@ -173,7 +182,7 @@ const Comment = ({ comment }) => {
       ) : null}
 
       <CommentInfo>
-        {comment?.userName}
+        {comment?.username}
         <CommentDate createdAt={comment?.createdAt} />
       </CommentInfo>
       {edit ? (

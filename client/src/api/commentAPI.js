@@ -2,15 +2,14 @@ import axios from "axios";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
-export const postComment = async (data, token, boardsId, userSeq) => {
+export const postComment = async (data, token, boardSeq) => {
   const formdata = {
-    userSeq,
-    content: data.comment,
+    content: data?.content,
   };
   try {
     const response = await axios({
       method: "post",
-      url: `${url}/boards/${boardsId.id}`,
+      url: `${url}comments/${boardSeq}`,
       data: formdata,
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -47,11 +46,11 @@ export const editComment = async (
   }
 };
 
-export const deleteComment = async (boardSeq, userId, commentSeq, Token) => {
+export const deleteComment = async (commentSeq, Token) => {
   try {
     const res = await axios({
       method: "delete",
-      url: ``,
+      url: `${url}comments/`,
       headers: { Authorization: `Bearer ${Token}` },
     });
     console.log(res);
@@ -67,7 +66,7 @@ export const commentUpVote = async (boardSeq, userId, commentSeq, Token) => {
       method: "post",
       data: { data: 1 },
       headers: { Authorization: `Bearer ${Token}` },
-      url: ``,
+      url: `${url}`,
     });
     console.log(res);
     return res;
@@ -81,7 +80,7 @@ export const commentDownVote = async (boardSeq, userId, commentSeq, Token) => {
       method: "post",
       data: { data: 1 },
       headers: { Authorization: `Bearer ${Token}` },
-      url: ``,
+      url: `${url}`,
     });
     console.log(res);
     return res;
