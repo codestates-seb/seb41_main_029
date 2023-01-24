@@ -45,8 +45,8 @@ public class CommentController {
 
     //답변 수정
     @PatchMapping("/{board-seq}/{comment-seq}")
-    public ResponseEntity patchComment(@PathVariable("board-seq") Long boardSeq,
-                                       @PathVariable("comment-seq") Long commentSeq,
+    public ResponseEntity patchComment(@PathVariable("board-seq") long boardSeq,
+                                       @PathVariable("comment-seq") long commentSeq,
                                        @Valid @RequestBody CommentDto.CommentPatchDto commentPatchDto){
 
         User user = getPrincipal();
@@ -70,9 +70,12 @@ public class CommentController {
 //    }
 
     //답변 삭제
-    @DeleteMapping("/{comment-seq}")
-    public ResponseEntity deleteComment(@PathVariable("comment-seq") long commentSeq){
+    @DeleteMapping("/{board-seq}/{comment-seq}")
+    public ResponseEntity deleteComment(@PathVariable("board-seq") long boardSeq,
+                                        @PathVariable("comment-seq") long commentSeq){
 
+        Board currentBoard = new Board();
+        currentBoard.setBoardSeq(boardSeq);
         commentService.deleteComment(commentSeq);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
