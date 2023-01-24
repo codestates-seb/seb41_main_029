@@ -88,7 +88,7 @@ public class UserController {
     @GetMapping("/write")
     public ApiResponse findWrite() {
         User user = getPrincipal();
-        return ApiResponse.success("bookmark",userService.findWrite(user));
+        return ApiResponse.success("write",userService.findWrite(user));
     }
 
     //작성자가 쓴 글 조회
