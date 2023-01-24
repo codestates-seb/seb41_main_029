@@ -8,6 +8,7 @@ import com.mainproject.backend.domain.comment.mapper.CommentMapper;
 import com.mainproject.backend.domain.comment.service.CommentService;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
+import com.mainproject.backend.global.Response.api.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -80,6 +81,32 @@ public class CommentController {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    //추천
+    @PostMapping("/like/{comment-seq}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse likeComment(@PathVariable("comment-seq") @Positive Long commentSeq) {
+        User user = getPrincipal();
+        //추천 중복 처리
+//        if(boardService.hasLikeBoard(currentBoard, user)){
+//            return ApiResponse.fail();
+//        }
+        return ApiResponse.success("boardLike", commentService.updateLikeOfComment(commentSeq, user));
+    }
+
+
+    //비추천
+    @PostMapping("/dislike/{comment-seq}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse dislikeComment(@PathVariable("comment-seq") @Positive Long commentSeq) {
+        User user = getPrincipal();
+        Comment currentComment = new Comment();
+        currentComment.setCommentSeq(commentSeq);
+//        if(boardService.hasLikeBoard(currentBoard, user)){
+//            return ApiResponse.fail();
+//        }
+        return ApiResponse.success("boardDislike", commentService.updateDislikeOfComment(commentSeq, user));
+    }
+
     //인증
     private User getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

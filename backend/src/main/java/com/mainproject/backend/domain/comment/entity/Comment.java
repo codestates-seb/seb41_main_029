@@ -15,6 +15,15 @@ import javax.persistence.*;
 @Setter
 @Entity
 public class Comment extends Auditable {
+
+
+    public void increaseLikeCount() {
+        this.liked += 1;
+    }
+    public void increaseDislikeCount() {
+        this.disliked += 1;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long commentSeq;
@@ -31,4 +40,10 @@ public class Comment extends Auditable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
     private User user;
+
+    @Column(nullable = true)
+    private int liked; // 추천 수
+
+    @Column(nullable = true)
+    private int disliked; // 비추천 수
 }

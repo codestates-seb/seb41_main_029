@@ -5,6 +5,8 @@ import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
+import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.comment.repository.CommentRepository;
 import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
@@ -29,6 +31,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final BookmarkRepository bookmarkRepository;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
     private final String NoEmail = "NO Email";
 
     public User getUser(String userId) {
@@ -83,6 +86,15 @@ public class UserService {
                 .collect(Collectors.toList());
         return boardSimpleDtoList;
     }
+
+//    @Transactional(readOnly = true)
+//    public List<BoardSimpleDto> findComment(User user){
+//        List<Comment> write = commentRepository.findAllByUser(user);
+//        List<BoardSimpleDto> boardSimpleDtoList = write.stream()
+//                .map(board -> new BoardSimpleDto().toDto(board))
+//                .collect(Collectors.toList());
+//        return boardSimpleDtoList;
+//    }
 
     @Transactional(readOnly = true)
     public List<BoardSimpleDto> findBookmark(User user) {

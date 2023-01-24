@@ -38,6 +38,8 @@ public class CommentDto {
         private long userSeq;
         private long boardSeq;
         private String content;
+        private int liked;
+        private int disliked;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 

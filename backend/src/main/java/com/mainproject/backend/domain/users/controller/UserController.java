@@ -80,12 +80,16 @@ public class UserController {
         return ApiResponse.success("bookmark",userService.findBookmark(user));
     }
 
+    //작성자가 쓴 글 조회
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/write")
     public ApiResponse findWrite() {
         User user = getPrincipal();
         return ApiResponse.success("bookmark",userService.findWrite(user));
     }
+
+    //작성자가 쓴 댓글 조회
+
 
 
 //    @ResponseStatus(HttpStatus.OK)

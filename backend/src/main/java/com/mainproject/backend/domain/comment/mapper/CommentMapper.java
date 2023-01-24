@@ -9,9 +9,7 @@ import org.mapstruct.Mapper;
 public interface CommentMapper {
     default Comment commentPostDtoToComment(CommentDto.CommentPostDto commentPostDto){
         Comment comment = new Comment();
-        Board board = new Board();
 
-        comment.setBoard(board);
         comment.setContent(commentPostDto.getContent());
 
         return comment;
@@ -31,6 +29,8 @@ public interface CommentMapper {
         commentResponseDto.setUserSeq(comment.getUser().getUserSeq());
         commentResponseDto.setBoard(comment.getBoard());
         commentResponseDto.setContent(comment.getContent());
+        commentResponseDto.setLiked(comment.getLiked());
+        commentResponseDto.setDisliked(comment.getDisliked());
 
         commentResponseDto.setCreatedAt(comment.getCreatedAt());
         commentResponseDto.setModifiedAt(comment.getModifiedAt());

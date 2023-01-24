@@ -149,7 +149,7 @@ public class BoardService {
         likeBoardRepository.save(likeBoard);
         return SUCCESS_LIKE_BOARD;
     }
-    //추천 기능
+    //비추천 기능
     public String createDislikeBoard(Board board, User user) {
         DislikeBoard dislikeBoard = new DislikeBoard(board, user); // true 처리
         dislikeBoardRepository.save(dislikeBoard);

@@ -101,6 +101,13 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse likeBoard(@PathVariable("board-seq") @Positive Long boardSeq) {
         User user = getPrincipal();
+
+        //추천 중복 처리
+        Board currentBoard = new Board();
+        currentBoard.setBoardSeq(boardSeq);
+        if(boardService.hasLikeBoard(currentBoard, user)){
+            return ApiResponse.fail();
+        }
         return ApiResponse.success("boardLike", boardService.updateLikeOfBoard(boardSeq, user));
     }
 
