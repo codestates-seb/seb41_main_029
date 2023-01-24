@@ -80,8 +80,8 @@ public class BoardService {
         Board findBoard = findVerifiedBoard(boardSeq);
         findBoard.plusViewCount();
         if (!hasBookmarkBoard(findBoard, user)) {
-            findBoard.setBookmarkStatus(true);
-        }else findBoard.setBookmarkStatus(false);
+            findBoard.setBookmarkStatus(false);
+        }else findBoard.setBookmarkStatus(true);
 
         return findBoard;
     }

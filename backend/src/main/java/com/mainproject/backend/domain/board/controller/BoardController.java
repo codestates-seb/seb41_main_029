@@ -57,7 +57,7 @@ public class BoardController {
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.OK);
     }
 
-    //게시글
+    //게시글 조회
     @GetMapping("/{board-seq}")
     public ResponseEntity getBoard(@PathVariable("board-seq") Long boardSeq) {
 

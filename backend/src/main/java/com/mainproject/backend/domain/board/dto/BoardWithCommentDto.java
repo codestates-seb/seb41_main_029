@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 public class BoardWithCommentDto {
     private long boardSeq;
+    private long userSeq;
     private String category;
     private String title;
     private String content;

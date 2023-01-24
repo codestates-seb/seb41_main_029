@@ -5,6 +5,7 @@ import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
+import com.mainproject.backend.domain.comment.dto.CommentSimpleDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.repository.CommentRepository;
 import com.mainproject.backend.domain.users.dto.UserDto;
@@ -54,6 +55,7 @@ public class UserService {
 //        LocalDateTime now = LocalDateTime.now();
 //        user.setModifiedAt(now);
         user.editUser(req);
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
         return userRepository.save(user);
     }
 
@@ -87,14 +89,14 @@ public class UserService {
         return boardSimpleDtoList;
     }
 
-//    @Transactional(readOnly = true)
-//    public List<BoardSimpleDto> findComment(User user){
-//        List<Comment> write = commentRepository.findAllByUser(user);
-//        List<BoardSimpleDto> boardSimpleDtoList = write.stream()
-//                .map(board -> new BoardSimpleDto().toDto(board))
-//                .collect(Collectors.toList());
-//        return boardSimpleDtoList;
-//    }
+    @Transactional(readOnly = true)
+    public List<CommentSimpleDto> findComment(User user){
+        List<Comment> write = commentRepository.findAllByUser(user);
+        List<CommentSimpleDto> commentSimpleDtoList = write.stream()
+                .map(comment -> new CommentSimpleDto().toDto(comment))
+                .collect(Collectors.toList());
+        return commentSimpleDtoList;
+    }
 
     @Transactional(readOnly = true)
     public List<BoardSimpleDto> findBookmark(User user) {

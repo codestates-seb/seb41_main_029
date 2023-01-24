@@ -25,6 +25,7 @@ import java.util.List;
 @Builder
 @Table(name = "USER")
 public class User {
+
     @JsonIgnore
     @Id
     @Column(name = "USER_SEQ")
@@ -98,7 +99,7 @@ public class User {
     }
 
     public void editUser(UserDto.Patch req) {
-        userId = req.getUserId();
+
         username = req.getUsername();
         password = req.getPassword();
         profileImageUrl = req.getProfileImageUrl();
