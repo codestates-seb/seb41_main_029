@@ -84,10 +84,12 @@ public class CommentController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse likeComment(@PathVariable("comment-seq") @Positive Long commentSeq) {
         User user = getPrincipal();
+        Comment currentComment = new Comment();
+        currentComment.setCommentSeq(commentSeq);
         //추천 중복 처리
-//        if(boardService.hasLikeBoard(currentBoard, user)){
-//            return ApiResponse.fail();
-//        }
+        if(commentService.hasLikeComment(currentComment, user)){
+            return ApiResponse.fail();
+        }
         return ApiResponse.success("boardLike", commentService.updateLikeOfComment(commentSeq, user));
     }
 
@@ -99,9 +101,9 @@ public class CommentController {
         User user = getPrincipal();
         Comment currentComment = new Comment();
         currentComment.setCommentSeq(commentSeq);
-//        if(boardService.hasLikeBoard(currentBoard, user)){
-//            return ApiResponse.fail();
-//        }
+        if(commentService.hasDislikeComment(currentComment, user)){
+            return ApiResponse.fail();
+        }
         return ApiResponse.success("boardDislike", commentService.updateDislikeOfComment(commentSeq, user));
     }
 

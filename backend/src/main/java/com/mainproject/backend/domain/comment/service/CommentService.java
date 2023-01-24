@@ -103,5 +103,4 @@ public class CommentService {
     public boolean hasDislikeComment(Comment comment, User user) {
         return dislikeCommentRepository.findByCommentAndUser(comment, user).isPresent();
     }
-
 }
