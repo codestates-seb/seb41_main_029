@@ -2,6 +2,7 @@ package com.mainproject.backend.domain.comment.controller;
 
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
+import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.dto.CommentDto;
 import com.mainproject.backend.domain.comment.dto.CommentReplyDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
@@ -30,7 +31,7 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
     private final UserRepository userRepository;
-    private final BoardRepository boardRepository;
+    private final BoardService boardService;
 
 
 
@@ -41,6 +42,7 @@ public class CommentController {
         User user = getPrincipal();
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
+
 
         Comment comment = commentService.createComment(commentMapper.commentPostDtoToComment(commentPostDto), user, currentBoard);
 
@@ -79,20 +81,28 @@ public class CommentController {
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
         commentService.deleteComment(commentSeq);
+        currentBoard.DecreaseCommentCount();
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     //대댓글
-    @PostMapping("/reply/{comment-seq}")
+    @PostMapping("/reply/{board-seq}/{comment-seq}")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse ReplyComment(@PathVariable("comment-seq") @Positive Long commentSeq, @Valid @RequestBody CommentReplyDto.ReplyPost requestBody) {
+    public ApiResponse ReplyComment(@PathVariable("comment-seq") @Positive Long commentSeq,
+                                    @PathVariable("board-seq") long boardSeq,
+                                    @Valid @RequestBody CommentReplyDto.ReplyPost requestBody) {
 
         User user = getPrincipal();
         Comment currentComment = new Comment();
         currentComment.setCommentSeq(commentSeq);
         Reply createReply = new Reply();
+        Board currentBoard = boardService.findVerifiedBoard(boardSeq);
+        currentBoard.increaseCommentCount();
+//        Board currentBoard = new Board();
+//        currentBoard.setBoardSeq(currentComment.getBoard().getBoardSeq());
         commentService.createReply(createReply, currentComment, user, requestBody);
+//        currentBoard.increaseCommentCount();
 
 
 

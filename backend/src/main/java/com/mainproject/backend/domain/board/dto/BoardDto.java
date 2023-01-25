@@ -95,6 +95,7 @@ public class BoardDto {
         private int viewCount;
         private int likeCount;
         private int dislikeCount;
+        private int commented;
         private LocalDateTime createdAt;
 
         public PageBoardResponse(Board board) {
@@ -103,6 +104,7 @@ public class BoardDto {
             this.username = board.getUser().getUsername();
             this.category = board.getCategory().category;
             this.title = board.getTitle();
+            this.commented = board.getCommented();
             this.BookmarkStatus = board.isBookmarkStatus();
             this.bookmarkCount = board.getBookmarked();
             this.likeCount = board.getLiked();

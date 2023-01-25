@@ -42,4 +42,9 @@ public class Reply extends Auditable {
     @ManyToOne
     @JoinColumn(name = "comment_seq")
     private Comment comment;
+
+//    @JsonBackReference
+//    @ManyToOne
+//    @JoinColumn(name = "board_seq")
+//    private Board board;
 }

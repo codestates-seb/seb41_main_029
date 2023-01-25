@@ -58,6 +58,7 @@ public interface BoardMapper {
                                 .title(board.getTitle())
                                 .bookmarkCount(board.getBookmarked())
                                 .viewCount(board.getViewCount())
+                                .commented(board.getCommented())
                                 .likeCount(board.getLiked())
                                 .createdAt(board.getCreatedAt())
                                 .build())
@@ -80,9 +81,9 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setBookmarkStatus(board.isBookmarkStatus());
        boardWithCommentResponseDto.setContent(board.getContent());
        boardWithCommentResponseDto.setViewCount(board.getViewCount());
-       boardWithCommentResponseDto.setBookmarkStatus(board.isBookmarkStatus());
        boardWithCommentResponseDto.setBookmarkCount(board.getBookmarked());
        boardWithCommentResponseDto.setLikeCount(board.getLiked());
+       boardWithCommentResponseDto.setCommented(board.getCommented());
        boardWithCommentResponseDto.setDislikeCount(board.getDisliked());
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
