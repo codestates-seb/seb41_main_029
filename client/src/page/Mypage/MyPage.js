@@ -5,10 +5,11 @@ import styled from "styled-components";
 import theme from "../../Theme";
 import jsonData from "../../data/Posts";
 import { Cookies } from "react-cookie";
-import { getUser } from "../../api/userAPI";
+import { getUser, getWrite } from "../../api/userAPI";
 import ReactPaginate from "react-paginate";
 import Posts from "./Posts";
 import Paginations from "./Paginations";
+import { getCookie } from "../../Cookies";
 
 /** 전체 컨테이너 */
 const MypageContainer = styled.div`
@@ -357,32 +358,62 @@ const MyPaginate = styled(ReactPaginate).attrs({
 export default function MyPage() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
-  // 수혁님 코드
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true);
-  //     const response = await axios
-  //       .get("https://jsonplaceholder.typicode.com/posts")
-  //       .then((res) => {
-  //         setData(res.data);
-  //         setLoading(false);
-  //         console.log(res.data);
-  //       });
-  //     fetchData();
-  //   };
-  // }, []);
 
   // 박승철 코드
+  // const [userInfo, setUserInfo] = useState([]);
+  // useEffect(() => {
+  //   async function getUserInfo() {
+  //     const res = await getUser(Token);
+  //     setUserInfo(res.data.body.user);
+  //     console.log(res.data.body);
+  //   }
+  //   getUserInfo();
+  // }, []);
+  // console.log(userInfo);
+
   const [userInfo, setUserInfo] = useState([]);
+  const [userWrite, setUserWrite] = useState([]);
+  // const [userComment, setUserComment] = useState([]);
+  // const [userBook, setUserBook] = useState([]);
   useEffect(() => {
     async function getUserInfo() {
       const res = await getUser(Token);
       setUserInfo(res.data.body.user);
-      console.log(res.data.body);
     }
+
     getUserInfo();
   }, []);
   console.log(userInfo);
+
+  useEffect(() => {
+    async function getUserWrite() {
+      const res = await getWrite(Token);
+      setUserWrite(res.body);
+    }
+    getUserWrite();
+  }, []);
+  console.log(userWrite);
+
+  // const writeAxios = async () => {
+  //   try {
+  //     const res = await axios.get(
+  //       "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/write",
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${getCookie("token")}`,
+  //         },
+  //       }
+  //     );
+  //     setUserWrite(res.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // console.log(userWrite);
+  // useEffect(() => {
+  //   writeAxios();
+  // }, []);
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -395,23 +426,24 @@ export default function MyPage() {
     setCurrent(index);
     console.log(current);
   };
-  const axiosPosts = async (currentPage) => {
-    const res = await axios.get;
-    // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
-    "https://jsonplaceholder.typicode.com/posts"();
-    const data = await res.data;
-    return data;
-  };
 
-  const handlePageClick = async (data) => {
-    console.log(data.selected);
+  // const axiosPosts = async (currentPage) => {
+  //   const res = await axios.get;
+  //   // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
+  //   "https://jsonplaceholder.typicode.com/posts"();
+  //   const data = await res.data;
+  //   return data;
+  // };
 
-    let currentPage = data.selected + 1;
+  // const handlePageClick = async (data) => {
+  //   console.log(data.selected);
 
-    const commentsFormServer = await axiosPosts(currentPage);
+  //   let currentPage = data.selected + 1;
 
-    setData(commentsFormServer);
-  };
+  //   const commentsFormServer = await axiosPosts(currentPage);
+
+  //   setData(commentsFormServer);
+  // };
   return (
     <>
       {Token !== undefined ? (
@@ -425,7 +457,7 @@ export default function MyPage() {
               </MypageProfile>
               <MypageProfileInfo>
                 {/* 유저 기본 정보 */}
-                {/* {userInfo?.username} */}
+                {userInfo?.username}
               </MypageProfileInfo>
               <MypageProfileModify href="mypageEdit">
                 회원정보 수정
@@ -468,14 +500,14 @@ export default function MyPage() {
                         </Info>
                       </InfoIcon>
                       <InfoContent>
-                        <InfoTitle>{item.title}</InfoTitle>
+                        <InfoTitle>{item.username}</InfoTitle>
                         <InfoComment>[3]</InfoComment>
                       </InfoContent>
                       {/* <InfoDiv> */}
                       <InfoDate>2023/01/22</InfoDate>
                       <InfoView>115</InfoView>
                       <InfoLike>777</InfoLike>
-                      <InfoName>{item.id}</InfoName>
+                      <InfoName>{item.username}</InfoName>
                       {/* </InfoDiv> */}
                     </InfoContainer>
                   ) : (
@@ -518,29 +550,6 @@ export default function MyPage() {
               </InfoDiv> */}
               </TitleDiv>
             </TitleContainer>
-            <MyPaginate
-              previousLabel={"〈"}
-              nextLabel={"〉"}
-              breakLabel={"..."}
-              pageCount={25}
-              marginPagesDisplayed={3}
-              pageRangeDisplayed={2}
-              onPageChange={handlePageClick}
-              containerClassName="pagination justify-content-center"
-              pageClassName="page-item"
-              pageLinkClassName="page-link"
-              previousClassName="page-item"
-              previousLinkClassName="page-link"
-              nextClassName="page-item"
-              nextLinkClassName="page-link"
-              activeClassName="active"
-            />
-            {/* <Posts data={data} loading={loading} /> */}
-            <Paginations
-            // postsPerPage={postsPerPage}
-            // totalPosts={data.length}
-            // paginate={setCurrentPage}
-            ></Paginations>
           </MypageTitle>
         </MypageContainer>
       ) : (

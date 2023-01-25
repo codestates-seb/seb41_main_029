@@ -203,7 +203,8 @@ const PostView = styled.div`
 const PostLike = styled.div`
   width: 110px;
   text-align: center;
-  color: #95cecf;
+  color:
+  /* #95cecf; */ gray;
 `;
 
 const PostWriter = styled.div`
@@ -298,7 +299,7 @@ export default function Community() {
   const [hasToken, setHasToken] = useState(false);
 
   // 필터링,카테고리,검색
-  const [sortby, setSortby] = useState("boardSeq");
+  const [sortby, setSortby] = useState("최신순");
   const [cate, setCate] = useState(0); // 전체0, 일반1, 정보2, 질문3
   const [searchTitle, setSearchTitle] = useState("");
 
@@ -307,13 +308,6 @@ export default function Community() {
   }, [token]);
 
   const handleClick = () => {
-    // if (user === null) {
-    //   //로그인 되지 않은 경우
-    // alert("로그인을 먼저 진행해주세요");
-    // } else {
-    //   //로그인 된 경우
-    // navigate("/writing");
-    // }
     hasToken ? navigate("/writing") : alert("로그인을 먼저 진행해주세요");
   };
 
@@ -335,31 +329,20 @@ export default function Community() {
   // 정식 데이터 전체조회 (axios.async/awit)
   const url =
     "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
-  // const token = Cookies.get("token");
 
   const handleLoadAll = async () => {
     try {
       // setLoading(true);
       const res = await axios.get(
-        `${url}/boards?page=1&size=${limit}`,
-        // cate === 0이면
-        // `${url}/boards/all?page=1&size=${limit}&sort-by=${sortby}`,
-        // `${url}/boards/all?page=1&size=${limit}&sort-by='boardSeq'`,
-        // else
-        // `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
-        // 삼항연산자로 /${cate}을 넣고 뺄 수 있나? ((cate===0? 위url : 아래url))
-        // `${url}/boards/all` + `/${cate}` + `?page=1&size=${limit}&sort-by=${sortby}`
-        // `{ `${url}/boards/all` + ${cate === 0 ? "" : `/${cate}`} + `?page=1&size=${limit}&sort-by=${sortby}` }`
+        `${url}/boards/all?page=1&size=${limit}&sort-by=${sortby}`,
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: token,
           },
         }
       );
       // setPosts(response.data);
       // setLoading(false);
-
       console.log(res.data);
       setItems(res.data);
     } catch (err) {
@@ -367,50 +350,65 @@ export default function Community() {
     }
   };
 
-  //----------------------------------------------------------------------------
-
   // 카테고리별 데이터
-  // 카테고리 클릭 시 카테고리 상태 변경
-  const handleLoadCate = async () => {
-    // try {
-    //   // setLoading(true);
-    //   const res = await axios.get(
-    //     `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
-    //     {
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         // Authorization: token,
-    //       },
-    //     }
-    //   );
-    //   // setPosts(response.data);
-    //   // setLoading(false);
-    //   console.log(res.data);
-    //   setItems(res.data);
-    // } catch (err) {
-    //   throw err;
-    // }
+  const handleLoadGeneral = async () => {
+    try {
+      // setLoading(true);
+      const res = await axios.get(
+        `${url}/boards/all/1?page=1&size=${limit}&sort-by=${sortby}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // setPosts(response.data);
+      // setLoading(false);
+      console.log(res.data);
+      setItems(res.data);
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  const handleLoadInfo = async () => {
+    try {
+      // setLoading(true);
+      const res = await axios.get(
+        `${url}/boards/all/2?page=1&size=${limit}&sort-by=${sortby}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // setPosts(response.data);
+      // setLoading(false);
+      console.log(res.data);
+      setItems(res.data);
+    } catch (err) {
+      throw err;
+    }
   };
 
   const handleLoadQues = async () => {
-    //   try {
-    //     // setLoading(true);
-    //     const res = await axios.get(
-    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by=${sortby}`
-    //       {
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           // Authorization: token,
-    //         },
-    //       }
-    //     );
-    //     // setPosts(response.data);
-    //     // setLoading(false);
-    //     console.log(res.data);
-    //     setItems(res.data);
-    //   } catch (err) {
-    //     throw err;
-    //   }
+    try {
+      // setLoading(true);
+      const res = await axios.get(
+        `${url}/boards/all/3?page=1&size=${limit}&sort-by=${sortby}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // setPosts(response.data);
+      // setLoading(false);
+      console.log(res.data);
+      setItems(res.data);
+    } catch (err) {
+      throw err;
+    }
   };
 
   // 검색 데이터
@@ -437,10 +435,7 @@ export default function Community() {
   };
 
   useEffect(() => {
-    // cate===0이면
     handleLoadAll();
-    // else
-    // handleLoadGeneral();
   }, []);
 
   //----------------------------------------------------------------------------
@@ -451,8 +446,40 @@ export default function Community() {
       "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
 
     const res = await axios.get(
-      // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
-      `${url}/boards?page=${currentPage}&size=${limit}`
+      `${url}/boards/all?page=${currentPage}&size=${limit}&sort-by=${sortby}`
+    );
+    const data = await res.data;
+    return data;
+  };
+
+  const axiosPostsG = async (currentPage) => {
+    const url =
+      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+
+    const res = await axios.get(
+      `${url}/boards/all/1?page=${currentPage}&size=${limit}&sort-by=${sortby}`
+    );
+    const data = await res.data;
+    return data;
+  };
+
+  const axiosPostsI = async (currentPage) => {
+    const url =
+      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+
+    const res = await axios.get(
+      `${url}/boards/all/2?page=${currentPage}&size=${limit}&sort-by=${sortby}`
+    );
+    const data = await res.data;
+    return data;
+  };
+
+  const axiosPostsQ = async (currentPage) => {
+    const url =
+      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+
+    const res = await axios.get(
+      `${url}/boards/all/3?page=${currentPage}&size=${limit}&sort-by=${sortby}`
     );
     const data = await res.data;
     return data;
@@ -463,7 +490,19 @@ export default function Community() {
 
     let currentPage = data.selected + 1;
 
-    const commentsFormServer = await axiosPosts(currentPage);
+    let commentsFormServer = await axiosPosts(currentPage);
+
+    if (cate === 1) {
+      commentsFormServer = await axiosPostsG(currentPage);
+    }
+
+    if (cate === 2) {
+      commentsFormServer = await axiosPostsI(currentPage);
+    }
+
+    if (cate === 3) {
+      commentsFormServer = await axiosPostsQ(currentPage);
+    }
 
     setItems(commentsFormServer);
   };
@@ -489,10 +528,41 @@ export default function Community() {
           <TopBox>
             <CategoryWritingBtnBar>
               <Categories>
-                <Cate onClick={() => setCate(0)}>전체</Cate>
-                <Cate onClick={() => setCate(1)}>일반</Cate>
-                <Cate onClick={() => setCate(2)}>정보</Cate>
-                <Cate onClick={() => setCate(3)}>질문</Cate>
+                <Cate
+                  onClick={() => {
+                    setCate(0);
+                    handleLoadAll();
+                  }}
+                >
+                  전체
+                </Cate>
+                <Cate
+                  onClick={() => {
+                    setCate(1);
+                    // handleLoadCate();
+                    handleLoadGeneral();
+                  }}
+                >
+                  일반
+                </Cate>
+                <Cate
+                  onClick={() => {
+                    setCate(2);
+                    // handleLoadCate();
+                    handleLoadInfo();
+                  }}
+                >
+                  정보
+                </Cate>
+                <Cate
+                  onClick={() => {
+                    setCate(3);
+                    // handleLoadCate();
+                    handleLoadQues();
+                  }}
+                >
+                  질문
+                </Cate>
                 {console.log(cate)}
               </Categories>
               <WritingBtn onClick={handleClick}>글 작성</WritingBtn>
@@ -528,17 +598,17 @@ export default function Community() {
                 return (
                   <Post key={item.boardSeq}>
                     <PostHead>
-                      {item.category === "GENERAL" ? (
+                      {item.category === "# 일반" ? (
                         <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
                       ) : (
                         ""
                       )}
-                      {item.category === "INFORMATION" ? (
+                      {item.category === "# 정보" ? (
                         <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
                       ) : (
                         ""
                       )}
-                      {item.category === "QUESTION" ? (
+                      {item.category === "# 질문" ? (
                         <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
                       ) : (
                         ""
@@ -558,8 +628,11 @@ export default function Community() {
                       {/* {item.createdAt} */}
                     </PostDate>
                     <PostView>{item.viewCount}</PostView>
-                    <PostLike>{item.voteResult}</PostLike>
-                    <PostWriter>{item.boardSeq}</PostWriter>
+                    <PostLike>{item.likeCount}</PostLike>
+                    <PostWriter>
+                      {/* {item.boardSeq} */}
+                      {item.username}
+                    </PostWriter>
                   </Post>
                 );
               })}

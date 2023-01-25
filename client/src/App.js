@@ -12,9 +12,11 @@ import Writing from "./page/Writing/Writing";
 import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
+import HikingInfo from "./page/HikingInfo";
 import NotFound from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";
-import HikingInfo from "./page/HikingInfo";
+// import EditWritig from "./page/EditWriting/EditWritingPresenter";
+import SignupNotice from "./page/SignupNotice";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -40,12 +42,12 @@ function App() {
             <Route path="/community" element={<Community />} />
             <Route path="/writing" element={<Writing />} />
             {/* <Route path="/boards/edit/:boardSeq" element={<Writing />} /> */}
-            <Route path="/boards/edit/:boardSeq" element={<EditWriting />} />
             <Route path="/mypage" element={<MyPage />} />
             <Route path="/mypageedit" element={<MyPageEdit />} />
             <Route path="/hikingmap" element={<HikingMap />} />
             <Route path="/boards/:boardSeq" element={<View />} />
-            <Route path="/hikingInfo" element={<HikingInfo />} />
+            <Route path="/hikinginfo" element={<HikingInfo />} />
+            <Route path="/signupnotice" element={<SignupNotice />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
