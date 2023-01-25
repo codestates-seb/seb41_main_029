@@ -122,7 +122,7 @@ public interface BoardMapper {
                         .username(reply.getUser().getUsername())
 //                        .liked(comment.getLiked())
 //                        .disliked(comment.getDisliked())
-//                        .userId(comment.getUser().getUserId())
+                        .userId(reply.getUser().getUserId())
                         .content(reply.getContent())
                         .createdAt(reply.getCreatedAt())
                         .modifiedAt(reply.getModifiedAt())

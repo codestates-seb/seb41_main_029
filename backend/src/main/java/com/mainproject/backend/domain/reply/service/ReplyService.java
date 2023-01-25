@@ -7,6 +7,7 @@ import com.mainproject.backend.domain.comment.repository.LikeCommentRepository;
 import com.mainproject.backend.domain.reply.dto.CommentReplyDto;
 import com.mainproject.backend.domain.reply.entity.Reply;
 import com.mainproject.backend.domain.reply.repository.ReplyRepository;
+import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,21 @@ public class ReplyService {
 //        currentBoard.increaseCommentCount();
 
         return replyRepository.save(reply);
+    }
+
+
+   @Transactional
+    public Reply editReply(Reply reply/*Comment comment, User user*/, CommentReplyDto.ReplyPatchDto req) {
+//        reply.setComment(comment);
+//        reply.setUser(user);
+        reply.editReply(req);
+        return replyRepository.save(reply);
+    }
+
+    @Transactional
+    public void deleteReply(Reply reply) {
+        // jwt 토큰 만료 처리는 어떻게 할지 추후에 고민해보기
+        replyRepository.delete(reply);
     }
 
 }

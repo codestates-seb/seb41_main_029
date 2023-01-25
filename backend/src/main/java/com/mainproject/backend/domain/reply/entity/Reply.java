@@ -2,6 +2,8 @@ package com.mainproject.backend.domain.reply.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.reply.dto.CommentReplyDto;
+import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.audit.Auditable;
 import lombok.AllArgsConstructor;
@@ -40,6 +42,10 @@ public class Reply extends Auditable {
     @ManyToOne
     @JoinColumn(name = "comment_seq")
     private Comment comment;
+
+    public void editReply(CommentReplyDto.ReplyPatchDto req) {
+        content = req.getContent();
+    }
 
 //    @JsonBackReference
 //    @ManyToOne
