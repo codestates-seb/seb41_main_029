@@ -1,15 +1,11 @@
 package com.mainproject.backend.domain.comment.controller;
 
 import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.dto.CommentDto;
-import com.mainproject.backend.domain.comment.dto.CommentReplyDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
-import com.mainproject.backend.domain.comment.entity.Reply;
 import com.mainproject.backend.domain.comment.mapper.CommentMapper;
 import com.mainproject.backend.domain.comment.service.CommentService;
-import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.Response.api.ApiResponse;
@@ -84,29 +80,6 @@ public class CommentController {
         currentBoard.DecreaseCommentCount();
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    //대댓글
-    @PostMapping("/reply/{board-seq}/{comment-seq}")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse ReplyComment(@PathVariable("comment-seq") @Positive Long commentSeq,
-                                    @PathVariable("board-seq") long boardSeq,
-                                    @Valid @RequestBody CommentReplyDto.ReplyPost requestBody) {
-
-        User user = getPrincipal();
-        Comment currentComment = new Comment();
-        currentComment.setCommentSeq(commentSeq);
-        Reply createReply = new Reply();
-        Board currentBoard = boardService.findVerifiedBoard(boardSeq);
-        currentBoard.increaseCommentCount();
-//        Board currentBoard = new Board();
-//        currentBoard.setBoardSeq(currentComment.getBoard().getBoardSeq());
-        commentService.createReply(createReply, currentComment, user, requestBody);
-//        currentBoard.increaseCommentCount();
-
-
-
-        return ApiResponse.success("Reply", commentMapper.replyToReplyResponse(createReply));
     }
 
     //추천

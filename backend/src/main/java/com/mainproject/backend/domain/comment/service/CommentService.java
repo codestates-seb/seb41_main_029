@@ -3,15 +3,12 @@ package com.mainproject.backend.domain.comment.service;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.service.BoardService;
-import com.mainproject.backend.domain.comment.dto.CommentReplyDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.entity.DislikeComment;
 import com.mainproject.backend.domain.comment.entity.LikeComment;
-import com.mainproject.backend.domain.comment.entity.Reply;
 import com.mainproject.backend.domain.comment.repository.CommentRepository;
 import com.mainproject.backend.domain.comment.repository.DislikeCommentRepository;
 import com.mainproject.backend.domain.comment.repository.LikeCommentRepository;
-import com.mainproject.backend.domain.comment.repository.ReplyRepository;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.CommentNotFoundException;
@@ -30,7 +27,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final DislikeCommentRepository dislikeCommentRepository;
     private final LikeCommentRepository likeCommentRepository;
-    private final ReplyRepository replyRepository;
     private final BoardRepository boardRepository;
     private final BoardService boardService;
     private final static String SUCCESS_LIKE_COMMENT = "추천 처리 완료";
@@ -83,18 +79,6 @@ public class CommentService {
         DislikeComment dislikeComment = new DislikeComment(comment, user); // true 처리
         dislikeCommentRepository.save(dislikeComment);
         return SUCCESS_DISLIKE_COMMENT;
-    }
-
-    //대댓글 기능
-    public Reply createReply(Reply reply, Comment comment, User user, CommentReplyDto.ReplyPost req){
-//        reply.setBoard(board);
-        reply.setComment(comment);
-        reply.setUser(user);
-        reply.setContent(req.getContent());
-//        Board currentBoard = boardService.findVerifiedBoard(board.getBoardSeq());
-//        currentBoard.increaseCommentCount();
-
-        return replyRepository.save(reply);
     }
 
 

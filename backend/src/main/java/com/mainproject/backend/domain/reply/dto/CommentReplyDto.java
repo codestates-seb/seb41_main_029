@@ -1,8 +1,9 @@
-package com.mainproject.backend.domain.comment.dto;
+package com.mainproject.backend.domain.reply.dto;
 
-import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.comment.entity.Reply;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;

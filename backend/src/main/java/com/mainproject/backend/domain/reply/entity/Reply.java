@@ -1,15 +1,13 @@
-package com.mainproject.backend.domain.comment.entity;
+package com.mainproject.backend.domain.reply.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.audit.Auditable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 

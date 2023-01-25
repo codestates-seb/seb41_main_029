@@ -4,18 +4,12 @@ import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.dto.BoardWithCommentDto;
 import com.mainproject.backend.domain.board.dto.SimpleReplyDto;
 import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.comment.dto.CommentReplyDto;
 import com.mainproject.backend.domain.comment.dto.CommentResponseDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
-import com.mainproject.backend.domain.comment.entity.Reply;
-import com.mainproject.backend.domain.comment.repository.ReplyRepository;
+import com.mainproject.backend.domain.reply.entity.Reply;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

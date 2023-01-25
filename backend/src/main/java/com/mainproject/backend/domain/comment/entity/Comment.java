@@ -3,6 +3,7 @@ package com.mainproject.backend.domain.comment.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.reply.entity.Reply;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.audit.Auditable;
 import lombok.AllArgsConstructor;

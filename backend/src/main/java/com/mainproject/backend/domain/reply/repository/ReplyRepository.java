@@ -1,9 +1,7 @@
-package com.mainproject.backend.domain.comment.repository;
+package com.mainproject.backend.domain.reply.repository;
 
-import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.entity.Comment;
-import com.mainproject.backend.domain.comment.entity.Reply;
-import com.mainproject.backend.domain.users.entity.User;
+import com.mainproject.backend.domain.reply.entity.Reply;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
