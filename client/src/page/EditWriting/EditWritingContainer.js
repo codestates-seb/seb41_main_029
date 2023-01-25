@@ -11,9 +11,10 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Cookies } from "react-cookie";
+import { getCookie } from "../../Cookies";
 import { editWriting, getWriting } from "../../api/writingAPI";
 
 const SpanTitle = styled.div`
@@ -29,7 +30,6 @@ const SpanTitle = styled.div`
     width: 100px;
     /* margin-left: -24px; */
     display: flex;
-
     @media (max-width: 1336px) {
       width: 150px;
       padding-left: 5%;
@@ -47,9 +47,7 @@ const SpanTitle = styled.div`
     height: 40px;
     border-radius: 8px;
     border: none;
-
     /* margin-right: 28px; */
-
     @media (max-width: 1336px) {
       width: 90%;
     }
@@ -77,13 +75,11 @@ const CategoryBox = styled(Box)`
 const CategoryInputLabel = styled(InputLabel)`
   width: 100%;
   margin: -8px 0 0px 12px;
-
   .CategorySpan {
     @media (max-width: 1336px) {
       font-size: 14px;
     }
   }
-
   /* @media (max-width: 1336px) {
     width: 50%;
     font-size: 12px;
@@ -92,14 +88,12 @@ const CategoryInputLabel = styled(InputLabel)`
 //.
 const CategorySelect = styled(Select)`
   height: 40px;
-
   // icon
   // 반응형을 줬을 때 아이콘이 변함
   .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
     color: ${({ theme }) => theme.colors.main};
     font-size: ${({ theme }) => theme.fontSizes.fs64};
     margin-right: 8px;
-
     @media (max-width: 1336px) {
       width: 30%;
     }
@@ -110,7 +104,6 @@ const CategoryFormControl = styled(FormControl)`
   width: 100%;
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.white};
-
   label {
     font-weight: 800;
     font-family: "Noto Sans CJK KR";
@@ -132,7 +125,6 @@ const CategoryFormControl = styled(FormControl)`
     width: 75%;
     background-color: black;
   } */
-
   .css-1m5xwth-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
     @media (max-width: 850px) {
     }
@@ -146,7 +138,6 @@ const BottomDiv = styled.div`
   justify-content: center;
   display: flex;
   margin-top: 40px;
-
   @media (max-width: 1336px) {
     width: 100%;
   }
@@ -162,7 +153,6 @@ const ViewButton = styled.a`
   color: white;
   font-size: ${({ theme }) => theme.fontSizes.fs24};
   margin: 0 36px 0px 36px;
-
   align-items: center;
   justify-content: center;
   display: flex;
@@ -179,6 +169,7 @@ const EditWritingEditor = ({ setImage }) => {
   const cookie = new Cookies();
   const Token = cookie.get("token");
   const [viewInfo, setViewInfo] = useState();
+  const navigate = useNavigate();
 
   async function getInfo() {
     const res = await getWriting(Token, boardSeq);
@@ -193,18 +184,43 @@ const EditWritingEditor = ({ setImage }) => {
   useEffect(() => {
     getInfo();
   }, []);
-  console.log(viewInfo?.data?.title);
+  // console.log(viewInfo?.data?.title);
 
-  const editwriting = () => {
-    editWriting(Token, boardSeq);
+  const editwriting = async () => {
+    await axios
+      .patch(
+        `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`,
+        {
+          title: detail,
+          content: answer,
+          category: category,
+        },
+        {
+          headers: {
+            // "Content-Type": "application/json",
+            // Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        // navigate(`/boards/${boardSeq}`);
+      })
+      .catch((err) => {
+        // navigate(`/boards/${boardSeq}`);
+        console.log(err);
+      });
   };
+  // console.log(category);
+
   const [answer, setAnswer] = useState(""); //editor
   // const [flag, setFlag] = useState(false);
   const [category, setCategory] = useState("");
-  const [detail, setDetail] = useState({
-    //input
-    title: "",
-  });
+  const title1 = viewInfo?.data?.title;
+  // console.log(viewInfo?.data?.title);
+  const [detail, setDetail] = useState("");
+  // viewInfo?.data?.title
 
   const onClick = (e) => {
     // answer와 detail을 값을 넘겨줘서 클릭시 콘솔에 찍히게 해줘야 한다
@@ -224,15 +240,12 @@ const EditWritingEditor = ({ setImage }) => {
     console.log(answer);
   };
   const titleChange = (event) => {
-    setDetail({
-      ...detail,
-      title: event.target.value,
-    });
+    setDetail(event.target.value);
     console.log(detail);
   };
   const API_URL = "https://noteyard-backend.herokuapp.com";
   const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
-
+  // console.log(detail);
   const uploadAdapter = (loader) => {
     // (2)
     return {
@@ -257,13 +270,24 @@ const EditWritingEditor = ({ setImage }) => {
       },
     };
   };
-
+  // console.log(viewInfo?.data?.category);
+  let reqcategory = "";
+  if (viewInfo?.data?.category === "# 일반") {
+    reqcategory = "GENERAL";
+  } else if (viewInfo?.data?.category === "# 정보") {
+    reqcategory = "INFORMATION";
+  } else if (viewInfo?.data?.category === "# 질문") {
+    reqcategory = "QUESTION";
+  }
+  // console.log(reqcategory);
   function uploadPlugin(editor) {
     // (3)
     editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
       return uploadAdapter(loader);
     };
   }
+  // const categorySplit = viewInfo?.data?.category;
+  // const categorySplit1 = categorySplit.split("#");
   return (
     <div>
       <SpanTitle>
@@ -271,10 +295,8 @@ const EditWritingEditor = ({ setImage }) => {
           <span className="SpanTitle">제목</span>
           <input
             type="text"
-            value={
-              // detail.title
-              viewInfo?.data?.title
-            }
+            defaultValue={viewInfo?.data?.title}
+            // value={detail}
             onChange={titleChange}
           />
           <div className="menu">
@@ -282,7 +304,10 @@ const EditWritingEditor = ({ setImage }) => {
             <CategoryBox sx={{ minWidth: 180 }}>
               <CategoryFormControl>
                 <CategoryInputLabel id="demo-simple-select-label">
-                  <span className="CategorySpan">카테고리</span>
+                  <span className="CategorySpan">
+                    {viewInfo?.data?.category}
+                    {/* {reqcategory} */}
+                  </span>
                   {/* 카테고리 */}
                 </CategoryInputLabel>
                 <CategorySelect
@@ -347,12 +372,7 @@ const EditWritingEditor = ({ setImage }) => {
         <ViewButton bgColor="#CCCCCC" ckColor="#BBBBBB" href="community">
           취소
         </ViewButton>
-        <ViewButton
-          bgColor="#62B6B7"
-          ckColor="#439A97"
-          href="community"
-          onClick={editwriting}
-        >
+        <ViewButton bgColor="#62B6B7" ckColor="#439A97" onClick={editwriting}>
           수정
         </ViewButton>
       </BottomDiv>
