@@ -149,7 +149,8 @@ const LoginContainer = () => {
           src={process.env.PUBLIC_URL + "/image/naver.svg"}
           alt="NAVER"
         />
-        <a href="http://www.naver.com">
+        {/* `https://kauth.kakao.com/oauth/authorize?client_id=${8e9ebc53811a31af7c567edfb77bff91}&redirect_uri=${http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao}&response_type=code` */}
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=8e9ebc53811a31af7c567edfb77bff91&redirect_uri=http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao&response_type=code">
           <SocialLoginLogo
             src={process.env.PUBLIC_URL + "/image/cacao.svg"}
             alt="KAKAO"

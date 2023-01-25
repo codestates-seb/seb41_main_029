@@ -47,12 +47,12 @@ dayjs.locale("ko");
 
 export const Viewdate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
-  return <div>{getDay.format("YY-MM-DD / HH:MM")}</div>;
+  return <div>{getDay.format("YY-MM-DD / hh:mm")}</div>;
   // return <div>{dayjs.format("YY-MM-DD / HH:MM")}</div>;
 };
 
 export const CommentDate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
 
-  return <div>({getDay.format("YY-MM-DD / HH:MM")})</div>;
+  return <div>({getDay.format("YY-MM-DD / hh:mm")})</div>;
 };
