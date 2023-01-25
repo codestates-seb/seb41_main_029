@@ -56,3 +56,9 @@ export const CommentDate = ({ createdAt }) => {
 
   return <div>({getDay.format("YY-MM-DD / hh:mm")})</div>;
 };
+
+export const ViewdateCommu = ({ createdAt }) => {
+  const getDay = dayjs(createdAt);
+
+  return <div>{getDay.format("YY/MM/DD")}</div>;
+};

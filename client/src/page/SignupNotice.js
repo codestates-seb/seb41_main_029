@@ -16,11 +16,13 @@ const NoticeDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 280px;
+  height: 290px;
   width: 430px;
+  margin: 0 16px;
   /* border: 5px solid gray; */
   border-radius: 20px;
-  background-color: ${({ theme }) => theme.colors.container};
+  background-color:
+  /* ${({ theme }) => theme.colors.container}; */ #f2f2f2;
 `;
 
 const CheckImg = styled.div``;
@@ -49,8 +51,15 @@ const SignupNotice = () => {
           </CheckImg>
           <SignupComplete>회원가입 완료</SignupComplete>
           <LoginInfo>로그인 후 서비스를 이용하실 수 있습니다.</LoginInfo>
-          {/* <LoginBtn>로그인</LoginBtn> */}
-          <MainBtn type="button" text={"로그인"} width="210px" height="40px" />
+          <MainBtn
+            type="button"
+            text={"로그인"}
+            width="170px"
+            height="40px"
+            // onClick={() => {
+            //   alert("안녕");
+            // }}
+          />
         </NoticeDiv>
       </Container>
     </>

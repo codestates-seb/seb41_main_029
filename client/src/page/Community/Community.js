@@ -7,6 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { ViewdateCommu } from "../../component/DateCalculator";
 
 const Container = styled.div`
   display: flex;
@@ -44,12 +45,21 @@ const Categories = styled.div`
   display: flex;
 `;
 
-const Cate = styled.div`
+const Cate = styled.button`
   padding: 2px;
   margin-right: 20px;
+  background-color: transparent;
+  border: none;
+  font-size: ${({ theme }) => theme.fontSizes.fs18};
   cursor: pointer;
   &:hover {
-    color: #62b6b7;
+    font-weight: 700;
+  }
+  &:focus {
+    font-weight: 700;
+  }
+  &:active {
+    font-weight: 700;
   }
 `;
 
@@ -57,6 +67,9 @@ const WritingBtn = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   cursor: pointer;
   &:hover {
+    color: #62b6b7;
+  }
+  &:focus {
     color: #62b6b7;
   }
   @media (max-width: 600px) {
@@ -285,12 +298,14 @@ const SearchInput = styled.input`
 export default function Community() {
   const navigate = useNavigate();
 
+  const url =
+    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+
   // axios
   const [items, setItems] = useState([]);
 
-  // 페이지네이션
-  const [current, setCurrent] = useState(0);
-  const limit = 3;
+  const [current, setCurrent] = useState(0); // 카테고리 변경
+  const limit = 3; // 한 페이지 당 게시글 수
 
   // 인증
   const cookies = new Cookies();
@@ -303,14 +318,6 @@ export default function Community() {
   const [cate, setCate] = useState(0); // 전체0, 일반1, 정보2, 질문3
   const [searchTitle, setSearchTitle] = useState("");
 
-  useEffect(() => {
-    token ? setHasToken(true) : setHasToken(false);
-  }, [token]);
-
-  const handleClick = () => {
-    hasToken ? navigate("/writing") : alert("로그인을 먼저 진행해주세요");
-  };
-
   // 탭메뉴
   const categories = [
     { name: "전체" },
@@ -319,17 +326,22 @@ export default function Community() {
     { name: "질문" },
   ];
 
+  useEffect(() => {
+    token ? setHasToken(true) : setHasToken(false);
+  }, [token]);
+
+  const handleClick = () => {
+    hasToken ? navigate("/writing") : alert("로그인을 먼저 진행해주세요");
+  };
+
   const currentClick = (index) => {
     setCurrent(index);
-    console.log(current);
+    // console.log(current);
   };
 
   //----------------------------------------------------------------------------
 
-  // 정식 데이터 전체조회 (axios.async/awit)
-  const url =
-    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
-
+  // 정식 데이터 1페이지 조회
   const handleLoadAll = async () => {
     try {
       // setLoading(true);
@@ -412,26 +424,26 @@ export default function Community() {
   };
 
   // 검색 데이터
-  const handleLoadSearch = async () => {
-    //   try {
-    //     // setLoading(true);
-    //     const res = await axios.get(
-    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by=${sortby}`
-    // `${url}/boards/search?keyword = ${searchTitle}&page=1&size=${limit}`
-    //       {
-    //         headers: {
-    //           "Content-Type": "application/json",
-    //           // Authorization: token,
-    //         },
-    //       }
-    //     );
-    //     // setPosts(response.data);
-    //     // setLoading(false);
-    //     console.log(res.data);
-    //     setItems(res.data);
-    //   } catch (err) {
-    //     throw err;
-    //   }
+  const handleLoadSearch = async (e) => {
+    try {
+      if (e.key === "Enter") {
+        // setLoading(true);
+        const res = await axios.get(
+          `${url}/boards/search?keyword=${searchTerm}&page=1&size=15`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        // setPosts(response.data);
+        // setLoading(false);
+        console.log(res.data);
+        setItems(res.data);
+      }
+    } catch (err) {
+      throw err;
+    }
   };
 
   useEffect(() => {
@@ -442,9 +454,6 @@ export default function Community() {
 
   // 페이지네이션 데이터
   const axiosPosts = async (currentPage) => {
-    const url =
-      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
-
     const res = await axios.get(
       `${url}/boards/all?page=${currentPage}&size=${limit}&sort-by=${sortby}`
     );
@@ -453,9 +462,6 @@ export default function Community() {
   };
 
   const axiosPostsG = async (currentPage) => {
-    const url =
-      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
-
     const res = await axios.get(
       `${url}/boards/all/1?page=${currentPage}&size=${limit}&sort-by=${sortby}`
     );
@@ -464,9 +470,6 @@ export default function Community() {
   };
 
   const axiosPostsI = async (currentPage) => {
-    const url =
-      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
-
     const res = await axios.get(
       `${url}/boards/all/2?page=${currentPage}&size=${limit}&sort-by=${sortby}`
     );
@@ -475,9 +478,6 @@ export default function Community() {
   };
 
   const axiosPostsQ = async (currentPage) => {
-    const url =
-      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
-
     const res = await axios.get(
       `${url}/boards/all/3?page=${currentPage}&size=${limit}&sort-by=${sortby}`
     );
@@ -509,17 +509,6 @@ export default function Community() {
 
   // search
   const [searchTerm, setSearchTerm] = useState("");
-
-  // 날짜 변환
-  const value = "2023-01-22T11:17:31.407494";
-  const date = new Date(value);
-  // console.log(date);
-  // const year = date.getFullYear();
-  // const year2 = year.slice(-2);
-  // console.log(year2);
-  var str =
-    date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
-  console.log(str);
 
   return (
     <>
@@ -581,61 +570,44 @@ export default function Community() {
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
-            {items
-              // .filter((item) => {
-              //   if (searchTerm === "") {
-              //     return item;
-              //   } else if (item.name.includes(searchTerm)) {
-              //     return item;
-              //   }
-              // })
-              .map((item) => {
-                // console.log(item.id);
-                // const handleTitleClick = (item) => {
-                //   // navigate(`/view2/${questionItem.questionId}`);
-                //   navigate(`/view2/${item.id}`);
-                // };
-                return (
-                  <Post key={item.boardSeq}>
-                    <PostHead>
-                      {item.category === "# 일반" ? (
-                        <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
-                      ) : (
-                        ""
-                      )}
-                      {item.category === "# 정보" ? (
-                        <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
-                      ) : (
-                        ""
-                      )}
-                      {item.category === "# 질문" ? (
-                        <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
-                      ) : (
-                        ""
-                      )}
-                    </PostHead>
-                    <PostTitleBox>
-                      <PostTitle className="ellipsis">
-                        <StyledLink to={`/boards/${item.boardSeq}`}>
-                          {item.title}
-                        </StyledLink>
-                      </PostTitle>
+            {items.map((item) => {
+              return (
+                <Post key={item.boardSeq}>
+                  <PostHead>
+                    {item.category === "# 일반" ? (
+                      <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
+                    ) : (
+                      ""
+                    )}
+                    {item.category === "# 정보" ? (
+                      <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
+                    ) : (
+                      ""
+                    )}
+                    {item.category === "# 질문" ? (
+                      <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
+                    ) : (
+                      ""
+                    )}
+                  </PostHead>
+                  <PostTitleBox>
+                    <PostTitle className="ellipsis">
+                      <StyledLink to={`/boards/${item.boardSeq}`}>
+                        {item.title}
+                      </StyledLink>
+                    </PostTitle>
 
-                      <PostComment>[1]</PostComment>
-                    </PostTitleBox>
-                    <PostDate>
-                      23/01/04
-                      {/* {item.createdAt} */}
-                    </PostDate>
-                    <PostView>{item.viewCount}</PostView>
-                    <PostLike>{item.likeCount}</PostLike>
-                    <PostWriter>
-                      {/* {item.boardSeq} */}
-                      {item.username}
-                    </PostWriter>
-                  </Post>
-                );
-              })}
+                    <PostComment>[1]</PostComment>
+                  </PostTitleBox>
+                  <PostDate>
+                    <ViewdateCommu createdAt={item.createdAt} />
+                  </PostDate>
+                  <PostView>{item.viewCount}</PostView>
+                  <PostLike>{item.likeCount}</PostLike>
+                  <PostWriter>{item.username}</PostWriter>
+                </Post>
+              );
+            })}
           </PostsList>
         </ComuContainer>
       </Container>
@@ -662,18 +634,23 @@ export default function Community() {
             onChange={(e) => {
               setSearchTerm(e.target.value);
             }}
+            onKeyDown={handleLoadSearch}
           ></SearchInput>
           <FontAwesomeIcon icon={faMagnifyingGlass} color="gray" size="lg" />
         </Search>
       </SearchContainer>
-      <Tabmenutest>
+      {/* <Tabmenutest>
         {categories.map((el, i) => {
           return (
             <div className="Btn">
               <span
                 key={i}
                 className={current === i ? "submenu focused" : "submenu"}
-                onClick={() => currentClick(i)}
+                onClick={() => {
+                  currentClick(i);
+                  // 각 카테 별 데이터 불러오기
+                  handleLoadGeneral();
+                }}
               >
                 {el.name}
               </span>
@@ -681,10 +658,11 @@ export default function Community() {
           );
         })}
       </Tabmenutest>
-      {items.map((item) => (current === 0 ? <div>0</div> : ""))}
+      {items.map((item) => (current === 0 ? <div>{item.title}</div> : ""))}
       {items.map((item) => (current === 1 ? <div>1</div> : ""))}
       {items.map((item) => (current === 2 ? <div>2</div> : ""))}
       {items.map((item) => (current === 3 ? <div>3</div> : ""))}
+      <TestBtn>test</TestBtn> */}
     </>
   );
 }
