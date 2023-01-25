@@ -47,6 +47,24 @@ export const getUser = async (Token, userId) => {
   }
 };
 
+export const patchUser = async (data, Token) => {
+  const formdata = {
+    content: data?.content,
+  };
+  try {
+    const response = await axios({
+      method: "patch",
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/mypage`,
+      data: formdata,
+      headers: { Authorization: `Bearer ${Token}` },
+    });
+    console.log(response);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const getWrite = async (Token, userId) => {
   try {
     const res = await axios({

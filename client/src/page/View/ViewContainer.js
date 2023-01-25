@@ -242,7 +242,7 @@ const ViewContainer = () => {
       // viewInfo?.data?.bookmarkStatus === true ? setIsBM(!isBM) : setIsBM(!isBM);
     }
   };
-  console.log(isBM);
+  // console.log(isBM);
   const handleClickBm1 = () => {
     bookMarking(Token, boardSeq);
     setIsBM(false);
@@ -293,7 +293,7 @@ const ViewContainer = () => {
       viewInfo?.data?.bookmarkStatus === true ? setIsBM(true) : setIsBM(false);
     }
   }, [setIsBM]);
-  console.log(viewInfo);
+  console.log(viewInfo?.data?.createdAt);
 
   return (
     <>
@@ -389,7 +389,7 @@ const ViewContainer = () => {
             {/* <Profile /> */}
             <img
               src={viewInfo?.data?.profileImageUrl}
-              style={{ width: "100px" }}
+              style={{ width: "100px", height: "80px" }}
             />
           </ProfileContainer>
           <div>

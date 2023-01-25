@@ -5,6 +5,9 @@ import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
 import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
+import com.mainproject.backend.domain.comment.dto.CommentSimpleDto;
+import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.comment.repository.CommentRepository;
 import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
@@ -29,6 +32,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final BookmarkRepository bookmarkRepository;
     private final BoardRepository boardRepository;
+    private final CommentRepository commentRepository;
     private final String NoEmail = "NO Email";
 
     public User getUser(String userId) {
@@ -49,8 +53,9 @@ public class UserService {
     @Transactional
     public User editMemberInfo(User user, UserDto.Patch req) {
 //        LocalDateTime now = LocalDateTime.now();
-//        user.setModifiedAt(now);
         user.editUser(req);
+        user.setPassword(passwordEncoder.encode(req.getPassword()));
+//        user.setModifiedAt(now);
         return userRepository.save(user);
     }
 
@@ -70,8 +75,8 @@ public class UserService {
                 .providerType(ProviderType.LOCAL)
                 .profileImageUrl("https://user-images.githubusercontent.com/95069395/211246989-dd36a342-bf18-412e-b3ec-841ab3280d56.png")
                 .roleType(RoleType.USER)
-                .createdAt(now)
-                .modifiedAt(now)
+//                .createdAt(now)
+//                .modifiedAt(now)
                 .build();
         return user;
     }
@@ -82,6 +87,15 @@ public class UserService {
                 .map(board -> new BoardSimpleDto().toDto(board))
                 .collect(Collectors.toList());
         return boardSimpleDtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommentSimpleDto> findComment(User user){
+        List<Comment> write = commentRepository.findAllByUser(user);
+        List<CommentSimpleDto> commentSimpleDtoList = write.stream()
+                .map(comment -> new CommentSimpleDto().toDto(comment))
+                .collect(Collectors.toList());
+        return commentSimpleDtoList;
     }
 
     @Transactional(readOnly = true)

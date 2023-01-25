@@ -21,7 +21,7 @@ export const getWriting = async (Token, boardSeq) => {
     const res = await axios({
       method: "get",
       url: `${url}boards/${boardSeq}`,
-      headers: { Authorization: `Bearer ${Token}` },
+      // headers: { Authorization: `Bearer ${Token}` },
       // url: `${url}boards/11`,
     });
     return res;
@@ -84,7 +84,7 @@ export const viewUpVote = async (Token, boardSeq) => {
     const res = await axios({
       method: "post",
       headers: { Authorization: `Bearer ${Token}` },
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`,
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/like/${boardSeq}`,
       // url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/11`,
     });
     console.log(res);

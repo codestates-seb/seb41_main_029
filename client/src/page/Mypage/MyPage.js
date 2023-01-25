@@ -372,7 +372,7 @@ export default function MyPage() {
   // console.log(userInfo);
 
   const [userInfo, setUserInfo] = useState([]);
-  const [userWrite, setUserWrite] = useState("");
+  const [userWrite, setUserWrite] = useState([]);
   // const [userComment, setUserComment] = useState([]);
   // const [userBook, setUserBook] = useState([]);
   useEffect(() => {
