@@ -123,15 +123,20 @@ export default function Signup() {
       )
       .then((res) => {
         console.log(res.data);
-        navigate("/login");
+        if (res?.status !== 200) {
+          alert("이미 등록된 아이디입니다.");
+        } else {
+          navigate("/signupnotice");
+        }
       })
       .catch((err) => {
         console.log(err.data);
       });
     // if (res?.status !== 200) {
-    //   alert("중복된 아이디입니다.");
-    //   return setisAuthorized(false);
-    // } else {
+    //   alert("이미 등록된 아이디입니다.");
+    //   //   return setisAuthorized(false);
+    // }
+    // else {
     //   // console.log(res?.data?.body?.token?.userId);
     //   const userId1 = res?.data?.body?.token?.userId;
     //   // console.log(userId1);
