@@ -395,23 +395,23 @@ export default function MyPage() {
     setCurrent(index);
     console.log(current);
   };
-  const axiosPosts = async (currentPage) => {
-    const res = await axios.get;
-    // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
-    "https://jsonplaceholder.typicode.com/posts"();
-    const data = await res.data;
-    return data;
-  };
+  // const axiosPosts = async (currentPage) => {
+  //   const res = await axios.get;
+  //   // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
+  //   "https://jsonplaceholder.typicode.com/posts"();
+  //   const data = await res.data;
+  //   return data;
+  // };
 
-  const handlePageClick = async (data) => {
-    console.log(data.selected);
+  // const handlePageClick = async (data) => {
+  //   console.log(data.selected);
 
-    let currentPage = data.selected + 1;
+  //   let currentPage = data.selected + 1;
 
-    const commentsFormServer = await axiosPosts(currentPage);
+  //   const commentsFormServer = await axiosPosts(currentPage);
 
-    setData(commentsFormServer);
-  };
+  //   setData(commentsFormServer);
+  // };
   return (
     <>
       {Token !== undefined ? (
@@ -518,7 +518,7 @@ export default function MyPage() {
               </InfoDiv> */}
               </TitleDiv>
             </TitleContainer>
-            <MyPaginate
+            {/* <MyPaginate
               previousLabel={"〈"}
               nextLabel={"〉"}
               breakLabel={"..."}
@@ -534,7 +534,7 @@ export default function MyPage() {
               nextClassName="page-item"
               nextLinkClassName="page-link"
               activeClassName="active"
-            />
+            /> */}
             {/* <Posts data={data} loading={loading} /> */}
             <Paginations
             // postsPerPage={postsPerPage}
