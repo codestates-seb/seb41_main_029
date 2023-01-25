@@ -142,17 +142,19 @@ const LoginContainer = () => {
       <SocialLogin>
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/google.svg"}
-          alt=""
+          alt="GOOGLE"
           // onClick={handleSocial}
         />
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/naver.svg"}
-          alt=""
+          alt="NAVER"
         />
-        <SocialLoginLogo
-          src={process.env.PUBLIC_URL + "/image/cacao.svg"}
-          alt=""
-        />
+        <a href="http://www.naver.com">
+          <SocialLoginLogo
+            src={process.env.PUBLIC_URL + "/image/cacao.svg"}
+            alt="KAKAO"
+          />
+        </a>
       </SocialLogin>
     </>
   );

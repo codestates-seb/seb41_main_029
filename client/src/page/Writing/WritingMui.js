@@ -154,7 +154,7 @@ const CategoryFormControl = styled(FormControl)`
 `;
 const CategoryMenuItem = styled(MenuItem)``;
 
-const WritingEditor = ({ setImage }) => {
+const WritingMui = ({ setImage }) => {
   // const [answer, setAnswer] = useState(""); //editor
   // const [flag, setFlag] = useState(false);
   const [category, setCategory] = useState(""); // M ui
@@ -163,9 +163,11 @@ const WritingEditor = ({ setImage }) => {
 
   const handleChange = (event) => {
     setCategory(event.target.value);
+    console.log(category);
   };
   const titleChange = (event) => {
     setTitle(event.target.value);
+    console.log(title);
   };
 
   return (
@@ -212,4 +214,4 @@ const WritingEditor = ({ setImage }) => {
   );
 };
 
-export default WritingEditor;
+export default WritingMui;

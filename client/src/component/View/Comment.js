@@ -6,9 +6,10 @@ import { CommentDate } from "../DateCalculator";
 import Input from "../Input";
 import CommentVote from "./CommentVote";
 import { useForm, FormProvider } from "react-hook-form";
-import CommentReply from "./CommentReply";
+import CommentReply from "./ReplyForm";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Reply from "./Reply";
 
 const CommentInfo = styled.div`
   display: flex;
@@ -66,7 +67,7 @@ const InputLayout = styled.div`
   height: 65px;
   border-radius: 10px;
   margin-left: 12px;
-
+  display: flex;
   /* background-color: #f9f7f7; */
   padding-top: 8px;
   padding-left: 8px;
@@ -98,13 +99,14 @@ const SubmitEdit = styled.button`
 
 const SubmitEditLayout = styled.div`
   /* float: right; */
-  width: 100%;
-  margin-left: 35px;
+  /* width: -10%; */
+  margin-right: -45px;
   display: flex;
   flex-direction: row-reverse;
   .btn {
+    margin-left: 12px;
     @media screen and (max-width: 1336px) {
-      margin-right: 70px;
+      margin-right: 110px;
       /* display: flex; */
     }
   }
@@ -117,20 +119,32 @@ const CommentLayout = styled.div`
 const CommentBottom = styled.div`
   /* margin-right: 10px; */
   display: flex;
-  width: 100%;
+  width: 90%;
+  height: 50px;
 `;
 
 const ReplyLayout = styled.div`
   display: flex;
+  /* height: 20px; */
+  /* width: 300px; */
+  /* flex-direction: row-reverse; */
+  justify-content: center;
   /* float: right; */
+  /* margin-top: -12px; */
+  /* margin-right: 40px; */
 `;
+const BottomContainer = styled.div`
+  display: flex;
+  /* height: 50px; */
+`;
+const ReplyContainer = styled.div``;
 
 const Comment = ({ comment }) => {
   const { boardSeq } = useParams();
   const methods = useForm();
   const onSubmit = async (data) => {
-    editComment(data, token, boardSeq, commentSeq);
-    // window.location.reload();
+    editComment(token, data, boardSeq, commentSeq);
+    window.location.reload();
     console.log(data);
   };
   const [edit, setEdit] = useState(false);
@@ -139,9 +153,9 @@ const Comment = ({ comment }) => {
   const token = cookie.get("token");
   const userId1 = JSON.parse(localStorage.getItem("userId"));
   const commentSeq = comment?.commentSeq;
-  console.log(comment?.commentSeq);
+  console.log(comment?.reply);
 
-  // console.log(boardSeq);
+  // console.log(comment);
   const handleClickEdit = () => {
     if (2 !== 2) {
       alert("권한이 없습니다.");
@@ -178,7 +192,7 @@ const Comment = ({ comment }) => {
       ) : null}
 
       <CommentInfo>
-        {comment?.username}
+        <span style={{ marginRight: "10px" }}>{comment?.username}</span>
         <CommentDate createdAt={comment?.createdAt} />
       </CommentInfo>
       {edit ? (
@@ -206,12 +220,28 @@ const Comment = ({ comment }) => {
       ) : (
         <CommentContainer>{comment?.content} </CommentContainer>
       )}
-      <CommentBottom>
-        <CommentVote voteResult={comment?.voteResult} />
+      <BottomContainer>
+        <CommentBottom>
+          <CommentVote
+            commentSeq={commentSeq}
+            liked={comment?.liked}
+            disliked={comment?.disliked}
+          />
+        </CommentBottom>
         <ReplyLayout>
-          <CommentReply />
+          <CommentReply commentSeq={commentSeq} />
         </ReplyLayout>
-      </CommentBottom>
+      </BottomContainer>
+
+      {/* {comment?.commentSeq === true ? ( */}
+      {/* <ReplyContainer> */}
+      {comment?.reply?.map((item, index) => (
+        <div key={index}>
+          <Reply reply={item}></Reply>
+        </div>
+      ))}
+      {/* </ReplyContainer>  */}
+      {/* //  ) : null} */}
     </CommentLayout>
   );
 };

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../Theme";
 import jsonData from "../../data/Posts";
@@ -482,7 +482,7 @@ export default function MyPage() {
                     ""
                   )
                 )}
-                {userInfo.map((item, id) =>
+                {data.map((item, id) =>
                   current === 1 ? (
                     <InfoContainer key={item.id}>
                       {/* <InfoIcon> */}

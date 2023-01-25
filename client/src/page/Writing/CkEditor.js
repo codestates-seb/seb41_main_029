@@ -4,6 +4,8 @@ import { useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { getCookie } from "../../Cookies";
+import { useNavigate } from "react-router-dom";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 
 const BottomDiv = styled.div`
   width: 100%;
@@ -20,7 +22,7 @@ const BottomDiv = styled.div`
 `;
 // button or a 태그
 // button 이면 align,justify,display 삭제하기
-const ViewButton = styled.button`
+const ViewButton = styled.a`
   width: 120px;
   height: 50px;
   border-radius: 10px;
@@ -41,7 +43,8 @@ const ViewButton = styled.button`
 `;
 
 export default function CkEditor({ setImage, title, category }) {
-  const [answer, setAnswer] = useState(""); //editor
+  const [answer, setAnswer] = useState(""); //editor이 부분에 html을 막는 기능으 넣으면 될까?
+  const navigate = useNavigate();
   // const API_URL = "https://noteyard-backend.herokuapp.com";
   // const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
 
@@ -84,9 +87,9 @@ export default function CkEditor({ setImage, title, category }) {
   //   content: answer,
   //   category: category,
   // };
-  console.log("제목", title);
-  console.log("글내용", answer);
-  console.log("카테코리", category);
+  // console.log("제목", title);
+  // console.log("글내용", answer);
+  // console.log("카테코리", category);
 
   const onClicks = async () => {
     await axios
@@ -108,6 +111,7 @@ export default function CkEditor({ setImage, title, category }) {
       )
       .then((res) => {
         console.log(res.data);
+        navigate("/community");
       })
       .catch((err) => {
         console.log(err.data);
@@ -122,15 +126,10 @@ export default function CkEditor({ setImage, title, category }) {
         onChange={(event, editor) => {
           setAnswer(editor.getData());
           console.log(answer);
-          // const data = editor.getData();
-          // setAnswer({
-          //   ...answer,
-          //   content: data,
-          // });
-          console.log(answer);
         }}
         config={{
           // extraPlugins: [uploadPlugin],
+
           toolbar: {
             items: [
               "heading",
@@ -155,7 +154,7 @@ export default function CkEditor({ setImage, title, category }) {
       />
 
       <BottomDiv>
-        <ViewButton bgColor="#CCCCCC" ckColor="#BBBBBB">
+        <ViewButton bgColor="#CCCCCC" ckColor="#BBBBBB" href="/community">
           취소
         </ViewButton>
         <ViewButton onClick={onClicks} bgColor="#62B6B7" ckColor="#439A97">
