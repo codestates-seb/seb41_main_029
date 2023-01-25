@@ -5,6 +5,8 @@ import ReactPaginate from "react-paginate";
 import jsonData from "../../data/Posts";
 import { useNavigate, Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   display: flex;
@@ -30,7 +32,7 @@ const CategoryWritingBtnBar = styled.div`
   justify-content: space-between;
   /* padding: 30px; */
   padding: 20px 3%;
-  border-bottom: 1px solid #c5ac90;
+  border-bottom: 1px solid #92bdbd;
   /* font-size: ${({ theme }) => theme.fontSizes.fs24}; */
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   @media (max-width: 600px) {
@@ -101,7 +103,7 @@ const Post = styled.div`
   align-items: center;
   /* height: 90px; */
   height: 70px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray_03};
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray_02};
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   padding: 0 10px;
   @media (max-width: 600px) {
@@ -122,7 +124,9 @@ const PostHead = styled.div`
 `;
 
 const PostHeadBox = styled.div`
-  background-color: #62b6b7;
+  // 카테고리에 따라 색 변경
+  /* background-color: #62b6b7; */
+  background-color: ${(props) => props.bgColor};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -192,7 +196,8 @@ const PostDate = styled.div`
 const PostView = styled.div`
   width: 110px;
   text-align: center;
-  color: #a67b48;
+  color:
+  /* #a67b48; */ gray;
 `;
 
 const PostLike = styled.div`
@@ -244,33 +249,62 @@ const MyPaginate = styled(ReactPaginate).attrs({
 `;
 
 // 검색
-const Search = styled.div`
+const SearchContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
 
-const SearchInput = styled.input`
+const Search = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: ${({ theme }) => theme.colors.container};
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  width: 300px;
-  font-size: ${({ theme }) => theme.fontSizes.fs16};
+  width: 290px;
+  border-radius: 10px;
+  padding-right: 13px;
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs12};
     width: 200px;
-    padding: 7px;
   }
 `;
 
+const SearchInput = styled.input`
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  width: 280px;
+  padding: 10px 10px 10px 13px;
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
+  @media (max-width: 600px) {
+    font-size: ${({ theme }) => theme.fontSizes.fs12};
+    width: 190px;
+  }
+`;
 export default function Community() {
+  const navigate = useNavigate();
+
   // axios
   const [items, setItems] = useState([]);
 
-  const [searchItems, setSearchItems] = useState([]);
-  const limit = 15;
+  // 페이지네이션
+  const [current, setCurrent] = useState(0);
+  const limit = 3;
 
-  const navigate = useNavigate();
+  // 인증
+  const cookies = new Cookies();
+  const token = cookies.get("token");
+
+  const [hasToken, setHasToken] = useState(false);
+
+  // 필터링,카테고리,검색
+  const [sortby, setSortby] = useState("boardSeq");
+  const [cate, setCate] = useState(0); // 전체0, 일반1, 정보2, 질문3
+  const [searchTitle, setSearchTitle] = useState("");
+
+  useEffect(() => {
+    token ? setHasToken(true) : setHasToken(false);
+  }, [token]);
 
   const handleClick = () => {
     // if (user === null) {
@@ -278,121 +312,147 @@ export default function Community() {
     // alert("로그인을 먼저 진행해주세요");
     // } else {
     //   //로그인 된 경우
-    navigate("/writing");
+    // navigate("/writing");
     // }
+    hasToken ? navigate("/writing") : alert("로그인을 먼저 진행해주세요");
+  };
+
+  // 탭메뉴
+  const categories = [
+    { name: "전체" },
+    { name: "일반" },
+    { name: "정보" },
+    { name: "질문" },
+  ];
+
+  const currentClick = (index) => {
+    setCurrent(index);
+    console.log(current);
   };
 
   //----------------------------------------------------------------------------
 
   // 정식 데이터 전체조회 (axios.async/awit)
-  useEffect(() => {
-    const url =
-      "http://ec2-54-180-55-239.ap-northeast-2.compute.amazonaws.com:8080";
-    // const token = Cookies.get("token");
+  const url =
+    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+  // const token = Cookies.get("token");
 
-    const fetchData = async () => {
-      try {
-        // setLoading(true);
-        const res = await axios.get(`${url}/boards?page=1&size=15`, {
+  const handleLoadAll = async () => {
+    try {
+      // setLoading(true);
+      const res = await axios.get(
+        `${url}/boards?page=1&size=${limit}`,
+        // cate === 0이면
+        // `${url}/boards/all?page=1&size=${limit}&sort-by=${sortby}`,
+        // `${url}/boards/all?page=1&size=${limit}&sort-by='boardSeq'`,
+        // else
+        // `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
+        // 삼항연산자로 /${cate}을 넣고 뺄 수 있나? ((cate===0? 위url : 아래url))
+        // `${url}/boards/all` + `/${cate}` + `?page=1&size=${limit}&sort-by=${sortby}`
+        // `{ `${url}/boards/all` + ${cate === 0 ? "" : `/${cate}`} + `?page=1&size=${limit}&sort-by=${sortby}` }`
+        {
           headers: {
-            Accept: "application/json",
+            "Content-Type": "application/json",
             // Authorization: token,
           },
-        });
-        // setPosts(response.data);
-        // setLoading(false);
+        }
+      );
+      // setPosts(response.data);
+      // setLoading(false);
 
-        console.log(res.data);
-        const total = res.headers.get("x-total-count");
-        console.log(total);
-        setItems(res.data);
-      } catch (err) {
-        throw err;
-      }
-    };
-    fetchData();
-  }, []);
-
-  // 정식 데이터 세부조회 (axios.async/awit)
-  // useEffect(() => {
-  //   const url = "http://ec2-54-180-55-239.ap-northeast-2.compute.amazonaws.com:8080";
-  //   const token = localStorage.getItem("accessToken");
-
-  //   const fetchData = async () => {
-  //     try{
-  //       setLoading(true);
-  //       const response = await axios.get(`${url}/boards/1`, {
-  //                 headers: {
-  //                   Accept: "application/json",
-  //                   Authorization: token,
-  //                 },
-  //               })
-  //       setPosts(response.data);
-  //       setLoading(false);
-  //     } catch(err) {
-  //       throw err;
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
+      console.log(res.data);
+      setItems(res.data);
+    } catch (err) {
+      throw err;
+    }
+  };
 
   //----------------------------------------------------------------------------
 
   // 카테고리별 데이터
-  const handleLoadAll = async (page) => {
-    await axios
-      .get(
-        `https://jsonplaceholder.typicode.com/comments?_page=1&_limit=${limit}`
-      )
-      .then((res) => {
-        const arr = res.data;
-        console.log(arr);
-        const total = res.headers.get("x-total-count"); // 500
-        setItems(arr);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
+  // 카테고리 클릭 시 카테고리 상태 변경
+  const handleLoadCate = async () => {
+    // try {
+    //   // setLoading(true);
+    //   const res = await axios.get(
+    //     `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
+    //     {
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //         // Authorization: token,
+    //       },
+    //     }
+    //   );
+    //   // setPosts(response.data);
+    //   // setLoading(false);
+    //   console.log(res.data);
+    //   setItems(res.data);
+    // } catch (err) {
+    //   throw err;
+    // }
+  };
+
+  const handleLoadQues = async () => {
+    //   try {
+    //     // setLoading(true);
+    //     const res = await axios.get(
+    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by=${sortby}`
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           // Authorization: token,
+    //         },
+    //       }
+    //     );
+    //     // setPosts(response.data);
+    //     // setLoading(false);
+    //     console.log(res.data);
+    //     setItems(res.data);
+    //   } catch (err) {
+    //     throw err;
+    //   }
+  };
+
+  // 검색 데이터
+  const handleLoadSearch = async () => {
+    //   try {
+    //     // setLoading(true);
+    //     const res = await axios.get(
+    //       `${url}/boards/all/{category-id}?page=1&size=${limit}&sort-by=${sortby}`
+    // `${url}/boards/search?keyword = ${searchTitle}&page=1&size=${limit}`
+    //       {
+    //         headers: {
+    //           "Content-Type": "application/json",
+    //           // Authorization: token,
+    //         },
+    //       }
+    //     );
+    //     // setPosts(response.data);
+    //     // setLoading(false);
+    //     console.log(res.data);
+    //     setItems(res.data);
+    //   } catch (err) {
+    //     throw err;
+    //   }
   };
 
   useEffect(() => {
+    // cate===0이면
     handleLoadAll();
+    // else
+    // handleLoadGeneral();
   }, []);
-
-  const handleLoadGeneral = async (page) => {
-    // await axios
-    //   .get(`https://jsonplaceholder.typicode.com/comments`)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     const total = res.headers.get("x-total-count");
-    //     console.log(total);
-    //     setItems(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.response);
-    //   });
-  };
-
-  const handleLoadQues = async (page) => {
-    // await axios
-    //   .get(`https://jsonplaceholder.typicode.com/comments`)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     const total = res.headers.get("x-total-count");
-    //     console.log(total);
-    //     setItems(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.response);
-    //   });
-  };
 
   //----------------------------------------------------------------------------
 
   // 페이지네이션 데이터
   const axiosPosts = async (currentPage) => {
+    const url =
+      "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+
     const res = await axios.get(
-      `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
+      // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
+      `${url}/boards?page=${currentPage}&size=${limit}`
     );
     const data = await res.data;
     return data;
@@ -411,6 +471,17 @@ export default function Community() {
   // search
   const [searchTerm, setSearchTerm] = useState("");
 
+  // 날짜 변환
+  const value = "2023-01-22T11:17:31.407494";
+  const date = new Date(value);
+  // console.log(date);
+  // const year = date.getFullYear();
+  // const year2 = year.slice(-2);
+  // console.log(year2);
+  var str =
+    date.getFullYear() + "/" + (date.getMonth() + 1) + "/" + date.getDate();
+  console.log(str);
+
   return (
     <>
       <Container>
@@ -418,31 +489,36 @@ export default function Community() {
           <TopBox>
             <CategoryWritingBtnBar>
               <Categories>
-                <Cate onClick={handleLoadAll}>전체</Cate>
-                <Cate onClick={handleLoadGeneral}>일반</Cate>
-                <Cate>정보</Cate>
-                <Cate>질문</Cate>
+                <Cate onClick={() => setCate(0)}>전체</Cate>
+                <Cate onClick={() => setCate(1)}>일반</Cate>
+                <Cate onClick={() => setCate(2)}>정보</Cate>
+                <Cate onClick={() => setCate(3)}>질문</Cate>
+                {console.log(cate)}
               </Categories>
               <WritingBtn onClick={handleClick}>글 작성</WritingBtn>
             </CategoryWritingBtnBar>
             <PostInfoBar>
               <TitleInfo>제목</TitleInfo>
-              <PostInfo>날짜</PostInfo>
-              <PostInfoMini>조회</PostInfoMini>
-              <PostInfoMini>추천</PostInfoMini>
+              <PostInfo onClick={() => setSortby("최신순")}>날짜</PostInfo>
+              <PostInfoMini onClick={() => setSortby("조회순")}>
+                조회
+              </PostInfoMini>
+              <PostInfoMini onClick={() => setSortby("추천순")}>
+                추천
+              </PostInfoMini>
               <PostInfo>닉네임</PostInfo>
             </PostInfoBar>
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
             {items
-              .filter((item) => {
-                if (searchTerm === "") {
-                  return item;
-                } else if (item.name.includes(searchTerm)) {
-                  return item;
-                }
-              })
+              // .filter((item) => {
+              //   if (searchTerm === "") {
+              //     return item;
+              //   } else if (item.name.includes(searchTerm)) {
+              //     return item;
+              //   }
+              // })
               .map((item) => {
                 // console.log(item.id);
                 // const handleTitleClick = (item) => {
@@ -450,23 +526,40 @@ export default function Community() {
                 //   navigate(`/view2/${item.id}`);
                 // };
                 return (
-                  <Post key={item.id}>
+                  <Post key={item.boardSeq}>
                     <PostHead>
-                      <PostHeadBox>정보</PostHeadBox>
+                      {item.category === "GENERAL" ? (
+                        <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "INFORMATION" ? (
+                        <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "QUESTION" ? (
+                        <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
+                      ) : (
+                        ""
+                      )}
                     </PostHead>
                     <PostTitleBox>
                       <PostTitle className="ellipsis">
-                        <StyledLink to={`/view2/${item.id}`}>
-                          {item.name}
+                        <StyledLink to={`/boards/${item.boardSeq}`}>
+                          {item.title}
                         </StyledLink>
                       </PostTitle>
 
                       <PostComment>[1]</PostComment>
                     </PostTitleBox>
-                    <PostDate>22/01/04</PostDate>
-                    <PostView>123</PostView>
-                    <PostLike>15</PostLike>
-                    <PostWriter>{item.id}</PostWriter>
+                    <PostDate>
+                      23/01/04
+                      {/* {item.createdAt} */}
+                    </PostDate>
+                    <PostView>{item.viewCount}</PostView>
+                    <PostLike>{item.voteResult}</PostLike>
+                    <PostWriter>{item.boardSeq}</PostWriter>
                   </Post>
                 );
               })}
@@ -477,7 +570,7 @@ export default function Community() {
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={25}
+        pageCount={15}
         marginPagesDisplayed={3}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
@@ -490,13 +583,92 @@ export default function Community() {
         nextLinkClassName="page-link"
         activeClassName="active"
       />
-      <Search>
-        <SearchInput
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-        ></SearchInput>
-      </Search>
+      <SearchContainer>
+        <Search>
+          <SearchInput
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+            }}
+          ></SearchInput>
+          <FontAwesomeIcon icon={faMagnifyingGlass} color="gray" size="lg" />
+        </Search>
+      </SearchContainer>
+      <Tabmenutest>
+        {categories.map((el, i) => {
+          return (
+            <div className="Btn">
+              <span
+                key={i}
+                className={current === i ? "submenu focused" : "submenu"}
+                onClick={() => currentClick(i)}
+              >
+                {el.name}
+              </span>
+            </div>
+          );
+        })}
+      </Tabmenutest>
+      {items.map((item) => (current === 0 ? <div>0</div> : ""))}
+      {items.map((item) => (current === 1 ? <div>1</div> : ""))}
+      {items.map((item) => (current === 2 ? <div>2</div> : ""))}
+      {items.map((item) => (current === 3 ? <div>3</div> : ""))}
     </>
   );
 }
+
+const Tabmenutest = styled.div`
+  width: 120px;
+  margin-left: 4%;
+
+  /* position: relative;
+  left: 60px; */
+  display: flex;
+  /* padding-left: 30px; */
+
+  .Btn {
+    width: 120px;
+    padding-right: 20px;
+    @media screen and (max-width: 1336px) {
+      width: 100%;
+      display: flex;
+    }
+  }
+  /** 작성,댓글 북마크 버튼 */
+  // 다 적용
+
+  .submenu {
+    width: 100px;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+
+    border-radius: 10px;
+    margin: 30px 0 0 0;
+    text-align: center;
+    color: #000;
+    /* background-color: #bfbfbf; */
+    font-size: 16px;
+    &:hover {
+      /* background-color: #828282; */
+      font-weight: 700;
+    }
+    @media screen and (max-width: 1336px) {
+      width: 100px;
+    }
+    @media screen and (max-width: 510px) {
+      /* display: flex; */
+      /* font-size: 12px; */
+    }
+  }
+
+  .focused {
+    // 누른 것만 적용
+    /* background-color: gray; */
+    font-weight: 700;
+
+    &:hover {
+      /* background-color: gray; */
+      font-weight: 700;
+    }
+  }
+`;

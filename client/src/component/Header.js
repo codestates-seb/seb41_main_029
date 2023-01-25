@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Cookies } from "react-cookie";
 import { removeCookie } from "../Cookies";
 
@@ -53,7 +53,7 @@ const Wrapper = styled.div`
   @media (max-width: 1336px) {
     display: flex;
     justify-content: center;
-    .decktopVer {
+    .desktopVer {
       display: none;
     }
     .ml192 {
@@ -105,6 +105,9 @@ const MenuModal = styled.div`
     align-items: center;
     display: flex;
     justify-content: center;
+  }
+  .landing {
+    display: ${(props) => (props.path === "/" ? "block" : "none")};
   }
   .modal {
     background-color: #ffffff;
@@ -161,21 +164,19 @@ export default function Header(props) {
             )}
           </a>
         </div>
-        <div className="decktopVer ml96 va">
+        <div className="desktopVer ml96 va">
           <a href="/community">커뮤니티</a>
         </div>
-        <div className="decktopVer ml96 va">
+        <div className="desktopVer ml96 va">
           <a href="/hikingmap">등산지도</a>
         </div>
-        <div className="decktopVer spacing"></div>
+        <div className="desktopVer spacing"></div>
         {hasToken ? (
           <>
-            <div className="decktopVer mr96 va">
-              <a href="/mypage">
-                <FontAwesomeIcon icon={faUser} />
-              </a>
+            <div className="desktopVer mr96 va">
+              <a href="/mypage">마이페이지</a>
             </div>
-            <div className="decktopVer mr192 va">
+            <div className="desktopVer mr192 va">
               <a href="/" onClick={logoutClick}>
                 로그아웃
               </a>
@@ -183,12 +184,12 @@ export default function Header(props) {
           </>
         ) : (
           <>
-            <div className="decktopVer mr96 va">
+            <div className="desktopVer mr96 va">
               <a href="/login">
                 <a href="/login">로그인</a>
               </a>
             </div>
-            <div className="decktopVer mr192 va">
+            <div className="desktopVer mr192 va">
               <a href="/signup">회원가입</a>
             </div>
           </>
@@ -205,9 +206,9 @@ export default function Header(props) {
           <FontAwesomeIcon icon={faBars} color="#331708" size="2xl" />
         )}
       </TabletMenu>
-      <MenuModal open={modalOpen}>
+      <MenuModal open={modalOpen} path={window.location.pathname}>
         <div className="modal">
-          <div />
+          <div className="landing" />
           <div className="flex">
             <a href="/community">커뮤니티</a>
           </div>
