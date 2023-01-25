@@ -12,9 +12,10 @@ import Writing from "./page/Writing/Writing";
 import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
-import NotFound from "./page/NotFound";
-// import EditWritig from "./page/EditWriting/EditWritingPresenter";
 import HikingInfo from "./page/HikingInfo";
+import NotFound from "./page/NotFound";
+import EditWriting from "./page/EditWriting/EditWritingPresenter";
+// import EditWritig from "./page/EditWriting/EditWritingPresenter";
 import SignupNotice from "./page/SignupNotice";
 
 const GlobalStyle = createGlobalStyle`

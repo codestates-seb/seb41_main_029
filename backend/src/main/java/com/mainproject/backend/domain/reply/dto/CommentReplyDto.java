@@ -1,6 +1,5 @@
-package com.mainproject.backend.domain.comment.dto;
+package com.mainproject.backend.domain.reply.dto;
 
-import com.mainproject.backend.domain.board.entity.Board;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,13 +8,14 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-public class CommentDto {
+public class CommentReplyDto {
+
 
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
     @Setter
-    public static class CommentPostDto{
+    public static class ReplyPost{
 
         @NotBlank
         private String content;
@@ -25,7 +25,7 @@ public class CommentDto {
     @NoArgsConstructor
     @Getter
     @Setter
-    public static class CommentPatchDto{
+    public static class ReplyPatchDto{
 
         @NotBlank
         private String content;
@@ -33,21 +33,22 @@ public class CommentDto {
 
     @Getter
     @Setter
-    public static class Response{
+    public static class ReplyResponse{
+        private long replySeq;
         private long commentSeq;
         private long userSeq;
-        private long boardSeq;
         private String content;
-        private int liked;
-        private int disliked;
+        private String username;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
-
-        public void setBoard(Board board){
-            this.boardSeq = board.getBoardSeq();
-        }
+//        public ReplyResponse(Reply reply){
+//            this.replySeq = reply.getReplySeq();
+//            this.commentSeq = reply.getComment().getCommentSeq();
+//            this.userSeq = reply.getUser().getUserSeq();
+//            this.content = reply.getContent();
+//            this.createdAt = reply.getCreatedAt();
+//            this.modifiedAt = reply.getModifiedAt();
+//        }
     }
 }
-
-

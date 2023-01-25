@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Cookies } from "react-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { commentDownVote, commentUpVote } from "../../api/commentAPI";
 
 const VoteBtn = styled.button`
   margin-top: 12px;
@@ -37,7 +38,7 @@ const Count = styled.span`
   margin-left: 5px;
 `;
 
-const CommentVote = ({ voteResult }) => {
+const CommentVote = ({ commentSeq, liked, disliked }) => {
   const cookie = new Cookies();
   const Token = cookie.get("token");
   const navigate = useNavigate();
@@ -52,9 +53,9 @@ const CommentVote = ({ voteResult }) => {
       }
     } else {
       if (isUpVote) return;
-      let upVote = voteResult + 1;
+      let upVote = liked + 1;
       setupVoteCount(upVote);
-      // commentUpVote(id, userId, answer.answerId, Token);
+      commentUpVote(Token, commentSeq);
       setIsUpVote(true);
     }
   };
@@ -66,13 +67,13 @@ const CommentVote = ({ voteResult }) => {
     } else {
       if (isDownVote) return;
 
-      let DownVote = voteResult + 1;
+      let DownVote = disliked + 1;
       setDownVoteCount(DownVote);
-      // commentDownVote(id, userId, answer.answerId, Token);
+      commentDownVote(Token, commentSeq);
       setIsDownVote(true);
     }
   };
-
+  console.log(commentSeq);
   return (
     <>
       {isUpVote ? (
@@ -84,7 +85,7 @@ const CommentVote = ({ voteResult }) => {
               alt="Up"
               width="30px"
             />
-            <Count>{upVoteCount === 0 ? 0 : upVoteCount || voteResult}</Count>
+            <Count>{upVoteCount === 0 ? 0 : upVoteCount || liked}</Count>
           </VoteContainer>
         </VoteActBtn1>
       ) : (
@@ -96,7 +97,7 @@ const CommentVote = ({ voteResult }) => {
               alt="Up"
               width="30px"
             />
-            <Count>{upVoteCount === 0 ? 0 : upVoteCount || voteResult}</Count>
+            <Count>{upVoteCount === 0 ? 0 : upVoteCount || liked}</Count>
           </VoteContainer>
         </VoteBtn>
       )}
@@ -109,9 +110,7 @@ const CommentVote = ({ voteResult }) => {
               width="30px"
               height="27px"
             />
-            <Count>
-              {downVoteCount === 0 ? 0 : downVoteCount || voteResult}
-            </Count>
+            <Count>{downVoteCount === 0 ? 0 : downVoteCount || disliked}</Count>
           </VoteContainer>
         </VoteActBtn2>
       ) : (
@@ -123,9 +122,7 @@ const CommentVote = ({ voteResult }) => {
               width="30px"
               height="27px"
             />
-            <Count>
-              {downVoteCount === 0 ? 0 : downVoteCount || voteResult}
-            </Count>
+            <Count>{downVoteCount === 0 ? 0 : downVoteCount || disliked}</Count>
           </VoteContainer>
         </VoteBtn1>
       )}

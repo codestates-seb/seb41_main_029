@@ -20,6 +20,7 @@ const CommentsHeader = styled.div`
 
 const CommentLayout = styled.div`
   width: 100%;
+  align-items: center;
   /* max-width: 1160px; */
   background-color: ${({ theme }) => theme.colors.gray_02};
   /* background-color: white; */
@@ -28,7 +29,7 @@ const CommentLayout = styled.div`
   /* margin-top: 24px; */
   padding-bottom: 12px;
 
-  //이부분 고쳐야됨 반응형 오른쪽 먹힘
+  //이부분 수정해야됨
   @media screen and (max-width: 1336px) {
     width: 94%;
     /* max-width: 400px; */

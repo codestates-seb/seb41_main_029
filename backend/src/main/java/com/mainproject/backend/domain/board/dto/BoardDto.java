@@ -59,11 +59,6 @@ public class BoardDto {
         private int likeCount;
         private int dislikeCount;
 
-<<<<<<< HEAD
-=======
-
-        // 멤버 닉네임
->>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 
@@ -73,7 +68,7 @@ public class BoardDto {
             this.username = board.getUser().getUsername();
             this.profileImageUrl = board.getUser().getProfileImageUrl();
             this.userId = board.getUser().getUserId();
-            this.category = board.getCategory().getValue();
+            this.category = board.getCategory().category;
             this.title = board.getTitle();
             this.content = board.getContent();
             this.BookmarkStatus = board.isBookmarkStatus();
@@ -100,14 +95,16 @@ public class BoardDto {
         private int viewCount;
         private int likeCount;
         private int dislikeCount;
+        private int commented;
         private LocalDateTime createdAt;
 
         public PageBoardResponse(Board board) {
             this.boardSeq = board.getBoardSeq();
             this.userSeq = board.getUser().getUserSeq();
             this.username = board.getUser().getUsername();
-            this.category = board.getCategory().getValue();
+            this.category = board.getCategory().category;
             this.title = board.getTitle();
+            this.commented = board.getCommented();
             this.BookmarkStatus = board.isBookmarkStatus();
             this.bookmarkCount = board.getBookmarked();
             this.likeCount = board.getLiked();

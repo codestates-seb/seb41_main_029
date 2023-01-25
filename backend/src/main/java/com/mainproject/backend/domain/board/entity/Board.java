@@ -12,7 +12,6 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,8 +35,6 @@ public class Board extends Auditable { //시간 추가
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-
-    @NotNull
     private Category category; // 카테고리
 
     @Column(nullable = false)
@@ -46,7 +43,10 @@ public class Board extends Auditable { //시간 추가
     @Lob
     @Column(nullable = false)
     private String content; // 게시판 내용
-    private int viewCount = 0;  // 조회 수
+
+    private Integer viewCount = 0;  // 조회 수
+
+
     @Column(nullable = true)
     private int liked; // 추천 수
     @Column(nullable = true)
@@ -54,35 +54,34 @@ public class Board extends Auditable { //시간 추가
     @Column(nullable = true)
     private int bookmarked; // 즐겨찾기 수
     @Column(nullable = true)
-    private boolean BookmarkStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
+    private boolean bookmarkStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
 
-<<<<<<< HEAD
-=======
-//    @Column(nullable = true)
-//    private int bookmarked1; // 즐겨찾기 수
+    @Column(nullable = true)
+    private int commented;
 
+    public void increaseCommentCount() {
+        this.commented += 1;
+    }
 
+    public void DecreaseCommentCount() {
+        this.commented -= 1;
+    }
 
->>>>>>> ca5cb470cdd5998dc71bccbb5d7c597ce7b3b1f4
     public void increaseBookmarkCount() {
         this.bookmarked += 1;
     }
+
     public void increaseBookmarkStatus(){
-        this.BookmarkStatus = true;
+        this.bookmarkStatus = true;
     }
-//    public void increaseBookmarkStatus1(){
-//        this.bookmarked1 += 1;
-//    }
 
     public void decreaseBookmarkCount() {
         this.bookmarked -= 1;
     }
+
     public void decreaseBookmarkStatus(){
-        this.BookmarkStatus = false;
+        this.bookmarkStatus = false;
     }
-//    public void decreaseBookmarkStatus1(){
-//        this.bookmarked1 -= 1;
-//    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq", nullable = false)

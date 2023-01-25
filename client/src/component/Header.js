@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Cookies } from "react-cookie";
 import { removeCookie } from "../Cookies";
 
@@ -174,9 +174,7 @@ export default function Header(props) {
         {hasToken ? (
           <>
             <div className="desktopVer mr96 va">
-              <a href="/mypage">
-                <FontAwesomeIcon icon={faUser} />
-              </a>
+              <a href="/mypage">마이페이지</a>
             </div>
             <div className="desktopVer mr192 va">
               <a href="/" onClick={logoutClick}>

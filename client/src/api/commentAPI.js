@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Cookies } from "react-cookie";
+import { getCookie } from "../Cookies";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
@@ -22,7 +23,7 @@ export const postComment = async (data, token, boardSeq) => {
   }
 };
 
-export const editComment = async (data, token, boardSeq, commentSeq) => {
+export const editComment = async (token, data, boardSeq, commentSeq) => {
   const formdata = {
     content: data?.content,
   };
@@ -31,7 +32,7 @@ export const editComment = async (data, token, boardSeq, commentSeq) => {
       method: "patch",
       url: `${url}comments/${boardSeq}/${commentSeq}`,
       data: formdata,
-      headers: { Authorization: `Bearer ${token}` },
+      // headers: { Authorization: `Bearer ${getCookie("token")}` },
     });
     console.log(response);
     return response;
@@ -54,13 +55,12 @@ export const deleteComment = async (token, boardSeq, commentSeq) => {
   }
 };
 
-export const commentUpVote = async (boardSeq, userId, commentSeq, Token) => {
+export const commentUpVote = async (Token, commentSeq) => {
   try {
     const res = await axios({
       method: "post",
-      data: { data: 1 },
       headers: { Authorization: `Bearer ${Token}` },
-      url: `${url}`,
+      url: `${url}comments/like/${commentSeq}`,
     });
     console.log(res);
     return res;
@@ -68,13 +68,12 @@ export const commentUpVote = async (boardSeq, userId, commentSeq, Token) => {
     console.log(error);
   }
 };
-export const commentDownVote = async (boardSeq, userId, commentSeq, Token) => {
+export const commentDownVote = async (Token, commentSeq) => {
   try {
     const res = await axios({
       method: "post",
-      data: { data: 1 },
       headers: { Authorization: `Bearer ${Token}` },
-      url: `${url}`,
+      url: `${url}comments/dislike/${commentSeq}`,
     });
     console.log(res);
     return res;

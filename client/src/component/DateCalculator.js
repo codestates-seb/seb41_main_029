@@ -1,5 +1,6 @@
 import React from "react";
 import dayjs from "dayjs";
+import "dayjs/locale/ko";
 // import { add, format, parse, parseISO } from "date-fns";
 // import { formatInTimeZone, toDate, format, utcToZonedTime } from "date-fns-tz";
 // import { ko } from "date-fns/locale";
@@ -42,16 +43,18 @@ import dayjs from "dayjs";
 //   return <div>{foramtDate(createdAt)}</div>;
 // }
 // export default DateFnsExample;
+dayjs.locale("ko");
 
 export const Viewdate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
-
-  return <div>{getDay.format("YY-MM-DD / HH:MM")}</div>;
+  return <div>{getDay.format("YY-MM-DD / hh:mm")}</div>;
+  // return <div>{dayjs.format("YY-MM-DD / HH:MM")}</div>;
 };
 
 export const CommentDate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
-  return <div>({getDay.format("YY-MM-DD / HH:MM")})</div>;
+
+  return <div>({getDay.format("YY-MM-DD / hh:mm")})</div>;
 };
 
 export const ViewdateCommu = ({ createdAt }) => {
