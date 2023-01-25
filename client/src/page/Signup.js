@@ -123,30 +123,12 @@ export default function Signup() {
       )
       .then((res) => {
         console.log(res.data);
-        if (res?.status !== 200) {
-          alert("이미 등록된 아이디입니다.");
-        } else {
-          navigate("/signupnotice");
-        }
+        navigate("/signupnotice");
       })
       .catch((err) => {
-        console.log(err.data);
+        console.log(err);
+        alert("이미 등록된 아이디입니다.");
       });
-    // if (res?.status !== 200) {
-    //   alert("이미 등록된 아이디입니다.");
-    //   //   return setisAuthorized(false);
-    // }
-    // else {
-    //   // console.log(res?.data?.body?.token?.userId);
-    //   const userId1 = res?.data?.body?.token?.userId;
-    //   // console.log(userId1);
-    //   localStorage.setItem("userId", JSON.stringify(userId1));
-    //   const token = res.data?.body?.token?.refreshToken;
-    //   cookie.set("token", token);
-    //   // dispatch(setUser({ token, userId1 }));
-    //   navigate("/");
-    // }
-    // };
   };
 
   // 아이디 중복 체크
@@ -206,22 +188,6 @@ export default function Signup() {
                     <AlertWarning text={error.password?.message} />
                   )}
                 </InputContainer>
-                {/* <LabelLayout>
-                  <label>비밀번호 확인</label>
-                </LabelLayout> */}
-                {/* <InputContainer> */}
-                {/* <Input
-                    type="password"
-                    width="15rem"
-                    height="40px"
-                    fieldName="confirmPassword"
-                    validation={confirmPwdValidation}
-                    error={error.confirmPassword}
-                  /> */}
-                {/* {error?.confirmPassword && (
-                    <AlertWarning text={error.confirmPassword?.message} />
-                  )} */}
-                {/* </InputContainer> */}
               </InputLayout>
               <BtnLayout>
                 <MainBtn
@@ -230,7 +196,6 @@ export default function Signup() {
                   width="210px"
                   height="40px"
                 />
-                {/* 폰트사이즈 16으로 */}
               </BtnLayout>
             </form>
           </FormProvider>
