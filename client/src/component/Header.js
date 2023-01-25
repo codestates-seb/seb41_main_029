@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
+import { Cookies } from "react-cookie";
+import { removeCookie } from "../Cookies";
 
 const Wrapper = styled.div`
   background-color: ${(props) =>
@@ -114,9 +116,7 @@ const MenuModal = styled.div`
   }
 `;
 
-const login = false;
-
-export default function Header() {
+export default function Header(props) {
   const [modalOpen, setModalOpen] = useState(false);
 
   const menuClick = () => {
@@ -127,6 +127,20 @@ export default function Header() {
       setModalOpen(true);
       document.body.style.cssText = `overflow: hidden;`;
     }
+  };
+
+  const cookies = new Cookies();
+  const token = cookies.get("token");
+
+  const [hasToken, setHasToken] = useState(false);
+
+  useEffect(() => {
+    token ? setHasToken(true) : setHasToken(false);
+  }, [token]);
+
+  const logoutClick = () => {
+    removeCookie("token");
+    localStorage.removeItem("userId");
   };
 
   return (
@@ -148,32 +162,34 @@ export default function Header() {
           </a>
         </div>
         <div className="decktopVer ml96 va">
-          <a href="community">커뮤니티</a>
+          <a href="/community">커뮤니티</a>
         </div>
         <div className="decktopVer ml96 va">
-          <a href="hikingmap">등산지도</a>
+          <a href="/hikingmap">등산지도</a>
         </div>
         <div className="decktopVer spacing"></div>
-        {login ? (
+        {hasToken ? (
           <>
             <div className="decktopVer mr96 va">
-              <a href="mypage">
+              <a href="/mypage">
                 <FontAwesomeIcon icon={faUser} />
               </a>
             </div>
             <div className="decktopVer mr192 va">
-              <a href="/">로그아웃</a>
+              <a href="/" onClick={logoutClick}>
+                로그아웃
+              </a>
             </div>
           </>
         ) : (
           <>
             <div className="decktopVer mr96 va">
-              <a href="login">
-                <a href="login">로그인</a>
+              <a href="/login">
+                <a href="/login">로그인</a>
               </a>
             </div>
             <div className="decktopVer mr192 va">
-              <a href="signup">회원가입</a>
+              <a href="/signup">회원가입</a>
             </div>
           </>
         )}
@@ -193,27 +209,29 @@ export default function Header() {
         <div className="modal">
           <div />
           <div className="flex">
-            <a href="community">커뮤니티</a>
+            <a href="/community">커뮤니티</a>
           </div>
           <div className="flex">
-            <a href="hikingmap">등산지도</a>
+            <a href="/hikingmap">등산지도</a>
           </div>
-          {login ? (
+          {hasToken ? (
             <>
               <div className="flex">
-                <a href="mypage">마이페이지</a>
+                <a href="/mypage">마이페이지</a>
               </div>
               <div className="flex">
-                <a href="/">로그아웃</a>
+                <a href="/" onClick={logoutClick}>
+                  로그아웃
+                </a>
               </div>
             </>
           ) : (
             <>
               <div className="flex">
-                <a href="login">로그인</a>
+                <a href="/login">로그인</a>
               </div>
               <div className="flex">
-                <a href="signup">회원가입</a>
+                <a href="/signup">회원가입</a>
               </div>
             </>
           )}
