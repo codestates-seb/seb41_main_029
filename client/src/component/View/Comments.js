@@ -22,7 +22,7 @@ const CommentLayout = styled.div`
   width: 100%;
   align-items: center;
   /* max-width: 1160px; */
-  background-color: ${({ theme }) => theme.colors.gray_02};
+  background-color: ${({ theme }) => theme.colors.gray_01};
   /* background-color: white; */
   border-radius: 10px;
   margin: 24px 0px;
@@ -39,13 +39,14 @@ const CommentLayout = styled.div`
   }
 `;
 
-const Comments = ({ comments }) => {
+const Comments = ({ commented, comments }) => {
+  // console.log(comments);
   return (
     <>
       <CommentsLayout>
         <CommentsHeader>
           {/* 댓글 (1) */}
-          댓글 ({comments?.length})
+          댓글 ({commented})
         </CommentsHeader>
         {/* <CommentLayout>
           <Comment />

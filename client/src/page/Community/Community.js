@@ -670,12 +670,10 @@ export default function Community() {
 const Tabmenutest = styled.div`
   width: 120px;
   margin-left: 4%;
-
   /* position: relative;
   left: 60px; */
   display: flex;
   /* padding-left: 30px; */
-
   .Btn {
     width: 120px;
     padding-right: 20px;
@@ -686,13 +684,11 @@ const Tabmenutest = styled.div`
   }
   /** 작성,댓글 북마크 버튼 */
   // 다 적용
-
   .submenu {
     width: 100px;
     height: 50px;
     border: none;
     cursor: pointer;
-
     border-radius: 10px;
     margin: 30px 0 0 0;
     text-align: center;
@@ -711,12 +707,10 @@ const Tabmenutest = styled.div`
       /* font-size: 12px; */
     }
   }
-
   .focused {
     // 누른 것만 적용
     /* background-color: gray; */
     font-weight: 700;
-
     &:hover {
       /* background-color: gray; */
       font-weight: 700;

@@ -17,16 +17,27 @@ export const postWriting = async (Token) => {
 };
 
 export const getWriting = async (Token, boardSeq) => {
-  try {
-    const res = await axios({
-      method: "get",
-      url: `${url}boards/${boardSeq}`,
-      // headers: { Authorization: `Bearer ${Token}` },
-      // url: `${url}boards/11`,
-    });
-    return res;
-  } catch (error) {
-    console.log(error);
+  if (Token) {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `${url}boards/${boardSeq}`,
+        headers: { Authorization: `Bearer ${Token}` },
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (!Token) {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `${url}boards/${boardSeq}`,
+      });
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
@@ -87,8 +98,13 @@ export const viewUpVote = async (Token, boardSeq) => {
       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/like/${boardSeq}`,
       // url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/11`,
     });
-    console.log(res);
-    return res;
+    console.log(res?.data?.header);
+    if (res?.data?.header?.code === 403) {
+      alert("이미 추천하셨습니다.");
+      window.location.reload();
+    } else {
+      return res;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -100,8 +116,12 @@ export const viewDownVote = async (Token, boardSeq) => {
       headers: { Authorization: `Bearer ${Token}` },
       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/dislike/${boardSeq}`,
     });
-    console.log(res);
-    return res;
+    if (res?.data?.header?.code === 403) {
+      alert("이미 비추천하셨습니다.");
+      window.location.reload();
+    } else {
+      return res;
+    }
   } catch (error) {
     console.log(error);
   }

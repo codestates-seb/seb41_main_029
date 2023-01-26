@@ -6,12 +6,13 @@ import { BsBookmarkCheck } from "react-icons/bs";
 import Comments from "../../component/View/Comments";
 import { bookMarking, deleteWriting, getWriting } from "../../api/writingAPI";
 import { Cookies } from "react-cookie";
-import { Viewdate } from "../../component/DateCalculator";
+import { ViewdateCommu } from "../../component/DateCalculator";
 import { deleteComment } from "../../api/commentAPI";
 import Loading from "../../component/Loading";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/usersReducer";
 import { bindActionCreators } from "redux";
+import PageNation from "../../component/View/Pagination";
 
 const ViewLayout = styled.div`
   @media screen and (max-width: 1336px) {
@@ -198,10 +199,12 @@ const Bookmark22 = styled.div`
 `;
 
 const ProfileContainer = styled.div`
+  /* border: 1px solid black; */
   width: 100%;
-  height: 100px;
+  height: 80px;
   max-width: 100px;
   margin-right: 12px;
+  /* background-color: white; */
 `;
 
 const Profile = styled.div`
@@ -243,10 +246,6 @@ const ViewContainer = () => {
     }
   };
   // console.log(isBM);
-  const handleClickBm1 = () => {
-    bookMarking(Token, boardSeq);
-    setIsBM(false);
-  };
 
   const handleClickDe = async () => {
     if (!window.confirm("정말 삭제 하시겠습니까?")) {
@@ -292,8 +291,8 @@ const ViewContainer = () => {
     {
       viewInfo?.data?.bookmarkStatus === true ? setIsBM(true) : setIsBM(false);
     }
-  }, [setIsBM]);
-  console.log(viewInfo?.data?.createdAt);
+  }, [viewInfo]);
+  console.log(viewInfo);
 
   return (
     <>
@@ -377,7 +376,12 @@ const ViewContainer = () => {
           <Line />
         </LineLayOut>
         <BodyContainer>
-          <BodyLayout>{viewInfo?.data?.content}</BodyLayout>
+          <BodyLayout
+            dangerouslySetInnerHTML={{ __html: viewInfo?.data?.content }}
+          >
+            {/* <span></span> */}
+            {/* {viewInfo?.data?.content} */}
+          </BodyLayout>
         </BodyContainer>
         <ViewVote
           likeCount={viewInfo?.data?.likeCount}
@@ -386,7 +390,6 @@ const ViewContainer = () => {
         />
         <UserInfoLayout>
           <ProfileContainer>
-            {/* <Profile /> */}
             <img
               src={viewInfo?.data?.profileImageUrl}
               style={{ width: "100px", height: "80px" }}
@@ -394,11 +397,15 @@ const ViewContainer = () => {
           </ProfileContainer>
           <div>
             {viewInfo?.data?.username}
-            <Viewdate createdAt={viewInfo?.data?.createdAt} />
+            <ViewdateCommu createdAt={viewInfo?.data?.createdAt} />
             <div>조회수 : {viewInfo?.data?.viewCount}</div>
           </div>
         </UserInfoLayout>
-        <Comments comments={viewInfo?.data?.comments} />
+        <Comments
+          commented={viewInfo?.data?.commented}
+          comments={viewInfo?.data?.comments}
+        />
+        <PageNation></PageNation>
       </ViewLayout>
     </>
   );

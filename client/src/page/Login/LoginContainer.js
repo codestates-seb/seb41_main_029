@@ -107,11 +107,9 @@ const LoginContainer = () => {
                 height="40px"
                 fieldName="userId"
                 validation={idValidation}
-                error={error.id}
+                error={error.userId}
               />
-              {error?.username && (
-                <AlertWarning text={error.username?.message} />
-              )}
+              {error?.userId && <AlertWarning text={error.userId?.message} />}
             </InputContainer>
             <LabelLayout>
               <label>비밀번호</label>

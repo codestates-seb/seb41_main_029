@@ -184,7 +184,13 @@ const EditWritingEditor = ({ setImage }) => {
   useEffect(() => {
     getInfo();
   }, []);
-  // console.log(viewInfo?.data?.title);
+  useEffect(() => {
+    if (viewInfo) {
+      setDetail(viewInfo?.data?.title);
+      setCategory(reqcategory);
+    }
+  }, [viewInfo]);
+  console.log(viewInfo?.data?.category);
 
   const editwriting = async () => {
     await axios
@@ -192,7 +198,7 @@ const EditWritingEditor = ({ setImage }) => {
         `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`,
         {
           title: detail,
-          content: answer,
+          content: answer.content,
           category: category,
         },
         {
@@ -205,7 +211,7 @@ const EditWritingEditor = ({ setImage }) => {
       )
       .then((res) => {
         console.log(res.data);
-        // navigate(`/boards/${boardSeq}`);
+        navigate(`/boards/${boardSeq}`);
       })
       .catch((err) => {
         // navigate(`/boards/${boardSeq}`);
@@ -221,7 +227,7 @@ const EditWritingEditor = ({ setImage }) => {
   // console.log(viewInfo?.data?.title);
   const [detail, setDetail] = useState("");
   // viewInfo?.data?.title
-
+  // const [reqcategory, setreqcategory] = useState("");
   const onClick = (e) => {
     // answer와 detail을 값을 넘겨줘서 클릭시 콘솔에 찍히게 해줘야 한다
     // setDetail(e.target.value),
@@ -286,8 +292,8 @@ const EditWritingEditor = ({ setImage }) => {
       return uploadAdapter(loader);
     };
   }
-  // const categorySplit = viewInfo?.data?.category;
-  // const categorySplit1 = categorySplit.split("#");
+
+  console.log(reqcategory);
   return (
     <div>
       <SpanTitle>
@@ -304,10 +310,7 @@ const EditWritingEditor = ({ setImage }) => {
             <CategoryBox sx={{ minWidth: 180 }}>
               <CategoryFormControl>
                 <CategoryInputLabel id="demo-simple-select-label">
-                  <span className="CategorySpan">
-                    {viewInfo?.data?.category}
-                    {/* {reqcategory} */}
-                  </span>
+                  <span className="CategorySpan">{category}</span>
                   {/* 카테고리 */}
                 </CategoryInputLabel>
                 <CategorySelect

@@ -17,6 +17,21 @@ export const login = async (data) => {
   }
 };
 
+export const renewal = async (data) => {
+  try {
+    const res = await axios({
+      method: "post",
+      data,
+      headers: { Authorization: null },
+      url: `${url}auth/login`,
+    });
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const socialLogin = async (data) => {
   try {
     const res = await axios({
