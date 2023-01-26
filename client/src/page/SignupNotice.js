@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
 import { MainBtn } from "../component/Button";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +20,6 @@ const NoticeDiv = styled.div`
   height: 290px;
   width: 430px;
   margin: 0 16px;
-  /* border: 5px solid gray; */
   border-radius: 20px;
   background-color:
   /* ${({ theme }) => theme.colors.container}; */ #f2f2f2;
@@ -38,10 +38,27 @@ const LoginInfo = styled.div`
 `;
 
 const LoginBtn = styled.button`
-  margin-top: 10px;
+  background-color: ${({ theme }) => theme.colors.main};
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
+  color: ${({ theme }) => theme.colors.white};
+  font-weight: 400;
+  border: 0;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 170px;
+  height: 40px;
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.main_hover};
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
 `;
 
 const SignupNotice = () => {
+  const navigate = useNavigate();
   return (
     <>
       <Container>
@@ -51,15 +68,13 @@ const SignupNotice = () => {
           </CheckImg>
           <SignupComplete>회원가입 완료</SignupComplete>
           <LoginInfo>로그인 후 서비스를 이용하실 수 있습니다.</LoginInfo>
-          <MainBtn
-            type="button"
-            text={"로그인"}
-            width="170px"
-            height="40px"
-            // onClick={() => {
-            //   alert("안녕");
-            // }}
-          />
+          <LoginBtn
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
+            로그인
+          </LoginBtn>
         </NoticeDiv>
       </Container>
     </>
