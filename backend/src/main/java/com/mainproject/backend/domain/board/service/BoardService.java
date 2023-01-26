@@ -90,11 +90,14 @@ public class BoardService {
     public Page<Board> findAllBoard(int page, int size, String sortBy) {
         return boardRepository.findAllByBoardStatus(getPageRequest(page, size, sortBy), Board.BoardStatus.BOARD_EXIST);
     }
+
+    //게시글 전체 개수 조회
     public Integer countAllBoard(){
         List<Board> write = boardRepository.findAll();
         return write.size();
     }
 
+    //카테고리 게시글 전체 개수 조회
     public Integer countBoard(Long categoryId){
         Category boardCategory = categoryIdToboardCategory(categoryId);
         return boardRepository.findByCategoryAndBoardStatus(boardCategory, Board.BoardStatus.BOARD_EXIST).size();

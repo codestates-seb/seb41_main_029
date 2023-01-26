@@ -66,9 +66,9 @@ public class BoardController {
                                       @Positive @RequestParam("page") int page,
                                       @Positive @RequestParam("size") int size) {
         List<Board> board = boardService.findAllBoard(page -1, size, sortBy).getContent();
-        int abc = boardService.countAllBoard();
-        String abc2 = String.valueOf(abc);
-        return ApiResponse.success(abc2, boardMapper.boardsToBoardResponsesDto(board));
+        int Count = boardService.countAllBoard();
+        String boardCount = String.valueOf(Count);
+        return ApiResponse.success(boardCount, boardMapper.boardsToBoardResponsesDto(board));
     }
 
     //카테고리별 조회
@@ -80,9 +80,9 @@ public class BoardController {
                                               @Positive @RequestParam("size") int size) {
 
         List<Board> board = boardService.findAllCategoryBoard(categoryId, page -1, size, sortBy).getContent();
-        int abc = boardService.countBoard(categoryId);
-        String abc2 = String.valueOf(abc);
-        return ApiResponse.success(abc2, boardMapper.boardsToBoardResponsesDto(board));
+        int count = boardService.countBoard(categoryId);
+        String boardCount = String.valueOf(count);
+        return ApiResponse.success(boardCount, boardMapper.boardsToBoardResponsesDto(board));
     }
 
 
