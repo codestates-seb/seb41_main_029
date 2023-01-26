@@ -42,6 +42,7 @@ public class UserDto {
     @AllArgsConstructor
     public static class Response{
         private long userSeq;
+        private long point;
         private String userId;
         private String username;
         private String password;

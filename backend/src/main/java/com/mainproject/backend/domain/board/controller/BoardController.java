@@ -37,7 +37,6 @@ public class BoardController {
 
         Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user);
 
-
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
 
@@ -139,6 +138,9 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse BookmarkBoard(@PathVariable("board-seq") @Positive Long boardSeq){
         User user = getPrincipal();
+        Board currentBoard = new Board();
+        currentBoard.setBoardSeq(boardSeq);
+
         return ApiResponse.success("북마크", boardService.updateOfBookmarkBoard(boardSeq, user));
     }
 
