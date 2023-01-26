@@ -59,6 +59,11 @@ export const CommentDate = ({ createdAt }) => {
 
 export const ViewdateCommu = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
+  const now = dayjs();
+  const now2 = dayjs().format("YY-MM-DD / hh:mm");
+  console.log(now);
+  console.log(now2);
 
   return <div>{getDay.format("YY/MM/DD")}</div>;
+  // 오늘 날짜면 작성시간 뜨게, 그 외에는 날짜 뜨게 하기
 };
