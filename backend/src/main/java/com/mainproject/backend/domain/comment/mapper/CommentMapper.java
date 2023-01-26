@@ -1,12 +1,15 @@
 package com.mainproject.backend.domain.comment.mapper;
 
-import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.dto.CommentDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
+
+
+//    CommentReplyDto.ReplyResponse replyToReplyResponse(Reply reply);
+
     default Comment commentPostDtoToComment(CommentDto.CommentPostDto commentPostDto){
         Comment comment = new Comment();
 

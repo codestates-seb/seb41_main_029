@@ -3,18 +3,11 @@ package com.mainproject.backend.domain.board.controller;
 import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.mapper.BoardMapper;
-import com.mainproject.backend.domain.board.repositoty.LikeBoardRepository;
 import com.mainproject.backend.domain.board.service.BoardService;
-
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
-import com.mainproject.backend.global.Response.MultiResponseDto;
 import com.mainproject.backend.global.Response.api.ApiResponse;
-import com.mainproject.backend.global.exception.MemberNotFoundException;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.bridge.Message;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;

@@ -53,9 +53,9 @@ public class UserService {
     @Transactional
     public User editMemberInfo(User user, UserDto.Patch req) {
 //        LocalDateTime now = LocalDateTime.now();
-//        user.setModifiedAt(now);
         user.editUser(req);
         user.setPassword(passwordEncoder.encode(req.getPassword()));
+//        user.setModifiedAt(now);
         return userRepository.save(user);
     }
 
@@ -73,10 +73,10 @@ public class UserService {
                 .email(NoEmail)
                 .password(passwordEncoder.encode(req.getPassword()))
                 .providerType(ProviderType.LOCAL)
-                .profileImageUrl("https://user-images.githubusercontent.com/95069395/211246989-dd36a342-bf18-412e-b3ec-841ab3280d56.png")
+                .profileImageUrl("https://ifh.cc/g/B2fA6Y.png")
                 .roleType(RoleType.USER)
-                .createdAt(now)
-                .modifiedAt(now)
+//                .createdAt(now)
+//                .modifiedAt(now)
                 .build();
         return user;
     }

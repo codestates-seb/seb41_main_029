@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ViewVote from "../../component/View/ViewVote";
 import { BsBookmarkCheck } from "react-icons/bs";
 import Comments from "../../component/View/Comments";
-import { bookMarking, getWriting } from "../../api/writingAPI";
+import { bookMarking, deleteWriting, getWriting } from "../../api/writingAPI";
 import { Cookies } from "react-cookie";
 import { Viewdate } from "../../component/DateCalculator";
 import { deleteComment } from "../../api/commentAPI";
@@ -33,7 +33,7 @@ const TitleLayout = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  max-width: 1050px;
+  max-width: 1000px;
   margin: 64px 0px;
   font-size: ${({ theme }) => theme.fontSizes.fs30};
   padding-right: 30px;
@@ -156,6 +156,7 @@ const Icondiv11 = styled.div`
 
 const Bookmark2 = styled.div`
   width: 40px;
+  margin-left: 35px;
   cursor: pointer;
   &:hover > ${EditWord2} {
     display: block;
@@ -163,6 +164,20 @@ const Bookmark2 = styled.div`
   @media screen and (max-width: 1336px) {
     width: 100%;
     margin-left: 35px;
+    max-width: 30px;
+    height: 32px;
+  }
+`;
+const Bookmark23 = styled.div`
+  width: 40px;
+  /* margin-left: 35px; */
+  cursor: pointer;
+  &:hover > ${EditWord2} {
+    display: block;
+  }
+  @media screen and (max-width: 1336px) {
+    width: 100%;
+    /* margin-left: 35px; */
     max-width: 30px;
     height: 32px;
   }
@@ -199,25 +214,38 @@ const ViewContainer = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { boardSeq } = useParams();
   const [viewInfo, setViewInfo] = useState();
   const cookie = new Cookies();
   const Token = cookie.get("token");
   const userId1 = JSON.parse(localStorage.getItem("userId"));
   // console.log(userId1);
   const handleClick = () => {
-    navigate("/writing");
+    navigate(`/boards/edit/${boardSeq}`);
   };
-  const [isBM, setIsBM] = useState(false);
+  const [isBM, setIsBM] = useState();
+  // viewInfo?.data?.bookmarkStatus
+  // false
   const handleClickBm = () => {
     if (!Token) {
       if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
         navigate("/login");
       }
     } else {
-      bookMarking(Token);
       setIsBM(!isBM);
+      bookMarking(Token, boardSeq);
+      // {
+      //   viewInfo?.data?.bookmarkStatus === true
+      //     ? setIsBM(true)
+      //     : setIsBM(false);
+      // }
+      // viewInfo?.data?.bookmarkStatus === true ? setIsBM(!isBM) : setIsBM(!isBM);
     }
+  };
+  console.log(isBM);
+  const handleClickBm1 = () => {
+    bookMarking(Token, boardSeq);
+    setIsBM(false);
   };
 
   const handleClickDe = async () => {
@@ -226,7 +254,7 @@ const ViewContainer = () => {
       alert("취소했습니다.");
     } else {
       // 확인(예) 버튼 클릭 시 이벤트
-
+      deleteWriting(Token, boardSeq);
       //   const res = await deleteComment();
       //   boardsId, boards.commentId, Token, userId;
       //   if (res.status === 204) {
@@ -239,28 +267,42 @@ const ViewContainer = () => {
     }
   };
   async function getInfo() {
-    const res = await getWriting();
+    const res = await getWriting(Token, boardSeq);
     // const res = await getWriting(id);
     setViewInfo(res);
-    // console.log(res?.userId);
-    setLoading(false);
+    // console.log(res);
+    // if (res?.status !== 200) {
+    //   setLoading(true);
+    // }
   }
+  // console.log(isBM);
+  // console.log(viewInfo?.data?.bookmarkStatus);
+  useEffect(
+    () => {
+      setLoading(true);
+      getInfo();
+      dispatch(setUser({ Token, userId1, boardSeq }));
+      setLoading(false);
+    },
+    [
+      // viewInfo?.data?.bookmarkStatus
+    ]
+  );
   useEffect(() => {
-    setLoading(true);
-    getInfo();
-    // dispatch(setUser({ Token, userId, boardSeq: id }));
-    console.log(viewInfo);
-  }, [id]);
-  // console.log(viewInfo);
+    {
+      viewInfo?.data?.bookmarkStatus === true ? setIsBM(true) : setIsBM(false);
+    }
+  }, [setIsBM]);
+  console.log(viewInfo);
 
   return (
     <>
       {loading ? <Loading /> : null}
       <ViewLayout>
         <TitleContainer>
-          <TitleLayout>{viewInfo?.title}</TitleLayout>
+          <TitleLayout>{viewInfo?.data?.title}</TitleLayout>
           <IconLayout>
-            {userId1 === viewInfo?.userId ? (
+            {userId1 === viewInfo?.data?.userId ? (
               <>
                 <Icondiv>
                   <EditImg
@@ -279,8 +321,8 @@ const ViewContainer = () => {
                   <EditWord1>삭제</EditWord1>
                 </Icondiv1>
                 <Icondiv1>
-                  {isBM || viewInfo?.bookmarkCount === 1 ? (
-                    <Bookmark2>
+                  {isBM === true ? (
+                    <Bookmark23>
                       <BsBookmarkCheck
                         className="BmIcon"
                         color="#62B6B7"
@@ -289,9 +331,9 @@ const ViewContainer = () => {
                         onClick={handleClickBm}
                       />
                       <EditWord2>북마크</EditWord2>
-                    </Bookmark2>
+                    </Bookmark23>
                   ) : (
-                    <Bookmark2>
+                    <Bookmark23>
                       <BsBookmarkCheck
                         className="BmIcon"
                         size="30px"
@@ -299,13 +341,13 @@ const ViewContainer = () => {
                         onClick={handleClickBm}
                       />
                       <EditWord2>북마크</EditWord2>
-                    </Bookmark2>
+                    </Bookmark23>
                   )}
                 </Icondiv1>
               </>
             ) : (
               <Icondiv11>
-                {isBM || viewInfo?.bookmarkCount === 1 ? (
+                {isBM === true ? (
                   <Bookmark2>
                     <BsBookmarkCheck
                       className="BmIcon"
@@ -335,24 +377,28 @@ const ViewContainer = () => {
           <Line />
         </LineLayOut>
         <BodyContainer>
-          <BodyLayout>{viewInfo?.content}</BodyLayout>
+          <BodyLayout>{viewInfo?.data?.content}</BodyLayout>
         </BodyContainer>
         <ViewVote
-          likeCount={viewInfo?.likeCount}
-          dislikeCount={viewInfo?.dislikeCount}
+          likeCount={viewInfo?.data?.likeCount}
+          dislikeCount={viewInfo?.data?.dislikeCount}
+          // status={viewInfo?.data?.body}
         />
         <UserInfoLayout>
           <ProfileContainer>
-            <Profile />
-            {/* <img src={viewInfo?.profileImageUrl} /> */}
+            {/* <Profile /> */}
+            <img
+              src={viewInfo?.data?.profileImageUrl}
+              style={{ width: "100px" }}
+            />
           </ProfileContainer>
           <div>
-            {viewInfo?.userName}
-            <Viewdate createdAt={viewInfo?.createdAt} />
-            <div>조회수 : {viewInfo?.viewCount}</div>
+            {viewInfo?.data?.username}
+            <Viewdate createdAt={viewInfo?.data?.createdAt} />
+            <div>조회수 : {viewInfo?.data?.viewCount}</div>
           </div>
         </UserInfoLayout>
-        <Comments comments={viewInfo?.comments} />
+        <Comments comments={viewInfo?.data?.comments} />
       </ViewLayout>
     </>
   );

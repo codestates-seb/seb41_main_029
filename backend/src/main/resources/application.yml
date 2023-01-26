@@ -35,7 +35,7 @@ spring:
         google:
           clientId: '137375647876-vrq0va0ke0v5joslff4vg9m39bqo752d.apps.googleusercontent.com'
           clientSecret: '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'
-          redirect-uri: "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/google"
+          redirect-uri: "http://localhost:8080:8080/login/oauth2/google"
           scope:
             - email
             - profile
@@ -50,7 +50,7 @@ spring:
           clientSecret: 'zH3kq27uOG'
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
-          redirectUri: "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/naver"
+          redirectUri: "http://localhost:8080:8080/login/oauth2/naver"
           scope:
             - nickname
             - email
@@ -83,7 +83,7 @@ spring:
 # cors ??
 cors:
   allowed-origins: 'http://localhost:3000'
-  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS,PATCH
   allowed-headers: '*'
   max-age: 3600
 
@@ -101,6 +101,10 @@ app:
   oauth2:
     authorizedRedirectUris:
       - http://localhost:3000/oauth/redirect
+
+mail:
+  address:
+    admin: admin@gmail.com
 
 # application.yml
 #logging:

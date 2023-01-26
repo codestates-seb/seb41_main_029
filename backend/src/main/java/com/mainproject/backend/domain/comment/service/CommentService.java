@@ -1,8 +1,8 @@
 package com.mainproject.backend.domain.comment.service;
 
 import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.board.entity.DislikeBoard;
-import com.mainproject.backend.domain.board.entity.LikeBoard;
+import com.mainproject.backend.domain.board.repositoty.BoardRepository;
+import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.entity.DislikeComment;
 import com.mainproject.backend.domain.comment.entity.LikeComment;
@@ -10,7 +10,6 @@ import com.mainproject.backend.domain.comment.repository.CommentRepository;
 import com.mainproject.backend.domain.comment.repository.DislikeCommentRepository;
 import com.mainproject.backend.domain.comment.repository.LikeCommentRepository;
 import com.mainproject.backend.domain.users.entity.User;
-import com.mainproject.backend.global.exception.BoardNotFoundException;
 import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.CommentNotFoundException;
 import com.mainproject.backend.global.exception.ExceptionCode;
@@ -28,6 +27,8 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final DislikeCommentRepository dislikeCommentRepository;
     private final LikeCommentRepository likeCommentRepository;
+    private final BoardRepository boardRepository;
+    private final BoardService boardService;
     private final static String SUCCESS_LIKE_COMMENT = "추천 처리 완료";
     private final static String FAIL_LIKE_COMMENT = "이미 추천을 누르셨습니다.";
     private final static String SUCCESS_DISLIKE_COMMENT = "비추천 처리 완료";
@@ -36,6 +37,8 @@ public class CommentService {
     public Comment createComment(Comment comment, User user, Board board){
         comment.setUser(user);
         comment.setBoard(board);
+        Board currentBoard = boardService.findVerifiedBoard(comment.getBoard().getBoardSeq());
+        currentBoard.increaseCommentCount();
 
         return commentRepository.save(comment);
     }
@@ -52,7 +55,8 @@ public class CommentService {
 
     public void deleteComment(long commentSeq){
         Comment findComment = findVerifiedComment(commentSeq);
-
+        Board currentBoard = boardService.findVerifiedBoard(findComment.getBoard().getBoardSeq());
+        currentBoard.DecreaseCommentCount();
         commentRepository.delete(findComment);
     }
 

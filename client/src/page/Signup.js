@@ -128,6 +128,20 @@ export default function Signup() {
       .catch((err) => {
         console.log(err.data);
       });
+    // if (res?.status !== 200) {
+    //   alert("중복된 아이디입니다.");
+    //   return setisAuthorized(false);
+    // } else {
+    //   // console.log(res?.data?.body?.token?.userId);
+    //   const userId1 = res?.data?.body?.token?.userId;
+    //   // console.log(userId1);
+    //   localStorage.setItem("userId", JSON.stringify(userId1));
+    //   const token = res.data?.body?.token?.refreshToken;
+    //   cookie.set("token", token);
+    //   // dispatch(setUser({ token, userId1 }));
+    //   navigate("/");
+    // }
+    // };
   };
 
   // 아이디 중복 체크

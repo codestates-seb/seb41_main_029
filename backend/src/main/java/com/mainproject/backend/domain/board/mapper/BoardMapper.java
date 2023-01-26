@@ -2,16 +2,14 @@ package com.mainproject.backend.domain.board.mapper;
 
 import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.dto.BoardWithCommentDto;
+import com.mainproject.backend.domain.board.dto.SimpleReplyDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.dto.CommentResponseDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.reply.entity.Reply;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +52,7 @@ public interface BoardMapper {
                                 .title(board.getTitle())
                                 .bookmarkCount(board.getBookmarked())
                                 .viewCount(board.getViewCount())
+                                .commented(board.getCommented())
                                 .likeCount(board.getLiked())
                                 .createdAt(board.getCreatedAt())
                                 .build())
@@ -76,9 +75,9 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setBookmarkStatus(board.isBookmarkStatus());
        boardWithCommentResponseDto.setContent(board.getContent());
        boardWithCommentResponseDto.setViewCount(board.getViewCount());
-       boardWithCommentResponseDto.setBookmarkStatus(board.isBookmarkStatus());
        boardWithCommentResponseDto.setBookmarkCount(board.getBookmarked());
        boardWithCommentResponseDto.setLikeCount(board.getLiked());
+       boardWithCommentResponseDto.setCommented(board.getCommented());
        boardWithCommentResponseDto.setDislikeCount(board.getDisliked());
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
@@ -91,6 +90,7 @@ public interface BoardMapper {
 
     //comment 리스트화
     default List<CommentResponseDto> commentToBoardWithCommentResponseDtos(List<Comment> comments){
+
         return comments
                 .stream()
                 .map(comment -> CommentResponseDto
@@ -105,6 +105,26 @@ public interface BoardMapper {
                         .content(comment.getContent())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())
+                        .reply(replyToCommentWithCommentResponseDto(comment.getReplies()))
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    default List<SimpleReplyDto> replyToCommentWithCommentResponseDto(List<Reply> replies){
+        return replies
+                .stream()
+                .map(reply -> SimpleReplyDto
+                        .builder()
+                        .commentSeq(reply.getComment().getCommentSeq())
+                        .replySeq(reply.getReplySeq())
+                        .userSeq(reply.getUser().getUserSeq())
+                        .username(reply.getUser().getUsername())
+                        .liked(reply.getLiked())
+                        .disliked(reply.getDisliked())
+                        .userId(reply.getUser().getUserId())
+                        .content(reply.getContent())
+                        .createdAt(reply.getCreatedAt())
+                        .modifiedAt(reply.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
     }
