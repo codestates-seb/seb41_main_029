@@ -32,7 +32,6 @@ public class ReplyController {
     private final ReplyMapper replyMapper;
     private final UserRepository userRepository;
     private final BoardService boardService;
-    private final CommentRepository commentRepository;
 
 
     //대댓글
@@ -48,34 +47,29 @@ public class ReplyController {
         Reply createReply = new Reply();
         Board currentBoard = boardService.findVerifiedBoard(boardSeq);
         currentBoard.increaseCommentCount();
-//        Board currentBoard = new Board();
-//        currentBoard.setBoardSeq(currentComment.getBoard().getBoardSeq());
         replyService.createReply(createReply, currentComment, user, requestBody);
-//        currentBoard.increaseCommentCount();
+
 
         return ApiResponse.success("Reply", replyMapper.replyToReplyResponse(createReply));
     }
 
-    @PatchMapping("/{comment-seq}/{reply-seq}")
+    @PatchMapping("/{reply-seq}")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse PatchReply(@PathVariable("comment-seq") long commentSeq,
-                                  @PathVariable("reply-seq") @Positive long replySeq,
+    public ApiResponse PatchReply(@PathVariable("reply-seq") @Positive long replySeq,
                                   @Valid @RequestBody CommentReplyDto.ReplyPatchDto requestBody) {
 
-//        User user = getPrincipal();
-//        Comment currentComment = commentRepository.findById(commentSeq).orElseThrow(CommentNotFoundException::new);
+
+        User user = getPrincipal();
         Reply currentReply = replyRepository.findById(replySeq).orElseThrow(CommentNotFoundException::new);
-        Reply EditReply = replyService.editReply(currentReply/*, currentComment, user*/, requestBody);
+        Reply EditReply = replyService.editReply(currentReply, user, requestBody);
         return ApiResponse.success("Reply", replyMapper.replyToReplyResponse(EditReply));
     }
 
 
     //대댓글 삭제
-    @DeleteMapping("/{comment-seq}/{reply-seq}")
+    @DeleteMapping("/{reply-seq}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ApiResponse DeleteReply(@PathVariable("comment-seq") @Positive long commentSeq,
-                                    @PathVariable("reply-seq") long replySeq,
-                                    @Valid @RequestBody CommentReplyDto.ReplyPost requestBody) {
+    public ApiResponse DeleteReply(@PathVariable("reply-seq") long replySeq) {
 
         Reply currentReply = replyRepository.findById(replySeq).orElseThrow(CommentNotFoundException::new);
         replyService.deleteReply(currentReply);

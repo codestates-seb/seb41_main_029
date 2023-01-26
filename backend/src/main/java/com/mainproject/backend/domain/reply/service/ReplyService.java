@@ -50,9 +50,8 @@ public class ReplyService {
 
 
    @Transactional
-    public Reply editReply(Reply reply/*Comment comment, User user*/, CommentReplyDto.ReplyPatchDto req) {
-//        reply.setComment(comment);
-//        reply.setUser(user);
+    public Reply editReply(Reply reply, User user, CommentReplyDto.ReplyPatchDto req) {
+        reply.setUser(user);
         reply.editReply(req);
         return replyRepository.save(reply);
     }
