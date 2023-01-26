@@ -3,7 +3,6 @@ package com.mainproject.backend.domain.reply.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.reply.dto.CommentReplyDto;
-import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.audit.Auditable;
 import lombok.AllArgsConstructor;
@@ -42,6 +41,20 @@ public class Reply extends Auditable {
     @ManyToOne
     @JoinColumn(name = "comment_seq")
     private Comment comment;
+
+    public void increaseLikeCount() {
+        this.liked += 1;
+    }
+    public void increaseDislikeCount() {
+        this.disliked += 1;
+    }
+
+
+    @Column(nullable = true)
+    private int liked; // 추천 수
+
+    @Column(nullable = true)
+    private int disliked; // 비추천 수
 
     public void editReply(CommentReplyDto.ReplyPatchDto req) {
         content = req.getContent();

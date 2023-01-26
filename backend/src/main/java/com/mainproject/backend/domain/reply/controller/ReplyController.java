@@ -69,6 +69,8 @@ public class ReplyController {
         return ApiResponse.success("Reply", replyMapper.replyToReplyResponse(EditReply));
     }
 
+
+    //대댓글 삭제
     @DeleteMapping("/{comment-seq}/{reply-seq}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ApiResponse DeleteReply(@PathVariable("comment-seq") @Positive long commentSeq,
@@ -81,6 +83,34 @@ public class ReplyController {
         return ApiResponse.success("삭제되었습니다.", null);
     }
 
+    //추천
+    @PostMapping("/like/{reply-seq}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse likeReply(@PathVariable("reply-seq") @Positive Long replySeq) {
+        User user = getPrincipal();
+        Reply currentReply = new Reply();
+        currentReply.setReplySeq(replySeq);
+        //추천 중복 처리
+        if(replyService.hasLikeReply(currentReply, user)){
+            return ApiResponse.fail();
+        }
+        return ApiResponse.success("boardLike", replyService.updateLikeOfReply(replySeq, user));
+    }
+
+
+    //비추천
+    @PostMapping("/dislike/{reply-seq}")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse dislikeComment(@PathVariable("reply-seq") @Positive Long replySeq) {
+        User user = getPrincipal();
+        Reply currentReply = new Reply();
+        currentReply.setReplySeq(replySeq);
+        if(replyService.hasDislikeReply(currentReply, user)){
+            return ApiResponse.fail();
+        }
+        return ApiResponse.success("boardDislike", replyService.updateDislikeOfReply(replySeq, user));
+    }
+
 
 
     //인증
@@ -88,8 +118,5 @@ public class ReplyController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserId(authentication.getName());
         return user;
-
-        //답변 좋아요
-//    public ResponseEntity likeComment()
     }
 }

@@ -92,7 +92,7 @@ public class User extends Auditable {
         this.username = username;
         this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
-        this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "https://user-images.githubusercontent.com/95069395/211246989-dd36a342-bf18-412e-b3ec-841ab3280d56.png";
+        this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "https://ifh.cc/g/B2fA6Y.png";
         this.providerType = providerType;
         this.roleType = roleType;
 //        this.createdAt = createdAt;

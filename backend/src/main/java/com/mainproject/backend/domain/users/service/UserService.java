@@ -73,7 +73,7 @@ public class UserService {
                 .email(NoEmail)
                 .password(passwordEncoder.encode(req.getPassword()))
                 .providerType(ProviderType.LOCAL)
-                .profileImageUrl("https://user-images.githubusercontent.com/95069395/211246989-dd36a342-bf18-412e-b3ec-841ab3280d56.png")
+                .profileImageUrl("https://ifh.cc/g/B2fA6Y.png")
                 .roleType(RoleType.USER)
 //                .createdAt(now)
 //                .modifiedAt(now)
