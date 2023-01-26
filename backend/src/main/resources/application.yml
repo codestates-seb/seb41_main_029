@@ -33,9 +33,9 @@ spring:
     oauth2.client:
       registration:
         google:
-          clientId: '137375647876-vrq0va0ke0v5joslff4vg9m39bqo752d.apps.googleusercontent.com'
-          clientSecret: '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'
-          redirect-uri: "http://localhost:8080:8080/login/oauth2/google"
+          clientId: '407832494001-q6sctrbh36l208mcoatbgu10vhqi8sbr.apps.googleusercontent.com'
+          clientSecret: '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'
+          redirect-uri: 'http://localhost:8080:8080/login/oauth2/google'
           scope:
             - email
             - profile

@@ -53,6 +53,7 @@ public class BoardService {
     //게시글 등록
     public Board createBoard(Board board, User user) {
         board.setUser(user);
+        user.increaseManyPoint();
 
         return boardRepository.save(board);
     }
@@ -89,6 +90,18 @@ public class BoardService {
     //전체 게시물 조회
     public Page<Board> findAllBoard(int page, int size, String sortBy) {
         return boardRepository.findAllByBoardStatus(getPageRequest(page, size, sortBy), Board.BoardStatus.BOARD_EXIST);
+    }
+
+    //게시글 전체 개수 조회
+    public Integer countAllBoard(){
+        List<Board> write = boardRepository.findAll();
+        return write.size();
+    }
+
+    //카테고리 게시글 전체 개수 조회
+    public Integer countBoard(Long categoryId){
+        Category boardCategory = categoryIdToboardCategory(categoryId);
+        return boardRepository.findByCategoryAndBoardStatus(boardCategory, Board.BoardStatus.BOARD_EXIST).size();
     }
 
     //카테고리 별 게시물 조회
@@ -171,6 +184,9 @@ public class BoardService {
         if (!hasBookmarkBoard(board, user)) {
             board.increaseBookmarkCount();
             board.increaseBookmarkStatus();
+            //포인트로직
+            board.setUser(board.getUser());
+            board.getUser().increaseManyManyPoint();
             return createBookmarkBoard(board, user);
         }
         board.decreaseBookmarkCount();
@@ -183,7 +199,11 @@ public class BoardService {
     public String updateLikeOfBoard(Long boardSeq, User user) {
         Board board = findVerifiedBoard(boardSeq);
         if (!hasLikeBoard(board, user)) {
+            //포인트로직
             board.increaseLikeCount();
+            board.setUser(board.getUser());
+            board.getUser().increaseManyPoint();
+
             return createLikeBoard(board, user);
         }else return FAIL_LIKE_BOARD;
     }
@@ -194,6 +214,9 @@ public class BoardService {
         Board board = findVerifiedBoard(boardSeq);
         if (!hasDislikeBoard(board, user)) {
             board.increaseDislikeCount();
+            //포인트로직
+            board.setUser(board.getUser());
+            board.getUser().decreasePoint();
             return createDislikeBoard(board, user);
         }else return FAIL_DISLIKE_BOARD;
     }

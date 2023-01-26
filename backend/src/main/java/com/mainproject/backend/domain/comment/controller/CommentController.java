@@ -36,6 +36,7 @@ public class CommentController {
         User user = getPrincipal();
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
+        user.increaseManyPoint(); // 포인트로직 +5
 
 
         Comment comment = commentService.createComment(commentMapper.commentPostDtoToComment(commentPostDto), user, currentBoard);
@@ -68,7 +69,7 @@ public class CommentController {
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
         commentService.deleteComment(commentSeq);
-        currentBoard.DecreaseCommentCount();
+        currentBoard.decreaseCommentCount();
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -84,6 +85,8 @@ public class CommentController {
         if(commentService.hasLikeComment(currentComment, user)){
             return ApiResponse.fail();
         }
+//        User WriterUser = userRepository.findUserByUserId(currentComment.getUser());
+//        WriterUser.increasePoint();
         return ApiResponse.success("boardLike", commentService.updateLikeOfComment(commentSeq, user));
     }
 
@@ -98,6 +101,7 @@ public class CommentController {
         if(commentService.hasDislikeComment(currentComment, user)){
             return ApiResponse.fail();
         }
+
         return ApiResponse.success("boardDislike", commentService.updateDislikeOfComment(commentSeq, user));
     }
 

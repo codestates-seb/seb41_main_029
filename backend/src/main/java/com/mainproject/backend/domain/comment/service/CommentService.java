@@ -59,7 +59,7 @@ public class CommentService {
     public void deleteComment(long commentSeq){
         Comment findComment = findVerifiedComment(commentSeq);
         Board currentBoard = boardService.findVerifiedBoard(findComment.getBoard().getBoardSeq());
-        currentBoard.DecreaseCommentCount();
+        currentBoard.decreaseCommentCount();
         commentRepository.delete(findComment);
     }
 
@@ -92,6 +92,8 @@ public class CommentService {
         Comment comment = commentRepository.findById(CommentSeq).orElseThrow(CommentNotFoundException::new);
         if (!hasLikeComment(comment, user)) {
             comment.increaseLikeCount();
+            comment.setUser(comment.getUser());
+            comment.getUser().increasePoint();
             return createLikeComment(comment, user);
         }else return FAIL_LIKE_COMMENT;
     }
@@ -102,6 +104,8 @@ public class CommentService {
         Comment comment = commentRepository.findById(CommentSeq).orElseThrow(CommentNotFoundException::new);
         if (!hasDislikeComment(comment, user)) {
             comment.increaseDislikeCount();
+            comment.setUser(comment.getUser());
+            comment.getUser().decreasePoint();
             return createDislikeComment(comment, user);
         }else return FAIL_DISLIKE_COMMENT;
     }
