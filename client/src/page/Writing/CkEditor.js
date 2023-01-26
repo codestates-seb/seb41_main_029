@@ -21,7 +21,6 @@ const BottomDiv = styled.div`
   }
 `;
 // button or a 태그
-// button 이면 align,justify,display 삭제하기
 const ViewButton = styled.a`
   width: 120px;
   height: 50px;
@@ -45,40 +44,43 @@ const ViewButton = styled.a`
 export default function CkEditor({ setImage, title, category }) {
   const [answer, setAnswer] = useState(""); //editor이 부분에 html을 막는 기능으 넣으면 될까?
   const navigate = useNavigate();
-  // const API_URL = "https://noteyard-backend.herokuapp.com";
-  // const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
 
-  // const uploadAdapter = (loader) => {
-  //   // (2)
-  //   return {
-  //     upload: () => {
-  //       return new Promise((resolve, reject) => {
-  //         const body = new FormData();
-  //         loader.file.then((file) => {
-  //           body.append("uploadImg", file);
-  //           fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
-  //             method: "post",
-  //             body: body,
-  //           })
-  //             .then((res) => res.json())
-  //             .then((res) => {
-  //               resolve({ default: `https://ibb.co/TWfQMJN` });
-  //             })
-  //             .catch((err) => {
-  //               reject(err);
-  //             });
-  //         });
-  //       });
-  //     },
-  //   };
-  // };
+  const API_URL = "https://noteyard-backend.herokuapp.com";
+  const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
 
-  // function uploadPlugin(editor) {
-  //   // (3)
-  //   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-  //     return uploadAdapter(loader);
-  //   };
-  // }
+  const uploadAdapter = (loader) => {
+    // (2)
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          const body = new FormData();
+          loader.file.then((file) => {
+            body.append("uploadImg", file);
+            //  res.url로 작성 할거 같다
+            fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
+              method: "post",
+              body: body,
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                // resolve({ default: `https://ibb.co/TWfQMJN` });
+                resolve({ default: `https://ifh.cc/g/HxabYV.jpg` });
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          });
+        });
+      },
+    };
+  };
+
+  function uploadPlugin(editor) {
+    // (3)
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+      return uploadAdapter(loader);
+    };
+  }
 
   //데이터
   // const data = {
@@ -128,7 +130,7 @@ export default function CkEditor({ setImage, title, category }) {
           console.log(answer);
         }}
         config={{
-          // extraPlugins: [uploadPlugin],
+          extraPlugins: [uploadPlugin],
 
           toolbar: {
             items: [

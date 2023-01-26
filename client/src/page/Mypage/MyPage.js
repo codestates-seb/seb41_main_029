@@ -1,16 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../Theme";
-import jsonData from "../../data/Posts";
 import { Cookies } from "react-cookie";
-import { getUser, getWrite } from "../../api/userAPI";
+import { getBookmark, getComment, getUser, getWrite } from "../../api/userAPI";
 import ReactPaginate from "react-paginate";
-import Posts from "./Posts";
-import Paginations from "./Paginations";
 import { getCookie } from "../../Cookies";
-
+import { ViewdateCommu } from "../../component/DateCalculator";
 /** 전체 컨테이너 */
 const MypageContainer = styled.div`
   display: flex;
@@ -42,9 +39,9 @@ const MypageInfo = styled.div`
 `;
 
 /** 프로필 사진 */
-const MypageProfile = styled.div`
-  width: 150px;
-  height: 150px;
+const MypageProfile = styled.img`
+  width: 160px;
+  height: 160px;
   display: flex;
   text-align: center;
   align-items: center;
@@ -54,10 +51,13 @@ const MypageProfile = styled.div`
   background-color: #bfbfbf;
 
   @media screen and (max-width: 500px) {
-    /* width: 15%; */
     margin-right: 10px;
   }
 `;
+// const MypageImg = styled.img`
+//   width: 150px;
+// `;
+
 /** 유저 기본 정보 */
 const MypageProfileInfo = styled.div`
   display: flex;
@@ -148,12 +148,33 @@ const TitleContainer = styled.div`
 `;
 
 /** 제목 날짜 등등 감싸는 큰 틀 안에 틀 */
+// 스크롤 부분
 const TitleDiv = styled.div`
   width: 1219px;
   height: 562px;
   margin-top: 32px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.white};
+  /*스크롤바 */
+  overflow: auto;
+
+  ::-webkit-scrollbar {
+    /*스크롤바의 사이즈 */
+    width: 8px;
+    height: 220px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: ${theme.colors.container}; /*스크롤바의 색상*/
+    border-radius: 30px;
+
+    &:hover {
+      background-color: ${theme.colors.gray_01};
+    }
+  }
+
+  ::-webkit-scrollbar-track {
+    /* background-color: red; 스크롤바 트랙 색상 */
+  }
   @media screen and (max-width: 1336px) {
     width: 90%;
   }
@@ -185,7 +206,7 @@ const TitleDate = styled.div`
   /* width: 100%; */
   text-align: center;
   border-left: 1px solid #000;
-  @media screen and (max-width: 400px) {
+  @media screen and (max-width: 600px) {
     white-space: nowrap;
   }
 `;
@@ -196,7 +217,7 @@ const TitleDateMini = styled.div`
   /* width: 100%; */
   text-align: center;
   border-left: 1px solid #000;
-  @media screen and (max-width: 375px) {
+  @media screen and (max-width: 550px) {
     white-space: nowrap;
   }
 `;
@@ -225,7 +246,7 @@ const Info = styled.div`
   display: flex;
   align-content: center;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.main};
+  background-color: ${(props) => props.bgColor};
   color: ${({ theme }) => theme.colors.white};
   border-radius: 10px;
   padding: 3px 3px;
@@ -355,6 +376,11 @@ const MyPaginate = styled(ReactPaginate).attrs({
     font-size: ${({ theme }) => theme.fontSizes.fs10};
   }
 `;
+const StyledLink = styled(Link)`
+  color: black;
+  text-decoration: none;
+`;
+
 export default function MyPage() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
@@ -373,14 +399,14 @@ export default function MyPage() {
 
   const [userInfo, setUserInfo] = useState([]);
   const [userWrite, setUserWrite] = useState([]);
-  // const [userComment, setUserComment] = useState([]);
-  // const [userBook, setUserBook] = useState([]);
+  const [userComment, setUserComment] = useState([]);
+  const [userBook, setUserBook] = useState([]);
+
   useEffect(() => {
     async function getUserInfo() {
       const res = await getUser(Token);
       setUserInfo(res.data.body.user);
     }
-
     getUserInfo();
   }, []);
   console.log(userInfo);
@@ -388,34 +414,30 @@ export default function MyPage() {
   useEffect(() => {
     async function getUserWrite() {
       const res = await getWrite(Token);
-      setUserWrite(res.body);
+      setUserWrite(res.data.body.write); // write
     }
     getUserWrite();
   }, []);
   console.log(userWrite);
 
-  // const writeAxios = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/write",
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${getCookie("token")}`,
-  //         },
-  //       }
-  //     );
-  //     setUserWrite(res.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // console.log(userWrite);
-  // useEffect(() => {
-  //   writeAxios();
-  // }, []);
+  useEffect(() => {
+    async function getUserComment() {
+      const res = await getComment(Token);
+      setUserComment(res.data.body.comment);
+    }
+    getUserComment();
+  }, []);
+  console.log(userComment);
 
-  const [data, setData] = useState([]);
+  useEffect(() => {
+    async function getUserBookmark() {
+      const res = await getBookmark(Token);
+      setUserBook(res.data.body.bookmark);
+    }
+    getUserBookmark();
+  }, []);
+  console.log(userBook);
+
   const [loading, setLoading] = useState(false);
 
   const [current, setCurrent] = useState(0);
@@ -424,37 +446,16 @@ export default function MyPage() {
 
   const currentClick = (index) => {
     setCurrent(index);
-    console.log(current);
   };
+  console.log(current);
 
-  // const axiosPosts = async (currentPage) => {
-  //   const res = await axios.get;
-  //   // `https://jsonplaceholder.typicode.com/comments?_page=${currentPage}&_limit=${limit}`
-  //   "https://jsonplaceholder.typicode.com/posts"();
-  //   const data = await res.data;
-  //   return data;
-  // };
-
-  // const handlePageClick = async (data) => {
-  //   console.log(data.selected);
-
-  //   let currentPage = data.selected + 1;
-
-  //   const commentsFormServer = await axiosPosts(currentPage);
-
-  //   setData(commentsFormServer);
-  // };
   return (
     <>
       {Token !== undefined ? (
         <MypageContainer>
           <MypageTitle>
             <MypageInfo>
-              <MypageProfile>
-                {/* 프로필 사진 */}
-                {/* <img src={userInfo?.profileImageUrl} /> */}
-                {/* {userInfo?.profileImageUrl} */}
-              </MypageProfile>
+              <MypageProfile src={userInfo?.profileImageUrl}></MypageProfile>
               <MypageProfileInfo>
                 {/* 유저 기본 정보 */}
                 {userInfo?.username}
@@ -485,28 +486,49 @@ export default function MyPage() {
                 <TitleInfo>
                   <TitleContent>제목</TitleContent>
                   <TitleDate>날짜</TitleDate>
-                  <TitleDateMini>조회</TitleDateMini>
-                  <TitleDateMini>추천</TitleDateMini>
+                  <TitleDateMini>
+                    {current === 1 ? "좋아요" : "조회"}
+                  </TitleDateMini>
+                  <TitleDateMini>
+                    {current === 1 ? "싫어요" : "추천"}
+                  </TitleDateMini>
                   <TitleDate>닉네임</TitleDate>
                 </TitleInfo>
-                {data.map((item, id) =>
+                {userWrite.map((item, id) =>
                   // {test.map((item, id) =>
                   current === 0 ? (
-                    <InfoContainer key={item.id}>
-                      <InfoIcon>
-                        <Info>
-                          {/* {item.category} */}
-                          정보
-                        </Info>
-                      </InfoIcon>
+                    <InfoContainer key={item.boardSeq}>
+                      {/* <InfoIcon> */}
+                      {item.category === "# 일반" ? (
+                        <Info bgColor="#62B6B7">일반</Info>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "# 정보" ? (
+                        <Info bgColor="#AEDC88">정보</Info>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "# 질문" ? (
+                        <Info bgColor="#A6D9DE">질문</Info>
+                      ) : (
+                        ""
+                      )}
+                      {/* </InfoIcon> */}
                       <InfoContent>
-                        <InfoTitle>{item.username}</InfoTitle>
-                        <InfoComment>[3]</InfoComment>
+                        <InfoTitle>
+                          <StyledLink to={`/boards/${item.boardSeq}`}>
+                            {item.title}
+                          </StyledLink>
+                        </InfoTitle>
+                        <InfoComment>[{item.commented}]</InfoComment>
                       </InfoContent>
                       {/* <InfoDiv> */}
-                      <InfoDate>2023/01/22</InfoDate>
-                      <InfoView>115</InfoView>
-                      <InfoLike>777</InfoLike>
+                      <InfoDate>
+                        <ViewdateCommu createdAt={item.createdAt} />
+                      </InfoDate>
+                      <InfoView>{item.viewCount}</InfoView>
+                      <InfoLike>{item.liked}</InfoLike>
                       <InfoName>{item.username}</InfoName>
                       {/* </InfoDiv> */}
                     </InfoContainer>
@@ -514,40 +536,76 @@ export default function MyPage() {
                     ""
                   )
                 )}
-                {data.map((item, id) =>
+                {userComment.map((item, id) =>
                   current === 1 ? (
-                    <InfoContainer key={item.id}>
+                    <InfoContainer key={item.boardSeq}>
                       {/* <InfoIcon> */}
-                      <Info>댓글</Info>
+                      <Info bgColor="#62B6B7">댓글</Info>
                       {/* </InfoIcon> */}
                       <InfoContent>
-                        <InfoTitle>{item.content}</InfoTitle>
-                        <InfoComment>[3]</InfoComment>
+                        <InfoTitle>
+                          <StyledLink to={`/boards/${item.boardSeq}`}>
+                            {item.content}
+                          </StyledLink>
+                        </InfoTitle>
+                        <InfoComment>{item.commented}</InfoComment>
                       </InfoContent>
                       {/* <InfoDiv> */}
-                      <InfoDate>{item.createdAt}</InfoDate>
-                      <InfoView>{item.voteResult}</InfoView>
-                      <InfoLike>{item.viewCount}</InfoLike>
-                      <InfoName>{item.id}</InfoName>
+                      <InfoDate>
+                        <ViewdateCommu createdAt={item.createdAt} />
+                      </InfoDate>
+                      <InfoView>{item.liked}</InfoView>
+                      <InfoLike>{item.disliked}</InfoLike>
+                      <InfoName>{item.username}</InfoName>
+                      {/* item.commentSeq는 무슨 역할? */}
                       {/* </InfoDiv> */}
                     </InfoContainer>
                   ) : (
                     ""
                   )
                 )}
-                {/* <InfoIcon>
-                <Info>정보</Info>
-              </InfoIcon>
-              <InfoContent>
-                <div>반갑습니다</div>
-                <InfoComment>[3]</InfoComment>
-              </InfoContent>
-              <InfoDiv>
-                <InfoDate>23/01/15</InfoDate>
-                <InfoView>115</InfoView>
-                <InfoLike>777</InfoLike>
-                <InfoName>shtngur</InfoName>
-              </InfoDiv> */}
+                {userBook.map((item, id) =>
+                  current === 2 ? (
+                    <InfoContainer key={item.boardSeq}>
+                      {/* <InfoIcon> */}
+                      {item.category === "# 일반" ? (
+                        <Info bgColor="#62B6B7">일반</Info>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "# 정보" ? (
+                        <Info bgColor="#AEDC88">정보</Info>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "# 질문" ? (
+                        <Info bgColor="#A6D9DE">질문</Info>
+                      ) : (
+                        ""
+                      )}
+                      {/* </InfoIcon> */}
+                      <InfoContent>
+                        <InfoTitle>
+                          <StyledLink to={`/boards/${item.boardSeq}`}>
+                            {item.title}
+                          </StyledLink>
+                        </InfoTitle>
+                        <InfoComment>[{item.commented}]</InfoComment>
+                      </InfoContent>
+                      {/* <InfoDiv> */}
+                      <InfoDate>
+                        <ViewdateCommu createdAt={item.createdAt} />
+                      </InfoDate>
+                      <InfoView>{item.viewCount}</InfoView>
+                      <InfoLike>{item.liked}</InfoLike>
+                      <InfoName>{item.username}</InfoName>
+
+                      {/* </InfoDiv> */}
+                    </InfoContainer>
+                  ) : (
+                    ""
+                  )
+                )}
               </TitleDiv>
             </TitleContainer>
           </MypageTitle>

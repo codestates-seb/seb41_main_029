@@ -1,4 +1,5 @@
 import axios from "axios";
+import { get } from "react-hook-form";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
@@ -74,6 +75,32 @@ export const getWrite = async (Token, userId) => {
       // "Content-Type": "application/json",
     });
     // return res.data.data;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getComment = async (Token, useId) => {
+  try {
+    const res = await axios({
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/comment`,
+      method: "get",
+      headers: { Authorization: `Bearer ${Token}` },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getBookmark = async (Token, useId) => {
+  try {
+    const res = await axios({
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/bookmark`,
+      method: "get",
+      headers: { Authorization: `Bearer ${Token}` },
+    });
     return res;
   } catch (error) {
     console.log(error);

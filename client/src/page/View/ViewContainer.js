@@ -377,7 +377,9 @@ const ViewContainer = () => {
           <Line />
         </LineLayOut>
         <BodyContainer>
-          <BodyLayout>{viewInfo?.data?.content}</BodyLayout>
+          <BodyLayout
+            dangerouslySetInnerHTML={{ __html: viewInfo?.data?.content }}
+          ></BodyLayout>
         </BodyContainer>
         <ViewVote
           likeCount={viewInfo?.data?.likeCount}

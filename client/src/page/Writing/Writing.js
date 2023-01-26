@@ -3,6 +3,8 @@ import theme from "../../Theme";
 import axios from "axios";
 import * as React from "react";
 import WritingMui from "./WritingMui";
+import { Cookies } from "react-cookie";
+import { Navigate } from "react-router-dom";
 
 const TotalContainer = styled.div`
   width: 100%;
@@ -50,7 +52,7 @@ const TotalContainer = styled.div`
     // 처음 이걸 써서 왼쪽으로 살짝 밀려 있는 걸
     @media (max-width: 1336px) {
       /* width: 1123px; */
-      width: 97.8%;
+      width: 97.9%;
       // 이게 줄이는 순간 아이콘들 간격이 벌어진다
       // %로 설정하면 아이콘들이 다 보이고 px로 하면 ...으로 표시가 된다
     }
@@ -174,11 +176,23 @@ export const ContainerView = styled.div`
 `;
 // ${(props) => props.editMode ? '':'filter: blur(1rem);'}
 export default function Writing() {
+  const cookie = new Cookies();
+  const Token = cookie.get("token");
+
   return (
-    <TotalContainer>
-      <ContainerView>
-        <WritingMui />
-      </ContainerView>
-    </TotalContainer>
+    <>
+      {Token !== undefined ? (
+        <TotalContainer>
+          <ContainerView>
+            <WritingMui />
+          </ContainerView>
+        </TotalContainer>
+      ) : (
+        <>
+          {alert("로그인이 되어 있지 않습니다!")}
+          <Navigate to="/login" />
+        </>
+      )}
+    </>
   );
 }
