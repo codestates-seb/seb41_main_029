@@ -45,7 +45,7 @@ public class ReplyController {
         currentComment.setCommentSeq(commentSeq);
         Reply createReply = new Reply();
         Board currentBoard = boardService.findVerifiedBoard(boardSeq);
-        currentBoard.increaseCommentCount();
+        currentBoard.decreaseCommentCount();
         replyService.createReply(createReply, currentComment, user, requestBody);
 
 
@@ -74,7 +74,7 @@ public class ReplyController {
         Reply currentReply = replyRepository.findById(replySeq).orElseThrow(CommentNotFoundException::new);
         replyService.deleteReply(currentReply);
         Board currentBoard = boardService.findVerifiedBoard(boardSeq);
-        currentBoard.increaseCommentCount();
+        currentBoard.decreaseCommentCount();
 
         return ApiResponse.success("삭제되었습니다.", null);
     }

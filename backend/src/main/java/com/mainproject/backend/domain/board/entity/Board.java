@@ -63,7 +63,7 @@ public class Board extends Auditable { //시간 추가
         this.commented += 1;
     }
 
-    public void DecreaseCommentCount() {
+    public void decreaseCommentCount() {
         this.commented -= 1;
     }
 

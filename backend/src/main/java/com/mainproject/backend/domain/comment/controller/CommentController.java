@@ -68,7 +68,7 @@ public class CommentController {
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
         commentService.deleteComment(commentSeq);
-        currentBoard.DecreaseCommentCount();
+        currentBoard.decreaseCommentCount();
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

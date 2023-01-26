@@ -57,6 +57,26 @@ public class User extends Auditable {
     @Size(max = 512)
     private String profileImageUrl;
 
+    @Column(nullable = false)
+    private int point;
+
+    public void increasePoint() {
+        this.point += 1;
+    }
+
+    public void increaseManyPoint() {
+        this.point += 5;
+    }
+
+    public void increaseManyManyPoint() {
+        this.point += 10;
+    }
+
+    public void decreasePoint() {
+        this.point -= 1;
+    }
+
+
     @Column(name = "PROVIDER_TYPE", length = 20)
     @Enumerated(EnumType.STRING)
     @NotNull

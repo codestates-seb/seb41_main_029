@@ -59,7 +59,7 @@ public class CommentService {
     public void deleteComment(long commentSeq){
         Comment findComment = findVerifiedComment(commentSeq);
         Board currentBoard = boardService.findVerifiedBoard(findComment.getBoard().getBoardSeq());
-        currentBoard.DecreaseCommentCount();
+        currentBoard.decreaseCommentCount();
         commentRepository.delete(findComment);
     }
 
