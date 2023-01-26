@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -31,15 +30,12 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final UserMapper mapper;
-    private final PasswordEncoder passwordEncoder;
 
     //회원 가입
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public ApiResponse<UserDto.Response> postMember(@Valid @RequestBody UserDto.post requestBody){
-//        User user = mapper.userPostToUser(requestBody);
         User createUser = userService.createUser(requestBody);
-
         return ApiResponse.success("user", mapper.userToUserResponse(createUser));
     }
 
@@ -48,11 +44,7 @@ public class UserController {
     //마이 페이지 조회
     @GetMapping("/mypage")
     public ApiResponse getUser() {
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        //User user = getPrincipal();
-        User user = userService.getUser(principal.getUsername());
-
+        User user = getPrincipal();
         return ApiResponse.success("user", mapper.userToUserResponse(user));
     }
 
@@ -62,7 +54,6 @@ public class UserController {
     public ApiResponse<UserDto.Response> editMemberInfo(@RequestBody UserDto.Patch req) {
         User user = getPrincipal();
         User editUser = userService.editMemberInfo(user, req);
-        editUser.setPassword(passwordEncoder.encode(req.getPassword()));
         return ApiResponse.success("user", mapper.userToUserResponse(editUser));
     }
 
@@ -72,7 +63,7 @@ public class UserController {
     public ApiResponse deleteMemberInfo() {
         User user = getPrincipal();
         userService.deleteMemberInfo(user);
-        return ApiResponse.success("회원 탈퇴 성공",null);
+        return ApiResponse.success("회원 탈퇴 성공 여부","성공");
     }
 
     //북마크 한 글 조회
@@ -80,7 +71,7 @@ public class UserController {
     @GetMapping("/bookmark")
     public ApiResponse findBookmark() {
         User user = getPrincipal();
-        return ApiResponse.success("bookmark",userService.findBookmark(user));
+        return ApiResponse.success("bookmark", userService.findBookmark(user));
     }
 
     //작성자가 쓴 글 조회
@@ -88,23 +79,16 @@ public class UserController {
     @GetMapping("/write")
     public ApiResponse findWrite() {
         User user = getPrincipal();
-        return ApiResponse.success("write",userService.findWrite(user));
+        return ApiResponse.success("write", userService.findWrite(user));
     }
 
-    //작성자가 쓴 글 조회
+    //작성자가 쓴 댓글 조회
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/comment")
     public ApiResponse findComment() {
         User user = getPrincipal();
         return ApiResponse.success("comment",userService.findComment(user));
     }
-    //작성자가 쓴 댓글 조회
-//    @ResponseStatus(HttpStatus.OK)
-//    @PutMapping("/users")
-//    public ApiResponse editUserInfo(@RequestBody MemberEditRequestDto memberEditRequestDto) {
-//        User member = getPrincipal();
-//        return ApiResponse.success("user", memberService.editMemberInfo(member, memberEditRequestDto));
-//    }
 
     public User getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

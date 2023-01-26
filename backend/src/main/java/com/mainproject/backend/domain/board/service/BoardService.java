@@ -155,7 +155,7 @@ public class BoardService {
             throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
         }
         findBoard.setBoardStatus(Board.BoardStatus.BOARD_NOT_EXIST);
-        boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 경정한다.
+        boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 결정한다.
     }
 
     //질문 작성자 아이디 찾는 메서드

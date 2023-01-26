@@ -3,7 +3,6 @@ package com.mainproject.backend.domain.reply.controller;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.entity.Comment;
-import com.mainproject.backend.domain.comment.repository.CommentRepository;
 import com.mainproject.backend.domain.reply.dto.CommentReplyDto;
 import com.mainproject.backend.domain.reply.entity.Reply;
 import com.mainproject.backend.domain.reply.mapper.ReplyMapper;

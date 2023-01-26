@@ -21,6 +21,7 @@ public class DislikeBoard extends Auditable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_seq", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)

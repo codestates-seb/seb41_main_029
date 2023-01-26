@@ -1,6 +1,7 @@
 package com.mainproject.backend.domain.board.dto;
 
 import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.board.option.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ public class BoardSimpleDto {
     private int liked;
     private int bookmarked;
     private int viewCount;
+    private int commented;
+    private String category;
     private LocalDateTime createdAt;
 
     public BoardSimpleDto toDto(Board board) {
@@ -26,6 +29,8 @@ public class BoardSimpleDto {
                 board.getLiked(),
                 board.getBookmarked(),
                 board.getViewCount(),
+                board.getCommented(),
+                board.getCategory().category,
                 board.getCreatedAt());
     }
 }

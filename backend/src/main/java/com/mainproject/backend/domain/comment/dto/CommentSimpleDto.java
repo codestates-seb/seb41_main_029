@@ -1,6 +1,5 @@
 package com.mainproject.backend.domain.comment.dto;
 
-import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;

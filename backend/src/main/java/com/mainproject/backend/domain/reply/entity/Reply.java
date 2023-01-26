@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -32,6 +34,7 @@ public class Reply extends Auditable {
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_seq")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @Column(columnDefinition = "TEXT", nullable = false)
@@ -39,6 +42,7 @@ public class Reply extends Auditable {
 
     @JsonBackReference
     @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "comment_seq")
     private Comment comment;
 
@@ -59,9 +63,4 @@ public class Reply extends Auditable {
     public void editReply(CommentReplyDto.ReplyPatchDto req) {
         content = req.getContent();
     }
-
-//    @JsonBackReference
-//    @ManyToOne
-//    @JoinColumn(name = "board_seq")
-//    private Board board;
 }
