@@ -38,17 +38,15 @@ public class ReplyService {
 
     //대댓글 기능
     public Reply createReply(Reply reply, Comment comment, User user, CommentReplyDto.ReplyPost req){
-//        reply.setBoard(board);
         reply.setComment(comment);
         reply.setUser(user);
         reply.setContent(req.getContent());
-//        Board currentBoard = boardService.findVerifiedBoard(board.getBoardSeq());
-//        currentBoard.increaseCommentCount();
 
         return replyRepository.save(reply);
     }
 
 
+    //대댓글 수정
    @Transactional
     public Reply editReply(Reply reply, User user, CommentReplyDto.ReplyPatchDto req) {
         reply.setUser(user);
@@ -56,6 +54,7 @@ public class ReplyService {
         return replyRepository.save(reply);
     }
 
+    //대댓글 삭제
     @Transactional
     public void deleteReply(Reply reply) {
         replyRepository.delete(reply);
@@ -75,6 +74,7 @@ public class ReplyService {
     }
 
 
+    //추천 로직
     @Transactional
     public String updateLikeOfReply(Long ReplySeq, User user) {
         Reply reply = replyRepository.findById(ReplySeq).orElseThrow(ReplyNotFoundException::new);
@@ -84,6 +84,7 @@ public class ReplyService {
         }else return FAIL_LIKE_REPLY;
     }
 
+    //비추천 로직
     @Transactional
     public String updateDislikeOfReply(Long ReplySeq, User user) {
         Reply reply = replyRepository.findById(ReplySeq).orElseThrow(ReplyNotFoundException::new);
@@ -93,10 +94,12 @@ public class ReplyService {
         }else return FAIL_DISLIKE_REPLY;
     }
 
+    //DB에 추천 여부 확인
     public boolean hasLikeReply(Reply reply, User user){
         return likeReplyRepository.findByReplyAndUser(reply, user).isPresent();
     }
 
+    //DB에 비추천 여부 확인
     public boolean hasDislikeReply(Reply reply, User user) {
         return dislikeReplyRepository.findByReplyAndUser(reply, user).isPresent();
     }
