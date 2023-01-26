@@ -61,22 +61,28 @@ public class BoardController {
 
     //전체 게시글 조회
     @GetMapping("/all")
-    public ResponseEntity getAllBoard(@RequestParam(value = "sort-by") String sortBy,
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse getAllBoard(@RequestParam(value = "sort-by") String sortBy,
                                       @Positive @RequestParam("page") int page,
                                       @Positive @RequestParam("size") int size) {
         List<Board> board = boardService.findAllBoard(page -1, size, sortBy).getContent();
-        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
+        int abc = boardService.countAllBoard();
+        String abc2 = String.valueOf(abc);
+        return ApiResponse.success(abc2, boardMapper.boardsToBoardResponsesDto(board));
     }
 
     //카테고리별 조회
     @GetMapping("/all/{category-id}")
-    public ResponseEntity getAllBoardCategory(@PathVariable("category-id") Long categoryId,
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse getAllBoardCategory(@PathVariable("category-id") Long categoryId,
                                               @RequestParam(value = "sort-by") String sortBy,
                                               @Positive @RequestParam("page") int page,
                                               @Positive @RequestParam("size") int size) {
 
         List<Board> board = boardService.findAllCategoryBoard(categoryId, page -1, size, sortBy).getContent();
-        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
+        int abc = boardService.countBoard(categoryId);
+        String abc2 = String.valueOf(abc);
+        return ApiResponse.success(abc2, boardMapper.boardsToBoardResponsesDto(board));
     }
 
 

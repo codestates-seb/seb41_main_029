@@ -66,12 +66,15 @@ public class ReplyController {
 
 
     //대댓글 삭제
-    @DeleteMapping("/{reply-seq}")
+    @DeleteMapping("/{board-seq}/{reply-seq}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ApiResponse DeleteReply(@PathVariable("reply-seq") long replySeq) {
+    public ApiResponse DeleteReply(@PathVariable("board-seq") long boardSeq,
+                                   @PathVariable("reply-seq") long replySeq) {
 
         Reply currentReply = replyRepository.findById(replySeq).orElseThrow(CommentNotFoundException::new);
         replyService.deleteReply(currentReply);
+        Board currentBoard = boardService.findVerifiedBoard(boardSeq);
+        currentBoard.increaseCommentCount();
 
         return ApiResponse.success("삭제되었습니다.", null);
     }

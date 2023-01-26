@@ -90,6 +90,15 @@ public class BoardService {
     public Page<Board> findAllBoard(int page, int size, String sortBy) {
         return boardRepository.findAllByBoardStatus(getPageRequest(page, size, sortBy), Board.BoardStatus.BOARD_EXIST);
     }
+    public Integer countAllBoard(){
+        List<Board> write = boardRepository.findAll();
+        return write.size();
+    }
+
+    public Integer countBoard(Long categoryId){
+        Category boardCategory = categoryIdToboardCategory(categoryId);
+        return boardRepository.findByCategoryAndBoardStatus(boardCategory, Board.BoardStatus.BOARD_EXIST).size();
+    }
 
     //카테고리 별 게시물 조회
     public Page<Board> findAllCategoryBoard(Long categoryId, int page, int size, String sortBy) {

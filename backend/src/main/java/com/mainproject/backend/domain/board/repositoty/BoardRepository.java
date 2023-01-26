@@ -29,5 +29,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     //카테고리 페이지
     Optional<Page<Board>> findByCategoryAndBoardStatus(Category boardCategory, Pageable pageable, Board.BoardStatus boardStatus);
+
+    List<Board> findByCategoryAndBoardStatus(Category boardCategory, Board.BoardStatus boardStatus);
 }
 
