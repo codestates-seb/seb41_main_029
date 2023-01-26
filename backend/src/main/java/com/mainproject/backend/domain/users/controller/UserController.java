@@ -80,7 +80,7 @@ public class UserController {
     @GetMapping("/bookmark")
     public ApiResponse findBookmark() {
         User user = getPrincipal();
-        return ApiResponse.success("bookmark",userService.findBookmark(user));
+        return ApiResponse.success("bookmark", userService.findBookmark(user));
     }
 
     //작성자가 쓴 글 조회
@@ -88,7 +88,7 @@ public class UserController {
     @GetMapping("/write")
     public ApiResponse findWrite() {
         User user = getPrincipal();
-        return ApiResponse.success("bookmark",userService.findWrite(user));
+        return ApiResponse.success("write", userService.findWrite(user));
     }
 
     //작성자가 쓴 글 조회
