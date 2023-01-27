@@ -1,5 +1,18 @@
-import styled from "styled-components";
+import { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
 import Carousel from "../component/Carousel";
+
+const animation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5
+  }
+  100%{
+    opacity: 1;
+  }
+`;
 
 const Wrapper = styled.div`
   align-items: center;
@@ -12,6 +25,7 @@ const Wrapper = styled.div`
 `;
 
 const Card = styled.div`
+  animation: ${animation} 2s linear infinite;
   align-items: center;
   background-color: ${(props) => (props.color ? props.color : "#f6f4eb")};
   display: flex;
@@ -108,11 +122,38 @@ const Card = styled.div`
 `;
 
 export default function LandingPage() {
+  const [scrollY, setScrollY] = useState(0); // window 의 pageYOffset값을 저장
+  const [scrollEvent, setScrollEvent] = useState(0);
+  function handleScroll() {
+    if (scrollY > 500) {
+      console.log(scrollY);
+      setScrollY(window.pageYOffset);
+      setScrollEvent(1);
+    } else if (scrollY > 1400) {
+      console.log(scrollY);
+      setScrollY(window.pageYOffset);
+      setScrollEvent(2);
+    } else {
+      console.log(scrollY);
+      setScrollY(window.pageYOffset);
+    }
+  }
+  useEffect(() => {
+    function scrollListener() {
+      window.addEventListener("scroll", handleScroll);
+    } //  window 에서 스크롤을 감시 시작
+    scrollListener(); // window 에서 스크롤을 감시
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    }; //  window 에서 스크롤을 감시를 종료
+  });
+
   return (
     <>
       <Wrapper>
         <Carousel />
-        <Card>
+        {/* 카드에 애니메이션 효과 추가 */}
+        <Card scroll={scrollEvent} className="animation1">
           <div className="flex mtb200 tar">
             <img
               src={
@@ -142,7 +183,7 @@ export default function LandingPage() {
             </div>
           </div>
         </Card>
-        <Card color="White">
+        <Card color="White" scroll={scrollEvent} className="animation2">
           <div className="flex mtb200 sa">
             <div>
               <div className="tabletVer text">

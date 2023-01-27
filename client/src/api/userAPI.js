@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getCookie } from "../Cookies";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
@@ -62,16 +63,13 @@ export const getUser = async (Token, userId) => {
   }
 };
 
-export const patchUser = async (data, Token) => {
-  const formdata = {
-    content: data?.content,
-  };
+export const patchUser = async (data) => {
   try {
     const response = await axios({
       method: "patch",
       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/mypage`,
-      data: formdata,
-      headers: { Authorization: `Bearer ${Token}` },
+      data: data,
+      headers: { Authorization: `Bearer ${getCookie("token")}` },
     });
     console.log(response);
     return response;
