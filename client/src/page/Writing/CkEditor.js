@@ -92,21 +92,24 @@ export default function CkEditor({ setImage, title, category }) {
   // console.log("카테코리", category);
 
   const onClicks = async () => {
+    const formdata = {
+      title: title,
+      content: answer,
+      category: category,
+      files: "",
+    };
     await axios
       .post(
         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
-
-        {
-          title: title,
-          content: answer,
-          category: category,
-        },
         {
           headers: {
             "Content-Type": "application/json",
             // Authorization: `Bearer ${Token}`,
             Authorization: `Bearer ${getCookie("token")}`,
           },
+        },
+        {
+          data: formdata,
         }
       )
       .then((res) => {
@@ -114,7 +117,7 @@ export default function CkEditor({ setImage, title, category }) {
         navigate("/community");
       })
       .catch((err) => {
-        console.log(err.data);
+        console.log(err);
       });
   };
 
