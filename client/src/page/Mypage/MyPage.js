@@ -8,6 +8,8 @@ import { getBookmark, getComment, getUser, getWrite } from "../../api/userAPI";
 import ReactPaginate from "react-paginate";
 import { getCookie } from "../../Cookies";
 import { ViewdateCommu } from "../../component/DateCalculator";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock, faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 /** 전체 컨테이너 */
 const MypageContainer = styled.div`
   display: flex;
@@ -40,8 +42,8 @@ const MypageInfo = styled.div`
 
 /** 프로필 사진 */
 const MypageProfile = styled.img`
-  width: 160px;
-  height: 160px;
+  width: 130px;
+  height: 130px;
   display: flex;
   text-align: center;
   align-items: center;
@@ -50,6 +52,10 @@ const MypageProfile = styled.img`
   justify-content: center;
   background-color: #bfbfbf;
 
+  @media screen and (max-width: 1336px) {
+    width: 10%;
+    min-width: 100px;
+  }
   @media screen and (max-width: 500px) {
     margin-right: 10px;
   }
@@ -64,6 +70,10 @@ const MypageProfileInfo = styled.div`
   /* margin-right: 40px; */
   align-items: center;
   width: 147px;
+
+  @media screen and (max-width: 1336px) {
+    white-space: nowrap;
+  }
 `;
 /** 회원정보 수정 */
 const MypageProfileModify = styled.a`
@@ -75,12 +85,14 @@ const MypageProfileModify = styled.a`
   padding-top: 40px;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.black};
-  @media screen and (max-width: 495px) {
+  @media screen and (max-width: 540px) {
     width: 140px;
     padding-right: 0;
     display: flex;
     justify-content: center;
     text-align: center;
+    white-space: nowrap;
+    font-size: ${theme.fontSizes.fs12};
   }
 `;
 /** 전체, 댓글, 북마크 버튼을 감싸는 큰 틀 */
@@ -100,8 +112,8 @@ const MypageBtns = styled.div`
       width: 100%;
       display: flex;
     }
-    @media screen and (max-width: 380px) {
-      width: 70%;
+    @media screen and (max-width: 400px) {
+      width: 55%;
       display: flex;
     }
   }
@@ -229,6 +241,9 @@ const InfoContainer = styled.div`
   display: flex;
   align-items: center;
   padding: 0 6px;
+  @media screen and (max-width: 1336px) {
+    /* width: 10%; */
+  }
 
   /* justify-content: center; */
 `;
@@ -259,7 +274,7 @@ const Info = styled.div`
 
 /** 작성한 제목과 댓글 수 전체 창*/
 const InfoContent = styled.div`
-  width: 620px; // or 100 %
+  width: 650px; // or 100 %
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   display: flex;
 
@@ -270,7 +285,7 @@ const InfoContent = styled.div`
     font-size: ${theme.fontSizes.fs12};
   }
 `;
-// 내 생각엔 제목에 내용이 중간 정도로만 오게 최대 이렇게마 하며 될듯
+
 const InfoTitle = styled.span`
   white-space: nowrap;
   overflow: hidden;
@@ -291,24 +306,37 @@ const InfoComment = styled.span`
 const InfoDiv = styled.div`
   /* width: 700px; */
   display: flex;
+  justify-content: right;
 `;
 // 작업 할것은 날짜 조회 재가 적은 것들을 반응형을 100%로 고정해보자
 /** 내가 등록한 날짜*/
 const InfoDate = styled.div`
-  width: 150px;
-  text-align: center;
+  /* width: 150px; */
+  width: 200px;
+  display: flex;
+  justify-content: center;
   @media screen and (max-width: 1336px) {
-    width: 12%;
+    width: 20%;
     @media screen and (max-width: 540px) {
       font-size: ${theme.fontSizes.fs12};
     }
   }
+  .clock {
+    padding: 7px 3px 0 0;
+  }
 `;
 /** 내가 받은 조회수 */
 const InfoView = styled.div`
-  width: 120px;
+  /* width: 120px; */
+  width: 180px;
   color: #a67b48;
+
   text-align: center;
+
+  .eye {
+    /* padding-right: 8px; */
+    margin-right: 5px;
+  }
   @media screen and (max-width: 1336px) {
     width: 12%;
     @media screen and (max-width: 540px) {
@@ -318,7 +346,8 @@ const InfoView = styled.div`
 `;
 /**  내가 받은 추천 수 */
 const InfoLike = styled.div`
-  width: 120px;
+  /* width: 120px; */
+  width: 180px;
   text-align: center;
   color: #95cecf;
   @media screen and (max-width: 1336px) {
@@ -385,18 +414,6 @@ export default function MyPage() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
 
-  // 박승철 코드
-  // const [userInfo, setUserInfo] = useState([]);
-  // useEffect(() => {
-  //   async function getUserInfo() {
-  //     const res = await getUser(Token);
-  //     setUserInfo(res.data.body.user);
-  //     console.log(res.data.body);
-  //   }
-  //   getUserInfo();
-  // }, []);
-  // console.log(userInfo);
-
   const [userInfo, setUserInfo] = useState([]);
   const [userWrite, setUserWrite] = useState([]);
   const [userComment, setUserComment] = useState([]);
@@ -415,6 +432,7 @@ export default function MyPage() {
     async function getUserWrite() {
       const res = await getWrite(Token);
       setUserWrite(res.data.body.write); // write
+      console.log(res.data.body);
     }
     getUserWrite();
   }, []);
@@ -483,7 +501,7 @@ export default function MyPage() {
             </MypageBtns>
             <TitleContainer>
               <TitleDiv>
-                <TitleInfo>
+                {/* <TitleInfo>
                   <TitleContent>제목</TitleContent>
                   <TitleDate>날짜</TitleDate>
                   <TitleDateMini>
@@ -493,7 +511,7 @@ export default function MyPage() {
                     {current === 1 ? "싫어요" : "추천"}
                   </TitleDateMini>
                   <TitleDate>닉네임</TitleDate>
-                </TitleInfo>
+                </TitleInfo> */}
                 {userWrite.map((item, id) =>
                   // {test.map((item, id) =>
                   current === 0 ? (
@@ -525,11 +543,26 @@ export default function MyPage() {
                       </InfoContent>
                       {/* <InfoDiv> */}
                       <InfoDate>
+                        <FontAwesomeIcon
+                          icon={faClock}
+                          size="xs"
+                          className="clock"
+                        />
                         <ViewdateCommu createdAt={item.createdAt} />
                       </InfoDate>
-                      <InfoView>{item.viewCount}</InfoView>
-                      <InfoLike>{item.liked}</InfoLike>
-                      <InfoName>{item.username}</InfoName>
+                      <InfoView>
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          size="xs"
+                          className="eye"
+                        />
+                        {item.viewCount}
+                      </InfoView>
+                      <InfoLike>
+                        <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                        {item.liked}
+                      </InfoLike>
+                      {/* <InfoName>{item.username}</InfoName> */}
                       {/* </InfoDiv> */}
                     </InfoContainer>
                   ) : (
@@ -552,12 +585,34 @@ export default function MyPage() {
                       </InfoContent>
                       {/* <InfoDiv> */}
                       <InfoDate>
+                        <FontAwesomeIcon
+                          icon={faClock}
+                          size="xs"
+                          className="clock"
+                        />
                         <ViewdateCommu createdAt={item.createdAt} />
                       </InfoDate>
-                      <InfoView>{item.liked}</InfoView>
-                      <InfoLike>{item.disliked}</InfoLike>
-                      <InfoName>{item.username}</InfoName>
-                      {/* item.commentSeq는 무슨 역할? */}
+                      <InfoView>
+                        <img
+                          className="up"
+                          src={process.env.PUBLIC_URL + "/image/upVote.svg"}
+                          alt="Up"
+                          width="22px"
+                        />
+                        {item.liked}
+                      </InfoView>
+                      <InfoLike>
+                        <img
+                          src={process.env.PUBLIC_URL + "/image/downVote.svg"}
+                          className="down"
+                          alt="Down"
+                          width="18px"
+                          height="18px"
+                        />
+                        {item.disliked}
+                      </InfoLike>
+                      {/* <InfoName>{item.username}</InfoName> */}
+
                       {/* </InfoDiv> */}
                     </InfoContainer>
                   ) : (
@@ -594,11 +649,22 @@ export default function MyPage() {
                       </InfoContent>
                       {/* <InfoDiv> */}
                       <InfoDate>
+                        <FontAwesomeIcon
+                          icon={faClock}
+                          size="xs"
+                          className="clock"
+                        />
                         <ViewdateCommu createdAt={item.createdAt} />
                       </InfoDate>
-                      <InfoView>{item.viewCount}</InfoView>
-                      <InfoLike>{item.liked}</InfoLike>
-                      <InfoName>{item.username}</InfoName>
+                      <InfoView>
+                        <FontAwesomeIcon icon={faEye} size="xs" />
+                        {item.viewCount}
+                      </InfoView>
+                      <InfoLike>
+                        <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                        {item.liked}
+                      </InfoLike>
+                      {/* <InfoName>{item.username}</InfoName> */}
 
                       {/* </InfoDiv> */}
                     </InfoContainer>

@@ -17,35 +17,37 @@ const SpanContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
+
   .SpanTitle {
     font-size: ${({ theme }) => theme.fontSizes.fs24};
-    width: 100px;
     /* margin-left: -24px; */
+    width: 45px;
     display: flex;
 
     @media (max-width: 1336px) {
-      width: 150px;
+      width: 70px;
+      /* width: 100%; */
       padding-left: 5%;
-      display: none;
+      white-space: nowrap;
+      /* display: none; */
     }
     // 400이 되면 또 세로로 된다 카테고리가 너무 크다 줄여보자
-    @media (max-width: 455px) {
+    @media (max-width: 600px) {
       font-size: ${theme.fontSizes.fs18};
-      margin-top: 6px;
-      display: flex;
-      justify-content: center;
+      /* display: none; */
     }
   }
   input {
-    width: 800px;
-    min-width: 200px;
+    width: 860px;
+    min-width: 150px;
     height: 40px;
     border-radius: 8px;
     outline: none;
     border: none;
 
     @media (max-width: 1336px) {
-      width: 90%;
+      width: 75%;
+      /* width: 920px; */
     }
   }
 `;
@@ -59,7 +61,7 @@ const SpanContent = styled.div`
 
   @media (max-width: 1336px) {
     display: flex;
-    flex-direction: column-reverse;
+    /* flex-direction: column-reverse; */
     align-items: center;
   }
 `;
@@ -74,11 +76,11 @@ const CategoryBox = styled(Box)`
   width: 180px;
 
   @media (max-width: 1336px) {
-    width: 100%;
-    margin-top: 8%;
+    width: 180px;
+    /* margin-top: 8%; */
   }
   @media (max-width: 456px) {
-    margin-top: 27%;
+    /* margin-top: 27%; */
   }
   // 방금 한것
   .css-1nrlq1o-MuiFormControl-root {
@@ -93,7 +95,7 @@ const CategoryInputLabel = styled(InputLabel)`
 
   .CategorySpan {
     @media (max-width: 1336px) {
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 
@@ -131,8 +133,9 @@ const CategoryFormControl = styled(FormControl)`
   }
   // X
   .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
-    margin: 8px 0 0 12px;
+    /* margin: 8px 0 0 12px; */
     font-size: ${({ theme }) => theme.fontSizes.fs18};
+    /* border: 2px solid red; */
   }
   // x
   .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
@@ -140,7 +143,7 @@ const CategoryFormControl = styled(FormControl)`
   }
   //전체 크기
   @media (max-width: 1336px) {
-    width: 75%;
+    width: 70%;
   }
   /* @media (max-width: 850px) {
     width: 75%;

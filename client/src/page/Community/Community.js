@@ -108,6 +108,14 @@ const PostInfoBarMargin = styled.div`
 
 // 게시글 목록
 const PostsList = styled.div``;
+const Loading = styled.div`
+  text-align: center;
+  margin-top: 30px;
+`;
+const PostsError = styled.div`
+  text-align: center;
+  margin-top: 30px;
+`;
 const Post = styled.div`
   display: flex;
   align-items: center;
@@ -324,8 +332,9 @@ export default function Community() {
 
   // axios
   const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const limit = 3; // 한 페이지 당 게시글 수
+  const limit = 10; // 한 페이지 당 게시글 수
 
   // 인증
   const cookies = new Cookies();
@@ -355,20 +364,26 @@ export default function Community() {
   // 정식 데이터 1페이지 조회
   const handleLoadAll = async (cate, sortby2) => {
     try {
-      // setLoading(true);
+      setLoading(true);
       const res = await axios.get(
-        `${url}/boards/all${cate}?page=1&size=${limit}&sort-by=${sortby2}`,
+        `${url}/boards/all${cate}page=1&?size=${limit}&sort-by=${sortby2}`,
         {
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      // setPosts(response.data);
-      // setLoading(false);
-      console.log(res.data);
+      // console.log(res.data);
+      console.log(res.data.body);
 
-      setItems(res.data);
+      for (let key in res.data.body) {
+        // console.log(key);
+        console.log(res.data.body[key]);
+        setItems(res.data.body[key]);
+      }
+
+      // setItems(res.data.body);
+      setLoading(false);
       setPage(0); // 페이지 초기화
     } catch (err) {
       throw err;
@@ -378,7 +393,7 @@ export default function Community() {
   // 카테고리별 데이터 1페이지 조회
   const handleLoadCate = async (cate) => {
     try {
-      // setLoading(true);
+      setLoading(true);
       const res = await axios.get(
         `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
         {
@@ -387,10 +402,15 @@ export default function Community() {
           },
         }
       );
-      // setPosts(response.data);
       // setLoading(false);
-      console.log(res.data);
-      setItems(res.data);
+      // console.log(res.data);
+      for (let key in res.data.body) {
+        // console.log(key);
+        console.log(res.data.body[key]);
+        setItems(res.data.body[key]);
+      }
+      // setItems(res.data.body);
+      setLoading(false);
     } catch (err) {
       throw err;
     }
@@ -400,7 +420,7 @@ export default function Community() {
   const handleLoadSearch = async (e) => {
     try {
       if (e.key === "Enter") {
-        // setLoading(true);
+        setLoading(true);
         const res = await axios.get(
           `${url}/boards/search?keyword=${searchTerm}&page=1&size=15`,
           {
@@ -411,8 +431,14 @@ export default function Community() {
         );
         // setPosts(response.data);
         // setLoading(false);
-        console.log(res.data);
-        setItems(res.data);
+        // console.log(res.data);
+        for (let key in res.data.body) {
+          // console.log(key);
+          console.log(res.data.body[key]);
+          setItems(res.data.body[key]);
+        }
+        // setItems(res.data.body[2]);
+        setLoading(false);
       }
     } catch (err) {
       throw err;
@@ -430,25 +456,36 @@ export default function Community() {
     const res = await axios.get(
       `${url}/boards/all${cate}?page=${currentPage}&size=${limit}&sort-by=${sortby}`
     );
-    const data = await res.data;
-    return data;
+    for (let key in res.data.body) {
+      // console.log(key);
+      console.log(res.data.body[key]);
+      const data = await res.data.body[key];
+      return data;
+    }
+    // const data = await res.data.body[2];
+    // return data;
   };
 
   const axiosPostsCate = async (currentPage, cate) => {
     const res = await axios.get(
       `${url}/boards/all/${cate}?page=${currentPage}&size=${limit}&sort-by=${sortby}`
     );
-    const data = await res.data;
-    return data;
+    for (let key in res.data.body) {
+      // console.log(key);
+      console.log(res.data.body[key]);
+      const data = await res.data.body[key];
+      return data;
+    }
+    // const data = await res.data.body[2];
+    // return data;
   };
 
   const handlePageClick = async (data) => {
     // console.log(data.selected);
     setPage(data.selected);
-
     let currentPage = data.selected + 1;
-
     let commentsFormServer = await axiosPosts(currentPage, "");
+    setLoading(true);
 
     if (cate === 1) {
       // commentsFormServer = await axiosPostsCate(currentPage, 1);
@@ -466,6 +503,7 @@ export default function Community() {
     }
 
     setItems(commentsFormServer);
+    setLoading(false);
   };
 
   return (
@@ -527,66 +565,76 @@ export default function Community() {
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
-            {items.map((item) => {
-              return (
-                <Post key={item.boardSeq}>
-                  <PostHead>
-                    {item.category === "# 일반" ? (
-                      <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
-                    ) : (
-                      ""
-                    )}
-                    {item.category === "# 정보" ? (
-                      <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
-                    ) : (
-                      ""
-                    )}
-                    {item.category === "# 질문" ? (
-                      <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
-                    ) : (
-                      ""
-                    )}
-                  </PostHead>
-                  {/* <PostBox> */}
-                  <PostTitleBox>
-                    <PostTitle className="ellipsis">
-                      <StyledLink to={`/boards/${item.boardSeq}`}>
-                        {item.title}
-                      </StyledLink>
-                    </PostTitle>
+            {loading && <Loading>게시글을 받아오는 중입니다...</Loading>}
+            {Array.isArray(items) && items.length > 0
+              ? items.map((item) => {
+                  return (
+                    <Post key={item.boardSeq}>
+                      <PostHead>
+                        {item.category === "# 일반" ? (
+                          <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
+                        ) : (
+                          ""
+                        )}
+                        {item.category === "# 정보" ? (
+                          <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
+                        ) : (
+                          ""
+                        )}
+                        {item.category === "# 질문" ? (
+                          <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
+                        ) : (
+                          ""
+                        )}
+                      </PostHead>
+                      {/* <PostBox> */}
+                      <PostTitleBox>
+                        <PostTitle className="ellipsis">
+                          <StyledLink to={`/boards/${item.boardSeq}`}>
+                            {item.title}
+                          </StyledLink>
+                        </PostTitle>
 
-                    <PostComment>[{item.commented}]</PostComment>
-                  </PostTitleBox>
-                  <PostInfo>
-                    <PostDate>
-                      <FontAwesomeIcon
-                        icon={faClock}
-                        size="xs"
-                        className="clock"
-                      />{" "}
-                      <ViewdateCommu createdAt={item.createdAt} />
-                    </PostDate>
-                    <PostView>
-                      <FontAwesomeIcon icon={faEye} size="xs" />{" "}
-                      {item.viewCount}
-                    </PostView>
-                    <PostLike>
-                      <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
-                      {item.likeCount}
-                    </PostLike>
-                  </PostInfo>
-                  {/* </PostBox> */}
-                  <PostWriter>
-                    <FontAwesomeIcon
-                      icon={faCircleUser}
-                      size="lg"
-                      color="gray"
-                    />{" "}
-                    {item.username}
-                  </PostWriter>
-                </Post>
-              );
-            })}
+                        <PostComment>[{item.commented}]</PostComment>
+                      </PostTitleBox>
+                      <PostInfo>
+                        <PostDate>
+                          <FontAwesomeIcon
+                            icon={faClock}
+                            size="xs"
+                            className="clock"
+                          />{" "}
+                          <ViewdateCommu createdAt={item.createdAt} />
+                        </PostDate>
+                        <PostView>
+                          <FontAwesomeIcon icon={faEye} size="xs" />{" "}
+                          {item.viewCount}
+                        </PostView>
+                        <PostLike>
+                          <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                          {item.likeCount}
+                        </PostLike>
+                      </PostInfo>
+                      {/* </PostBox> */}
+                      <PostWriter>
+                        <FontAwesomeIcon
+                          icon={faCircleUser}
+                          size="lg"
+                          color="gray"
+                        />{" "}
+                        {item.username}
+                      </PostWriter>
+                    </Post>
+                  );
+                })
+              : // : Array.isArray(items) && items.length === 0 ? (
+                //   <PostsError>작성된 게시글이 없습니다.</PostsError>
+                // )
+                ""}
+            {/* // : (
+            //   <PostsError>게시글을 받아올 수 없습니다.</PostsError>
+            // )
+          } */}
           </PostsList>
         </ComuContainer>
       </Container>
