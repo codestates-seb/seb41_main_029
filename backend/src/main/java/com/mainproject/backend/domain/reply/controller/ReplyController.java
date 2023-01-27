@@ -45,7 +45,7 @@ public class ReplyController {
         currentComment.setCommentSeq(commentSeq);
         Reply createReply = new Reply();
         Board currentBoard = boardService.findVerifiedBoard(boardSeq);
-        currentBoard.decreaseCommentCount();
+        currentBoard.increaseCommentCount();
         replyService.createReply(createReply, currentComment, user, requestBody);
 
 

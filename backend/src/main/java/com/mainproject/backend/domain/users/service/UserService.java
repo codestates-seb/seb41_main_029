@@ -1,5 +1,6 @@
 package com.mainproject.backend.domain.users.service;
 
+import com.mainproject.backend.domain.AWS.s3.AwsS3Service;
 import com.mainproject.backend.domain.board.dto.BoardSimpleDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
@@ -16,10 +17,14 @@ import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,6 +39,10 @@ public class UserService {
     private final CommentRepository commentRepository;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final String NoEmail = "NO Email";
+    private final AwsS3Service awsS3Service;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
 
     public User createUser(UserDto.post req) {
@@ -45,9 +54,11 @@ public class UserService {
 
 
     @Transactional
-    public User editMemberInfo(User user, UserDto.Patch req) {
+    public User editMemberInfo(User user, UserDto.Patch req, @Valid MultipartFile file) throws IOException {
         user.editUser(req);
         user.setPassword(passwordEncoder.encode(req.getPassword()));
+        String imageUrl = awsS3Service.uploadImage(bucket, user.getUserId(), file.getOriginalFilename(), file.getInputStream());
+        user.setProfileImageUrl(imageUrl);
         return userRepository.save(user);
     }
 

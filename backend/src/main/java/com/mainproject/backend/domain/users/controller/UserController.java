@@ -11,8 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 /**
  * 유저 컨트롤러
@@ -51,9 +53,9 @@ public class UserController {
     //마이 페이지 수정
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/mypage")
-    public ApiResponse<UserDto.Response> editMemberInfo(@RequestBody UserDto.Patch req) {
+    public ApiResponse<UserDto.Response> editMemberInfo(@RequestParam("files") MultipartFile files, UserDto.Patch req) throws IOException {
         User user = getPrincipal();
-        User editUser = userService.editMemberInfo(user, req);
+        User editUser = userService.editMemberInfo(user, req, files);
         return ApiResponse.success("user", mapper.userToUserResponse(editUser));
     }
 

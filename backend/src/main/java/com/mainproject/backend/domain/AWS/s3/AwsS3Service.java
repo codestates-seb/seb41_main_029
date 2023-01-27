@@ -26,7 +26,7 @@ public class AwsS3Service {
     private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+    private static String bucket;
 
 
 
@@ -43,20 +43,21 @@ public String uploadImage(String bucket, String userId, String fileName, InputSt
     PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, filePath, inputStream, objectMetadata);
     putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
     amazonS3.putObject(putObjectRequest);
-    return amazonS3.getUrl(bucket, fileName).toString();
+    return amazonS3.getUrl(bucket, filePath).toString();
 }
 
-    private AwsS3 upload(File file, String dirName) {
-        String key = randomFileName(file, dirName);
-        String path = putS3(file, key);
-        removeFile(file);
-
-        return AwsS3
-                .builder()
-                .key(key)
-                .path(path)
-                .build();
-    }
+//    private String upload(String bucket, String userId, String fileName) {
+//
+//        User user = new User();
+//        String folderName = user.getUserId();
+//        String filePath = userId + "/" + fileName;
+//
+//        ObjectMetadata objectMetadata = new ObjectMetadata();
+//        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, filePath, inputStream, objectMetadata);
+//        putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
+//        amazonS3.putObject(putObjectRequest);
+//        return amazonS3.getUrl(bucket, fileName).toString();
+//    }
 
     private String randomFileName(File file, String dirName) {
         return dirName + "/" + UUID.randomUUID() + file.getName();
