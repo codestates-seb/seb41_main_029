@@ -45,7 +45,6 @@ const CategoryWritingBtnBar = styled.div`
   /* padding: 30px; */
   padding: 25px 3%;
   font-size: ${({ theme }) => theme.fontSizes.fs18};
-  border-bottom: 3px solid ${({ theme }) => theme.colors.gray_01};
   @media (max-width: 600px) {
     /* font-size: ${({ theme }) => theme.fontSizes.fs16}; */
     padding: 23px 4%;
@@ -449,6 +448,32 @@ export default function Community() {
     }
   };
 
+  // 카테고리별 데이터 1페이지 조회
+  const handleLoadCate = async (cate) => {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // setLoading(false);
+      // console.log(res.data);
+      for (let key in res.data.body) {
+        // console.log(key);
+        console.log(res.data.body[key]);
+        setItems(res.data.body[key]);
+      }
+      // setItems(res.data.body);
+      setLoading(false);
+    } catch (err) {
+      throw err;
+    }
+  };
+
   // 검색 데이터
   const handleLoadSearch = async (e) => {
     try {
@@ -499,6 +524,20 @@ export default function Community() {
     // return data;
   };
 
+  const axiosPostsCate = async (currentPage, cate) => {
+    const res = await axios.get(
+      `${url}/boards/all/${cate}?page=${currentPage}&size=${limit}&sort-by=${sortby}`
+    );
+    for (let key in res.data.body) {
+      // console.log(key);
+      console.log(res.data.body[key]);
+      const data = await res.data.body[key];
+      return data;
+    }
+    // const data = await res.data.body[2];
+    // return data;
+  };
+
   const handlePageClick = async (data) => {
     // console.log(data.selected);
     setPage(data.selected);
@@ -507,14 +546,17 @@ export default function Community() {
     setLoading(true);
 
     if (cate === 1) {
+      // commentsFormServer = await axiosPostsCate(currentPage, 1);
       commentsFormServer = await axiosPosts(currentPage, "/1");
     }
 
     if (cate === 2) {
+      // commentsFormServer = await axiosPostsCate(currentPage, 2);
       commentsFormServer = await axiosPosts(currentPage, "/2");
     }
 
     if (cate === 3) {
+      // commentsFormServer = await axiosPostsCate(currentPage, 3);
       commentsFormServer = await axiosPosts(currentPage, "/3");
     }
 
@@ -542,6 +584,7 @@ export default function Community() {
                   style={{ fontWeight: cate === 1 ? "700" : "" }}
                   onClick={() => {
                     setCate(1);
+                    // handleLoadCate(1);
                     handleLoadAll("/1", "최신순");
                   }}
                 >
@@ -551,6 +594,7 @@ export default function Community() {
                   style={{ fontWeight: cate === 2 ? "700" : "" }}
                   onClick={() => {
                     setCate(2);
+                    // handleLoadCate(2);
                     handleLoadAll("/2", "최신순");
                   }}
                 >
@@ -560,6 +604,7 @@ export default function Community() {
                   style={{ fontWeight: cate === 3 ? "700" : "" }}
                   onClick={() => {
                     setCate(3);
+                    // handleLoadCate(3);
                     handleLoadAll("/3", "최신순");
                   }}
                 >
@@ -611,6 +656,25 @@ export default function Community() {
 
                         <PostComment>[{item.commented}]</PostComment>
                       </PostTitleBox>
+                      {/* <PostInfo>
+                        <PostDate>
+                          <FontAwesomeIcon
+                            icon={faClock}
+                            size="xs"
+                            className="clock"
+                          />{" "}
+                          <ViewdateCommu createdAt={item.createdAt} />
+                        </PostDate>
+                        <PostView>
+                          <FontAwesomeIcon icon={faEye} size="xs" />{" "}
+                          {item.viewCount}
+                        </PostView>
+                        <PostLike>
+                          <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                          {item.likeCount}
+                        </PostLike>
+                      </PostInfo> */}
+                      {/* </PostBox> */}
                       <PostWriter>
                         <FontAwesomeIcon
                           icon={faCircleUser}

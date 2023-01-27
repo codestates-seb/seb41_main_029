@@ -7,6 +7,7 @@ import { MainBtn } from "../Button";
 import { postReply } from "../../api/reply";
 import { Cookies } from "react-cookie";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const CommentReplyLayout = styled.div`
   width: 100%;
   max-width: 800px;
@@ -15,7 +16,7 @@ const CommentReplyLayout = styled.div`
   padding-top: 12px;
   flex-direction: row-reverse;
   /* margin-right: 40px; */
-  margin-left: 20px;
+  margin-left: 30px;
   align-items: center;
   /* justify-content: center; */
   cursor: pointer;
@@ -25,10 +26,21 @@ const CommentReplyLayout = styled.div`
     /* max-width: 630px;  */
     /* margin-top: 20px; */
   }
-  .icon {
+  /* .icon {
     width: 30px;
     height: 30px;
     transform: rotate(180deg);
+  } */
+  .replybtn {
+    cursor: pointer;
+    width: 60px;
+    height: 38px;
+    border: 1px solid #62b6b7;
+    border-radius: 10px;
+    &:active {
+      transform: scale(0.95);
+      box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    }
   }
 `;
 
@@ -57,6 +69,29 @@ const CommentReplyLayout1 = styled.div`
      margin-top: 20px; */
     }
   }
+  .cancle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -30px;
+    margin-left: 100px;
+    width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    color: white;
+    background-color: ${({ theme }) => theme.colors.main};
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.main_hover};
+    }
+
+    &:active {
+      transform: scale(0.95);
+      box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    }
+  }
+`;
+const BtnLayout = styled.div`
+  /* display: flex; */
 `;
 const Line = styled.div`
   width: 100%;
@@ -73,17 +108,20 @@ const ReplyContainer = styled.div`
   float: right;
   width: 100%;
   /* height: 100px; */
-  /* .input {
+  .input {
     @media screen and (max-width: 1336px) {
-      width: 100%; */
-  /* max-width: 630px; 
+      /* width: 200%; */
+      /* max-width: 630px; 
      margin-top: 20px; */
+    }
+  }
 `;
 
 const CommentReply = ({ commentSeq }) => {
   const [reply, setReply] = useState();
   const cookie = new Cookies();
   const { boardSeq } = useParams();
+  const navigate = useNavigate();
   // console.log(commentSeq);
   const token = cookie.get("token");
   const methods = useForm();
@@ -92,9 +130,18 @@ const CommentReply = ({ commentSeq }) => {
     postReply(token, data, boardSeq, commentSeq);
     window.location.reload();
   };
+  const EditCancle = () => {
+    setReply(!reply);
+  };
 
   const handleReply = () => {
-    setReply(!reply);
+    if (!token) {
+      if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
+        navigate("/login");
+      }
+    } else {
+      setReply(!reply);
+    }
   };
 
   return (
@@ -113,16 +160,21 @@ const CommentReply = ({ commentSeq }) => {
                     height="65px"
                   />
                 </ReplyContainer>
-                <MainBtn text={"등록"} />
+                <BtnLayout>
+                  <MainBtn text={"등록"} />
+                  <div onClick={EditCancle} className="cancle" text={"취소"}>
+                    취소
+                  </div>
+                </BtnLayout>
               </FormProvider>
             </form>
           </CommentReplyLayout1>
         </>
       ) : (
         <CommentReplyLayout onClick={handleReply}>
-          <span style={{ width: "30px" }}> 답글</span>
-
-          <BiReply className="icon" />
+          <button className="replybtn">
+            <span style={{ width: "30px" }}> 답글</span>
+          </button>
         </CommentReplyLayout>
       )}
     </>

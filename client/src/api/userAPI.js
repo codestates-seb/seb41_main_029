@@ -1,8 +1,24 @@
 import axios from "axios";
+import { getCookie } from "../Cookies";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 
 export const login = async (data) => {
+  try {
+    const res = await axios({
+      method: "post",
+      data,
+      headers: { Authorization: null },
+      url: `${url}auth/login`,
+    });
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const renewal = async (data) => {
   try {
     const res = await axios({
       method: "post",
@@ -47,16 +63,13 @@ export const getUser = async (Token, userId) => {
   }
 };
 
-export const patchUser = async (data, Token) => {
-  const formdata = {
-    content: data?.content,
-  };
+export const patchUser = async (data) => {
   try {
     const response = await axios({
       method: "patch",
       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/mypage`,
-      data: formdata,
-      headers: { Authorization: `Bearer ${Token}` },
+      data: data,
+      headers: { Authorization: `Bearer ${getCookie("token")}` },
     });
     console.log(response);
     return response;
@@ -74,6 +87,32 @@ export const getWrite = async (Token, userId) => {
       // "Content-Type": "application/json",
     });
     // return res.data.data;
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getComment = async (Token, useId) => {
+  try {
+    const res = await axios({
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/comment`,
+      method: "get",
+      headers: { Authorization: `Bearer ${Token}` },
+    });
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getBookmark = async (Token, useId) => {
+  try {
+    const res = await axios({
+      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/bookmark`,
+      method: "get",
+      headers: { Authorization: `Bearer ${Token}` },
+    });
     return res;
   } catch (error) {
     console.log(error);

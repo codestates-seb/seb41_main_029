@@ -62,8 +62,13 @@ export const commentUpVote = async (Token, commentSeq) => {
       headers: { Authorization: `Bearer ${Token}` },
       url: `${url}comments/like/${commentSeq}`,
     });
-    console.log(res);
-    return res;
+    if (res?.data?.header?.code === 403) {
+      alert("이미 추천하셨습니다.");
+      window.location.reload();
+    } else {
+      console.log(res);
+      return res;
+    }
   } catch (error) {
     console.log(error);
   }
@@ -75,8 +80,13 @@ export const commentDownVote = async (Token, commentSeq) => {
       headers: { Authorization: `Bearer ${Token}` },
       url: `${url}comments/dislike/${commentSeq}`,
     });
-    console.log(res);
-    return res;
+    if (res?.data?.header?.code === 403) {
+      alert("이미 비추천하셨습니다.");
+      window.location.reload();
+    } else {
+      console.log(res);
+      return res;
+    }
   } catch (error) {
     console.log(error);
   }
