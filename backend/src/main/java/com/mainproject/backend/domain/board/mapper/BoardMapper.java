@@ -21,6 +21,7 @@ public interface BoardMapper {
         board.setCategory(postDto.getCategory());
         board.setTitle(postDto.getTitle());
         board.setContent(postDto.getContent());
+        board.setImageUrls(postDto.getImageUrls());
 
 
         return board;
@@ -81,6 +82,7 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setDislikeCount(board.getDisliked());
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
+       boardWithCommentResponseDto.setImageUrls(board.getImageUrls());
 
        //커맨트
         boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));

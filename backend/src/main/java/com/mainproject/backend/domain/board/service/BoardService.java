@@ -1,5 +1,7 @@
 package com.mainproject.backend.domain.board.service;
 
+import com.mainproject.backend.domain.AWS.s3.AwsS3Service;
+import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
 import com.mainproject.backend.domain.board.entity.DislikeBoard;
@@ -11,23 +13,25 @@ import com.mainproject.backend.domain.board.repositoty.DislikeBoardRepository;
 import com.mainproject.backend.domain.board.repositoty.LikeBoardRepository;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
-import com.mainproject.backend.global.exception.BoardNotFoundException;
 import com.mainproject.backend.global.exception.BookmarkNotFoundException;
 import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /*
 *
@@ -48,12 +52,25 @@ public class BoardService {
     private final DislikeBoardRepository dislikeBoardRepository;
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
-    //유저 서비스
+    private final AwsS3Service awsS3Service;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+
+
 
     //게시글 등록
-    public Board createBoard(Board board, User user) {
+    public Board createBoard(Board board, User user, @Valid MultipartFile[] files) throws IOException {
         board.setUser(user);
         user.increaseManyPoint();
+
+        List<String> fileUrls = new ArrayList<>();
+        for (MultipartFile file : files) {
+            String fileUrl = awsS3Service.uploadImage(bucket, user.getUserId(),file.getOriginalFilename(), file.getInputStream());
+            fileUrls.add(fileUrl);
+        }
+        board.setImageUrls(fileUrls);
+
 
         return boardRepository.save(board);
     }

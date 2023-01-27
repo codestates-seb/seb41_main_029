@@ -24,6 +24,7 @@ public class BoardWithCommentDto {
     private int likeCount;
     private int dislikeCount;
     private int commented;
+    private List<String> imageUrls;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> comments;

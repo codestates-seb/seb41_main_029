@@ -1,5 +1,6 @@
 package com.mainproject.backend.domain.board.controller;
 
+import com.mainproject.backend.domain.AWS.s3.AwsS3Service;
 import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.mapper.BoardMapper;
@@ -8,15 +9,19 @@ import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.Response.api.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/boards")
@@ -28,14 +33,18 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardMapper boardMapper;
     private final UserRepository userRepository;
+    private final AwsS3Service awsS3Service;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     //게시글 등록
     @PostMapping("/articles")
-    public ResponseEntity boardPost(@Valid @RequestBody BoardDto.Post postDto) {
+    public ResponseEntity boardPost(@Valid @RequestParam("files") MultipartFile[] files, BoardDto.Post postDto) throws IOException {
 
         User user = getPrincipal();
 
-        Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user);
+        Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user, files);
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
