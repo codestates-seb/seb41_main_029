@@ -21,7 +21,6 @@ const BottomDiv = styled.div`
   }
 `;
 // button or a 태그
-// button 이면 align,justify,display 삭제하기
 const ViewButton = styled.a`
   width: 120px;
   height: 50px;
@@ -45,51 +44,46 @@ const ViewButton = styled.a`
 export default function CkEditor({ setImage, title, category }) {
   const [answer, setAnswer] = useState(""); //editor이 부분에 html을 막는 기능으 넣으면 될까?
   const navigate = useNavigate();
+
   // const API_URL = "https://noteyard-backend.herokuapp.com";
   // const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
+  const API_URL =
+    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+  const UPLOAD_ENDPOINT = "boards/articles";
 
-  // const uploadAdapter = (loader) => {
-  //   // (2)
-  //   return {
-  //     upload: () => {
-  //       return new Promise((resolve, reject) => {
-  //         const body = new FormData();
-  //         loader.file.then((file) => {
-  //           body.append("uploadImg", file);
-  //           fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
-  //             method: "post",
-  //             body: body,
-  //           })
-  //             .then((res) => res.json())
-  //             .then((res) => {
-  //               resolve({ default: `https://ibb.co/TWfQMJN` });
-  //             })
-  //             .catch((err) => {
-  //               reject(err);
-  //             });
-  //         });
-  //       });
-  //     },
-  //   };
-  // };
+  const uploadAdapter = (loader) => {
+    // (2)
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          const body = new FormData();
+          loader.file.then((file) => {
+            body.append("uploadImg", file);
+            //  res.url로 작성 할거 같다
+            fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
+              method: "post",
+              body: body,
+            })
+              .then((res) => {
+                // resolve({ default: `https://ibb.co/TWfQMJN` });
+                resolve({ default: `https://ifh.cc/g/HkGCpv.png` }); // 구글 이미지 호스팅 한것
+                // resolve({ default: res.profileImageUrl }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          });
+        });
+      },
+    };
+  };
 
-  // function uploadPlugin(editor) {
-  //   // (3)
-  //   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-  //     return uploadAdapter(loader);
-  //   };
-  // }
-
-  //데이터
-  // const data = {
-  //   // WritingEditor > detail
-  //   title: detail,
-  //   content: answer,
-  //   category: category,
-  // };
-  // console.log("제목", title);
-  // console.log("글내용", answer);
-  // console.log("카테코리", category);
+  function uploadPlugin(editor) {
+    // (3)
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+      return uploadAdapter(loader);
+    };
+  }
 
   const onClicks = async () => {
     const formdata = {
@@ -119,6 +113,13 @@ export default function CkEditor({ setImage, title, category }) {
       .catch((err) => {
         console.log(err);
       });
+    if (category === "") {
+      return alert("카테고리를 입력하세요");
+    } else if (title === "") {
+      return alert("제목을 입력하세요");
+    } else if (answer === "") {
+      return alert("내용을 입력하세요");
+    }
   };
 
   return (
@@ -131,7 +132,7 @@ export default function CkEditor({ setImage, title, category }) {
           console.log(answer);
         }}
         config={{
-          // extraPlugins: [uploadPlugin],
+          extraPlugins: [uploadPlugin],
 
           toolbar: {
             items: [
