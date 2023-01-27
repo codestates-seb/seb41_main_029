@@ -9,7 +9,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
 `;
 
 const NoticeDiv = styled.div`
@@ -19,7 +18,7 @@ const NoticeDiv = styled.div`
   align-items: center;
   height: 290px;
   width: 430px;
-  margin: 0 16px;
+  margin: 150px 16px;
   border-radius: 20px;
   background-color:
   /* ${({ theme }) => theme.colors.container}; */ #f2f2f2;

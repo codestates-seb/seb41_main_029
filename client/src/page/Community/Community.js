@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import styled from "styled-components";
 import ReactPaginate from "react-paginate";
-import jsonData from "../../data/Posts";
 import { useNavigate, Link } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,6 +14,11 @@ import {
   faFilter,
 } from "@fortawesome/free-solid-svg-icons";
 import { ViewdateCommu } from "../../component/DateCalculator";
+import Box from "@mui/material/Box";
+import { InputLabel } from "@mui/material";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
 const Container = styled.div`
   display: flex;
@@ -40,11 +44,9 @@ const CategoryWritingBtnBar = styled.div`
   justify-content: space-between;
   /* padding: 30px; */
   padding: 25px 3%;
-  /* border-bottom: 1px solid #92bdbd; */
-  /* font-size: ${({ theme }) => theme.fontSizes.fs24}; */
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   @media (max-width: 600px) {
-    font-size: ${({ theme }) => theme.fontSizes.fs16};
+    /* font-size: ${({ theme }) => theme.fontSizes.fs16}; */
     padding: 23px 4%;
   }
 `;
@@ -70,26 +72,29 @@ const Cate = styled.button`
     font-weight: 700;
   }
   @media (max-width: 600px) {
-    font-size: ${({ theme }) => theme.fontSizes.fs16};
+    font-size: 15px;
+  }
+  @media (max-width: 450px) {
+    margin-right: 5px;
   }
 `;
 
 const BtnBox = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 const FilterBtn = styled.div`
   font-size: 17px;
-  /* ${({ theme }) => theme.fontSizes.fs18}; */
   @media (max-width: 600px) {
-    font-size: 15px;
-    /* ${({ theme }) => theme.fontSizes.fs16}; */
+    font-size: 14px;
   }
 `;
 
 const WritingBtn = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   margin-left: 30px;
+  margin-right: 10px;
   cursor: pointer;
   &:hover {
     color: #62b6b7;
@@ -98,7 +103,7 @@ const WritingBtn = styled.div`
     color: #62b6b7;
   }
   @media (max-width: 600px) {
-    font-size: ${({ theme }) => theme.fontSizes.fs16};
+    font-size: 15px;
   }
 `;
 
@@ -119,11 +124,16 @@ const PostsError = styled.div`
 const Post = styled.div`
   display: flex;
   align-items: center;
-  /* height: 90px; */
-  height: 70px;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.gray_02};
-  font-size: ${({ theme }) => theme.fontSizes.fs18};
+  height: 65px;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.gray_01};
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
   padding: 0 10px;
+  &:hover {
+    background-color: #fafafa;
+  }
+  @media (max-width: 800px) {
+    font-size: 14px;
+  }
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs12};
   }
@@ -143,8 +153,6 @@ const PostHead = styled.div`
 `;
 
 const PostHeadBox = styled.div`
-  // 카테고리에 따라 색 변경
-  /* background-color: #62b6b7; */
   background-color: ${(props) => props.bgColor};
   display: flex;
   justify-content: center;
@@ -179,6 +187,7 @@ const PostTitleBox = styled.div`
   min-width: 80px;
   margin-right: 20px;
   @media (max-width: 600px) {
+    width: 400px;
     .ellipsis {
       /* width: 130px; */
       width: 100%;
@@ -202,7 +211,8 @@ const StyledLink = styled(Link)`
 `;
 
 const PostComment = styled.div`
-  color: ${({ theme }) => theme.colors.gray_03};
+  color: #aaa;
+  /* ${({ theme }) => theme.colors.gray_03}; */
   padding-left: 5px;
   margin-top: 5px;
   font-size: ${({ theme }) => theme.fontSizes.fs12};
@@ -215,42 +225,88 @@ const PostComment = styled.div`
 const PostInfo = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 300px;
   min-width: 200px;
+  font-size: 15px;
+  color: #aaa;
+  /* ${({ theme }) => theme.colors.gray_03}; */
+  @media (max-width: 800px) {
+    /* min-width: 65px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px; */
+    font-size: ${({ theme }) => theme.fontSizes.fs12};
+  }
   @media (max-width: 600px) {
     min-width: 65px;
     display: flex;
     flex-direction: column;
-    margin-left: 15px;
+    margin-left: 10px;
+    font-size: ${({ theme }) => theme.fontSizes.fs10};
   }
 `;
 
 const PostDate = styled.div`
   display: flex;
   min-width: 65px;
-  color: ${({ theme }) => theme.colors.gray_03};
   .clock {
     padding: 7px 3px 0 0;
   }
 `;
 
 const PostView = styled.div`
-  color: ${({ theme }) => theme.colors.gray_03};
   @media (max-width: 600px) {
-    font-size: ${({ theme }) => theme.fontSizes.fs10};
   }
 `;
 
-const PostLike = styled.div`
-  color: ${({ theme }) => theme.colors.gray_03};
-`;
+const PostLike = styled.div``;
 
 const PostWriter = styled.div`
-  width: 130px;
+  width: 200px;
   min-width: 100px;
   margin-left: 4%;
+  /* @media (max-width: 1200px) {
+    width: 180px;
+    min-width: 70px;
+  }
+  @media (max-width: 1000px) {
+    width: 250px;
+    min-width: 70px;
+  }
+  @media (max-width: 800px) {
+    width: 360px;
+    min-width: 70px;
+  }
+  @media (max-width: 700px) {
+    width: 400px;
+    min-width: 70px;
+  } */
+  @media (max-width: 1000px) {
+    width: 300px;
+    min-width: 70px;
+  }
+  @media (max-width: 700px) {
+    width: 450px;
+    min-width: 70px;
+    font-size: 13px;
+  }
   @media (max-width: 600px) {
     min-width: 70px;
+    margin-left: 150px;
+    font-size: ${({ theme }) => theme.fontSizes.fs10};
+  }
+  @media (max-width: 500px) {
+    min-width: 70px;
+    margin-left: 105px;
+  }
+  @media (max-width: 450px) {
+    min-width: 70px;
+    margin-left: 70px;
+  }
+  @media (max-width: 400px) {
+    min-width: 70px;
+    margin-left: 15px;
   }
 `;
 
@@ -264,7 +320,6 @@ const MyPaginate = styled(ReactPaginate).attrs({
   list-style-type: none;
   padding: 0 5rem;
   li a {
-    border-radius: 7px;
     padding: 0.1rem 1rem;
     cursor: pointer;
   }
@@ -288,6 +343,9 @@ const MyPaginate = styled(ReactPaginate).attrs({
   }
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs10};
+    li a {
+      padding: 0.1rem 0.6rem;
+    }
   }
 `;
 
@@ -366,7 +424,7 @@ export default function Community() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${url}/boards/all${cate}page=1&?size=${limit}&sort-by=${sortby2}`,
+        `${url}/boards/all${cate}?page=1&size=${limit}&sort-by=${sortby2}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -565,7 +623,7 @@ export default function Community() {
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
-            {loading && <Loading>게시글을 받아오는 중입니다...</Loading>}
+            {loading && <Loading>게시글을 받아오는 중입니다... </Loading>}
             {Array.isArray(items) && items.length > 0
               ? items.map((item) => {
                   return (
@@ -588,6 +646,7 @@ export default function Community() {
                         )}
                       </PostHead>
                       {/* <PostBox> */}
+
                       <PostTitleBox>
                         <PostTitle className="ellipsis">
                           <StyledLink to={`/boards/${item.boardSeq}`}>
@@ -597,6 +656,33 @@ export default function Community() {
 
                         <PostComment>[{item.commented}]</PostComment>
                       </PostTitleBox>
+                      {/* <PostInfo>
+                        <PostDate>
+                          <FontAwesomeIcon
+                            icon={faClock}
+                            size="xs"
+                            className="clock"
+                          />{" "}
+                          <ViewdateCommu createdAt={item.createdAt} />
+                        </PostDate>
+                        <PostView>
+                          <FontAwesomeIcon icon={faEye} size="xs" />{" "}
+                          {item.viewCount}
+                        </PostView>
+                        <PostLike>
+                          <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                          {item.likeCount}
+                        </PostLike>
+                      </PostInfo> */}
+                      {/* </PostBox> */}
+                      <PostWriter>
+                        <FontAwesomeIcon
+                          icon={faCircleUser}
+                          size="lg"
+                          color="gray"
+                        />{" "}
+                        {item.username}
+                      </PostWriter>
                       <PostInfo>
                         <PostDate>
                           <FontAwesomeIcon
@@ -615,15 +701,6 @@ export default function Community() {
                           {item.likeCount}
                         </PostLike>
                       </PostInfo>
-                      {/* </PostBox> */}
-                      <PostWriter>
-                        <FontAwesomeIcon
-                          icon={faCircleUser}
-                          size="lg"
-                          color="gray"
-                        />{" "}
-                        {item.username}
-                      </PostWriter>
                     </Post>
                   );
                 })
@@ -700,6 +777,39 @@ export default function Community() {
       >
         북마크순
       </Filter4>
+      {/* <Mui /> */}
+      <MuiContainer>
+        <CategoryBox sx={{ minWidth: 180 }}>
+          <CategoryFormControl>
+            <CategoryInputLabel id="demo-simple-select-label">
+              <span className="CategorySpan">
+                <FontAwesomeIcon icon={faFilter} size="xs" color="gray" />
+                FILTER
+              </span>
+              {/* 카테고리 */}
+            </CategoryInputLabel>
+            <CategorySelect
+              sx={{
+                // 카테고리 테두리 지우는 부분
+                boxShadow: "none",
+                ".MuiOutlinedInput-notchedOutline": {
+                  border: "none",
+                },
+              }}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              // value={category}
+              label="category"
+              // onChange={handleChange}
+            >
+              <CategoryMenuItem value={"GENERAL"}>최신순</CategoryMenuItem>
+              <CategoryMenuItem value={"INFORMATION"}>조회순</CategoryMenuItem>
+              <CategoryMenuItem value={"QUESTION"}>추천순</CategoryMenuItem>
+              <CategoryMenuItem value={"QUESTION"}>북마크순</CategoryMenuItem>
+            </CategorySelect>
+          </CategoryFormControl>
+        </CategoryBox>
+      </MuiContainer>
     </>
   );
 }
@@ -708,3 +818,95 @@ const Filter1 = styled.div``;
 const Filter2 = styled.div``;
 const Filter3 = styled.div``;
 const Filter4 = styled.div``;
+
+const MuiContainer = styled.div`
+  button {
+    border: none;
+    background-color: ${({ theme }) => theme.colors.white};
+    cursor: pointer;
+  }
+`;
+const CategoryBox = styled(Box)`
+  width: 180px;
+
+  @media (max-width: 1336px) {
+    width: 100%;
+    margin-top: 8%;
+  }
+  @media (max-width: 456px) {
+    margin-top: 27%;
+  }
+  // 방금 한것
+  .css-1nrlq1o-MuiFormControl-root {
+    @media (max-width: 1336px) {
+    }
+  }
+`;
+// 카테고리 글씨 움직이는 틀
+const CategoryInputLabel = styled(InputLabel)`
+  width: 100%;
+  margin: -8px 0 0px 12px;
+
+  .CategorySpan {
+    @media (max-width: 1336px) {
+      font-size: 14px;
+    }
+  }
+
+  /* @media (max-width: 1336px) {
+    width: 50%;
+    font-size: 12px;
+  } */
+`;
+//.
+const CategorySelect = styled(Select)`
+  height: 40px;
+  width: 130px;
+
+  // icon
+  // 반응형을 줬을 때 아이콘이 변함
+  .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
+    color: ${({ theme }) => theme.colors.main};
+    font-size: ${({ theme }) => theme.fontSizes.fs24};
+    margin-right: 8px;
+
+    @media (max-width: 1336px) {
+      width: 30%;
+    }
+  }
+`;
+// 전체 크기
+const CategoryFormControl = styled(FormControl)`
+  width: 100%;
+
+  border-radius: 8px;
+  background-color: ${({ theme }) => theme.colors.white};
+
+  label {
+    font-weight: 800;
+    font-family: "Noto Sans CJK KR";
+  }
+  // X
+  .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+    margin: 8px 0 0 12px;
+    font-size: ${({ theme }) => theme.fontSizes.fs18};
+  }
+  // x
+  .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
+    display: none;
+  }
+  //전체 크기
+  @media (max-width: 1336px) {
+    width: 75%;
+  }
+  /* @media (max-width: 850px) {
+    width: 75%;
+    background-color: black;
+  } */
+
+  .css-1m5xwth-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
+    @media (max-width: 850px) {
+    }
+  }
+`;
+const CategoryMenuItem = styled(MenuItem)``;
