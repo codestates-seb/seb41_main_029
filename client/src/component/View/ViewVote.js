@@ -29,6 +29,7 @@ const VoteContainer = styled.div`
 `;
 const VoteBtn = styled.button`
   border-radius: 10px;
+  background-color: white;
   /* margin-left: 20px; */
   @media screen and (max-width: 1336px) {
     /* margin-left: 10px; */
@@ -36,12 +37,14 @@ const VoteBtn = styled.button`
 `;
 const VoteActBtn = styled.button`
   /* margin-left: 20px; */
+  background-color: white;
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.main_hover};
   border: 2px solid #439a97;
   /* background-color: ${({ theme }) => theme.colors.main_hover}; */
 `;
 const VoteActBtn1 = styled.button`
+  background-color: white;
   border-radius: 10px;
   margin-left: 20px;
   color: red;
@@ -58,7 +61,7 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
   const [isDownVote, setIsDownVote] = useState(false);
   const [voteCount, setVoteCount] = useState();
   const [downVoteCount, setDownVoteCount] = useState();
-
+  // console.log(res);
   // if(res?.data !== 200) {
   //   alert("이미 추천을 하셨습니다.")
   // }
@@ -107,9 +110,7 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
       setIsDownVote(true);
     }
   };
-  useEffect(() => {
-    // console.log(status?.boardLike);
-  });
+
   return (
     <>
       <VoteLayout>

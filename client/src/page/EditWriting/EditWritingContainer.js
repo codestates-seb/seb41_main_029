@@ -11,7 +11,12 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Cookies } from "react-cookie";
 import { getCookie } from "../../Cookies";
@@ -184,7 +189,13 @@ const EditWritingEditor = ({ setImage }) => {
   useEffect(() => {
     getInfo();
   }, []);
-  // console.log(viewInfo?.data?.title);
+  useEffect(() => {
+    if (viewInfo) {
+      setDetail(viewInfo?.data?.title);
+      setCategory(reqcategory);
+    }
+  }, [viewInfo]);
+  console.log(viewInfo);
 
   const editwriting = async () => {
     await axios
@@ -192,7 +203,7 @@ const EditWritingEditor = ({ setImage }) => {
         `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`,
         {
           title: detail,
-          content: answer,
+          content: answer.content,
           category: category,
         },
         {
@@ -205,14 +216,13 @@ const EditWritingEditor = ({ setImage }) => {
       )
       .then((res) => {
         console.log(res.data);
-        // navigate(`/boards/${boardSeq}`);
+        navigate(`/boards/${boardSeq}`);
       })
       .catch((err) => {
         // navigate(`/boards/${boardSeq}`);
         console.log(err);
       });
   };
-  // console.log(category);
 
   const [answer, setAnswer] = useState(""); //editor
   // const [flag, setFlag] = useState(false);
@@ -221,7 +231,7 @@ const EditWritingEditor = ({ setImage }) => {
   // console.log(viewInfo?.data?.title);
   const [detail, setDetail] = useState("");
   // viewInfo?.data?.title
-
+  // const [reqcategory, setreqcategory] = useState("");
   const onClick = (e) => {
     // answer와 detail을 값을 넘겨줘서 클릭시 콘솔에 찍히게 해줘야 한다
     // setDetail(e.target.value),
@@ -286,97 +296,113 @@ const EditWritingEditor = ({ setImage }) => {
       return uploadAdapter(loader);
     };
   }
-  // const categorySplit = viewInfo?.data?.category;
-  // const categorySplit1 = categorySplit.split("#");
+  const userId1 = JSON.parse(localStorage.getItem("userId"));
+  const userId2 = viewInfo?.data?.userId;
+  console.log(viewInfo?.data?.userId);
   return (
-    <div>
-      <SpanTitle>
-        <SpanContent>
-          <span className="SpanTitle">제목</span>
-          <input
-            type="text"
-            defaultValue={viewInfo?.data?.title}
-            // value={detail}
-            onChange={titleChange}
+    <>
+      {userId1 === userId2 ? (
+        <div>
+          <SpanTitle>
+            <SpanContent>
+              <span className="SpanTitle">제목</span>
+              <input
+                type="text"
+                defaultValue={viewInfo?.data?.title}
+                // value={detail}
+                onChange={titleChange}
+              />
+              <div className="menu">
+                {/* mui 사용 */}
+                <CategoryBox sx={{ minWidth: 180 }}>
+                  <CategoryFormControl>
+                    <CategoryInputLabel id="demo-simple-select-label">
+                      <span className="CategorySpan">{category}</span>
+                      {/* 카테고리 */}
+                    </CategoryInputLabel>
+                    <CategorySelect
+                      sx={{
+                        boxShadow: "none",
+                        ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                      }}
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={category}
+                      label="category"
+                      onChange={handleChange}
+                    >
+                      <CategoryMenuItem value={"GENERAL"}>
+                        일 반
+                      </CategoryMenuItem>
+                      <CategoryMenuItem value={"INFORMATION"}>
+                        정 보
+                      </CategoryMenuItem>
+                      <CategoryMenuItem value={"QUESTION"}>
+                        질 문
+                      </CategoryMenuItem>
+                    </CategorySelect>
+                  </CategoryFormControl>
+                </CategoryBox>
+              </div>
+            </SpanContent>
+          </SpanTitle>
+          <CKEditor
+            editor={ClassicEditor}
+            data={viewInfo?.data?.content}
+            onChange={(event, editor) => {
+              const data = editor.getData();
+              setAnswer({
+                ...answer,
+                content: data,
+              });
+              console.log(answer);
+            }}
+            config={{
+              extraPlugins: [uploadPlugin],
+              toolbar: {
+                items: [
+                  "heading",
+                  "|",
+                  "bold",
+                  "italic",
+                  "link",
+                  "bulletedList",
+                  "numberedList",
+                  "|",
+                  "insertTable",
+                  "mediaEmbed",
+                  "undo",
+                  "redo",
+                  "alignment",
+                  "fontSize",
+                  "highlight",
+                  "imageUpload",
+                ],
+              },
+            }}
           />
-          <div className="menu">
-            {/* mui 사용 */}
-            <CategoryBox sx={{ minWidth: 180 }}>
-              <CategoryFormControl>
-                <CategoryInputLabel id="demo-simple-select-label">
-                  <span className="CategorySpan">
-                    {viewInfo?.data?.category}
-                    {/* {reqcategory} */}
-                  </span>
-                  {/* 카테고리 */}
-                </CategoryInputLabel>
-                <CategorySelect
-                  sx={{
-                    boxShadow: "none",
-                    ".MuiOutlinedInput-notchedOutline": { border: 0 },
-                  }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={category}
-                  label="category"
-                  onChange={handleChange}
-                >
-                  <CategoryMenuItem value={"GENERAL"}>일 반</CategoryMenuItem>
-                  <CategoryMenuItem value={"INFORMATION"}>
-                    정 보
-                  </CategoryMenuItem>
-                  <CategoryMenuItem value={"QUESTION"}>질 문</CategoryMenuItem>
-                </CategorySelect>
-              </CategoryFormControl>
-            </CategoryBox>
-          </div>
-        </SpanContent>
-      </SpanTitle>
-      <CKEditor
-        editor={ClassicEditor}
-        data={viewInfo?.data?.content}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          setAnswer({
-            ...answer,
-            content: data,
-          });
-          console.log(answer);
-        }}
-        config={{
-          extraPlugins: [uploadPlugin],
-          toolbar: {
-            items: [
-              "heading",
-              "|",
-              "bold",
-              "italic",
-              "link",
-              "bulletedList",
-              "numberedList",
-              "|",
-              "insertTable",
-              "mediaEmbed",
-              "undo",
-              "redo",
-              "alignment",
-              "fontSize",
-              "highlight",
-              "imageUpload",
-            ],
-          },
-        }}
-      />
 
-      <BottomDiv>
-        <ViewButton bgColor="#CCCCCC" ckColor="#BBBBBB" href="community">
-          취소
-        </ViewButton>
-        <ViewButton bgColor="#62B6B7" ckColor="#439A97" onClick={editwriting}>
-          수정
-        </ViewButton>
-      </BottomDiv>
-    </div>
+          <BottomDiv>
+            <ViewButton bgColor="#CCCCCC" ckColor="#BBBBBB" href="community">
+              취소
+            </ViewButton>
+            <ViewButton
+              bgColor="#62B6B7"
+              ckColor="#439A97"
+              onClick={editwriting}
+            >
+              수정
+            </ViewButton>
+          </BottomDiv>
+        </div>
+      ) : (
+        <>
+          {/* {alert("로그인이 되어 있지 않습니다!")}
+          <Navigate to="/login" /> */}
+          권한이 없습니다.
+        </>
+      )}
+    </>
   );
 };
 

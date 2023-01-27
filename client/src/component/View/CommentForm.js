@@ -14,7 +14,7 @@ const InputLayout = styled.div`
   width: 100%;
 `;
 const InputContainer = styled.div`
-  margin-top: 20px;
+  /* margin-top: 20px; */
   width: 100%;
   @media screen and (max-width: 1336px) {
     display: flex;

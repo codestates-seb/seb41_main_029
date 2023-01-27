@@ -56,6 +56,7 @@ const CommentContainer = styled.div`
   margin-left: 24px;
   margin-right: 24px;
   background-color: #f9f7f7;
+  /* background-color: white; */
   padding: 8px;
   @media screen and (max-width: 1336px) {
     width: 90%;
@@ -153,10 +154,10 @@ const Comment = ({ comment }) => {
   const token = cookie.get("token");
   const userId1 = JSON.parse(localStorage.getItem("userId"));
   const commentSeq = comment?.commentSeq;
-  console.log(comment?.reply);
 
   // console.log(comment);
   const handleClickEdit = () => {
+    //수정예정
     if (2 !== 2) {
       alert("권한이 없습니다.");
     } else {
@@ -175,74 +176,76 @@ const Comment = ({ comment }) => {
     }
   };
   return (
-    <CommentLayout>
-      {userId1 === comment?.userId ? (
-        <EtcIcon>
-          <EditImg
-            src={process.env.PUBLIC_URL + "/image/editIcon.svg"}
-            alt="edit"
-            onClick={handleClickEdit}
-          />
-          <DeleteImg
-            src={process.env.PUBLIC_URL + "/image/deleteIcon.svg"}
-            alt="delete"
-            onClick={handleDelete}
-          />
-        </EtcIcon>
-      ) : null}
+    <>
+      <CommentLayout>
+        {userId1 === comment?.userId ? (
+          <EtcIcon>
+            <EditImg
+              src={process.env.PUBLIC_URL + "/image/editIcon.svg"}
+              alt="edit"
+              onClick={handleClickEdit}
+            />
+            <DeleteImg
+              src={process.env.PUBLIC_URL + "/image/deleteIcon.svg"}
+              alt="delete"
+              onClick={handleDelete}
+            />
+          </EtcIcon>
+        ) : null}
 
-      <CommentInfo>
-        <span style={{ marginRight: "10px" }}>{comment?.username}</span>
-        <CommentDate createdAt={comment?.createdAt} />
-      </CommentInfo>
-      {edit ? (
-        <>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <FormProvider {...methods}>
-              <InputLayout>
-                <Input
-                  className="input"
-                  width="1135px"
-                  height="65px"
-                  fieldName="content"
-                  defaultValue={comment?.content}
-                />
-                <SubmitEditLayout>
-                  <SubmitEdit className="btn" width="60px">
-                    등록
-                  </SubmitEdit>
-                </SubmitEditLayout>
-              </InputLayout>
-              {/* <EditInput defaultValue={comment?.content} /> */}
-            </FormProvider>
-          </form>
-        </>
-      ) : (
-        <CommentContainer>{comment?.content} </CommentContainer>
-      )}
-      <BottomContainer>
-        <CommentBottom>
-          <CommentVote
-            commentSeq={commentSeq}
-            liked={comment?.liked}
-            disliked={comment?.disliked}
-          />
-        </CommentBottom>
-        <ReplyLayout>
-          <CommentReply commentSeq={commentSeq} />
-        </ReplyLayout>
-      </BottomContainer>
+        <CommentInfo>
+          <span style={{ marginRight: "10px" }}>{comment?.username}</span>
+          <CommentDate createdAt={comment?.createdAt} />
+        </CommentInfo>
+        {edit ? (
+          <>
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <FormProvider {...methods}>
+                <InputLayout>
+                  <Input
+                    className="input"
+                    width="1135px"
+                    height="65px"
+                    fieldName="content"
+                    defaultValue={comment?.content}
+                  />
+                  <SubmitEditLayout>
+                    <SubmitEdit className="btn" width="60px">
+                      수정
+                    </SubmitEdit>
+                  </SubmitEditLayout>
+                </InputLayout>
+                {/* <EditInput defaultValue={comment?.content} /> */}
+              </FormProvider>
+            </form>
+          </>
+        ) : (
+          <CommentContainer>{comment?.content} </CommentContainer>
+        )}
+        <BottomContainer>
+          <CommentBottom>
+            <CommentVote
+              commentSeq={commentSeq}
+              liked={comment?.liked}
+              disliked={comment?.disliked}
+            />
+          </CommentBottom>
+          <ReplyLayout>
+            <CommentReply commentSeq={commentSeq} />
+          </ReplyLayout>
+        </BottomContainer>
 
-      {/* {comment?.commentSeq === true ? ( */}
-      {/* <ReplyContainer> */}
-      {comment?.reply?.map((item, index) => (
-        <div key={index}>
-          <Reply reply={item}></Reply>
-        </div>
-      ))}
-      {/* </ReplyContainer>  */}
-      {/* //  ) : null} */}
-    </CommentLayout>
+        {/* {comment?.commentSeq === true ? ( */}
+        {/* <ReplyContainer> */}
+        {comment?.reply?.map((item, index) => (
+          <div key={index}>
+            <Reply reply={item}></Reply>
+          </div>
+        ))}
+        {/* </ReplyContainer>  */}
+        {/* //  ) : null} */}
+      </CommentLayout>
+    </>
   );
 };
 
