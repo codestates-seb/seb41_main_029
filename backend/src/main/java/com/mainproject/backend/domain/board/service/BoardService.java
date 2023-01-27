@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,23 +59,36 @@ public class BoardService {
     private String bucket;
 
 
-
     //게시글 등록
-    public Board createBoard(Board board, User user, @Valid MultipartFile[] files) throws IOException {
+    public Board createBoard(Board board, User user) {
         board.setUser(user);
         user.increaseManyPoint();
 
-        List<String> fileUrls = new ArrayList<>();
-        for (MultipartFile file : files) {
-            String fileUrl = awsS3Service.uploadImage(bucket, user.getUserId(),file.getOriginalFilename(), file.getInputStream());
-            fileUrls.add(fileUrl);
-//            if(fileUrls.size()>5)
-        }
-        board.setImageUrls(fileUrls);
-
-
         return boardRepository.save(board);
     }
+
+    //게시글 등록
+//    public Board createBoard(Board board, User user, @Valid MultipartFile[] files) throws IOException {
+//        board.setUser(user);
+//        user.increaseManyPoint();
+
+//        List<String> fileUrls = new ArrayList<>();
+//
+//        for (MultipartFile file : files) {
+//            String fileUrl = awsS3Service.uploadImage(bucket, user.getUserId(), file.getOriginalFilename(), file.getInputStream());
+//            if(file.getOriginalFilename() == ""){
+//                board.setImageUrls(Collections.singletonList("등록된 이미지가 없습니다."));
+//            }
+//            fileUrls.add(fileUrl);
+//            return boardRepository.save(board);
+//            if(fileUrls.size()>5)
+//        }
+
+//        board.setImageUrls(fileUrls);
+
+
+//        return boardRepository.save(board);
+//    }
 
     //게시글 수정
     public Board updateBoard(Board board) {

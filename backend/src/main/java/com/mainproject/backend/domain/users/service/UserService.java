@@ -52,15 +52,22 @@ public class UserService {
         return userRepository.saveAndFlush(user);
     }
 
-
     @Transactional
-    public User editMemberInfo(User user, UserDto.Patch req, @Valid MultipartFile file) throws IOException {
+    public User editMemberInfo(User user, UserDto.Patch req) {
         user.editUser(req);
         user.setPassword(passwordEncoder.encode(req.getPassword()));
-        String imageUrl = awsS3Service.uploadImage(bucket, user.getUserId(), file.getOriginalFilename(), file.getInputStream());
-        user.setProfileImageUrl(imageUrl);
         return userRepository.save(user);
     }
+
+
+//    @Transactional
+//    public User editMemberInfo(User user, UserDto.Patch req, @Valid MultipartFile file) throws IOException {
+//        user.editUser(req);
+//        user.setPassword(passwordEncoder.encode(req.getPassword()));
+//        String imageUrl = awsS3Service.uploadImage(bucket, user.getUserId(), file.getOriginalFilename(), file.getInputStream());
+//        user.setProfileImageUrl(imageUrl);
+//        return userRepository.save(user);
+//    }
 
     @Transactional
     public void deleteMemberInfo(User user) {

@@ -21,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/boards")
@@ -38,16 +37,26 @@ public class BoardController {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    //게시글 등록
+
     @PostMapping("/articles")
-    public ResponseEntity boardPost(@Valid @RequestParam("files") MultipartFile[] files, BoardDto.Post postDto) throws IOException {
+    public ResponseEntity boardPost(@Valid @RequestBody BoardDto.Post postDto) {
 
         User user = getPrincipal();
 
-        Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user, files);
+        Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user);
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
+    //게시글 등록
+//    @PostMapping("/articles")
+//    public ResponseEntity boardPost(@Valid /*@RequestParam("files") MultipartFile[] files, */BoardDto.Post postDto) {
+//
+//        User user = getPrincipal();
+//
+//        Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user/*, files*/);
+//
+//        return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
+//    }
 
     //게시글 수정
     @PatchMapping("/{board-seq}")
