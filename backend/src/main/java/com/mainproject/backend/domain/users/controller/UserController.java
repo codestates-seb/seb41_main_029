@@ -16,14 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 
 
-/**
- * 유저 컨트롤러
- *
- * @author 박민우
- * 북마크 조회 기능 추가
- *
- */
-
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor

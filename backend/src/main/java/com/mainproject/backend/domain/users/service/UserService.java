@@ -39,10 +39,10 @@ public class UserService {
     private final CommentRepository commentRepository;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final String NoEmail = "NO Email";
-    private final AwsS3Service awsS3Service;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+//    private final AwsS3Service awsS3Service;
+//
+//    @Value("${cloud.aws.s3.bucket}")
+//    private String bucket;
 
 
     public User createUser(UserDto.post req) {

@@ -32,10 +32,10 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardMapper boardMapper;
     private final UserRepository userRepository;
-    private final AwsS3Service awsS3Service;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+//    private final AwsS3Service awsS3Service;
+//
+//    @Value("${cloud.aws.s3.bucket}")
+//    private String bucket;
 
 
     @PostMapping("/articles")
