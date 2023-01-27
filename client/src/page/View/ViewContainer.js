@@ -33,7 +33,7 @@ const TitleLayout = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 64px 0px;
   font-size: ${({ theme }) => theme.fontSizes.fs30};
   padding-right: 30px;
@@ -46,8 +46,11 @@ const TitleLayout = styled.div`
 `;
 
 const IconLayout = styled.div`
+  width: 100%;
+  max-width: 130px;
   display: flex;
   float: right;
+  /* margin-left: 330px; */
   margin-top: 72px;
   @media screen and (max-width: 1336px) {
     width: 100%;
@@ -84,7 +87,7 @@ const BodyContainer = styled.div`
 const BodyLayout = styled.div`
   margin-top: 64px;
   width: 100%;
-  max-width: 1136px;
+  max-width: 1190px;
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   @media screen and (max-width: 1336px) {
     /* display: flex;
@@ -98,6 +101,7 @@ const UserInfoLayout = styled.div`
   display: flex;
   float: right;
   margin-top: -70px;
+  margin-right: 10px;
   @media screen and (max-width: 1336px) {
     margin-right: 20px;
   }
@@ -148,9 +152,9 @@ const Icondiv1 = styled.div`
   }
 `;
 const Icondiv11 = styled.div`
-  margin-left: 28px;
+  margin-left: 60px;
   @media screen and (max-width: 1336px) {
-    margin-left: 3px;
+    margin-left: 33px;
   }
 `;
 
@@ -198,10 +202,12 @@ const Bookmark22 = styled.div`
 `;
 
 const ProfileContainer = styled.div`
+  /* border: 1px solid black; */
   width: 100%;
-  height: 100px;
+  height: 80px;
   max-width: 100px;
   margin-right: 12px;
+  /* background-color: white; */
 `;
 
 const Profile = styled.div`
@@ -243,10 +249,6 @@ const ViewContainer = () => {
     }
   };
   // console.log(isBM);
-  const handleClickBm1 = () => {
-    bookMarking(Token, boardSeq);
-    setIsBM(false);
-  };
 
   const handleClickDe = async () => {
     if (!window.confirm("정말 삭제 하시겠습니까?")) {
@@ -255,25 +257,23 @@ const ViewContainer = () => {
     } else {
       // 확인(예) 버튼 클릭 시 이벤트
       deleteWriting(Token, boardSeq);
-      //   const res = await deleteComment();
-      //   boardsId, boards.commentId, Token, userId;
-      //   if (res.status === 204) {
-      //     window.location.replace(`/boards/${boardsId}`);
-      //   } else {
-      //     alert("fail to delete");
-      //   }
-      // }
       navigate("/community");
     }
   };
+  const timeout = () => {
+    alert("데이터를 불러오지 못했습니다.");
+    navigate("/community");
+  };
+
   async function getInfo() {
     const res = await getWriting(Token, boardSeq);
     // const res = await getWriting(id);
     setViewInfo(res);
     // console.log(res);
-    // if (res?.status !== 200) {
-    //   setLoading(true);
-    // }
+    if (res?.status !== 200) {
+      setLoading(true);
+      setTimeout(() => timeout(), 5000);
+    }
   }
   // console.log(isBM);
   // console.log(viewInfo?.data?.bookmarkStatus);
@@ -292,8 +292,8 @@ const ViewContainer = () => {
     {
       viewInfo?.data?.bookmarkStatus === true ? setIsBM(true) : setIsBM(false);
     }
-  }, [setIsBM]);
-  console.log(viewInfo?.data?.createdAt);
+  }, [viewInfo]);
+  console.log(viewInfo);
 
   return (
     <>
@@ -379,7 +379,10 @@ const ViewContainer = () => {
         <BodyContainer>
           <BodyLayout
             dangerouslySetInnerHTML={{ __html: viewInfo?.data?.content }}
-          ></BodyLayout>
+          >
+            {/* <span></span> */}
+            {/* {viewInfo?.data?.content} */}
+          </BodyLayout>
         </BodyContainer>
         <ViewVote
           likeCount={viewInfo?.data?.likeCount}
@@ -388,7 +391,6 @@ const ViewContainer = () => {
         />
         <UserInfoLayout>
           <ProfileContainer>
-            {/* <Profile /> */}
             <img
               src={viewInfo?.data?.profileImageUrl}
               style={{ width: "100px", height: "80px" }}
@@ -400,7 +402,10 @@ const ViewContainer = () => {
             <div>조회수 : {viewInfo?.data?.viewCount}</div>
           </div>
         </UserInfoLayout>
-        <Comments comments={viewInfo?.data?.comments} />
+        <Comments
+          commented={viewInfo?.data?.commented}
+          comments={viewInfo?.data?.comments}
+        />
       </ViewLayout>
     </>
   );

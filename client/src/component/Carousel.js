@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
 const Wrapper = styled.div`
   body {
@@ -84,6 +84,7 @@ const Wrapper = styled.div`
 `;
 
 export default function Test() {
+  // 랜딩 페이지 더미 데이터로 들어간 텍스트 교체 고민
   const images = useRef([
     {
       src:
@@ -140,7 +141,12 @@ export default function Test() {
               buttonClick(-1);
             }}
           >
-            <FontAwesomeIcon icon={faArrowLeft} color="white" />
+            <FontAwesomeIcon
+              icon={faPlay}
+              color="white"
+              rotation={180}
+              size="xs"
+            />
           </div>
           <div className="window">
             <div className="flexbox" style={ml}>
@@ -163,7 +169,7 @@ export default function Test() {
               buttonClick(1);
             }}
           >
-            <FontAwesomeIcon icon={faArrowRight} color="white" />
+            <FontAwesomeIcon icon={faPlay} color="white" size="xs" />
           </div>
         </div>
       </div>
