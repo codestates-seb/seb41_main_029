@@ -7,8 +7,12 @@ import { ReplyDownVote, ReplyUpVote } from "../../api/reply";
 
 const VoteBtn = styled.button`
   margin-top: 12px;
-  margin-left: 24px;
+  /* margin-left: 24px; */
+  margin-left: 76px;
   border-radius: 10px;
+  @media screen and (max-width: 1336px) {
+    margin-left: 76px;
+  }
 `;
 const VoteBtn1 = styled.button`
   margin-top: 12px;
@@ -17,10 +21,14 @@ const VoteBtn1 = styled.button`
 `;
 const VoteActBtn1 = styled.button`
   margin-top: 12px;
-  margin-left: 24px;
+  /* margin-left: 24px; */
+  margin-left: 66px;
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.main_hover};
   border: 2px solid #439a97;
+  @media screen and (max-width: 1336px) {
+    margin-left: 78px;
+  }
 `;
 const VoteActBtn2 = styled.button`
   margin-top: 12px;
@@ -38,6 +46,9 @@ const Count = styled.span`
   margin-top: 3px;
   margin-left: 5px;
 `;
+// const VoteConatiner = styled.div`
+//   height: 38px;
+// `;
 
 const ReplyVote = ({ replySeq, liked, disliked }) => {
   const cookie = new Cookies();
@@ -78,6 +89,7 @@ const ReplyVote = ({ replySeq, liked, disliked }) => {
   return (
     <>
       {isUpVote ? (
+        // <VoteConatiner>
         <VoteActBtn1 onClick={handleClickUp}>
           <VoteContainer>
             <img
@@ -90,6 +102,8 @@ const ReplyVote = ({ replySeq, liked, disliked }) => {
           </VoteContainer>
         </VoteActBtn1>
       ) : (
+        // </VoteConatiner>
+        // <VoteConatiner>
         <VoteBtn onClick={handleClickUp}>
           <VoteContainer>
             <img
@@ -101,6 +115,7 @@ const ReplyVote = ({ replySeq, liked, disliked }) => {
             <Count>{upVoteCount === 0 ? 0 : upVoteCount || liked}</Count>
           </VoteContainer>
         </VoteBtn>
+        // </VoteConatiner>
       )}
       {isDownVote ? (
         <VoteActBtn2 onClick={handleDownVote}>

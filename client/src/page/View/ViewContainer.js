@@ -6,13 +6,12 @@ import { BsBookmarkCheck } from "react-icons/bs";
 import Comments from "../../component/View/Comments";
 import { bookMarking, deleteWriting, getWriting } from "../../api/writingAPI";
 import { Cookies } from "react-cookie";
-import { ViewdateCommu } from "../../component/DateCalculator";
+import { Viewdate } from "../../component/DateCalculator";
 import { deleteComment } from "../../api/commentAPI";
 import Loading from "../../component/Loading";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/usersReducer";
 import { bindActionCreators } from "redux";
-import PageNation from "../../component/View/Pagination";
 
 const ViewLayout = styled.div`
   @media screen and (max-width: 1336px) {
@@ -34,7 +33,7 @@ const TitleLayout = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1100px;
   margin: 64px 0px;
   font-size: ${({ theme }) => theme.fontSizes.fs30};
   padding-right: 30px;
@@ -47,8 +46,11 @@ const TitleLayout = styled.div`
 `;
 
 const IconLayout = styled.div`
+  width: 100%;
+  max-width: 130px;
   display: flex;
   float: right;
+  /* margin-left: 330px; */
   margin-top: 72px;
   @media screen and (max-width: 1336px) {
     width: 100%;
@@ -85,7 +87,7 @@ const BodyContainer = styled.div`
 const BodyLayout = styled.div`
   margin-top: 64px;
   width: 100%;
-  max-width: 1136px;
+  max-width: 1190px;
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   @media screen and (max-width: 1336px) {
     /* display: flex;
@@ -99,6 +101,7 @@ const UserInfoLayout = styled.div`
   display: flex;
   float: right;
   margin-top: -70px;
+  margin-right: 10px;
   @media screen and (max-width: 1336px) {
     margin-right: 20px;
   }
@@ -149,9 +152,9 @@ const Icondiv1 = styled.div`
   }
 `;
 const Icondiv11 = styled.div`
-  margin-left: 28px;
+  margin-left: 60px;
   @media screen and (max-width: 1336px) {
-    margin-left: 3px;
+    margin-left: 33px;
   }
 `;
 
@@ -254,25 +257,23 @@ const ViewContainer = () => {
     } else {
       // 확인(예) 버튼 클릭 시 이벤트
       deleteWriting(Token, boardSeq);
-      //   const res = await deleteComment();
-      //   boardsId, boards.commentId, Token, userId;
-      //   if (res.status === 204) {
-      //     window.location.replace(`/boards/${boardsId}`);
-      //   } else {
-      //     alert("fail to delete");
-      //   }
-      // }
       navigate("/community");
     }
   };
+  const timeout = () => {
+    alert("데이터를 불러오지 못했습니다.");
+    navigate("/community");
+  };
+
   async function getInfo() {
     const res = await getWriting(Token, boardSeq);
     // const res = await getWriting(id);
     setViewInfo(res);
     // console.log(res);
-    // if (res?.status !== 200) {
-    //   setLoading(true);
-    // }
+    if (res?.status !== 200) {
+      setLoading(true);
+      setTimeout(() => timeout(), 5000);
+    }
   }
   // console.log(isBM);
   // console.log(viewInfo?.data?.bookmarkStatus);
@@ -397,7 +398,7 @@ const ViewContainer = () => {
           </ProfileContainer>
           <div>
             {viewInfo?.data?.username}
-            <ViewdateCommu createdAt={viewInfo?.data?.createdAt} />
+            <Viewdate createdAt={viewInfo?.data?.createdAt} />
             <div>조회수 : {viewInfo?.data?.viewCount}</div>
           </div>
         </UserInfoLayout>
@@ -405,7 +406,6 @@ const ViewContainer = () => {
           commented={viewInfo?.data?.commented}
           comments={viewInfo?.data?.comments}
         />
-        <PageNation></PageNation>
       </ViewLayout>
     </>
   );

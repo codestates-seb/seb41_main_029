@@ -1,6 +1,9 @@
 import axios from "axios";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
+const instance = axios.create({
+  timeout: 30000,
+});
 
 export const postWriting = async (Token) => {
   try {
@@ -40,6 +43,8 @@ export const getWriting = async (Token, boardSeq) => {
     }
   }
 };
+
+// export const baseApi = ()
 
 export const deleteWriting = async (Token, boardSeq) => {
   try {

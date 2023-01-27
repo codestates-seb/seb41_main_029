@@ -37,11 +37,11 @@ export const editReply = async (token, data, replySep) => {
   }
 };
 
-export const deleteReply = async (token, replySep) => {
+export const deleteReply = async (token, boardSeq, replySep) => {
   try {
     const res = await axios({
       method: "delete",
-      url: `${url}reply/${replySep}`,
+      url: `${url}${boardSeq}/${replySep}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log(res);

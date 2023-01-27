@@ -16,7 +16,7 @@ const CommentReplyLayout = styled.div`
   padding-top: 12px;
   flex-direction: row-reverse;
   /* margin-right: 40px; */
-  margin-left: 50px;
+  margin-left: 30px;
   align-items: center;
   /* justify-content: center; */
   cursor: pointer;
@@ -33,8 +33,8 @@ const CommentReplyLayout = styled.div`
   } */
   .replybtn {
     cursor: pointer;
-    width: 40px;
-    height: 30px;
+    width: 60px;
+    height: 38px;
     border: 1px solid #62b6b7;
     border-radius: 10px;
     &:active {

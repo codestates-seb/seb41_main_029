@@ -23,7 +23,7 @@ const ReplyLayout1 = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 16px;
-  padding-left: 24px;
+  padding-left: 50px;
   height: 35px;
   width: 100%;
   max-width: 440px;
@@ -32,13 +32,18 @@ const ReplyLayout1 = styled.div`
 const UserInfo = styled.div`
   width: 100%;
   /* margin-top: 16px; */
-  margin-left: 18px;
+  margin-left: 20px;
+  /* margin-left: 40px; */
   display: flex;
   .icon {
     width: 25px;
     height: 25px;
     transform: rotate(180deg);
     /* margin-bottom: 122px; */
+  }
+  @media screen and (max-width: 1336px) {
+    margin-left: 20px;
+    /* margin-left: 40px; */
   }
 `;
 const Line = styled.div`
@@ -49,16 +54,35 @@ const Line = styled.div`
 
 const ContentContainer = styled.div`
   width: 100%;
-  max-width: 1100px;
+  max-width: 1064px;
   height: 100%;
   min-height: 65px;
   border-radius: 10px;
-  margin-left: 42px;
-  margin-right: 24px;
+  /* margin-top: -50px; */
+  margin-right: 30px;
   background-color: white;
   padding: 8px;
   @media screen and (max-width: 1336px) {
-    width: 80%;
+    width: 81%;
+  }
+`;
+
+const ContentLayout = styled.div`
+  display: flex;
+  flex-direction: row-reverse;
+`;
+const ContentLayout1 = styled.div`
+  /* display: flex; */
+  .icon {
+    margin-left: 30px;
+    /* margin-bottom: -12px; */
+    width: 45px;
+    height: 45px;
+    transform: rotate(180deg);
+    /* margin-bottom: 122px; */
+    @media screen and (max-width: 600px) {
+      display: none;
+    }
   }
 `;
 
@@ -66,7 +90,7 @@ const EtcIcon = styled.div`
   float: right;
   margin-top: 4px;
   height: 30px;
-  margin-right: 24px;
+  margin-right: 12px;
   @media screen and (max-width: 1336px) {
     /* width: 90%; */
     height: 0px;
@@ -74,10 +98,18 @@ const EtcIcon = styled.div`
   }
 `;
 const EditImg = styled.img`
-  width: 24px;
-  height: 26px;
+  width: 28px;
+  height: 30px;
   margin-bottom: 15px;
   margin-right: 10px;
+  cursor: pointer;
+`;
+
+const DeleteImg = styled.img`
+  width: 40px;
+  height: 40px;
+  margin-bottom: 10px;
+  margin-right: 15px;
   cursor: pointer;
 `;
 const InputLayout = styled.div`
@@ -85,14 +117,14 @@ const InputLayout = styled.div`
   max-width: 1100px;
   height: 65px;
   border-radius: 10px;
-  margin-left: 36px;
+  margin-left: 60px;
   display: flex;
   /* background-color: #f9f7f7; */
   padding-top: 8px;
   padding-left: 8px;
   .input {
     @media screen and (max-width: 1336px) {
-      width: 90%;
+      width: 75%;
     }
   }
 `;
@@ -136,20 +168,13 @@ const ContentBottom = styled.div`
   width: 90%;
   height: 50px;
 `;
-const DeleteImg = styled.img`
-  width: 36px;
-  height: 36px;
-  margin-bottom: 10px;
-  margin-right: 15px;
-  cursor: pointer;
-`;
 
 const Reply = ({ reply }) => {
   const methods = useForm();
   const [edit, setEdit] = useState(false);
   const cookie = new Cookies();
   const token = cookie.get("token");
-  // const { boardSeq } = useParams();
+  const { boardSeq } = useParams();
   const userId1 = JSON.parse(localStorage.getItem("userId"));
   const replySeq = reply?.replySeq;
   const handleClickEdit = () => {
@@ -168,14 +193,13 @@ const Reply = ({ reply }) => {
   const handleDelete = () => {
     if (window.confirm("정말 삭제 하시겠습니까?")) {
       alert("삭제되었습니다");
-      deleteReply(token, replySeq);
-      window.location.reload();
+      deleteReply(token, boardSeq, replySeq);
+      // window.location.reload();
     }
   };
   console.log(reply.length);
   return (
     <ReplyContainer>
-      {/* {reply.length} */}
       <ReplyLayout>
         <Line />
       </ReplyLayout>
@@ -223,7 +247,12 @@ const Reply = ({ reply }) => {
           </form>
         </>
       ) : (
-        <ContentContainer>{reply?.content}</ContentContainer>
+        // <ContentLayout1>
+        // {/* <BiReply className="icon" /> */}
+        <ContentLayout>
+          <ContentContainer>{reply?.content}</ContentContainer>
+        </ContentLayout>
+        // {/* </ContentLayout1> */}
       )}
 
       <ContentBottom>
