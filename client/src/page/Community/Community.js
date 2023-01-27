@@ -366,7 +366,7 @@ export default function Community() {
     try {
       setLoading(true);
       const res = await axios.get(
-        `${url}/boards/all${cate}?page=1&size=${limit}&sort-by=${sortby2}`,
+        `${url}/boards/all${cate}page=1&?size=${limit}&sort-by=${sortby2}`,
         {
           headers: {
             "Content-Type": "application/json",
