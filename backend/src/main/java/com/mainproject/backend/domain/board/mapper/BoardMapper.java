@@ -21,7 +21,6 @@ public interface BoardMapper {
         board.setCategory(postDto.getCategory());
         board.setTitle(postDto.getTitle());
         board.setContent(postDto.getContent());
-        board.setImageUrls(postDto.getImageUrls());
 
 
         return board;

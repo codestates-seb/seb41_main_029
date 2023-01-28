@@ -60,21 +60,38 @@ public class BoardService {
 
 
     //게시글 등록
-    public Board createBoard(Board board, User user, @Valid MultipartFile[] files) throws IOException {
+    public Board createBoard(Board board, User user/*@Valid MultipartFile[] files*/){
         board.setUser(user);
         user.increaseManyPoint();
 
-        List<String> fileUrls = new ArrayList<>();
-        for (MultipartFile file : files) {
-            String fileUrl = awsS3Service.uploadImage(bucket, user.getUserId(),file.getOriginalFilename(), file.getInputStream());
-            fileUrls.add(fileUrl);
-//            if(fileUrls.size()>5)
-        }
-        board.setImageUrls(fileUrls);
+//        List<String> fileUrls = new ArrayList<>();
+//        for (MultipartFile file : files) {
+//            String fileUrl = awsS3Service.uploadImage(bucket, user.getUserId(),file.getOriginalFilename(), file.getInputStream());
+//            fileUrls.add(fileUrl);
+////            if(fileUrls.size()>5)
+//        }
+//        board.setImageUrls(fileUrls);
 
 
         return boardRepository.save(board);
     }
+
+//    //게시글 등록
+//    public Board uploadImage(Board board, User user, @Valid MultipartFile[] files) throws IOException {
+//        board.setUser(user);
+//        user.increaseManyPoint();
+//
+//        List<String> fileUrls = new ArrayList<>();
+//        for (MultipartFile file : files) {
+//            String fileUrl = awsS3Service.uploadImage(bucket, user.getUserId(),file.getOriginalFilename(), file.getInputStream());
+//            fileUrls.add(fileUrl);
+////            if(fileUrls.size()>5)
+//        }
+//        board.setImageUrls(fileUrls);
+//
+//
+//        return boardRepository.save(board);
+//    }
 
     //게시글 수정
     public Board updateBoard(Board board) {

@@ -35,19 +35,30 @@ public class BoardController {
     private final UserRepository userRepository;
     private final AwsS3Service awsS3Service;
 
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
+//    @Value("${cloud.aws.s3.bucket}")
+//    private String bucket;
 
     //게시글 등록
     @PostMapping("/articles")
-    public ResponseEntity boardPost(@Valid @RequestParam("files") MultipartFile[] files, BoardDto.Post postDto) throws IOException {
+    public ResponseEntity boardPost(@Valid @RequestBody BoardDto.Post postDto) {
 
         User user = getPrincipal();
 
-        Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user, files);
+        Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user);
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
+//    //이미지 등록
+//    @PostMapping("/upload")
+//    public ResponseEntity ImageUpload(@Valid @RequestParam("files") MultipartFile[] files) throws IOException {
+//
+//        User user = getPrincipal();
+//        Board board1 = new Board();
+//
+//        Board board = boardService.uploadImage(board1, user, files);
+//
+//        return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
+//    }
 
     //게시글 수정
     @PatchMapping("/{board-seq}")

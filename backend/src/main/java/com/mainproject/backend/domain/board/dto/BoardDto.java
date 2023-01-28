@@ -24,8 +24,6 @@ public class BoardDto {
         @NotBlank
         private String content;
 
-        private List<String> imageUrls;
-
     }
 
     @Getter

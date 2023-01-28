@@ -21,15 +21,12 @@ public class AwsS3Config {
     private String region;
 
     @Bean
-    public BasicAWSCredentials basicAWSCredentials() {
-        return new BasicAWSCredentials(accessKey, secretKey);
-    }
-
-    @Bean
-    public AmazonS3 amazonS3(BasicAWSCredentials basicAWSCredentials) {
-        return AmazonS3ClientBuilder.standard()
+    public AmazonS3 s3client() {
+        BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
+        AmazonS3 s3client = AmazonS3ClientBuilder.standard()
                 .withRegion(region)
-                .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
+                .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
+        return s3client;
     }
 }

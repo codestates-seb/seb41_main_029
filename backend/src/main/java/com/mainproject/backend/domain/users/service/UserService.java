@@ -87,7 +87,7 @@ public class UserService {
     }
     @Transactional(readOnly = true)
     public List<BoardSimpleDto> findWrite(User user){
-        List<Board> write = boardRepository.findAllByUser(user);
+        List<Board> write = boardRepository.findAllByUserAndBoardStatus(user, Board.BoardStatus.BOARD_EXIST);
         List<BoardSimpleDto> boardSimpleDtoList = write.stream()
                 .map(board -> new BoardSimpleDto().toDto(board))
                 .collect(Collectors.toList());
