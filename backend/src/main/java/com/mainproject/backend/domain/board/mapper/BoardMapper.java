@@ -81,6 +81,7 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setDislikeCount(board.getDisliked());
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
+       boardWithCommentResponseDto.setImageUrls(board.getImageUrls());
 
        //커맨트
         boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));

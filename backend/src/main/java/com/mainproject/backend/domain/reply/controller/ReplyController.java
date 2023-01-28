@@ -45,7 +45,7 @@ public class ReplyController {
         currentComment.setCommentSeq(commentSeq);
         Reply createReply = new Reply();
         Board currentBoard = boardService.findVerifiedBoard(boardSeq);
-        currentBoard.decreaseCommentCount();
+        currentBoard.increaseCommentCount();
         replyService.createReply(createReply, currentComment, user, requestBody);
 
 
@@ -72,9 +72,10 @@ public class ReplyController {
                                    @PathVariable("reply-seq") long replySeq) {
 
         Reply currentReply = replyRepository.findById(replySeq).orElseThrow(CommentNotFoundException::new);
-        replyService.deleteReply(currentReply);
         Board currentBoard = boardService.findVerifiedBoard(boardSeq);
         currentBoard.decreaseCommentCount();
+        replyService.deleteReply(currentReply);
+
 
         return ApiResponse.success("삭제되었습니다.", null);
     }

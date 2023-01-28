@@ -4,10 +4,12 @@ package com.mainproject.backend.domain.board.dto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.option.Category;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 public class BoardDto {
@@ -58,6 +60,7 @@ public class BoardDto {
         private int viewCount;
         private int likeCount;
         private int dislikeCount;
+        private List<String> imageUrls;
 
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
@@ -78,6 +81,7 @@ public class BoardDto {
             this.viewCount = board.getViewCount();
             this.createdAt = board.getCreatedAt();
             this.modifiedAt = board.getModifiedAt();
+            this.imageUrls = board.getImageUrls();
         }
     }
     @Getter

@@ -115,4 +115,7 @@ public class Board extends Auditable { //시간 추가
             this.status = status;
         }
     }
+
+//    @ElementCollection
+//    private List<String> imageUrls;
 }

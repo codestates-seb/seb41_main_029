@@ -26,7 +26,6 @@ import javax.transaction.Transactional;
 @Service
 public class ReplyService {
 
-    private final CommentRepository commentRepository;
     private final DislikeReplyRepository dislikeReplyRepository;
     private final LikeReplyRepository likeReplyRepository;
     private final ReplyRepository replyRepository;

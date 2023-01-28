@@ -18,7 +18,7 @@ import java.util.Optional;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    List<Board> findAllByUser(User user);
+    List<Board> findAllByUserAndBoardStatus(User user, Board.BoardStatus boardStatus);
 
 
     //제목 검색 기능
