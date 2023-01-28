@@ -44,7 +44,7 @@ public class S3Service {
         this.s3client = s3client;
         this.imageRepository = imageRepository;
     }
-    public List<String> uploadFiles(List<MultipartFile> files, User user) {
+    public List<String> uploadFiles(List<MultipartFile> files) {
         List<String> fileUrls = new ArrayList<>();
         for (MultipartFile file : files) {
             try {
