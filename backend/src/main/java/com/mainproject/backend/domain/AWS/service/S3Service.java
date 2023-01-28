@@ -59,7 +59,7 @@ public class S3Service {
                 // Generate a URL for the image
                 URL url = s3client.getUrl(bucket, fileKey);
                 String fileUrl = url.toString();
-                fileUrls.add(fileUrl);
+                fileUrls.add(fileKey);
                 //save to db
                 Image image = new Image();
                 image.setUrl(fileUrl);
