@@ -116,6 +116,6 @@ public class Board extends Auditable { //시간 추가
         }
     }
 
-    @ElementCollection
-    private List<String> imageUrls;
+//    @ElementCollection
+//    private List<String> imageUrls;
 }

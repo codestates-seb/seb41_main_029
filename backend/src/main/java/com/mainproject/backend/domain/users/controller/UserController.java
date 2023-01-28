@@ -14,15 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.IOException;
 
-/**
- * 유저 컨트롤러
- *
- * @author 박민우
- * 북마크 조회 기능 추가
- *
- */
 
 @RestController
 @RequestMapping("/users")
@@ -49,15 +41,23 @@ public class UserController {
         User user = getPrincipal();
         return ApiResponse.success("user", mapper.userToUserResponse(user));
     }
-
     //마이 페이지 수정
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/mypage")
-    public ApiResponse<UserDto.Response> editMemberInfo(@RequestParam("files") MultipartFile files, UserDto.Patch req) throws IOException {
+    public ApiResponse<UserDto.Response> editMemberInfo(@RequestBody UserDto.Patch req) {
         User user = getPrincipal();
-        User editUser = userService.editMemberInfo(user, req, files);
+        User editUser = userService.editMemberInfo(user, req);
         return ApiResponse.success("user", mapper.userToUserResponse(editUser));
     }
+
+//    //마이 페이지 수정
+//    @ResponseStatus(HttpStatus.OK)
+//    @PatchMapping("/mypage")
+//    public ApiResponse<UserDto.Response> editMemberInfo(@RequestParam("files") MultipartFile files, UserDto.Patch req) throws IOException {
+//        User user = getPrincipal();
+//        User editUser = userService.editMemberInfo(user, req, files);
+//        return ApiResponse.success("user", mapper.userToUserResponse(editUser));
+//    }
 
     //회원 탈퇴
     @ResponseStatus(HttpStatus.OK)

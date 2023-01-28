@@ -5,6 +5,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.util.IOUtils;
 import com.mainproject.backend.domain.users.entity.User;
 import lombok.RequiredArgsConstructor;
 
@@ -12,10 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,15 +30,22 @@ public class AwsS3Service {
 
 
 
-public String uploadImage(String bucket, String userId, String fileName, InputStream inputStream) {
+public String uploadImage(String bucket, String userId, String fileName, InputStream inputStream) throws IOException {
 
 
     User user = new User();
     String folderName = user.getUserId();
     String filePath = userId + "/" + fileName;
+    if(fileName == null){
+        return null;
+    }
 
     ObjectMetadata objectMetadata = new ObjectMetadata();
-    PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, filePath, inputStream, objectMetadata);
+    byte[] bytes = IOUtils.toByteArray(inputStream);
+    objectMetadata.setContentLength(bytes.length);
+    ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+
+    PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, filePath, byteArrayInputStream, objectMetadata);
     putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
     amazonS3.putObject(putObjectRequest);
     return amazonS3.getUrl(bucket, filePath).toString();
