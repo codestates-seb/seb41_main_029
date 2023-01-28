@@ -61,11 +61,15 @@ const SpanContent = styled.div`
   display: flex;
   gap: 20px;
   justify-content: center;
-  // 제목은 크게 하고 카테고리는 왼쪽으로 붙여보자
+
   @media (max-width: 1336px) {
     display: flex;
     /* flex-direction: column-reverse; // 세로 */
     align-items: center;
+  }
+  @media (max-width: 360px) {
+    display: flex;
+    justify-content: space-between;
   }
 `;
 const MuiContainer = styled.div`
@@ -82,7 +86,7 @@ const CategoryBox = styled(Box)`
     width: 180px;
     /* margin-top: 8%; // 세로 */
   }
-  @media (max-width: 456px) {
+  @media (max-width: 360px) {
     /* margin-top: 27%; // 세로 */
   }
   // 방금 한것
@@ -95,10 +99,15 @@ const CategoryBox = styled(Box)`
 const CategoryInputLabel = styled(InputLabel)`
   width: 100%;
   margin: -8px 0 0px 12px;
-
   .CategorySpan {
+    display: none;
     @media (max-width: 1336px) {
       font-size: 12px;
+    }
+  }
+  .CategorySpan {
+    @media (max-width: 360px) {
+      display: none;
     }
   }
 
@@ -118,6 +127,9 @@ const CategorySelect = styled(Select)`
     font-size: ${({ theme }) => theme.fontSizes.fs64};
     margin-right: 8px;
 
+    @media (max-width: 1336px) {
+      width: 30%;
+    }
     @media (max-width: 1336px) {
       width: 30%;
     }
@@ -145,9 +157,8 @@ const CategoryFormControl = styled(FormControl)`
     width: 70%;
     /* width: 600px; */
   }
-  @media (max-width: 500px) {
-    width: 50%;
-    /* background-color: black; */
+  @media (max-width: 360px) {
+    width: 45%;
   }
 `;
 const CategoryMenuItem = styled(MenuItem)``;
