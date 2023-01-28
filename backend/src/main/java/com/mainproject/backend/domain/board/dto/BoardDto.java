@@ -81,7 +81,7 @@ public class BoardDto {
             this.viewCount = board.getViewCount();
             this.createdAt = board.getCreatedAt();
             this.modifiedAt = board.getModifiedAt();
-            this.imageUrls = board.getImageUrls();
+//            this.imageUrls = board.getImageUrls();
         }
     }
     @Getter

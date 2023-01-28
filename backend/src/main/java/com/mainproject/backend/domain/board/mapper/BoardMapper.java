@@ -81,7 +81,7 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setDislikeCount(board.getDisliked());
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
-       boardWithCommentResponseDto.setImageUrls(board.getImageUrls());
+//       boardWithCommentResponseDto.setImageUrls(board.getImageUrls());
 
        //커맨트
         boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));
@@ -104,6 +104,7 @@ public interface BoardMapper {
                         .disliked(comment.getDisliked())
                         .userId(comment.getUser().getUserId())
                         .content(comment.getContent())
+                        .commentStatus(comment.getCommentExist())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())
                         .reply(replyToCommentWithCommentResponseDto(comment.getReplies()))
@@ -124,6 +125,7 @@ public interface BoardMapper {
                         .disliked(reply.getDisliked())
                         .userId(reply.getUser().getUserId())
                         .content(reply.getContent())
+                        .replyStatus(reply.getReplyExist())
                         .createdAt(reply.getCreatedAt())
                         .modifiedAt(reply.getModifiedAt())
                         .build())

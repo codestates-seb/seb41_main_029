@@ -1,5 +1,7 @@
 package com.mainproject.backend.domain.board.dto;
 
+import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.reply.entity.Reply;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +20,7 @@ public class SimpleReplyDto {
         private String userId;
         private String content;
         private String username;
+        private Reply.ReplyStatus replyStatus;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
 }
