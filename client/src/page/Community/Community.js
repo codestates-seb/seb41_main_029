@@ -45,6 +45,7 @@ const CategoryWritingBtnBar = styled.div`
   /* padding: 30px; */
   padding: 25px 3%;
   font-size: ${({ theme }) => theme.fontSizes.fs18};
+  border-bottom: 3px solid ${({ theme }) => theme.colors.gray_01};
   @media (max-width: 600px) {
     /* font-size: ${({ theme }) => theme.fontSizes.fs16}; */
     padding: 23px 4%;
@@ -363,6 +364,7 @@ const Search = styled.div`
   width: 290px;
   border-radius: 10px;
   padding-right: 13px;
+  border-bottom: 3px solid ${({ theme }) => theme.colors.gray_01};
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs12};
     width: 200px;
@@ -376,6 +378,7 @@ const SearchInput = styled.input`
   outline: none;
   width: 280px;
   padding: 10px 10px 10px 13px;
+
   font-size: ${({ theme }) => theme.fontSizes.fs16};
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs12};
@@ -406,7 +409,8 @@ export default function Community() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // 페이지네이션
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(0); // 1페이지로 초기화
+  const [pageCount, setPageCount] = useState(0); // 페이지범위
 
   useEffect(() => {
     token ? setHasToken(true) : setHasToken(false);
@@ -443,6 +447,11 @@ export default function Community() {
       // setItems(res.data.body);
       setLoading(false);
       setPage(0); // 페이지 초기화
+      for (let key in res.data.body) {
+        // console.log(key);
+        const total = key;
+        setPageCount(total / limit);
+      }
     } catch (err) {
       throw err;
     }
@@ -568,6 +577,17 @@ export default function Community() {
     <>
       <Container>
         <ComuContainer>
+          <FilterDiv>
+            <FilterList>
+              <Filter>
+                <FontAwesomeIcon icon={faFilter} size="xs" color="#62B6B7" />
+              </Filter>
+              <Filter>최신순</Filter>
+              <Filter>조회순</Filter>
+              <Filter>추천순</Filter>
+              <Filter>북마크순</Filter>
+            </FilterList>
+          </FilterDiv>
           <TopBox>
             <CategoryWritingBtnBar>
               <Categories>
@@ -613,10 +633,10 @@ export default function Community() {
                 {console.log(cate)}
               </Categories>
               <BtnBox>
-                <FilterBtn>
+                {/* <FilterBtn>
                   <FontAwesomeIcon icon={faFilter} size="xs" color="gray" />{" "}
                   FILTER
-                </FilterBtn>
+                </FilterBtn> */}
                 <WritingBtn onClick={handleClick}>글 작성</WritingBtn>
               </BtnBox>
             </CategoryWritingBtnBar>
@@ -720,7 +740,7 @@ export default function Community() {
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={15}
+        pageCount={pageCount}
         marginPagesDisplayed={3}
         pageRangeDisplayed={2}
         onPageChange={handlePageClick}
@@ -746,33 +766,66 @@ export default function Community() {
       </SearchContainer>
       <Filter1
         onClick={() => {
-          handleLoadAll("", "최신순");
+          // handleLoadAll("", "최신순");
+          if (cate === 0) {
+            handleLoadAll("", "최신순");
+          } else if (cate === 1) {
+            handleLoadAll("/1", "최신순");
+          } else if (cate === 2) {
+            handleLoadAll("/2", "최신순");
+          } else {
+            handleLoadAll("/3", "최신순");
+          }
         }}
       >
         최신순
       </Filter1>
       <Filter2
-        onClick={
-          () => {
-            handleLoadAll("", "조회순");
-          }
+        onClick={() => {
+          // handleLoadAll("", "조회순");
           // cate에 따라 작동 나누기
-          // {cate === 0 ? () => {handleLoadAll("", "조회순")} : ""};
-          //   {cate === 1 ? () => {handleLoadAll("/1", "조회순")} : ""};
-        }
+          if (cate === 0) {
+            handleLoadAll("", "조회순");
+          } else if (cate === 1) {
+            handleLoadAll("/1", "조회순");
+          } else if (cate === 2) {
+            handleLoadAll("/2", "조회순");
+          } else {
+            handleLoadAll("/3", "조회순");
+          }
+          // cate === 1 ? handleLoadAll("/1", "조회순") : "";
+        }}
       >
         조회순
       </Filter2>
       <Filter3
         onClick={() => {
-          handleLoadAll("", "추천순");
+          // handleLoadAll("", "추천순");
+          if (cate === 0) {
+            handleLoadAll("", "추천순");
+          } else if (cate === 1) {
+            handleLoadAll("/1", "추천순");
+          } else if (cate === 2) {
+            handleLoadAll("/2", "추천순");
+          } else {
+            handleLoadAll("/3", "추천순");
+          }
         }}
       >
         추천순
       </Filter3>
       <Filter4
         onClick={() => {
-          handleLoadAll("", "북마크순");
+          // handleLoadAll("", "북마크순");
+          if (cate === 0) {
+            handleLoadAll("", "북마크순");
+          } else if (cate === 1) {
+            handleLoadAll("/1", "북마크순");
+          } else if (cate === 2) {
+            handleLoadAll("/2", "북마크순");
+          } else {
+            handleLoadAll("/3", "북마크순");
+          }
         }}
       >
         북마크순
@@ -810,9 +863,40 @@ export default function Community() {
           </CategoryFormControl>
         </CategoryBox>
       </MuiContainer>
+      <ViewdateCommu></ViewdateCommu>
     </>
   );
 }
+
+const FilterDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+`;
+const FilterList = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 0 10px 10px;
+  background-color: ${({ theme }) => theme.colors.container};
+  /* width: 230px; */
+  padding: 13px 0px 13px 15px;
+  border-radius: 15px;
+  border-bottom: 2.3px solid ${({ theme }) => theme.colors.gray_01};
+`;
+
+const Filter = styled.div`
+  margin-right: 15px;
+  cursor: pointer;
+  &:hover {
+    font-weight: 700;
+  }
+  &:focus {
+    font-weight: 700;
+  }
+  &:active {
+    font-weight: 700;
+  }
+`;
 
 const Filter1 = styled.div``;
 const Filter2 = styled.div``;
