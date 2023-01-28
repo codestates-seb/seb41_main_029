@@ -60,6 +60,20 @@ public class Reply extends Auditable {
     @Column(nullable = true)
     private int disliked; // 비추천 수
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Reply.ReplyStatus replyExist = Reply.ReplyStatus.REPLY_EXIST;
+
+    public enum ReplyStatus {
+        REPLY_EXIST("존재하는 댓글"),
+        REPLY_NOT_EXIST("존재하지 않는 댓글");
+        @Getter
+        private String status;
+        ReplyStatus(String status) {
+            this.status = status;
+        }
+    }
+
     public void editReply(CommentReplyDto.ReplyPatchDto req) {
         content = req.getContent();
     }

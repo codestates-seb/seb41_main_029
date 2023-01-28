@@ -21,10 +21,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class S3Service {
@@ -39,23 +41,20 @@ public class S3Service {
         this.s3client = s3client;
         this.imageRepository = imageRepository;
     }
-
     public List<String> uploadFiles(List<MultipartFile> files, User user) {
         List<String> fileUrls = new ArrayList<>();
         for (MultipartFile file : files) {
             try {
-                // Get the file name
-                String userId = user.getUserId();
-                String fileName = file.getOriginalFilename();
-                String filePath = userId + "/" + fileName;
+                // Generate a unique file name using UUID
+                String fileName = UUID.randomUUID().toString();
                 // Create a metadata object with content-type set to the file's type
                 ObjectMetadata metadata = new ObjectMetadata();
                 metadata.setContentLength(file.getSize());
                 metadata.setContentType(file.getContentType());
                 // Upload the file to S3
-                s3client.putObject(new PutObjectRequest(bucket, filePath, file.getInputStream(), metadata));
+                s3client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), metadata));
                 // Retrieve the key name of the uploaded object
-                S3ObjectSummary s3ObjectSummary = s3client.listObjects(bucket,filePath).getObjectSummaries().get(0);
+                S3ObjectSummary s3ObjectSummary = s3client.listObjects(bucket,fileName).getObjectSummaries().get(0);
                 String fileKey = s3ObjectSummary.getKey();
                 // Generate a URL for the image
                 URL url = s3client.getUrl(bucket, fileKey);
@@ -73,3 +72,41 @@ public class S3Service {
         return fileUrls;
     }
 }
+
+//    public List<String> uploadFiles(List<MultipartFile> files, User user) {
+//        List<String> fileUrls = new ArrayList<>();
+//        for (MultipartFile file : files) {
+//            try {
+//                // Get the file name
+//                String userId = user.getUserId();
+//                String fileName = file.getOriginalFilename();
+//                String filePath = userId + "/" + fileName;
+////                String filePath = randomFileName(file, userId);
+//                // Create a metadata object with content-type set to the file's type
+//                ObjectMetadata metadata = new ObjectMetadata();
+//                metadata.setContentLength(file.getSize());
+//                metadata.setContentType(file.getContentType());
+//                // Upload the file to S3
+//                s3client.putObject(new PutObjectRequest(bucket, filePath, file.getInputStream(), metadata));
+//                // Retrieve the key name of the uploaded object
+//                S3ObjectSummary s3ObjectSummary = s3client.listObjects(bucket,filePath).getObjectSummaries().get(0);
+//                String fileKey = s3ObjectSummary.getKey();
+//                // Generate a URL for the image
+//                URL url = s3client.getUrl(bucket, fileKey);
+//                String fileUrl = url.toString();
+//                fileUrls.add(fileUrl);
+//                //save to db
+//                Image image = new Image();
+//                image.setUrl(fileUrl);
+//                image.setUser(user);
+//                imageRepository.save(image);
+//            } catch (IOException e) {
+//                throw new IllegalStateException(e);
+//            }
+//        }
+//        return fileUrls;
+//    }
+//    private String randomFileName(MultipartFile file, String dirName) {
+//        return dirName + "/" + UUID.randomUUID() + file.getName();
+//    }
+//}

@@ -1,5 +1,7 @@
 package com.mainproject.backend.domain.reply.service;
 
+import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.entity.DislikeComment;
 import com.mainproject.backend.domain.comment.entity.LikeComment;
@@ -15,11 +17,14 @@ import com.mainproject.backend.domain.reply.repository.LikeReplyRepository;
 import com.mainproject.backend.domain.reply.repository.ReplyRepository;
 import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
+import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.CommentNotFoundException;
+import com.mainproject.backend.global.exception.ExceptionCode;
 import com.mainproject.backend.global.exception.ReplyNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -29,6 +34,7 @@ public class ReplyService {
     private final DislikeReplyRepository dislikeReplyRepository;
     private final LikeReplyRepository likeReplyRepository;
     private final ReplyRepository replyRepository;
+    private final BoardService boardService;
     private final static String SUCCESS_LIKE_REPLY = "추천 처리 완료";
     private final static String FAIL_LIKE_REPLY = "이미 추천을 누르셨습니다.";
     private final static String SUCCESS_DISLIKE_REPLY = "비추천 처리 완료";
@@ -55,8 +61,25 @@ public class ReplyService {
 
     //대댓글 삭제
     @Transactional
-    public void deleteReply(Reply reply) {
-        replyRepository.delete(reply);
+    public void deleteReply(long replySeq, Long userSeq) {
+        Reply findReply = findVerifiedReply(replySeq);
+//        Board board = new Board();
+//        Board currentBoard = boardService.findVerifiedBoard(board.getBoardSeq());
+        if(userSeq != findReply.getUser().getUserSeq()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
+        }
+//        currentBoard.decreaseCommentCount();
+        findReply.setReplyExist(Reply.ReplyStatus.REPLY_NOT_EXIST);
+        replyRepository.save(findReply);
+    }
+
+    //코맨트 존재 확인
+    private Reply findVerifiedReply(Long replySeq){
+        Optional<Reply> optionalComment = replyRepository.findById(replySeq);
+        Reply findReply =
+                optionalComment.orElseThrow( () ->
+                        new BusinessLogicException(ExceptionCode.REPLY_NOT_FOUND));
+        return findReply;
     }
 
     //추천 기능

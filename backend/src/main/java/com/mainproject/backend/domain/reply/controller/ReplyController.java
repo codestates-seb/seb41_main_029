@@ -74,7 +74,7 @@ public class ReplyController {
         Reply currentReply = replyRepository.findById(replySeq).orElseThrow(CommentNotFoundException::new);
         Board currentBoard = boardService.findVerifiedBoard(boardSeq);
         currentBoard.decreaseCommentCount();
-        replyService.deleteReply(currentReply);
+        replyService.deleteReply(currentReply.getReplySeq(), getPrincipal().getUserSeq());
 
 
         return ApiResponse.success("삭제되었습니다.", null);
