@@ -118,6 +118,18 @@ export const getBookmark = async (Token, useId) => {
     console.log(error);
   }
 };
+// export const deleteUser = async (Token, useId) => {
+//   try {
+//     const res = await axios({
+//       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users`,
+//       method: "delete",
+//       headers: { Authorization: `Bearer ${Token}` },
+//     });
+//     return res;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 // export const getUser = async (Token, userId) => {
 //   try {
 //     const res = await axios.all([

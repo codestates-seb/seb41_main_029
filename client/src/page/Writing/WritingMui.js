@@ -45,6 +45,9 @@ const SpanContainer = styled.div`
     outline: none;
     border: none;
 
+    ::placeholder {
+      font-size: ${theme.fontSizes.fs18};
+    }
     @media (max-width: 1336px) {
       width: 75%;
       /* width: 920px; */
@@ -58,10 +61,10 @@ const SpanContent = styled.div`
   display: flex;
   gap: 20px;
   justify-content: center;
-
+  // 제목은 크게 하고 카테고리는 왼쪽으로 붙여보자
   @media (max-width: 1336px) {
     display: flex;
-    /* flex-direction: column-reverse; */
+    /* flex-direction: column-reverse; // 세로 */
     align-items: center;
   }
 `;
@@ -77,10 +80,10 @@ const CategoryBox = styled(Box)`
 
   @media (max-width: 1336px) {
     width: 180px;
-    /* margin-top: 8%; */
+    /* margin-top: 8%; // 세로 */
   }
   @media (max-width: 456px) {
-    /* margin-top: 27%; */
+    /* margin-top: 27%; // 세로 */
   }
   // 방금 한것
   .css-1nrlq1o-MuiFormControl-root {
@@ -137,29 +140,19 @@ const CategoryFormControl = styled(FormControl)`
     font-size: ${({ theme }) => theme.fontSizes.fs18};
     /* border: 2px solid red; */
   }
-  // x
-  .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
-    display: none;
-  }
   //전체 크기
   @media (max-width: 1336px) {
     width: 70%;
+    /* width: 600px; */
   }
-  /* @media (max-width: 850px) {
-    width: 75%;
-    background-color: black;
-  } */
-
-  .css-1m5xwth-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
-    @media (max-width: 850px) {
-    }
+  @media (max-width: 500px) {
+    width: 50%;
+    /* background-color: black; */
   }
 `;
 const CategoryMenuItem = styled(MenuItem)``;
 
 const WritingMui = ({ setImage }) => {
-  // const [answer, setAnswer] = useState(""); //editor
-  // const [flag, setFlag] = useState(false);
   const [category, setCategory] = useState(""); // M ui
 
   const [title, setTitle] = useState("");
@@ -178,7 +171,13 @@ const WritingMui = ({ setImage }) => {
       <SpanContainer>
         <SpanContent>
           <span className="SpanTitle">제목</span>
-          <input type="text" value={title.title} onChange={titleChange} />
+          <input
+            type="text"
+            value={title.title}
+            placeholder="제목"
+            onChange={titleChange}
+          />
+
           {/* <Mui /> */}
           <MuiContainer>
             <CategoryBox sx={{ minWidth: 180 }}>

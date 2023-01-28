@@ -1,12 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../Theme";
 import { Cookies } from "react-cookie";
-import { getBookmark, getComment, getUser, getWrite } from "../../api/userAPI";
+import {
+  deleteUser,
+  getBookmark,
+  getComment,
+  getUser,
+  getWrite,
+} from "../../api/userAPI";
 import ReactPaginate from "react-paginate";
-import { getCookie } from "../../Cookies";
+import { getCookie, removeCookie } from "../../Cookies";
 import { ViewdateCommu } from "../../component/DateCalculator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -19,22 +25,23 @@ const MypageContainer = styled.div`
 /** 전체 컨테이너 안에 컨테이너 */
 const MypageTitle = styled.div`
   background-color: #f2f2f2;
-  width: ${({ theme }) => theme.deviceSizes.tablet};
+  width: 1236px;
   margin: 200px 0 200px 0;
   height: 1000px;
   /* min-width: 500px; */
 
   @media screen and (max-width: 1336px) {
-    width: 100%;
+    width: 90%;
   }
 `;
 /** Mypage 사진과 수정 정보들 */
 const MypageInfo = styled.div`
   width: 100%;
   height: 250px;
-  border-bottom: 1.5px solid #939393;
+  /* border-bottom: 1.5px solid #939393; */
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  /* justify-content: space-between; */
   @media screen and (max-width: 1336px) {
     width: 100%;
   }
@@ -45,10 +52,9 @@ const MypageProfile = styled.img`
   width: 130px;
   height: 130px;
   display: flex;
-  text-align: center;
   align-items: center;
-  border-radius: 10px;
-  margin: 44px 0 0 4%;
+  border-radius: 30px;
+  margin-left: 4%;
   justify-content: center;
   background-color: #bfbfbf;
 
@@ -57,20 +63,35 @@ const MypageProfile = styled.img`
     min-width: 100px;
   }
   @media screen and (max-width: 500px) {
-    margin-right: 10px;
+    /* margin-right: 10px; */
   }
 `;
-// const MypageImg = styled.img`
-//   width: 150px;
-// `;
 
+/** 유저 정보들 */
+const MypageCenter = styled.div`
+  margin-left: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
+/** 아이디 */
+const MypageText = styled.span`
+  display: flex;
+  text-align: center;
+  margin-bottom: 20px;
+  color: ${theme.colors.gray_03};
+  font-size: ${theme.fontSizes.fs30};
+`;
 /** 유저 기본 정보 */
 const MypageProfileInfo = styled.div`
-  display: flex;
-  /* margin-right: 40px; */
-  align-items: center;
+  /* margin-top: 20px; */
   width: 147px;
-
+  display: flex;
+  position: relative;
+  color: ${theme.colors.gray_03};
+  border-bottom: 1px solid ${theme.colors.gray_03};
   @media screen and (max-width: 1336px) {
     white-space: nowrap;
   }
@@ -80,30 +101,54 @@ const MypageProfileModify = styled.a`
   height: 24px;
   border: none;
   cursor: pointer;
-  margin-right: 28px;
-  padding-right: 30px;
-  padding-top: 40px;
+  margin-top: 20px;
+  padding-right: 12px;
   text-decoration: none;
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.colors.main};
+  &:hover {
+    color: ${theme.colors.main_hover};
+  }
   @media screen and (max-width: 540px) {
     width: 140px;
-    padding-right: 0;
     display: flex;
     justify-content: center;
-    text-align: center;
     white-space: nowrap;
     font-size: ${theme.fontSizes.fs12};
   }
 `;
+/** 회원 탈퇴 */
+const MypageDelete = styled.a`
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.main};
+  &:hover {
+    color: ${theme.colors.main_hover};
+  }
+  @media screen and (max-width: 540px) {
+    /* width: 140px; */
+    display: flex;
+    justify-content: center;
+    padding-right: 12px;
+    white-space: nowrap;
+    font-size: ${theme.fontSizes.fs12};
+  }
+`;
+const MypageInfoA = styled.div`
+  margin-top: 20px;
+`;
+
+const PointContainer = styled.div`
+  display: flex;
+
+  justify-content: right;
+  width: 600px;
+  height: 110px;
+`;
+const PointTitle = styled.div``;
 /** 전체, 댓글, 북마크 버튼을 감싸는 큰 틀 */
 const MypageBtns = styled.div`
   width: 120px;
   margin-left: 4%;
-
-  /* position: relative;
-  left: 60px; */
   display: flex;
-  /* padding-left: 30px; */
 
   .Btn {
     width: 120px;
@@ -112,7 +157,7 @@ const MypageBtns = styled.div`
       width: 100%;
       display: flex;
     }
-    @media screen and (max-width: 400px) {
+    @media screen and (max-width: 430px) {
       width: 55%;
       display: flex;
     }
@@ -162,7 +207,7 @@ const TitleContainer = styled.div`
 /** 제목 날짜 등등 감싸는 큰 틀 안에 틀 */
 // 스크롤 부분
 const TitleDiv = styled.div`
-  width: 1219px;
+  width: 1140px;
   height: 562px;
   margin-top: 32px;
   border-radius: 10px;
@@ -319,6 +364,7 @@ const InfoDate = styled.div`
     width: 20%;
     @media screen and (max-width: 540px) {
       font-size: ${theme.fontSizes.fs12};
+      margin-right: 6px;
     }
   }
   .clock {
@@ -341,6 +387,7 @@ const InfoView = styled.div`
     width: 12%;
     @media screen and (max-width: 540px) {
       font-size: ${theme.fontSizes.fs12};
+      margin-right: 6px;
     }
   }
 `;
@@ -355,6 +402,8 @@ const InfoLike = styled.div`
   }
   @media screen and (max-width: 540px) {
     font-size: ${theme.fontSizes.fs12};
+    margin-right: 6px;
+    white-space: nowrap;
   }
 `;
 /** 나의 닉네임*/
@@ -413,11 +462,22 @@ const StyledLink = styled(Link)`
 export default function MyPage() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
+  const navigate = useNavigate();
 
   const [userInfo, setUserInfo] = useState([]);
   const [userWrite, setUserWrite] = useState([]);
   const [userComment, setUserComment] = useState([]);
   const [userBook, setUserBook] = useState([]);
+  // const [userDelete, setUserDelete] = useState([]);
+
+  // useEffect(() => {
+  //   async function deleteUserInfo() {
+  //     const res = await deleteUser(Token);
+  //     setUserDelete(res.data);
+  //   }
+  //   deleteUserInfo();
+  // }, []);
+  // console.log(userDelete);
 
   useEffect(() => {
     async function getUserInfo() {
@@ -456,6 +516,31 @@ export default function MyPage() {
   }, []);
   console.log(userBook);
 
+  const DeleteClice = async () => {
+    await axios
+      .delete(
+        "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Authorization: `Bearer ${Token}`,
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        if (window.confirm("정말 회원 탈퇴 하시겠습니까?")) {
+          alert("이용해 주셔서 감사합니다.");
+          navigate("/");
+          removeCookie("token");
+          localStorage.removeItem("userId");
+        }
+      })
+      .catch((error) => {
+        console.log(error.data);
+      });
+  };
   const [loading, setLoading] = useState(false);
 
   const [current, setCurrent] = useState(0);
@@ -474,13 +559,20 @@ export default function MyPage() {
           <MypageTitle>
             <MypageInfo>
               <MypageProfile src={userInfo?.profileImageUrl}></MypageProfile>
-              <MypageProfileInfo>
-                {/* 유저 기본 정보 */}
-                {userInfo?.username}
-              </MypageProfileInfo>
-              <MypageProfileModify href="mypageEdit">
-                회원정보 수정
-              </MypageProfileModify>
+              <MypageCenter>
+                <MypageText> {userInfo.username} 님</MypageText>
+                {/* <MypageProfileInfo> */}
+                {/* </MypageProfileInfo> */}
+                <MypageInfoA>
+                  <MypageProfileModify href="mypageEdit">
+                    개인정보 수정
+                  </MypageProfileModify>
+                  <MypageDelete onClick={DeleteClice}>회원 탈퇴</MypageDelete>
+                </MypageInfoA>
+              </MypageCenter>
+              {/* <PointContainer>
+                <PointTitle>현재 포인트 : {userInfo.point} 점</PointTitle>
+              </PointContainer> */}
             </MypageInfo>
             <MypageBtns>
               {munuArr.map((ele, index) => {
