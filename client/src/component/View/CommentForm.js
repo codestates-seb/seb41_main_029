@@ -14,7 +14,7 @@ const InputLayout = styled.div`
   width: 100%;
 `;
 const InputContainer = styled.div`
-  margin-top: 20px;
+  /* margin-top: 20px; */
   width: 100%;
   @media screen and (max-width: 1336px) {
     display: flex;
@@ -59,7 +59,7 @@ const CommentForm = () => {
       }
     } else {
       postComment(data, Token, boardSeq);
-      // window.location.reload();
+      window.location.reload();
       console.log(data);
     }
   };

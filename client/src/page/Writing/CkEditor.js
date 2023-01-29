@@ -6,6 +6,8 @@ import axios from "axios";
 import { getCookie } from "../../Cookies";
 import { useNavigate } from "react-router-dom";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import theme from "../../Theme";
+import { Cookies } from "react-cookie";
 
 const BottomDiv = styled.div`
   width: 100%;
@@ -17,21 +19,19 @@ const BottomDiv = styled.div`
   @media (max-width: 1336px) {
     width: 100%;
 
-    margin-bottom: 5%;
+    margin-bottom: 10%;
   }
 `;
 // button or a 태그
-// button 이면 align,justify,display 삭제하기
 const ViewButton = styled.a`
-  width: 120px;
-  height: 50px;
+  width: 100px;
+  height: 45px;
   border-radius: 10px;
   border: none;
   background-color: ${(props) => props.bgColor};
   color: white;
   font-size: ${({ theme }) => theme.fontSizes.fs24};
   margin: 0 36px 0px 36px;
-
   align-items: center;
   justify-content: center;
   display: flex;
@@ -40,62 +40,74 @@ const ViewButton = styled.a`
   &:hover {
     background-color: ${(props) => props.ckColor};
   }
+  @media (max-width: 400px) {
+    font-size: ${theme.fontSizes.fs18};
+  }
 `;
 
 export default function CkEditor({ setImage, title, category }) {
   const [answer, setAnswer] = useState(""); //editor이 부분에 html을 막는 기능으 넣으면 될까?
   const navigate = useNavigate();
-  // const API_URL = "https://noteyard-backend.herokuapp.com";
-  // const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
 
-  // const uploadAdapter = (loader) => {
-  //   // (2)
-  //   return {
-  //     upload: () => {
-  //       return new Promise((resolve, reject) => {
-  //         const body = new FormData();
-  //         loader.file.then((file) => {
-  //           body.append("uploadImg", file);
-  //           fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
-  //             method: "post",
-  //             body: body,
-  //           })
-  //             .then((res) => res.json())
-  //             .then((res) => {
-  //               resolve({ default: `https://ibb.co/TWfQMJN` });
-  //             })
-  //             .catch((err) => {
-  //               reject(err);
-  //             });
-  //         });
-  //       });
-  //     },
-  //   };
-  // };
+  const API_URL =
+    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+  const UPLOAD_ENDPOINT = "uploadFiles";
 
-  // function uploadPlugin(editor) {
-  //   // (3)
-  //   editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-  //     return uploadAdapter(loader);
-  //   };
-  // }
+  const uploadAdapter = (loader) => {
+    // (2)
+    return {
+      upload: () => {
+        return new Promise((resolve, reject) => {
+          const body = new FormData();
+          loader.file.then((files) => {
+            body.append("files", files);
+            //  res.url로 작성 할거 같다
+            fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
+              method: "post",
+              body: body,
+              files: files,
+            })
+              .then((res) => res.json())
+              .then((res) => {
+                // resolve({ default: `https://ifh.cc/g/HkGCpv.png` }); // 구글 이미지 호스팅 한것
+                resolve({ default: res[0] }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
 
-  //데이터
-  // const data = {
-  //   // WritingEditor > detail
-  //   title: detail,
-  //   content: answer,
-  //   category: category,
-  // };
-  // console.log("제목", title);
-  // console.log("글내용", answer);
-  // console.log("카테코리", category);
+                // resolve({ default: res[0] });
+                console.log(files);
+                console.log(res.body);
+                console.log(res);
+              })
+              .catch((err) => {
+                reject(err);
+              });
+          });
+        });
+      },
+    };
+  };
+
+  function uploadPlugin(editor) {
+    // (3)
+    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
+      return uploadAdapter(loader);
+    };
+  }
+  const files1 = new FormData();
+  files1.append("image", null);
+
+  const cookie = new Cookies();
+  const token = cookie.get("token");
 
   const onClicks = async () => {
+    // const formdata = {
+    //   title: title,
+    //   content: answer,
+    //   category: category,
+    //   files: files1,
+    // };
     await axios
       .post(
         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
-
         {
           title: title,
           content: answer,
@@ -114,8 +126,15 @@ export default function CkEditor({ setImage, title, category }) {
         navigate("/community");
       })
       .catch((err) => {
-        console.log(err.data);
+        console.log(err);
       });
+    if (category === "") {
+      return alert("카테고리를 입력하세요");
+    } else if (title === "") {
+      return alert("제목을 입력하세요");
+    } else if (answer === "") {
+      return alert("내용을 입력하세요");
+    }
   };
 
   return (
@@ -128,8 +147,7 @@ export default function CkEditor({ setImage, title, category }) {
           console.log(answer);
         }}
         config={{
-          // extraPlugins: [uploadPlugin],
-
+          extraPlugins: [uploadPlugin],
           toolbar: {
             items: [
               "heading",

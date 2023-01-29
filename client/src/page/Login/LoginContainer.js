@@ -107,11 +107,9 @@ const LoginContainer = () => {
                 height="40px"
                 fieldName="userId"
                 validation={idValidation}
-                error={error.id}
+                error={error.userId}
               />
-              {error?.username && (
-                <AlertWarning text={error.username?.message} />
-              )}
+              {error?.userId && <AlertWarning text={error.userId?.message} />}
             </InputContainer>
             <LabelLayout>
               <label>비밀번호</label>
@@ -142,17 +140,20 @@ const LoginContainer = () => {
       <SocialLogin>
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/google.svg"}
-          alt=""
+          alt="GOOGLE"
           // onClick={handleSocial}
         />
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/naver.svg"}
-          alt=""
+          alt="NAVER"
         />
-        <SocialLoginLogo
-          src={process.env.PUBLIC_URL + "/image/cacao.svg"}
-          alt=""
-        />
+        {/* `https://kauth.kakao.com/oauth/authorize?client_id=${8e9ebc53811a31af7c567edfb77bff91}&redirect_uri=${http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao}&response_type=code` */}
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=8e9ebc53811a31af7c567edfb77bff91&redirect_uri=http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao&response_type=code">
+          <SocialLoginLogo
+            src={process.env.PUBLIC_URL + "/image/cacao.svg"}
+            alt="KAKAO"
+          />
+        </a>
       </SocialLogin>
     </>
   );

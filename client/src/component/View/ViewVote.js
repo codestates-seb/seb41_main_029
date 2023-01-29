@@ -29,23 +29,31 @@ const VoteContainer = styled.div`
 `;
 const VoteBtn = styled.button`
   border-radius: 10px;
+  background-color: white;
   /* margin-left: 20px; */
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+  border: 1px solid grey;
   @media screen and (max-width: 1336px) {
     /* margin-left: 10px; */
   }
 `;
 const VoteActBtn = styled.button`
   /* margin-left: 20px; */
+  background-color: white;
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.main_hover};
-  border: 2px solid #439a97;
+  border: 1px solid #439a97;
   /* background-color: ${({ theme }) => theme.colors.main_hover}; */
 `;
 const VoteActBtn1 = styled.button`
+  background-color: white;
   border-radius: 10px;
   margin-left: 20px;
   color: red;
-  border: 2px solid red;
+  border: 1px solid red;
   /* background-color: ${({ theme }) => theme.colors.main_hover}; */
 `;
 
@@ -58,7 +66,7 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
   const [isDownVote, setIsDownVote] = useState(false);
   const [voteCount, setVoteCount] = useState();
   const [downVoteCount, setDownVoteCount] = useState();
-
+  // console.log(res);
   // if(res?.data !== 200) {
   //   alert("이미 추천을 하셨습니다.")
   // }
@@ -70,28 +78,27 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
   //   // console.log(res?.userId);
   //   setLoading(false);
   // }
-  const res = viewUpVote(Token, boardSeq);
   const handleClickUp = () => {
     if (!Token) {
       if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
         navigate("/login");
       }
     } else {
-      if (res?.data?.body === "이미 추천을 누르셨습니다.") {
-        alert("이미 추천을 하셨습니다.");
-      } else {
-        if (isUpVote) return;
-        let updateVote = likeCount + 1;
-        setVoteCount(updateVote);
-        viewUpVote(Token);
-        setIsUpVote(updateVote);
-        res();
-      }
-      // if (isUpVote) return;
-      // let updateVote = likeCount + 1;
-      // setVoteCount(updateVote);
-      // res();
-      // setIsUpVote(updateVote);
+      // if (res?.data?.body === "이미 추천을 누르셨습니다.") {
+      //   alert("이미 추천을 하셨습니다.");
+      // } else {
+      //   if (isUpVote) return;
+      //   let updateVote = likeCount + 1;
+      //   setVoteCount(updateVote);
+      //   viewUpVote(Token);
+      //   setIsUpVote(updateVote);
+      //   res();
+      // }
+      viewUpVote(Token, boardSeq);
+      if (isUpVote) return;
+      let updateVote = likeCount + 1;
+      setVoteCount(updateVote);
+      setIsUpVote(updateVote);
       // console.log(res?.data?.body);
     }
   };
@@ -108,9 +115,7 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
       setIsDownVote(true);
     }
   };
-  useEffect(() => {
-    // console.log(status?.boardLike);
-  });
+
   return (
     <>
       <VoteLayout>

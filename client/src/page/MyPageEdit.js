@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useEffect, useState, useRef } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Cookies } from "react-cookie";
 
-import { getUser, patchUser } from "../api/userAPI";
-import Input from "../component/Input";
+import { getUser, patchUser, postImage } from "../api/userAPI";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -23,13 +22,13 @@ const Wrapper = styled.div`
     width: 90%;
   }
   .br {
-    border-right: 1px solid;
+    border-right: 3px solid ${(props) => props.theme.colors.container} !important;
   }
   .buttoncontainer {
     align-items: center;
     display: flex;
     justify-content: space-around;
-    width: calc(100% - 50px);
+    width: calc(100% - 150px);
     margin-bottom: 30px;
   }
   .container {
@@ -48,12 +47,16 @@ const Wrapper = styled.div`
     justify-content: space-around;
   }
   .contour {
-    border-top: 1px solid;
-    border-bottom: 1px solid;
+    border-top: 3px solid ${(props) => props.theme.colors.container};
+    border-bottom: 3px solid ${(props) => props.theme.colors.container};
   }
   .flex {
     display: flex;
     flex-grow: 1;
+  }
+  .fd-c {
+    flex-direction: column;
+    justify-content: center;
   }
   .gray {
     background-color: ${(props) => props.theme.colors.gray_02};
@@ -109,27 +112,33 @@ const Button = styled.button`
   }
 `;
 
+const Input = styled.input`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  border: 1px solid #62b6b7;
+  border-radius: 5px;
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
+`;
+
 export default function MyPageEdit() {
+  const [userInfo, setUserInfo] = useState([]);
+  const [fileImage, setFileImage] = useState("");
+  const [request, setRequest] = useState({
+    username: "",
+    password: "",
+    profileImageUrl: "",
+  });
+  const [validityCheck, setValidityCheck] = useState({
+    usernameMessage: "",
+    passwordMeassge: "",
+    isUsernamePass: false,
+    isPasswordPass: false,
+  });
+  const inputRef = useRef();
+  const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get("token");
-  const inputRef = useRef();
-  const nicknameValidation = {
-    required: "닉네임을 입력해주세요.",
-    maxLength: {
-      value: 8,
-      message: "최대 8자 이하의 닉네임을 입력해주세요.",
-    },
-  };
 
-  const pwdValidation = {
-    required: "비밀번호를 입력해주세요.",
-    pattern: {
-      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-      message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
-    },
-  };
-
-  const [userInfo, setUserInfo] = useState([]);
   useEffect(() => {
     async function getUserInfo() {
       const res = await getUser(token);
@@ -137,25 +146,44 @@ export default function MyPageEdit() {
     }
     getUserInfo();
   }, []);
-  // 응답 확인용 테스트 코드! 마무리하고 지울 것!
-  console.log(userInfo);
 
-  const onUploadImage = (e) => {
-    if (!e.target.files) {
-      return;
-    }
-    console.log(e.target.files[0].name);
-
-    const formData = new FormData();
-    formData.append("image", e.target.files[0]);
-    for (const keyValue of formData) console.log(keyValue);
+  const onImageAttachClick = () => {
+    inputRef.current.click();
   };
 
-  const onUploadImageButtonClick = () => {
-    if (!inputRef.current) {
+  const onUploadImage = async () => {
+    const file = inputRef.current.files[0];
+
+    if (!file) {
       return;
     }
-    inputRef.current.click();
+
+    setFileImage(URL.createObjectURL(file));
+    const formData = new FormData();
+    formData.append("files", file);
+    const res = await postImage(formData);
+    let profilImageUrl = res.data[0].split("?")[0];
+    setRequest({
+      ...request,
+      profileImageUrl: profilImageUrl,
+    });
+  };
+
+  const onChangeInput = (e) => {
+    setRequest({
+      ...request,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const onSubmit = async () => {
+    patchUser(request);
+  };
+
+  const onCancleButtonClick = () => {
+    URL.revokeObjectURL(fileImage);
+    setFileImage("");
+    navigate("/mypage");
   };
 
   return (
@@ -164,42 +192,59 @@ export default function MyPageEdit() {
         <Wrapper>
           <div className="container">
             <div className="flex">
-              <div className="title">
+              <div className="title br">
                 {" "}
                 프로필 <br /> 사진{" "}
               </div>
               <div className="content">
                 <div className="profile">
-                  <img src={userInfo.profileImageUrl} alt="profile" />
+                  <img
+                    src={fileImage || userInfo.profileImageUrl}
+                    alt="profile"
+                  />
                 </div>
                 <input
+                  className="hidden"
+                  id="profileImageUrl"
                   type="file"
                   accept="image/*"
                   ref={inputRef}
                   onChange={onUploadImage}
-                  className="hidden"
                 />
-                <Button onClick={onUploadImageButtonClick} width="120px">
-                  이미지 업로드
+                <Button width="120px" onClick={onImageAttachClick}>
+                  이미지 첨부
                 </Button>
               </div>
             </div>
             <div className="contour flex">
-              <div className="title"> 닉네임 </div>
-              <div className="content">
-                <input placeholder={userInfo.username} />
+              <div className="title br"> 닉네임 </div>
+              <div className="content fd-c">
+                <Input
+                  id="username"
+                  width="80%"
+                  height="40px"
+                  onChange={onChangeInput}
+                />
               </div>
             </div>
             <div className="flex">
-              <div className="title"> 비밀번호 </div>
-              <div className="content">
-                <input />
+              <div className="title br"> 비밀번호 </div>
+              <div className="content fd-c">
+                <Input
+                  id="password"
+                  width="80%"
+                  height="40px"
+                  type="password"
+                  onChange={onChangeInput}
+                />
               </div>
             </div>
           </div>
           <div className="buttoncontainer flex">
-            <Button className="gray">취소</Button>
-            <Button>수정</Button>
+            <Button className="gray" onClick={onCancleButtonClick}>
+              취소
+            </Button>
+            <Button onClick={onSubmit}>수정</Button>
           </div>
         </Wrapper>
       ) : (
