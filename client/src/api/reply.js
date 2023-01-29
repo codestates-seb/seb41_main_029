@@ -41,7 +41,7 @@ export const deleteReply = async (token, boardSeq, replySep) => {
   try {
     const res = await axios({
       method: "delete",
-      url: `${url}${boardSeq}/${replySep}`,
+      url: `${url}reply/${boardSeq}/${replySep}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log(res);

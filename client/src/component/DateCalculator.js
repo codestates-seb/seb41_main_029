@@ -47,24 +47,31 @@ dayjs.locale("ko");
 
 export const Viewdate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
-  getDay.add(9, "h");
-  return <div>{getDay.format("YY-MM-DD / hh:mm")}</div>;
+  // getDay.add(9, "H");
+  return <div>{getDay.add(9, "h").format("YY-MM-DD / HH:mm")}</div>;
   // return <div>{dayjs.format("YY-MM-DD / HH:MM")}</div>;
 };
 
 export const CommentDate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
   // getDay.add(9, "h");
-  return <div>({getDay.add(9, "h").format("YY-MM-DD / hh:mm")})</div>;
+  return <div>({getDay.add(9, "h").format("YY-MM-DD / HH:mm")})</div>;
 };
 
 export const ViewdateCommu = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
   const now = dayjs();
-  const now2 = dayjs().format("YY-MM-DD / hh:mm");
+  const now2 = dayjs().format("YY/MM/DD");
+  const now3 = dayjs().format("YY/MM/DD");
   // console.log(now);
   // console.log(now2);
+  // console.log(getDay.format("YY/MM/DD"));
+  if (now2 === getDay.format("YY/MM/DD")) {
+    return <div>{getDay.add(9, "h").format("hh:mm")}</div>;
+  } else {
+    return <div>{getDay.format("YY/MM/DD")}</div>;
+  }
 
-  return <div>{getDay.format("YY/MM/DD")}</div>;
+  // return <div>{getDay.format("YY/MM/DD")}</div>;
   // 오늘 날짜면 작성시간 뜨게, 그 외에는 날짜 뜨게 하기
 };

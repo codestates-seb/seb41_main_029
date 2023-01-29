@@ -140,15 +140,18 @@ const CategoryMenuItem = styled(MenuItem)``;
 
 const BottomDiv = styled.div`
   width: 100%;
+  height: 100%;
   justify-content: center;
   display: flex;
   margin-top: 40px;
+
   @media (max-width: 1336px) {
     width: 100%;
+
+    margin-bottom: 5%;
   }
 `;
 // button or a 태그
-// button 이면 align,justify,display 삭제하기
 const ViewButton = styled.a`
   width: 120px;
   height: 50px;
@@ -158,6 +161,7 @@ const ViewButton = styled.a`
   color: white;
   font-size: ${({ theme }) => theme.fontSizes.fs24};
   margin: 0 36px 0px 36px;
+
   align-items: center;
   justify-content: center;
   display: flex;
@@ -193,6 +197,7 @@ const EditWritingEditor = ({ setImage }) => {
     if (viewInfo) {
       setDetail(viewInfo?.data?.title);
       setCategory(reqcategory);
+      setAnswer(viewInfo?.data?.content);
     }
   }, [viewInfo]);
   console.log(viewInfo);
@@ -203,7 +208,7 @@ const EditWritingEditor = ({ setImage }) => {
         `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`,
         {
           title: detail,
-          content: answer.content,
+          content: answer,
           category: category,
         },
         {
@@ -225,13 +230,9 @@ const EditWritingEditor = ({ setImage }) => {
   };
 
   const [answer, setAnswer] = useState(""); //editor
-  // const [flag, setFlag] = useState(false);
   const [category, setCategory] = useState("");
   const title1 = viewInfo?.data?.title;
-  // console.log(viewInfo?.data?.title);
   const [detail, setDetail] = useState("");
-  // viewInfo?.data?.title
-  // const [reqcategory, setreqcategory] = useState("");
   const onClick = (e) => {
     // answer와 detail을 값을 넘겨줘서 클릭시 콘솔에 찍히게 해줘야 한다
     // setDetail(e.target.value),
@@ -253,8 +254,10 @@ const EditWritingEditor = ({ setImage }) => {
     setDetail(event.target.value);
     console.log(detail);
   };
-  const API_URL = "https://noteyard-backend.herokuapp.com";
-  const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
+  console.log(answer?.content);
+  const API_URL =
+    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+  const UPLOAD_ENDPOINT = "uploadFiles";
   // console.log(detail);
   const uploadAdapter = (loader) => {
     // (2)
@@ -262,15 +265,23 @@ const EditWritingEditor = ({ setImage }) => {
       upload: () => {
         return new Promise((resolve, reject) => {
           const body = new FormData();
-          loader.file.then((file) => {
-            body.append("uploadImg", file);
+          loader.file.then((files) => {
+            body.append("files", files);
+            //  res.url로 작성 할거 같다
             fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
               method: "post",
               body: body,
+              files: files,
             })
               .then((res) => res.json())
               .then((res) => {
-                resolve({ default: `https://ibb.co/TWfQMJN` });
+                // resolve({ default: `https://ifh.cc/g/HkGCpv.png` }); // 구글 이미지 호스팅 한것
+                resolve({ default: res[0] }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
+                // setImgUrl(res.imgUrl);
+                // resolve({ default: res[0] });
+                console.log(files);
+                console.log(res.body);
+                console.log(res);
               })
               .catch((err) => {
                 reject(err);
@@ -350,11 +361,13 @@ const EditWritingEditor = ({ setImage }) => {
             editor={ClassicEditor}
             data={viewInfo?.data?.content}
             onChange={(event, editor) => {
-              const data = editor.getData();
-              setAnswer({
-                ...answer,
-                content: data,
-              });
+              // const data = editor.getData();
+              // setAnswer({
+              //   ...answer,
+              //   content: data,
+              // });
+              // console.log(answer);
+              setAnswer(editor.getData());
               console.log(answer);
             }}
             config={{

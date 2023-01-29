@@ -12,7 +12,6 @@ import Writing from "./page/Writing/Writing";
 import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
-import HikingInfo from "./page/HikingInfo";
 import NotFound from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";
 import SignupNotice from "./page/SignupNotice";
@@ -47,7 +46,6 @@ function App() {
             <Route path="/mypageedit" element={<MyPageEdit />} />
             <Route path="/hikingmap" element={<HikingMap />} />
             <Route path="/boards/:boardSeq" element={<View />} />
-            <Route path="/hikinginfo" element={<HikingInfo />} />
             <Route path="/signupnotice" element={<SignupNotice />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
