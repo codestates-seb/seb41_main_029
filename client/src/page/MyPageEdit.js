@@ -1,12 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { FormProvider, useForm } from "react-hook-form";
 import { Cookies } from "react-cookie";
 
-import { getUser, patchUser } from "../api/userAPI";
-import Input from "../component/Input";
-import AlertWarning from "../component/AlertWarning";
+import { getUser, patchUser, postImage } from "../api/userAPI";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -115,31 +112,32 @@ const Button = styled.button`
   }
 `;
 
+const Input = styled.input`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  border: 1px solid #62b6b7;
+  border-radius: 5px;
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
+`;
+
 export default function MyPageEdit() {
   const [userInfo, setUserInfo] = useState([]);
   const [fileImage, setFileImage] = useState("");
+  const [request, setRequest] = useState({
+    username: "",
+    password: "",
+    profileImageUrl: "",
+  });
+  const [validityCheck, setValidityCheck] = useState({
+    usernameMessage: "",
+    passwordMeassge: "",
+    isUsernamePass: false,
+    isPasswordPass: false,
+  });
   const inputRef = useRef();
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get("token");
-  const methods = useForm();
-  const error = methods?.formState?.errors;
-
-  const nicknameValidation = {
-    required: "닉네임을 입력해주세요.",
-    maxLength: {
-      value: 8,
-      message: "최대 8자 이하의 닉네임을 입력해주세요.",
-    },
-  };
-
-  const pwdValidation = {
-    required: "비밀번호를 입력해주세요.",
-    pattern: {
-      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-      message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
-    },
-  };
 
   useEffect(() => {
     async function getUserInfo() {
@@ -149,125 +147,112 @@ export default function MyPageEdit() {
     getUserInfo();
   }, []);
 
-  const onUploadImage = (e) => {
-    if (!e.target.files) {
-      return;
-    }
-
-    setFileImage(URL.createObjectURL(e.target.files[0]));
-    const formData = new FormData();
-    formData.append("image", e.target.files[0]);
-    for (const keyValue of formData) console.log(keyValue);
-  };
-
-  const onUploadImageButtonClick = () => {
-    if (!inputRef.current) {
-      return;
-    }
+  const onImageAttachClick = () => {
     inputRef.current.click();
   };
 
+  const onUploadImage = async () => {
+    const file = inputRef.current.files[0];
+
+    if (!file) {
+      return;
+    }
+
+    setFileImage(URL.createObjectURL(file));
+    const formData = new FormData();
+    formData.append("files", file);
+    const res = await postImage(formData);
+    let profilImageUrl = res.data[0].split("?")[0];
+    setRequest({
+      ...request,
+      profileImageUrl: profilImageUrl,
+    });
+  };
+
+  const onChangeInput = (e) => {
+    setRequest({
+      ...request,
+      [e.target.id]: e.target.value,
+    });
+  };
+
+  const onSubmit = async () => {
+    patchUser(request);
+  };
+
   const onCancleButtonClick = () => {
-    navigate("/mypage");
-  };
-
-  const onSubmit = async (data) => {
-    const res = await patchUser(data);
-    console.log(res);
-  };
-
-  // 파일 삭제
-  const deleteFileImage = () => {
     URL.revokeObjectURL(fileImage);
     setFileImage("");
+    navigate("/mypage");
   };
 
   return (
     <>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          {token !== undefined ? (
-            <Wrapper>
-              <div className="container">
-                <div className="flex">
-                  <div className="title br">
-                    {" "}
-                    프로필 <br /> 사진{" "}
-                  </div>
-                  <div className="content">
-                    <div className="profile">
-                      <img
-                        src={fileImage || userInfo.profileImageUrl}
-                        alt="profile"
-                        fieldName="profileImageUrl"
-                      />
-                    </div>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      ref={inputRef}
-                      onChange={onUploadImage}
-                      className="hidden"
-                    />
-                    <Button
-                      onClick={onUploadImageButtonClick}
-                      width="120px"
-                      height="35px"
-                    >
-                      이미지 업로드
-                    </Button>
-                  </div>
-                </div>
-                <div className="contour flex">
-                  <div className="title br"> 닉네임 </div>
-                  <div className="content fd-c">
-                    <Input
-                      id="id"
-                      width="280px"
-                      height="40px"
-                      fieldName="username"
-                      validation={nicknameValidation}
-                      error={error.nickname}
-                      placeholder={userInfo.username}
-                    />
-                    {error?.nickname && (
-                      <AlertWarning text={error.nickname?.message} />
-                    )}
-                  </div>
-                </div>
-                <div className="flex">
-                  <div className="title br"> 비밀번호 </div>
-                  <div className="content fd-c">
-                    <Input
-                      id="password"
-                      width="15rem"
-                      height="40px"
-                      fieldName="password"
-                      type="password"
-                      validation={pwdValidation}
-                      error={error?.password}
-                    />
-                    {error?.password && (
-                      <AlertWarning text={error.password?.message} />
-                    )}
-                  </div>
-                </div>
+      {token !== undefined ? (
+        <Wrapper>
+          <div className="container">
+            <div className="flex">
+              <div className="title br">
+                {" "}
+                프로필 <br /> 사진{" "}
               </div>
-              <div className="buttoncontainer flex">
-                <Button className="gray" onClick={onCancleButtonClick}>
-                  취소
+              <div className="content">
+                <div className="profile">
+                  <img
+                    src={fileImage || userInfo.profileImageUrl}
+                    alt="profile"
+                  />
+                </div>
+                <input
+                  className="hidden"
+                  id="profileImageUrl"
+                  type="file"
+                  accept="image/*"
+                  ref={inputRef}
+                  onChange={onUploadImage}
+                />
+                <Button width="120px" onClick={onImageAttachClick}>
+                  이미지 첨부
                 </Button>
-                <Button>수정</Button>
               </div>
-            </Wrapper>
-          ) : (
-            <>
-              {alert("로그인이 되어 있지 않습니다!")}
-              <Navigate to="/login" />
-            </>
-          )}
-        </form>
-      </FormProvider>
+            </div>
+            <div className="contour flex">
+              <div className="title br"> 닉네임 </div>
+              <div className="content fd-c">
+                <Input
+                  id="username"
+                  width="80%"
+                  height="40px"
+                  onChange={onChangeInput}
+                />
+              </div>
+            </div>
+            <div className="flex">
+              <div className="title br"> 비밀번호 </div>
+              <div className="content fd-c">
+                <Input
+                  id="password"
+                  width="80%"
+                  height="40px"
+                  type="password"
+                  onChange={onChangeInput}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="buttoncontainer flex">
+            <Button className="gray" onClick={onCancleButtonClick}>
+              취소
+            </Button>
+            <Button onClick={onSubmit}>수정</Button>
+          </div>
+        </Wrapper>
+      ) : (
+        <>
+          {alert("로그인이 되어 있지 않습니다!")}
+          <Navigate to="/login" />
+        </>
+      )}
     </>
   );
 }
