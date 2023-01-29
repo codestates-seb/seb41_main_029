@@ -5,11 +5,15 @@ import CommentForm from "./CommentForm";
 import { TablePagination } from "@mui/material";
 
 const CommentsLayout = styled.div`
-  /* display: flex; */
+  /* display: block; */
+  /* justify-content: center; */
   width: 100%;
   max-width: 1250px;
-  margin-top: 120px;
+  margin-top: 100px;
   /* padding: 0 4% 0 4%; */
+  @media screen and (max-width: 666px) {
+    margin-top: 60px;
+  }
 `;
 
 const CommentsHeader = styled.div`
@@ -39,6 +43,13 @@ const CommentLayout = styled.div`
     margin-left: 24px;
     /* margin-right: 24px; */
   }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    /* max-width: 400px; */
+    margin-left: 0px;
+    margin-top: 24px;
+    /* margin-right: 24px; */
+  }
 `;
 
 const CommentsContainer = styled.div`
@@ -46,11 +57,12 @@ const CommentsContainer = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const PageNationLayout = styled.div`
-  display: flex;
-  margin-right: -14px;
+const CommentOut = styled.div`
+  display: block;
+  /* margin-right: -14px; */
+  justify-content: center;
   @media screen and (max-width: 1336px) {
-    margin-right: 12px;
+    /* margin-right: 12px; */
   }
 `;
 const PageNation = styled(TablePagination).attrs({})`
@@ -95,11 +107,13 @@ const Comments = ({ commented, comments }) => {
             />
           </PageNationLayout> */}
         </CommentsContainer>
-        {comments?.slice(offset, limit)?.map((item, index) => (
-          <CommentLayout key={index}>
-            <Comment comment={item} />
-          </CommentLayout>
-        ))}
+        <CommentOut>
+          {comments?.map((item, index) => (
+            <CommentLayout key={index}>
+              <Comment comment={item} />
+            </CommentLayout>
+          ))}
+        </CommentOut>
         <CommentForm />
       </CommentsLayout>
     </>

@@ -31,6 +31,11 @@ const VoteBtn = styled.button`
   border-radius: 10px;
   background-color: white;
   /* margin-left: 20px; */
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+  border: 1px solid grey;
   @media screen and (max-width: 1336px) {
     /* margin-left: 10px; */
   }
@@ -40,7 +45,7 @@ const VoteActBtn = styled.button`
   background-color: white;
   border-radius: 10px;
   color: ${({ theme }) => theme.colors.main_hover};
-  border: 2px solid #439a97;
+  border: 1px solid #439a97;
   /* background-color: ${({ theme }) => theme.colors.main_hover}; */
 `;
 const VoteActBtn1 = styled.button`
@@ -48,7 +53,7 @@ const VoteActBtn1 = styled.button`
   border-radius: 10px;
   margin-left: 20px;
   color: red;
-  border: 2px solid red;
+  border: 1px solid red;
   /* background-color: ${({ theme }) => theme.colors.main_hover}; */
 `;
 

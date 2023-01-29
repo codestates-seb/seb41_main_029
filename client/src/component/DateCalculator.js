@@ -47,15 +47,15 @@ dayjs.locale("ko");
 
 export const Viewdate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
-  getDay.add(9, "h");
-  return <div>{getDay.format("YY-MM-DD / hh:mm")}</div>;
+  // getDay.add(9, "H");
+  return <div>{getDay.add(9, "h").format("YY-MM-DD / HH:mm")}</div>;
   // return <div>{dayjs.format("YY-MM-DD / HH:MM")}</div>;
 };
 
 export const CommentDate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
   // getDay.add(9, "h");
-  return <div>({getDay.add(9, "h").format("YY-MM-DD / hh:mm")})</div>;
+  return <div>({getDay.add(9, "h").format("YY-MM-DD / HH:mm")})</div>;
 };
 
 export const ViewdateCommu = ({ createdAt }) => {

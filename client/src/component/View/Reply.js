@@ -27,6 +27,10 @@ const ReplyLayout1 = styled.div`
   height: 35px;
   width: 100%;
   max-width: 440px;
+  @media screen and (max-width: 633px) {
+    width: 65%;
+    /* margin-left: 40px; */
+  }
 `;
 
 const UserInfo = styled.div`
@@ -43,13 +47,18 @@ const UserInfo = styled.div`
   }
   @media screen and (max-width: 1336px) {
     margin-left: 20px;
+    width: 100%;
+    /* margin-left: 40px; */
+  }
+  @media screen and (max-width: 415px) {
+    margin-left: -50px;
     /* margin-left: 40px; */
   }
 `;
 const Line = styled.div`
   width: 95%;
   margin-top: 20px;
-  border: 1px dashed black;
+  border: 1px dashed #aaaaaa;
 `;
 
 const ContentContainer = styled.div`
@@ -59,7 +68,23 @@ const ContentContainer = styled.div`
   min-height: 65px;
   border-radius: 10px;
   /* margin-top: -50px; */
-  margin-right: 30px;
+  margin-right: 35px;
+  background-color: white;
+  padding: 8px;
+  @media screen and (max-width: 1336px) {
+    width: 81%;
+  }
+`;
+const ContentContainer1 = styled.div`
+  width: 100%;
+  max-width: 136px;
+  font-size: 17px;
+  /* margin-top: 20px; */
+  height: 26px;
+  /* min-height: 65px; */
+  border-radius: 10px;
+  /* margin-top: -50px; */
+  margin-right: 35px;
   background-color: white;
   padding: 8px;
   @media screen and (max-width: 1336px) {
@@ -72,7 +97,8 @@ const ContentLayout = styled.div`
   flex-direction: row-reverse;
 `;
 const ContentLayout1 = styled.div`
-  /* display: flex; */
+  display: flex;
+  margin-left: 92px;
   .icon {
     margin-left: 30px;
     /* margin-bottom: -12px; */
@@ -96,6 +122,9 @@ const EtcIcon = styled.div`
     height: 0px;
     margin-right: 12px;
   }
+  @media screen and (max-width: 415px) {
+    /* display: flex; */
+  }
 `;
 const EditImg = styled.img`
   width: 28px;
@@ -103,6 +132,10 @@ const EditImg = styled.img`
   margin-bottom: 15px;
   margin-right: 10px;
   cursor: pointer;
+  @media screen and (max-width: 415px) {
+    width: 20px;
+    height: 22px;
+  }
 `;
 
 const DeleteImg = styled.img`
@@ -111,6 +144,11 @@ const DeleteImg = styled.img`
   margin-bottom: 10px;
   margin-right: 15px;
   cursor: pointer;
+  @media screen and (max-width: 415px) {
+    margin-top: 12px;
+    width: 32px;
+    height: 32px;
+  }
 `;
 const InputLayout = styled.div`
   width: 100%;
@@ -167,6 +205,34 @@ const ContentBottom = styled.div`
   display: flex;
   width: 90%;
   height: 50px;
+  @media screen and (max-width: 800px) {
+    /* margin-right: 30px; */
+    /* width: 80%; */
+  }
+`;
+const CommentContainer1 = styled.div`
+  width: 100%;
+  max-width: 130px;
+  height: 100%;
+  max-height: 30px;
+  border-radius: 10px;
+  /* margin-left: 24px;
+  margin-right: 24px; */
+  margin-bottom: 6px;
+  background-color: #f9f7f7;
+  /* background-color: white; */
+  padding: 8px;
+  @media screen and (max-width: 1336px) {
+    width: 90%;
+  }
+`;
+const CommentLayout1 = styled.div`
+  display: flex;
+  margin-bottom: -20px;
+  height: 80px;
+  margin-left: 25px;
+  /* justify-content: center; */
+  align-items: center;
 `;
 
 const Reply = ({ reply }) => {
@@ -194,75 +260,92 @@ const Reply = ({ reply }) => {
     if (window.confirm("정말 삭제 하시겠습니까?")) {
       alert("삭제되었습니다");
       deleteReply(token, boardSeq, replySeq);
-      // window.location.reload();
+      window.location.reload();
     }
   };
-  console.log(reply.length);
+  console.log(reply);
   return (
-    <ReplyContainer>
-      <ReplyLayout>
-        <Line />
-      </ReplyLayout>
-      {userId1 === reply?.userId ? (
-        <EtcIcon>
-          <EditImg
-            src={process.env.PUBLIC_URL + "/image/editIcon.svg"}
-            alt="edit"
-            onClick={handleClickEdit}
-          />
-          <DeleteImg
-            src={process.env.PUBLIC_URL + "/image/deleteIcon.svg"}
-            alt="delete"
-            onClick={handleDelete}
-          />
-        </EtcIcon>
-      ) : null}
-      <ReplyLayout1>
-        <UserInfo>
-          <BiReply className="icon" />
-          {reply?.username}
-          <CommentDate createdAt={reply?.createdAt} />
-        </UserInfo>
-      </ReplyLayout1>
-      {edit ? (
+    <>
+      {reply?.replyStatus === "REPLY_NOT_EXIST" ? (
         <>
-          <form onSubmit={methods.handleSubmit(onSubmit)}>
-            <FormProvider {...methods}>
-              <InputLayout>
-                <Input
-                  className="input"
-                  width="1030px"
-                  height="65px"
-                  fieldName="content"
-                  defaultValue={reply?.content}
-                />
-                <SubmitEditLayout>
-                  <SubmitEdit className="btn" width="60px">
-                    수정
-                  </SubmitEdit>
-                </SubmitEditLayout>
-              </InputLayout>
-              {/* <EditInput defaultValue={comment?.content} /> */}
-            </FormProvider>
-          </form>
+          <ReplyLayout1>
+            <UserInfo>
+              <BiReply className="icon" />
+              <span style={{ marginRight: "10px" }}>{reply?.username} </span>
+              {/* <CommentDate createdAt={reply?.createdAt} /> */}
+            </UserInfo>
+          </ReplyLayout1>
+          <ContentLayout1>
+            <ContentContainer1>삭제된 답글입니다.</ContentContainer1>
+          </ContentLayout1>
         </>
       ) : (
-        // <ContentLayout1>
-        // {/* <BiReply className="icon" /> */}
-        <ContentLayout>
-          <ContentContainer>{reply?.content}</ContentContainer>
-        </ContentLayout>
-        // {/* </ContentLayout1> */}
-      )}
+        <ReplyContainer>
+          <ReplyLayout>
+            <Line />
+          </ReplyLayout>
+          {userId1 === reply?.userId ? (
+            <EtcIcon>
+              <EditImg
+                src={process.env.PUBLIC_URL + "/image/editIcon.svg"}
+                alt="edit"
+                onClick={handleClickEdit}
+              />
+              <DeleteImg
+                src={process.env.PUBLIC_URL + "/image/deleteIcon.svg"}
+                alt="delete"
+                onClick={handleDelete}
+              />
+            </EtcIcon>
+          ) : null}
+          <ReplyLayout1>
+            <UserInfo>
+              <BiReply className="icon" />
+              {reply?.username}
+              <CommentDate createdAt={reply?.createdAt} />
+            </UserInfo>
+          </ReplyLayout1>
+          {edit ? (
+            <>
+              <form onSubmit={methods.handleSubmit(onSubmit)}>
+                <FormProvider {...methods}>
+                  <InputLayout>
+                    <Input
+                      className="input"
+                      width="1030px"
+                      height="65px"
+                      fieldName="content"
+                      defaultValue={reply?.content}
+                    />
+                    <SubmitEditLayout>
+                      <SubmitEdit className="btn" width="60px">
+                        수정
+                      </SubmitEdit>
+                    </SubmitEditLayout>
+                  </InputLayout>
+                  {/* <EditInput defaultValue={comment?.content} /> */}
+                </FormProvider>
+              </form>
+            </>
+          ) : (
+            // <ContentLayout1>
+            // {/* <BiReply className="icon" /> */}
+            <ContentLayout>
+              <ContentContainer>{reply?.content}</ContentContainer>
+            </ContentLayout>
+            // {/* </ContentLayout1> */}
+          )}
 
-      <ContentBottom>
-        <ReplyVote
-          replySeq={reply?.replySeq}
-          liked={reply?.liked}
-          disliked={reply?.disliked}
-        />
-      </ContentBottom>
-    </ReplyContainer>
+          <ContentBottom>
+            <ReplyVote
+              replySeq={reply?.replySeq}
+              liked={reply?.liked}
+              disliked={reply?.disliked}
+            />
+          </ContentBottom>
+        </ReplyContainer>
+      )}
+    </>
   );
 };
 

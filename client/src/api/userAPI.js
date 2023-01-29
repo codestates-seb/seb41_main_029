@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie } from "../Cookies";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
-
+const upload_endpoint = "uploadFiles";
 export const login = async (data) => {
   try {
     const res = await axios({
@@ -18,11 +18,17 @@ export const login = async (data) => {
   }
 };
 
-export const renewal = async (data) => {
+export const guestLogin = async (data) => {
+  const getRandom = Math.random();
+  const formdata = {
+    userId: getRandom,
+    username: getRandom,
+    password: getRandom,
+  };
   try {
     const res = await axios({
       method: "post",
-      data,
+      formdata,
       headers: { Authorization: null },
       url: `${url}auth/login`,
     });
@@ -118,6 +124,33 @@ export const getBookmark = async (Token, useId) => {
     console.log(error);
   }
 };
+
+export const postImage = async (data) => {
+  try {
+    const res = await axios({
+      method: "post",
+      data,
+      headers: { Authorization: `Bearer ${getCookie("token")}` },
+      url: `${url}${upload_endpoint}`,
+    });
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
+};
+// export const deleteUser = async (Token, useId) => {
+//   try {
+//     const res = await axios({
+//       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users`,
+//       method: "delete",
+//       headers: { Authorization: `Bearer ${Token}` },
+//     });
+//     return res;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 // export const getUser = async (Token, userId) => {
 //   try {
 //     const res = await axios.all([
