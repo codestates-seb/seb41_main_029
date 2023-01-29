@@ -36,7 +36,7 @@ const Wrapper = styled.div`
     cursor: pointer;
     font-size: 3.3rem;
     color: gray;
-    margin: 0 -3.6rem;
+    margin: 0 -3rem;
     z-index: 1;
   }
   .flexbox {
@@ -55,10 +55,10 @@ const Wrapper = styled.div`
   }
   .phrase {
     color: white;
-    font-size: ${(props) => props.theme.fontSizes.fs36};
+    font-size: ${(props) => props.theme.fontSizes.fs30};
     font-weight: bold;
     text-align: center;
-    width: 640px;
+    width: 960px;
     word-break: keep-all;
     filter: none;
   }
@@ -68,8 +68,8 @@ const Wrapper = styled.div`
       margin: 0 -3rem;
     }
     .phrase {
-      font-size: ${(props) => props.theme.fontSizes.fs30};
-      width: 445px;
+      font-size: ${(props) => props.theme.fontSizes.fs24};
+      width: 668px;
     }
   }
   @media (max-width: 600px) {
@@ -77,32 +77,41 @@ const Wrapper = styled.div`
       display: none;
     }
     .phrase {
-      font-size: ${(props) => props.theme.fontSizes.fs24};
+      font-size: ${(props) => props.theme.fontSizes.fs18};
       width: calc(100vw - 100px);
     }
   }
 `;
 
 export default function Test() {
-  // 랜딩 페이지 더미 데이터로 들어간 텍스트 교체 고민
   const images = useRef([
     {
       src:
         process.env.PUBLIC_URL +
         "/image/maciek-sulkowski-58tP7g7x1LQ-unsplash.jpg",
-      content: `법률은 특별한 규정이 없는 한 공포한 날로부터 20일을 경과함으로써 효력을 발생한다.`,
+      content: (
+        <>
+          <div> 등산의 기쁨은 정상에 오를 때가 가장 크다. </div>
+          <div>
+            {" "}
+            그러나 나의 최상의 기쁨은 험악한 산을 기어 올라가는 순간에 있다.{" "}
+          </div>
+          <div> 길이 험하면 험할수록 가슴이 뛴다. </div>
+          <div> - 프리드리히 니체 </div>
+        </>
+      ),
     },
     {
       src:
         process.env.PUBLIC_URL +
         "/image/nicolas-houdayer-qMDhXONZdXk-unsplash.jpg",
-      content: `국무총리·국무위원 또는 정부위원은 국회나 그 위원회에 출석하여 국정처리상황을 보고하거나 의견을 진술하고 질문에 응답할 수 있다. 국가는 평생교육을 진흥하여야 한다.`,
+      content: `등산은 60kg 성인 기준 1시간에 500칼로리를 소모할 수 있는 체중 감량 효과가 있어요.`,
     },
     {
       src:
         process.env.PUBLIC_URL +
         "/image/matej-rieciciar-bPRxj7wNft8-unsplash.jpg",
-      content: `국회의원은 현행범인인 경우를 제외하고는 회기중 국회의 동의없이 체포 또는 구금되지 아니한다. 국토와 자원은 국가의 보호를 받으며, 국가는 그 균형있는 개발과 이용을 위하여 필요한 계획을 수립한다. 재판의 심리와 판결은 공개한다. 다만, 심리는 국가의 안전보장 또는 안녕질서를 방해하거나 선량한 풍속을 해할 염려가 있을 때에는 법원의 결정으로 공개하지 아니할 수 있다.`,
+      content: `본격적인 등산에 앞서 준비 운동 잊지 마세요.`,
     },
   ]);
 
@@ -123,7 +132,7 @@ export default function Test() {
   useEffect(() => {
     let autoSwipe = setInterval(() => {
       buttonClick(1);
-    }, 3000);
+    }, 4000);
     return () => clearInterval(autoSwipe);
   });
 
