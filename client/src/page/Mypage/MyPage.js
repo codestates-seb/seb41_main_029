@@ -26,7 +26,7 @@ const MypageContainer = styled.div`
 const MypageTitle = styled.div`
   background-color: #f2f2f2;
   width: 1236px;
-  margin: 120px 0 120px 0;
+  margin: 120px 0 40px 0;
   height: 1000px;
   /* min-width: 500px; */
 
@@ -64,24 +64,23 @@ const MypageProfile = styled.img`
 
 /** 유저 정보들 */
 const MypageCenter = styled.div`
-  margin-left: 20px;
+  margin-left: 12px;
   display: flex;
   flex-direction: column;
 `;
 /** 아이디 */
 const MypageText = styled.span`
-  height: 50px;
+  height: 65px;
   color: #686868;
   font-size: ${theme.fontSizes.fs30};
   @media screen and (max-width: 540px) {
     white-space: nowrap;
-    font-size: ${theme.fontSizes.fs18};
+    font-size: 24px;
   }
 `;
 /** 유저 기본 정보 */
 const MypageProfileInfo = styled.div`
-  /* margin-top: 20px; */
-  /* border: 1px solid blue; */
+  margin-top: 20px;
   display: flex;
   color: #686868;
 

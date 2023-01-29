@@ -7,8 +7,8 @@ import { Cookies } from "react-cookie";
 import { Navigate } from "react-router-dom";
 
 const TotalContainer = styled.div`
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  /* height: 100%; */
   justify-content: center;
   display: flex;
   margin-top: 80px;
@@ -16,6 +16,7 @@ const TotalContainer = styled.div`
 
   @media (max-width: 1336px) {
     width: 100%;
+    height: 100%;
   }
 
   // 글 쓰는 창 중앙으로 정렬
@@ -34,7 +35,6 @@ const TotalContainer = styled.div`
     min-height: 400px;
     margin-bottom: 20px;
     width: 1120px;
-
     @media (max-width: 1336px) {
       width: 100%;
       height: 100%;
@@ -60,6 +60,7 @@ const TotalContainer = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+
     @media (max-width: 1336px) {
       margin-left: 3%;
     }
@@ -67,9 +68,7 @@ const TotalContainer = styled.div`
 
   // 아이콘 끝의 버튼 2개 건들이지 말것@@@@@@@
   /* .ck.ck-button.ck-disabled .ck-button__icon {
-  
-    @media (max-width: 570px) {
-      display: none;
+    @media (max-width: 1570px) {
     }
   } */
   .ck.ck-button.ck-disabled .ck-button__icon,
@@ -111,8 +110,6 @@ const TotalContainer = styled.div`
     border-radius: 20px 20px 0 0;
     @media (max-width: 1336px) {
       /* margin-top: 4%; 위 아래로 정렬시 필요!!!*/
-
-      // 앨 하면 이것만 하면 된다
     }
   }
 
@@ -127,15 +124,30 @@ const TotalContainer = styled.div`
   .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
   .ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners {
     border-radius: 10px 10px 0 0;
+    @media (max-width: 1336px) {
+    }
   }
   .ck.ck-button.ck-dropdown__button {
+    /* @media (max-width: 480px) {
+      pointer-events: none;
+    }
     svg {
-      @media (max-width: 470px) {
+      @media (max-width: 480px) {
+        border: 2px solid red;
         display: none;
       }
+    } */
+  }
+  // 아이콘 클릭 안되게 하는 classname
+  [dir="ltr"]
+    .ck.ck-dropdown
+    .ck-button.ck-dropdown__button:not(.ck-button_with-text) {
+    @media (max-width: 480px) {
+      display: none;
     }
   }
 `;
+
 export const ContainerView = styled.div`
   width: ${({ theme }) => theme.deviceSizes.tablet};
   background-color: ${({ theme }) => theme.colors.container};
@@ -143,7 +155,8 @@ export const ContainerView = styled.div`
   border-radius: ${(props) => (props.radius ? props.radius : "20px")};
   justify-content: center;
   align-items: center;
-
+  overflow-y: auto;
+  overflow-x: hidden;
   @media (max-width: 1336px) {
     width: 95%;
     height: 100%;
@@ -153,21 +166,20 @@ export const ContainerView = styled.div`
 export default function Writing() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
-
   return (
-    // <>
-    //   {Token !== undefined ? (
-    <TotalContainer>
-      <ContainerView>
-        <WritingMui />
-      </ContainerView>
-    </TotalContainer>
-    // ) : (
-    //   <>
-    //     {alert("로그인이 되어 있지 않습니다!")}
-    //     <Navigate to="/login" />
-    //   </>
-    // )}
-    // </>
+    <>
+      {Token !== undefined ? (
+        <TotalContainer>
+          <ContainerView>
+            <WritingMui />
+          </ContainerView>
+        </TotalContainer>
+      ) : (
+        <>
+          {alert("로그인이 되어 있지 않습니다!")}
+          <Navigate to="/login" />
+        </>
+      )}
+    </>
   );
 }

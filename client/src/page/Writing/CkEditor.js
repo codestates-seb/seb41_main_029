@@ -6,6 +6,7 @@ import axios from "axios";
 import { getCookie } from "../../Cookies";
 import { useNavigate } from "react-router-dom";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import theme from "../../Theme";
 
 const BottomDiv = styled.div`
   width: 100%;
@@ -30,7 +31,6 @@ const ViewButton = styled.a`
   color: white;
   font-size: ${({ theme }) => theme.fontSizes.fs24};
   margin: 0 36px 0px 36px;
-
   align-items: center;
   justify-content: center;
   display: flex;
@@ -39,15 +39,15 @@ const ViewButton = styled.a`
   &:hover {
     background-color: ${(props) => props.ckColor};
   }
+  @media (max-width: 400px) {
+    font-size: ${theme.fontSizes.fs18};
+  }
 `;
 
 export default function CkEditor({ setImage, title, category }) {
   const [answer, setAnswer] = useState(""); //editor이 부분에 html을 막는 기능으 넣으면 될까?
   const navigate = useNavigate();
-  const [files, setFiles] = useState();
-  const [imgUrl, setImgUrl] = useState();
-  // const API_URL = "https://noteyard-backend.herokuapp.com";
-  // const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
+
   const API_URL =
     "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
   const UPLOAD_ENDPOINT = "uploadFiles";
@@ -70,7 +70,7 @@ export default function CkEditor({ setImage, title, category }) {
               .then((res) => {
                 // resolve({ default: `https://ifh.cc/g/HkGCpv.png` }); // 구글 이미지 호스팅 한것
                 resolve({ default: res[0] }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
-                // setImgUrl(res.imgUrl);
+
                 // resolve({ default: res[0] });
                 console.log(files);
                 console.log(res.body);
@@ -101,9 +101,7 @@ export default function CkEditor({ setImage, title, category }) {
           title: title,
           content: answer,
           category: category,
-          imgUrl: imgUrl,
         },
-
         {
           headers: {
             "Content-Type": "application/json",
@@ -139,7 +137,6 @@ export default function CkEditor({ setImage, title, category }) {
         }}
         config={{
           extraPlugins: [uploadPlugin],
-
           toolbar: {
             items: [
               "heading",
