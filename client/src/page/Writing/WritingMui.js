@@ -127,7 +127,6 @@ const CategoryInputLabel = styled(InputLabel)`
   width: 100%;
   margin: -8px 0 0px 12px;
   .CategorySpan {
-    display: none;
     @media (max-width: 1336px) {
       font-size: 12px;
     }
@@ -147,8 +146,8 @@ const CategorySelect = styled(Select)`
   .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
     color: ${({ theme }) => theme.colors.main};
     font-size: ${({ theme }) => theme.fontSizes.fs64};
-    margin-right: 8px;
-
+    /* margin-right: px; */
+    width: 60px;
     @media (max-width: 1336px) {
       width: 30%;
       /* margin-left: 32px; */
@@ -216,7 +215,7 @@ const WritingMui = ({ setImage }) => {
             <CategoryBox>
               <CategoryFormControl>
                 <CategoryInputLabel id="demo-simple-select-label">
-                  <span className="CategorySpan">카테고리</span>
+                  <span className="CategorySpan">일반</span>
                   {/* 카테고리 */}
                 </CategoryInputLabel>
                 <CategorySelect

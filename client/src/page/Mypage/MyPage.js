@@ -70,7 +70,7 @@ const MypageCenter = styled.div`
 `;
 /** 아이디 */
 const MypageText = styled.span`
-  height: 85px;
+  height: 50px;
   color: #686868;
   font-size: ${theme.fontSizes.fs30};
   @media screen and (max-width: 540px) {

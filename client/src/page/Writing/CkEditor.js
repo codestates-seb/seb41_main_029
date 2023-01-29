@@ -17,13 +17,13 @@ const BottomDiv = styled.div`
   @media (max-width: 1336px) {
     width: 100%;
 
-    margin-bottom: 5%;
+    margin-bottom: 10%;
   }
 `;
 // button or a 태그
 const ViewButton = styled.a`
-  width: 120px;
-  height: 50px;
+  width: 100px;
+  height: 45px;
   border-radius: 10px;
   border: none;
   background-color: ${(props) => props.bgColor};
@@ -61,26 +61,17 @@ export default function CkEditor({ setImage, title, category }) {
           loader.file.then((files) => {
             body.append("files", files);
             //  res.url로 작성 할거 같다
-            fetch(
-              `${API_URL}/${UPLOAD_ENDPOINT}`,
-              {
-                method: "post",
-                body: body,
-                files: files,
-              }
-              // {
-              //   headers: {
-              //     "Content-Type": "application/json",
-              //     // Authorization: `Bearer ${Token}`,
-              //     Authorization: `Bearer ${getCookie("token")}`,
-              //   },
-              // }
-            )
+            fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
+              method: "post",
+              body: body,
+              files: files,
+            })
               .then((res) => res.json())
               .then((res) => {
                 // resolve({ default: `https://ifh.cc/g/HkGCpv.png` }); // 구글 이미지 호스팅 한것
-                resolve({ default: res.files }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
+                resolve({ default: res[0] }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
                 // setImgUrl(res.imgUrl);
+                // resolve({ default: res[0] });
                 console.log(files);
                 console.log(res.body);
                 console.log(res);

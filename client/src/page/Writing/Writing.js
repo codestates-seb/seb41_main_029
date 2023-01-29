@@ -66,13 +66,15 @@ const TotalContainer = styled.div`
   }
 
   // 아이콘 끝의 버튼 2개 건들이지 말것@@@@@@@
+  /* .ck.ck-button.ck-disabled .ck-button__icon {
+  
+    @media (max-width: 570px) {
+      display: none;
+    }
+  } */
   .ck.ck-button.ck-disabled .ck-button__icon,
   a.ck.ck-button.ck-disabled .ck-button__icon {
-    /* @media (max-width: 1336px) {
-      width: 50px;
-    } */
-    @media (max-width: 560px) {
-      border: 2px solid red;
+    @media (max-width: 570px) {
       display: none;
     }
   }
