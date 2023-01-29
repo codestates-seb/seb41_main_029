@@ -340,6 +340,9 @@ const InfoTitle = styled.span`
   text-overflow: ellipsis;
   padding-left: 8px;
   cursor: pointer;
+  @media screen and (max-width: 370px) {
+    width: 55px;
+  }
 `;
 /** 댓글 수 */
 const InfoComment = styled.span`
@@ -391,6 +394,7 @@ const InfoView = styled.div`
     @media screen and (max-width: 540px) {
       font-size: ${theme.fontSizes.fs12};
       margin-right: 6px;
+      white-space: nowrap;
     }
   }
 `;

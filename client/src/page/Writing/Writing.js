@@ -72,15 +72,11 @@ const TotalContainer = styled.div`
       width: 50px;
     } */
     @media (max-width: 560px) {
+      border: 2px solid red;
       display: none;
     }
   }
-  // 이미지 아이콘 옆의 아이콘 4개가 사라진다 ㅅㅂ 뭔 4개야 맨 앞에 아이콘도 같이 사라진다
-  .ck.ck-dropdown {
-    /* @media (max-width: 390px) {
-      display: none;
-    } */
-  }
+
   // 아이콘들 세부 기능 건드리지 말것@@@@@@@
   .ck.ck-toolbar.ck-toolbar_grouping > .ck-toolbar__items {
     button {
@@ -100,15 +96,14 @@ const TotalContainer = styled.div`
     }
   }
 
-  // 이미지 버튼 기능 570 되면 사라짐 건들이지 말것@@@@@@@ 크기만 조절
+  // 이미지 버튼 기능
   .ck-file-dialog-button {
-    @media (max-width: 625px) {
+    @media (max-width: 631px) {
       display: none;
     }
   }
 
   // 아이콘 있는 창 중앙으로 정렬 건들이지 말것@@@@@@@
-  // 아이콘 있는 창 크기 조절 반응형 줘도 효과 없음 신경 쓰지 말자
   .ck-toolbar {
     width: 1141px;
     border-radius: 20px 20px 0 0;
@@ -131,14 +126,6 @@ const TotalContainer = styled.div`
   .ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners {
     border-radius: 10px 10px 0 0;
   }
-  //아이콘 Paragraph의 설정 와 2개더 아이콘
-  /* .ck.ck-dropdown .ck-button.ck-dropdown__button {
-    border-radius: 8px;
-
-    @media (max-width: 1336px) {
-      width: 100%;
-    }
-  } */
   .ck.ck-button.ck-dropdown__button {
     svg {
       @media (max-width: 470px) {
@@ -166,19 +153,19 @@ export default function Writing() {
   const Token = cookie.get("token");
 
   return (
-    <>
-      {Token !== undefined ? (
-        <TotalContainer>
-          <ContainerView>
-            <WritingMui />
-          </ContainerView>
-        </TotalContainer>
-      ) : (
-        <>
-          {alert("로그인이 되어 있지 않습니다!")}
-          <Navigate to="/login" />
-        </>
-      )}
-    </>
+    // <>
+    //   {Token !== undefined ? (
+    <TotalContainer>
+      <ContainerView>
+        <WritingMui />
+      </ContainerView>
+    </TotalContainer>
+    // ) : (
+    //   <>
+    //     {alert("로그인이 되어 있지 않습니다!")}
+    //     <Navigate to="/login" />
+    //   </>
+    // )}
+    // </>
   );
 }

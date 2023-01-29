@@ -45,11 +45,12 @@ export default function CkEditor({ setImage, title, category }) {
   const [answer, setAnswer] = useState(""); //editor이 부분에 html을 막는 기능으 넣으면 될까?
   const navigate = useNavigate();
   const [files, setFiles] = useState();
+  const [imgUrl, setImgUrl] = useState();
   // const API_URL = "https://noteyard-backend.herokuapp.com";
   // const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
   const API_URL =
     "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
-  const UPLOAD_ENDPOINT = "boards/articles";
+  const UPLOAD_ENDPOINT = "uploadFiles";
 
   const uploadAdapter = (loader) => {
     // (2)
@@ -57,17 +58,32 @@ export default function CkEditor({ setImage, title, category }) {
       upload: () => {
         return new Promise((resolve, reject) => {
           const body = new FormData();
-          loader.file.then((file) => {
-            body.append("uploadImg", file);
+          loader.file.then((files) => {
+            body.append("files", files);
             //  res.url로 작성 할거 같다
-            fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
-              method: "post",
-              body: body,
-            })
+            fetch(
+              `${API_URL}/${UPLOAD_ENDPOINT}`,
+              {
+                method: "post",
+                body: body,
+                files: files,
+              }
+              // {
+              //   headers: {
+              //     "Content-Type": "application/json",
+              //     // Authorization: `Bearer ${Token}`,
+              //     Authorization: `Bearer ${getCookie("token")}`,
+              //   },
+              // }
+            )
+              .then((res) => res.json())
               .then((res) => {
-                // resolve({ default: `https://ibb.co/TWfQMJN` });
                 // resolve({ default: `https://ifh.cc/g/HkGCpv.png` }); // 구글 이미지 호스팅 한것
-                resolve({ default: res.profileImageUrl }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
+                resolve({ default: res.files }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
+                // setImgUrl(res.imgUrl);
+                console.log(files);
+                console.log(res.body);
+                console.log(res);
               })
               .catch((err) => {
                 reject(err);
@@ -94,6 +110,7 @@ export default function CkEditor({ setImage, title, category }) {
           title: title,
           content: answer,
           category: category,
+          imgUrl: imgUrl,
         },
 
         {

@@ -23,23 +23,22 @@ const SpanContainer = styled.div`
     /* margin-left: -24px; */
     width: 45px;
     display: flex;
-
+    //패딩으로 제목 왼쪽에 공간을 만들어서 밀리자 않ㅡ다 좋ㅏ
     @media (max-width: 1336px) {
-      width: 70px;
+      /* width: 70px; */
       /* width: 100%; */
       padding-left: 5%;
       white-space: nowrap;
       /* display: none; */
     }
-    // 400이 되면 또 세로로 된다 카테고리가 너무 크다 줄여보자
-    @media (max-width: 600px) {
+    @media (max-width: 500px) {
       font-size: ${theme.fontSizes.fs18};
-      /* display: none; */
+      display: none;
     }
   }
   input {
     width: 860px;
-    min-width: 150px;
+    /* min-width: 150px; */
     height: 40px;
     border-radius: 8px;
     outline: none;
@@ -49,8 +48,11 @@ const SpanContainer = styled.div`
       font-size: ${theme.fontSizes.fs18};
     }
     @media (max-width: 1336px) {
-      width: 75%;
+      width: 71.5%;
       /* width: 920px; */
+    }
+    @media (max-width: 500px) {
+      width: 50%;
     }
   }
 `;
@@ -67,31 +69,56 @@ const SpanContent = styled.div`
     /* flex-direction: column-reverse; // 세로 */
     align-items: center;
   }
-  @media (max-width: 360px) {
+  @media (max-width: 355px) {
     display: flex;
     justify-content: space-between;
   }
 `;
 const MuiContainer = styled.div`
+  @media (max-width: 500px) {
+    /* width: 100%; */
+    /* border: 2px solid red; */
+    /* width: 30%; */
+    /* margin-top: 8%; // 세로 */
+  }
   button {
     border: none;
     background-color: ${({ theme }) => theme.colors.white};
     cursor: pointer;
   }
 `;
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+// 전체 사이즈 테스트
 const CategoryBox = styled(Box)`
   width: 180px;
-
+  display: flex;
+  /* justify-content: right; */
+  /* padding-left: 20px; */
   @media (max-width: 1336px) {
-    width: 180px;
     /* margin-top: 8%; // 세로 */
+    /* width: 100%; // 남은 공간의 퍼센트 */
+    width: 150px;
   }
-  @media (max-width: 360px) {
+
+  @media (max-width: 500px) {
+    display: flex;
+    /* border: 2px solid blue; */
+    float: right;
+
     /* margin-top: 27%; // 세로 */
+    width: 115px;
   }
-  // 방금 한것
+
+  // 딱 박스 사이즈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   .css-1nrlq1o-MuiFormControl-root {
     @media (max-width: 1336px) {
+      width: 80%;
+      /* border: 2px solid red; */
+    }
+    @media (max-width: 500px) {
+      width: 90%;
+      margin-left: 12px;
+      /* border: 2px solid red; */
     }
   }
 `;
@@ -110,11 +137,6 @@ const CategoryInputLabel = styled(InputLabel)`
       display: none;
     }
   }
-
-  /* @media (max-width: 1336px) {
-    width: 50%;
-    font-size: 12px;
-  } */
 `;
 //.
 const CategorySelect = styled(Select)`
@@ -129,12 +151,11 @@ const CategorySelect = styled(Select)`
 
     @media (max-width: 1336px) {
       width: 30%;
-    }
-    @media (max-width: 1336px) {
-      width: 30%;
+      /* margin-left: 32px; */
     }
   }
 `;
+
 // 전체 크기
 const CategoryFormControl = styled(FormControl)`
   width: 100%;
@@ -146,7 +167,7 @@ const CategoryFormControl = styled(FormControl)`
     font-weight: 800;
     font-family: "Noto Sans CJK KR";
   }
-  // X
+  // X 이건 전체 박스 사이즈에서 위로 더 높음 그러니 딱히 필요없는 듯 한데 밑에 전체 크기가 신경쓰인다
   .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
     /* margin: 8px 0 0 12px; */
     font-size: ${({ theme }) => theme.fontSizes.fs18};
@@ -154,6 +175,7 @@ const CategoryFormControl = styled(FormControl)`
   }
   //전체 크기
   @media (max-width: 1336px) {
+    /* border: 2px solid blue; */
     width: 70%;
     /* width: 600px; */
   }
@@ -185,13 +207,13 @@ const WritingMui = ({ setImage }) => {
           <input
             type="text"
             value={title.title}
-            placeholder="제목"
+            // placeholder="제목"
             onChange={titleChange}
           />
 
           {/* <Mui /> */}
           <MuiContainer>
-            <CategoryBox sx={{ minWidth: 180 }}>
+            <CategoryBox>
               <CategoryFormControl>
                 <CategoryInputLabel id="demo-simple-select-label">
                   <span className="CategorySpan">카테고리</span>

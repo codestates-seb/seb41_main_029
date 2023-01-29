@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie } from "../Cookies";
 
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
-
+const upload_endpoint = "uploadFiles";
 export const login = async (data) => {
   try {
     const res = await axios({
@@ -116,6 +116,21 @@ export const getBookmark = async (Token, useId) => {
     return res;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const postImage = async (data) => {
+  try {
+    const res = await axios({
+      method: "post",
+      data,
+      headers: { Authorization: `Bearer ${getCookie("token")}` },
+      url: `${url}${upload_endpoint}`,
+    });
+    console.log(res);
+    return res;
+  } catch (e) {
+    console.log(e);
   }
 };
 // export const deleteUser = async (Token, useId) => {
