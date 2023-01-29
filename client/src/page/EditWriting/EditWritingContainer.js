@@ -208,7 +208,7 @@ const EditWritingEditor = ({ setImage }) => {
         `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`,
         {
           title: detail,
-          content: answer.content,
+          content: answer,
           category: category,
         },
         {
@@ -230,13 +230,9 @@ const EditWritingEditor = ({ setImage }) => {
   };
 
   const [answer, setAnswer] = useState(""); //editor
-  // const [flag, setFlag] = useState(false);
   const [category, setCategory] = useState("");
   const title1 = viewInfo?.data?.title;
-  // console.log(viewInfo?.data?.title);
   const [detail, setDetail] = useState("");
-  // viewInfo?.data?.title
-  // const [reqcategory, setreqcategory] = useState("");
   const onClick = (e) => {
     // answer와 detail을 값을 넘겨줘서 클릭시 콘솔에 찍히게 해줘야 한다
     // setDetail(e.target.value),
@@ -258,6 +254,7 @@ const EditWritingEditor = ({ setImage }) => {
     setDetail(event.target.value);
     console.log(detail);
   };
+  console.log(answer?.content);
   const API_URL =
     "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
   const UPLOAD_ENDPOINT = "uploadFiles";
@@ -364,11 +361,13 @@ const EditWritingEditor = ({ setImage }) => {
             editor={ClassicEditor}
             data={viewInfo?.data?.content}
             onChange={(event, editor) => {
-              const data = editor.getData();
-              setAnswer({
-                ...answer,
-                content: data,
-              });
+              // const data = editor.getData();
+              // setAnswer({
+              //   ...answer,
+              //   content: data,
+              // });
+              // console.log(answer);
+              setAnswer(editor.getData());
               console.log(answer);
             }}
             config={{

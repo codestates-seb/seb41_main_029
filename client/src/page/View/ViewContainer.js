@@ -25,29 +25,35 @@ const TitleContainer = styled.div`
   display: flex;
   justify-content: center;
   @media screen and (max-width: 1336px) {
-    /* margin-left: 40px; */
     /* width: 80%; */
-    /* max-width: 1000px; */
+    /* justify-content: left; */
   }
 `;
 
 const TitleLayout = styled.div`
   display: flex;
   flex-direction: row;
+  word-break: break-all;
   width: 100%;
   max-width: 1100px;
   margin: 64px 0px;
   font-size: ${({ theme }) => theme.fontSizes.fs30};
   padding-right: 30px;
   @media screen and (max-width: 1336px) {
-    width: 100%;
-    max-width: 1000px;
+    width: 80%;
+    max-width: 800px;
     margin-left: 38px;
     font-size: ${({ theme }) => theme.fontSizes.fs24};
   }
   @media screen and (max-width: 800px) {
     width: 100%;
     max-width: 800px;
+    margin-left: 38px;
+    font-size: ${({ theme }) => theme.fontSizes.fs18};
+  }
+  @media screen and (max-width: 620px) {
+    /* width: 100%;
+    max-width: 400px; */
     margin-left: 38px;
     font-size: ${({ theme }) => theme.fontSizes.fs18};
   }
@@ -169,6 +175,7 @@ const Icondiv1 = styled.div`
   }
 `;
 const Icondiv11 = styled.div`
+  width: 100%;
   margin-left: 60px;
   @media screen and (max-width: 1336px) {
     margin-left: 33px;
