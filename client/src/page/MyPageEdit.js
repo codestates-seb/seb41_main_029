@@ -123,11 +123,16 @@ const Input = styled.input`
 export default function MyPageEdit() {
   const [userInfo, setUserInfo] = useState([]);
   const [fileImage, setFileImage] = useState("");
-  const [imageFormData, setImageFormData] = useState(null);
   const [request, setRequest] = useState({
     username: "",
     password: "",
     profileImageUrl: "",
+  });
+  const [validityCheck, setValidityCheck] = useState({
+    usernameMessage: "",
+    passwordMeassge: "",
+    isUsernamePass: false,
+    isPasswordPass: false,
   });
   const inputRef = useRef();
   const navigate = useNavigate();
@@ -156,16 +161,12 @@ export default function MyPageEdit() {
     setFileImage(URL.createObjectURL(file));
     const formData = new FormData();
     formData.append("files", file);
-    setImageFormData(formData);
-    console.log(formData);
-
-    const res = await postImage(imageFormData);
+    const res = await postImage(formData);
     let profilImageUrl = res.data[0].split("?")[0];
     setRequest({
       ...request,
       profileImageUrl: profilImageUrl,
     });
-    console.log(request);
   };
 
   const onChangeInput = (e) => {
@@ -173,7 +174,6 @@ export default function MyPageEdit() {
       ...request,
       [e.target.id]: e.target.value,
     });
-    console.log(request);
   };
 
   const onSubmit = async () => {
@@ -223,7 +223,6 @@ export default function MyPageEdit() {
                   id="username"
                   width="80%"
                   height="40px"
-                  placeholder={userInfo.username}
                   onChange={onChangeInput}
                 />
               </div>
