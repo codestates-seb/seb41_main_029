@@ -10,24 +10,24 @@ import {
   faHeart,
   faClock,
   faEye,
-  faCircleUser,
   faFilter,
-  faCaretDown,
+  faBookmark,
   faSeedling,
-  faClover,
   faLemon,
   faTree,
   faMountain,
   faMountainSun,
-  faCircleExclamation,
-  faTriangleExclamation,
+  faCannabis,
 } from "@fortawesome/free-solid-svg-icons";
 import { ViewdateCommu } from "../../component/DateCalculator";
-import Box from "@mui/material/Box";
-import { InputLabel } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import {
+  Icon1,
+  Icon2,
+  Icon3,
+  Icon4,
+  Icon5,
+  Icon6,
+} from "../../component/UserIcon";
 
 const Container = styled.div`
   display: flex;
@@ -44,6 +44,7 @@ const ComuContainer = styled.div`
 const FilterDiv = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   margin-bottom: 10px;
 `;
 const FilterList = styled.div`
@@ -284,6 +285,7 @@ const PostInfo = styled.div`
 
 const PostDate = styled.div`
   display: flex;
+  justify-content: center;
   min-width: 65px;
   .clock {
     /* padding: 7px 3px 0 0; */
@@ -304,6 +306,10 @@ const PostView = styled.div`
 
 const PostLike = styled.div`
   color: #95cecf;
+`;
+
+const PostBookmark = styled.div`
+  color: #a7d99a;
 `;
 
 const PostWriter = styled.div`
@@ -694,6 +700,23 @@ export default function Community() {
               >
                 추천순
               </Filter>
+              <Filter
+                style={{ fontWeight: sortby === "북마크순" ? "600" : "" }}
+                onClick={() => {
+                  setSortby("북마크순");
+                  if (cate === 0) {
+                    handleLoadAll("", "북마크순");
+                  } else if (cate === 1) {
+                    handleLoadAll("/1", "북마크순");
+                  } else if (cate === 2) {
+                    handleLoadAll("/2", "북마크순");
+                  } else {
+                    handleLoadAll("/3", "북마크순");
+                  }
+                }}
+              >
+                북마크순
+              </Filter>
             </FilterList>
           </FilterDiv>
           <TopBox>
@@ -755,6 +778,7 @@ export default function Community() {
             {loading && <Loading>게시글을 받아오는 중입니다... </Loading>}
             {Array.isArray(items) && items.length > 0
               ? items.map((item) => {
+                  // item마다 state 뿌려주기
                   return (
                     <StyledLink to={`/boards/${item.boardSeq}`}>
                       <Post key={item.boardSeq}>
@@ -775,8 +799,6 @@ export default function Community() {
                             ""
                           )}
                         </PostHead>
-                        {/* <PostBox> */}
-
                         <PostTitleBox>
                           <PostTitle className="ellipsis">
                             <StyledLink to={`/boards/${item.boardSeq}`}>
@@ -786,40 +808,29 @@ export default function Community() {
 
                           <PostComment>[{item.commented}]</PostComment>
                         </PostTitleBox>
-                        {/* <PostInfo>
-                        <PostDate>
-                          <FontAwesomeIcon
-                            icon={faClock}
-                            size="xs"
-                            className="clock"
-                          />{" "}
-                          <ViewdateCommu createdAt={item.createdAt} />
-                        </PostDate>
-                        <PostView>
-                          <FontAwesomeIcon icon={faEye} size="xs" />{" "}
-                          {item.viewCount}
-                        </PostView>
-                        <PostLike>
-                          <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
-                          {item.likeCount}
-                        </PostLike>
-                      </PostInfo> */}
-                        {/* </PostBox> */}
                         <PostWriter>
-                          {/* <FontAwesomeIcon
-                            icon={faCircleUser}
-                            size="lg"
-                            color="gray"
-                          /> */}
-                          <IconTestXS>
-                            <FontAwesomeIcon
-                              className="icon"
-                              icon={faMountainSun}
-                              color="#62B6B7"
-                              size="xs"
-                            />
-                          </IconTestXS>{" "}
-                          {item.username}
+                          {0 <= item.point && item.point <= 30 ? <Icon1 /> : ""}
+                          {31 <= item.point && item.point <= 70 ? (
+                            <Icon2 />
+                          ) : (
+                            ""
+                          )}
+                          {71 <= item.point && item.point <= 100 ? (
+                            <Icon3 />
+                          ) : (
+                            ""
+                          )}
+                          {101 <= item.point && item.point <= 200 ? (
+                            <Icon4 />
+                          ) : (
+                            ""
+                          )}
+                          {201 <= item.point && item.point <= 300 ? (
+                            <Icon5 />
+                          ) : (
+                            ""
+                          )}
+                          {301 <= item.point ? <Icon6 /> : ""} {item.username}
                         </PostWriter>
                         <PostInfo>
                           <PostDate>
@@ -838,6 +849,10 @@ export default function Community() {
                             <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
                             {item.likeCount}
                           </PostLike>
+                          <PostBookmark>
+                            <FontAwesomeIcon icon={faBookmark} size="xs" />{" "}
+                            {item.bookmarkCount}
+                          </PostBookmark>
                         </PostInfo>
                       </Post>
                     </StyledLink>
@@ -883,28 +898,32 @@ export default function Community() {
           <FontAwesomeIcon icon={faMagnifyingGlass} color="gray" size="lg" />
         </Search>
       </SearchContainer>
+      {/* item.point에 따라 아이콘 설정 */}
       <IconTest>
-        <FontAwesomeIcon className="icon" icon={faSeedling} color="#62B6B7" />
+        <FontAwesomeIcon className="icon" icon={faLemon} color="#D5A56D" />
       </IconTest>
       <IconTest>
-        <FontAwesomeIcon className="icon" icon={faClover} color="#62B6B7" />
+        <FontAwesomeIcon className="icon" icon={faSeedling} color="#AAC9C9" />
       </IconTest>
       <IconTest>
-        <FontAwesomeIcon className="icon" icon={faLemon} color="#62B6B7" />
+        <FontAwesomeIcon className="icon" icon={faCannabis} color="#7ABCBD" />
       </IconTest>
       <IconTest>
         <FontAwesomeIcon className="icon" icon={faTree} color="#62B6B7" />
       </IconTest>
       <IconTest>
-        <FontAwesomeIcon className="icon" icon={faMountain} color="#62B6B7" />
+        <FontAwesomeIcon className="icon" icon={faMountain} color="#40A5A6" />
       </IconTest>
       <IconTest>
         <FontAwesomeIcon
           className="icon"
           icon={faMountainSun}
-          color="#62B6B7"
+          color="#309798"
         />
       </IconTest>
+      <IconTestXS>
+        <FontAwesomeIcon icon={faMountainSun} color="#62B6B7" size="xs" />
+      </IconTestXS>
       <IconTestXS>
         <FontAwesomeIcon
           className="icon"
@@ -913,14 +932,7 @@ export default function Community() {
           size="xs"
         />
       </IconTestXS>
-      <IconTest>
-        <FontAwesomeIcon
-          className="icon"
-          icon={faMountainSun}
-          color="#62B6B7"
-          size="2xs"
-        />
-      </IconTest>
+      <Icon1></Icon1>
     </>
   );
 }
@@ -940,9 +952,9 @@ const IconTest = styled.div`
 `;
 const IconTestXS = styled.div`
   margin: 10px;
-  background-color: #f2f2f2;
+  background-color: #fafafa;
   /* ${({ theme }) => theme.colors.container}; */
-  border: 1px solid #ccc;
+  border: 1px solid #bbb;
   /* width: 17px;
   height: 17px; */
   width: 17px;
@@ -952,7 +964,7 @@ const IconTestXS = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0 0 2px 2px #ddd;
+  box-shadow: inset 0 0 2px 3px #eee;
   @media (max-width: 600px) {
     width: 10px;
     height: 10px;
