@@ -904,12 +904,12 @@ export default function Community() {
         </Search>
       </SearchContainer>
       {/* item.point에 따라 아이콘 설정 */}
-      <Icon1 />
+      {/* <Icon1 />
       <Icon2 />
       <Icon3 />
       <Icon4 />
       <Icon5 />
-      <Icon6 />
+      <Icon6 /> */}
     </>
   );
 }
