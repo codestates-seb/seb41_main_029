@@ -11,7 +11,6 @@ import { deleteComment } from "../../api/commentAPI";
 import Loading from "../../component/Loading";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/usersReducer";
-import { bindActionCreators } from "redux";
 
 const ViewLayout = styled.div`
   @media screen and (max-width: 1336px) {

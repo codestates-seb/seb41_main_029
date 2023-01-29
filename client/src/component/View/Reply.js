@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { deleteReply, editReply } from "../../api/reply";
 import { FormProvider, useForm } from "react-hook-form";
 import Input from "../Input";
+import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
 
 const ReplyContainer = styled.div`
   /* display: flex;
@@ -210,29 +211,11 @@ const ContentBottom = styled.div`
     /* width: 80%; */
   }
 `;
-const CommentContainer1 = styled.div`
-  width: 100%;
-  max-width: 130px;
-  height: 100%;
-  max-height: 30px;
-  border-radius: 10px;
-  /* margin-left: 24px;
-  margin-right: 24px; */
-  margin-bottom: 6px;
-  background-color: #f9f7f7;
-  /* background-color: white; */
-  padding: 8px;
-  @media screen and (max-width: 1336px) {
-    width: 90%;
-  }
-`;
-const CommentLayout1 = styled.div`
-  display: flex;
-  margin-bottom: -20px;
-  height: 80px;
-  margin-left: 25px;
-  /* justify-content: center; */
-  align-items: center;
+
+const PostWriter = styled.div`
+  margin-top: -8px;
+  margin-right: -4px;
+  margin-left: -12px;
 `;
 
 const Reply = ({ reply }) => {
@@ -301,6 +284,14 @@ const Reply = ({ reply }) => {
           <ReplyLayout1>
             <UserInfo>
               <BiReply className="icon" />
+              <PostWriter>
+                {0 <= reply?.point && reply?.point <= 30 ? <Icon1 /> : ""}
+                {31 <= reply?.point && reply?.point <= 70 ? <Icon2 /> : ""}
+                {71 <= reply?.point && reply?.point <= 100 ? <Icon3 /> : ""}
+                {101 <= reply?.point && reply?.point <= 200 ? <Icon4 /> : ""}
+                {201 <= reply?.point && reply?.point <= 300 ? <Icon5 /> : ""}
+                {301 <= reply?.point ? <Icon6 /> : ""}
+              </PostWriter>
               {reply?.username}
               <CommentDate createdAt={reply?.createdAt} />
             </UserInfo>

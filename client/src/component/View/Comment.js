@@ -11,6 +11,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import Reply from "./Reply";
 
+import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
+
 const CommentInfo = styled.div`
   display: flex;
   padding-top: 16px;
@@ -173,6 +175,12 @@ const BottomContainer = styled.div`
   /* height: 50px; */
 `;
 
+const PostWriter = styled.div`
+  margin-top: -8px;
+  margin-right: -4px;
+  margin-left: -12px;
+`;
+
 const Comment = ({ comment }) => {
   const { boardSeq } = useParams();
   const methods = useForm();
@@ -244,6 +252,14 @@ const Comment = ({ comment }) => {
           ) : null}
 
           <CommentInfo>
+            <PostWriter>
+              {0 <= comment?.point && comment?.point <= 30 ? <Icon1 /> : ""}
+              {31 <= comment?.point && comment?.point <= 70 ? <Icon2 /> : ""}
+              {71 <= comment?.point && comment?.point <= 100 ? <Icon3 /> : ""}
+              {101 <= comment?.point && comment?.point <= 200 ? <Icon4 /> : ""}
+              {201 <= comment?.point && comment?.point <= 300 ? <Icon5 /> : ""}
+              {301 <= comment?.point ? <Icon6 /> : ""}
+            </PostWriter>
             <span style={{ marginRight: "10px" }}>{comment?.username}</span>
             <CommentDate createdAt={comment?.createdAt} />
           </CommentInfo>
