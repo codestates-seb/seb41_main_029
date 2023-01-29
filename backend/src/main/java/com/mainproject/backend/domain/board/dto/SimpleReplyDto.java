@@ -18,6 +18,7 @@ public class SimpleReplyDto {
         private int liked;
         private int disliked;
         private String userId;
+        private int point;
         private String content;
         private String username;
         private Reply.ReplyStatus replyStatus;

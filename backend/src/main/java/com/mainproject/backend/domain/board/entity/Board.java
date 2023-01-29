@@ -44,6 +44,10 @@ public class Board extends Auditable { //시간 추가
     @Column(nullable = false)
     private String content; // 게시판 내용
 
+    @Lob
+    @Column(nullable = true)
+    private String imageUrl;
+
     private Integer viewCount = 0;  // 조회 수
 
 

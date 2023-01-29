@@ -216,16 +216,18 @@ public class BoardService {
     @Transactional
     public String updateOfBookmarkBoard(Long boardSeq, User user) {
         Board board = findVerifiedBoard(boardSeq);
+        board.setUser(board.getUser());
         if (!hasBookmarkBoard(board, user)) {
             board.increaseBookmarkCount();
             board.increaseBookmarkStatus();
             //포인트로직
-            board.setUser(board.getUser());
             board.getUser().increaseManyManyPoint();
             return createBookmarkBoard(board, user);
         }
         board.decreaseBookmarkCount();
         board.decreaseBookmarkStatus();
+        //포인트로직
+        board.getUser().decreaseManyManyPoint();
         return removeBookmarkBoard(board, user);
     }
 

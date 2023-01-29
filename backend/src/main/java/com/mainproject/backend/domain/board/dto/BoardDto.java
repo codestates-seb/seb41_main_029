@@ -24,6 +24,7 @@ public class BoardDto {
         @NotBlank
         private String content;
 
+
     }
 
     @Getter
@@ -91,6 +92,7 @@ public class BoardDto {
         private Long boardSeq;
 
         private Long userSeq;
+        private int point;
         private String username;
         private String category;
         private String title;

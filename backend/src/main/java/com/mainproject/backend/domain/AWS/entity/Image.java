@@ -27,8 +27,9 @@ public class Image {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
-    @Column(name = "url", nullable = false)
-    private String url;
+
+//    @Column(name = "url", nullable = false, length = 255)
+//    private String url;
 
 
 //    @ElementCollection

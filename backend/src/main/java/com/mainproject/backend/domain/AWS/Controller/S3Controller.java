@@ -28,8 +28,8 @@ public class S3Controller {
 
     @PostMapping("/uploadFiles")
     public ResponseEntity<List<String>> uploadFiles(@RequestParam("files") List<MultipartFile> files) {
-        User user = getPrincipal();
-        List<String> fileUrls = s3Service.uploadFiles(files, user);
+//        User user = getPrincipal();
+        List<String> fileUrls = s3Service.uploadFiles(files/*, user*/);
         return new ResponseEntity<>(fileUrls, HttpStatus.OK);
     }
 

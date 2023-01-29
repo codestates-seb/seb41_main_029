@@ -71,6 +71,9 @@ public class User extends Auditable {
     public void increaseManyManyPoint() {
         this.point += 10;
     }
+    public void decreaseManyManyPoint() {
+        this.point -= 10;
+    }
 
     public void decreasePoint() {
         this.point -= 1;

@@ -24,9 +24,9 @@ import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
 
 @Service
 public class S3Service {
@@ -36,12 +36,15 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    Duration duration = Duration.ofHours(6);
+    Instant expiration = Instant.now().plus(duration);
+
     @Autowired
     public S3Service(AmazonS3 s3client, ImageRepository imageRepository) {
         this.s3client = s3client;
         this.imageRepository = imageRepository;
     }
-    public List<String> uploadFiles(List<MultipartFile> files, User user) {
+    public List<String> uploadFiles(List<MultipartFile> files) {
         List<String> fileUrls = new ArrayList<>();
         for (MultipartFile file : files) {
             try {
@@ -57,14 +60,14 @@ public class S3Service {
                 S3ObjectSummary s3ObjectSummary = s3client.listObjects(bucket,fileName).getObjectSummaries().get(0);
                 String fileKey = s3ObjectSummary.getKey();
                 // Generate a URL for the image
-                URL url = s3client.getUrl(bucket, fileKey);
+                URL url = s3client.generatePresignedUrl(bucket, fileKey, Date.from(expiration));
                 String fileUrl = url.toString();
                 fileUrls.add(fileUrl);
                 //save to db
-                Image image = new Image();
-                image.setUrl(fileUrl);
-                image.setUser(user);
-                imageRepository.save(image);
+//                Image image = new Image();
+//                image.setUrl(fileKey);
+//                image.setUser(user);
+//                imageRepository.save(image);
             } catch (IOException e) {
                 throw new IllegalStateException(e);
             }
