@@ -67,7 +67,7 @@ export const ViewdateCommu = ({ createdAt }) => {
   // console.log(now2);
   // console.log(getDay.format("YY/MM/DD"));
   if (now2 === getDay.format("YY/MM/DD")) {
-    return <div>{getDay.add(9, "h").format("hh:mm")}</div>;
+    return <div>{getDay.add(9, "h").format("HH:mm")}</div>;
   } else {
     return <div>{getDay.format("YY/MM/DD")}</div>;
   }

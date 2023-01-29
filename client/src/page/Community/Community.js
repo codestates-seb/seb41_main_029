@@ -151,7 +151,7 @@ const WritingBtn = styled.div`
     color: #62b6b7;
   }
   @media (max-width: 600px) {
-    font-size: 15px;
+    font-size: 14px;
   }
 `;
 
@@ -335,11 +335,16 @@ const PostWriter = styled.div`
     min-width: 70px;
   } */
   @media (max-width: 1000px) {
-    width: 300px;
+    width: 320px;
     min-width: 70px;
   }
-  @media (max-width: 700px) {
+  @media (max-width: 800px) {
     width: 450px;
+    min-width: 70px;
+    font-size: 13px;
+  }
+  @media (max-width: 700px) {
+    width: 630px;
     min-width: 70px;
     font-size: 13px;
   }
@@ -810,12 +815,12 @@ export default function Community() {
                         </PostTitleBox>
                         <PostWriter>
                           {0 <= item.point && item.point <= 30 ? <Icon1 /> : ""}
-                          {31 <= item.point && item.point <= 70 ? (
+                          {31 <= item.point && item.point <= 60 ? (
                             <Icon2 />
                           ) : (
                             ""
                           )}
-                          {71 <= item.point && item.point <= 100 ? (
+                          {61 <= item.point && item.point <= 100 ? (
                             <Icon3 />
                           ) : (
                             ""
@@ -899,40 +904,12 @@ export default function Community() {
         </Search>
       </SearchContainer>
       {/* item.point에 따라 아이콘 설정 */}
-      <IconTest>
-        <FontAwesomeIcon className="icon" icon={faLemon} color="#D5A56D" />
-      </IconTest>
-      <IconTest>
-        <FontAwesomeIcon className="icon" icon={faSeedling} color="#AAC9C9" />
-      </IconTest>
-      <IconTest>
-        <FontAwesomeIcon className="icon" icon={faCannabis} color="#7ABCBD" />
-      </IconTest>
-      <IconTest>
-        <FontAwesomeIcon className="icon" icon={faTree} color="#62B6B7" />
-      </IconTest>
-      <IconTest>
-        <FontAwesomeIcon className="icon" icon={faMountain} color="#40A5A6" />
-      </IconTest>
-      <IconTest>
-        <FontAwesomeIcon
-          className="icon"
-          icon={faMountainSun}
-          color="#309798"
-        />
-      </IconTest>
-      <IconTestXS>
-        <FontAwesomeIcon icon={faMountainSun} color="#62B6B7" size="xs" />
-      </IconTestXS>
-      <IconTestXS>
-        <FontAwesomeIcon
-          className="icon"
-          icon={faMountainSun}
-          color="#62B6B7"
-          size="xs"
-        />
-      </IconTestXS>
-      <Icon1></Icon1>
+      <Icon1 />
+      <Icon2 />
+      <Icon3 />
+      <Icon4 />
+      <Icon5 />
+      <Icon6 />
     </>
   );
 }
