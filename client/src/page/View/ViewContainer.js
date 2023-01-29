@@ -11,7 +11,6 @@ import { deleteComment } from "../../api/commentAPI";
 import Loading from "../../component/Loading";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/usersReducer";
-import { bindActionCreators } from "redux";
 
 const ViewLayout = styled.div`
   @media screen and (max-width: 1336px) {
@@ -21,27 +20,41 @@ const ViewLayout = styled.div`
 `;
 
 const TitleContainer = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
   @media screen and (max-width: 1336px) {
-    width: 100%;
-    /* max-width: 1000px; */
+    /* width: 80%; */
+    /* justify-content: left; */
   }
 `;
 
 const TitleLayout = styled.div`
   display: flex;
   flex-direction: row;
+  word-break: break-all;
   width: 100%;
   max-width: 1100px;
   margin: 64px 0px;
   font-size: ${({ theme }) => theme.fontSizes.fs30};
   padding-right: 30px;
   @media screen and (max-width: 1336px) {
-    width: 100%;
-    /* max-width: 1000px; */
-    margin-left: 20px;
+    width: 80%;
+    max-width: 800px;
+    margin-left: 38px;
     font-size: ${({ theme }) => theme.fontSizes.fs24};
+  }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    max-width: 800px;
+    margin-left: 38px;
+    font-size: ${({ theme }) => theme.fontSizes.fs18};
+  }
+  @media screen and (max-width: 620px) {
+    /* width: 100%;
+    max-width: 400px; */
+    margin-left: 38px;
+    font-size: ${({ theme }) => theme.fontSizes.fs18};
   }
 `;
 
@@ -55,6 +68,7 @@ const IconLayout = styled.div`
   @media screen and (max-width: 1336px) {
     width: 100%;
     max-width: 120px;
+    /* margin-right: 30px; */
   }
 `;
 
@@ -76,25 +90,33 @@ const Line = styled.div`
 const BodyContainer = styled.div`
   display: flex;
   justify-content: center;
-
+  /* margin-left: 12px; */
   @media screen and (max-width: 1336px) {
-    width: 100%;
-    max-width: 800px;
-    /* margin-left: 20px; */
+    /* width: 100%;
+    max-width: 800px; */
+    margin-left: 24px;
   }
 `;
 
 const BodyLayout = styled.div`
   margin-top: 64px;
   width: 100%;
-  max-width: 1190px;
+  max-width: 1200px;
+  /* margin-left: 12px; */
   font-size: ${({ theme }) => theme.fontSizes.fs18};
   @media screen and (max-width: 1336px) {
     /* display: flex;
     justify-content: center; */
     width: 100%;
-    max-width: 700px;
+    /* max-width: 700px; */
     padding-right: 20px;
+    margin-left: 18px;
+  }
+  @media screen and (max-width: 800px) {
+    /* width: 100%;
+    max-width: 800px; */
+    /* margin-left: 38px; */
+    font-size: ${({ theme }) => theme.fontSizes.fs16};
   }
 `;
 const UserInfoLayout = styled.div`
@@ -152,6 +174,7 @@ const Icondiv1 = styled.div`
   }
 `;
 const Icondiv11 = styled.div`
+  width: 100%;
   margin-left: 60px;
   @media screen and (max-width: 1336px) {
     margin-left: 33px;
