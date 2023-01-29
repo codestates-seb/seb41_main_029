@@ -24,6 +24,7 @@ public class BoardDto {
         @NotBlank
         private String content;
 
+
     }
 
     @Getter

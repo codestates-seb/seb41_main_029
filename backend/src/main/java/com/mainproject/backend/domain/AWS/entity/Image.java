@@ -28,8 +28,8 @@ public class Image {
     private User user;
 
 
-    @Column(name = "url", nullable = false, length = 255)
-    private String url;
+//    @Column(name = "url", nullable = false, length = 255)
+//    private String url;
 
 
 //    @ElementCollection

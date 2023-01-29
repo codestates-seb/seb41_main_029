@@ -64,8 +64,8 @@ public class S3Service {
                 String fileUrl = url.toString();
                 fileUrls.add(fileUrl);
                 //save to db
-                Image image = new Image();
-//                image.setUrl(fileUrl);
+//                Image image = new Image();
+//                image.setUrl(fileKey);
 //                image.setUser(user);
 //                imageRepository.save(image);
             } catch (IOException e) {
