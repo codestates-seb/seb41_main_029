@@ -13,7 +13,7 @@ import {
 } from "../../api/userAPI";
 import ReactPaginate from "react-paginate";
 import { getCookie, removeCookie } from "../../Cookies";
-import { ViewdateCommu } from "../../component/DateCalculator";
+import { CommentDate, ViewdateCommu } from "../../component/DateCalculator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 /** 전체 컨테이너 */
@@ -28,6 +28,7 @@ const MypageTitle = styled.div`
   width: 1236px;
   margin: 120px 0 40px 0;
   height: 1000px;
+  border-radius: 10px;
   /* min-width: 500px; */
 
   @media screen and (max-width: 1336px) {
@@ -570,13 +571,13 @@ export default function MyPage() {
                 <MypageText> {userInfo.username} 님</MypageText>
                 <MypageProfileInfo>
                   가입 날짜 :
-                  <ViewdateCommu modifiedAt={userInfo.modifiedAt} />
+                  <CommentDate modifiedAt={userInfo.modifiedAt} />
                 </MypageProfileInfo>
                 <MypageId>아이디 : {userInfo.userId}</MypageId>
               </MypageCenter>
-              {/* <PointContainer>
+              <PointContainer>
                 <PointTitle>현재 포인트 : {userInfo.point} 점</PointTitle>
-              </PointContainer> */}
+              </PointContainer>
             </MypageInfo>
             <MypageBtns>
               {munuArr.map((ele, index) => {
