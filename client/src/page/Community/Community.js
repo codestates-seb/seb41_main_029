@@ -10,15 +10,24 @@ import {
   faHeart,
   faClock,
   faEye,
-  faCircleUser,
   faFilter,
+  faBookmark,
+  faSeedling,
+  faLemon,
+  faTree,
+  faMountain,
+  faMountainSun,
+  faCannabis,
 } from "@fortawesome/free-solid-svg-icons";
 import { ViewdateCommu } from "../../component/DateCalculator";
-import Box from "@mui/material/Box";
-import { InputLabel } from "@mui/material";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import {
+  Icon1,
+  Icon2,
+  Icon3,
+  Icon4,
+  Icon5,
+  Icon6,
+} from "../../component/UserIcon";
 
 const Container = styled.div`
   display: flex;
@@ -29,6 +38,43 @@ const Container = styled.div`
 const ComuContainer = styled.div`
   width: 100%;
   max-width: 1336px;
+`;
+
+// 필터
+const FilterDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+`;
+const FilterList = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 0 0 10px 10px;
+  background-color: ${({ theme }) => theme.colors.container};
+  /* width: 230px; */
+  padding: 13px 0px 13px 15px;
+  border-radius: 15px;
+  /* border-bottom: 2.3px solid ${({ theme }) => theme.colors.gray_01}; */
+  @media (max-width: 600px) {
+    font-size: ${({ theme }) => theme.fontSizes.fs12};
+    padding: 8px 0px 8px 10px;
+    margin: 0 0 7px 7px;
+  }
+`;
+
+const Filter = styled.div`
+  margin-right: 15px;
+  cursor: pointer;
+  &:hover {
+    font-weight: 600;
+  }
+  &:focus {
+    font-weight: 600;
+  }
+  &:active {
+    font-weight: 600;
+  }
 `;
 
 // 리스트 윗 부분
@@ -45,9 +91,11 @@ const CategoryWritingBtnBar = styled.div`
   /* padding: 30px; */
   padding: 25px 3%;
   font-size: ${({ theme }) => theme.fontSizes.fs18};
+  border-bottom: 3px solid ${({ theme }) => theme.colors.gray_01};
   @media (max-width: 600px) {
     /* font-size: ${({ theme }) => theme.fontSizes.fs16}; */
-    padding: 23px 4%;
+    padding: 21px 4%;
+    border-bottom: 2px solid ${({ theme }) => theme.colors.gray_01};
   }
 `;
 
@@ -157,10 +205,10 @@ const PostHeadBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 3px 8px;
+  padding: 2.5px 7px;
   color: #fff;
   border-radius: 10px;
-  font-size: 14px;
+  font-size: 13px;
   min-width: 20px;
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs10};
@@ -170,29 +218,17 @@ const PostHeadBox = styled.div`
 const PostTitleBox = styled.div`
   width: 700px;
   display: flex;
-  /* .ellipsis {
-    width: 100%;
-    max-width: 500px;
+  .ellipsis {
+    /* width: 100%; */
+    /* max-width: 500px; */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  } */
-  /* @media (max-width: 800px) {
-    .ellipsis {
-      width: 250px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    } */
+  }
   min-width: 80px;
   margin-right: 20px;
   @media (max-width: 600px) {
-    width: 400px;
     .ellipsis {
-      /* width: 130px; */
-      width: 100%;
-      min-width: 80px;
-      // width 말고 다른 속성 써야하나?
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -249,20 +285,36 @@ const PostInfo = styled.div`
 
 const PostDate = styled.div`
   display: flex;
+  justify-content: center;
   min-width: 65px;
   .clock {
-    padding: 7px 3px 0 0;
+    /* padding: 7px 3px 0 0; */
+    padding: 8% 3px 0 0;
+  }
+  @media (max-width: 600px) {
+    /* .clock {
+        padding: 2px 3px 0 0;
+    } */
   }
 `;
 
 const PostView = styled.div`
+  color: #d5a56d;
   @media (max-width: 600px) {
   }
 `;
 
-const PostLike = styled.div``;
+const PostLike = styled.div`
+  color: #95cecf;
+`;
+
+const PostBookmark = styled.div`
+  color: #a7d99a;
+`;
 
 const PostWriter = styled.div`
+  display: flex;
+  align-items: center;
   width: 200px;
   min-width: 100px;
   margin-left: 4%;
@@ -363,6 +415,7 @@ const Search = styled.div`
   width: 290px;
   border-radius: 10px;
   padding-right: 13px;
+  /* border-bottom: 3px solid ${({ theme }) => theme.colors.gray_01}; */
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs12};
     width: 200px;
@@ -376,6 +429,7 @@ const SearchInput = styled.input`
   outline: none;
   width: 280px;
   padding: 10px 10px 10px 13px;
+
   font-size: ${({ theme }) => theme.fontSizes.fs16};
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs12};
@@ -392,7 +446,7 @@ export default function Community() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const limit = 10; // 한 페이지 당 게시글 수
+  const limit = 15; // 한 페이지 당 게시글 수
 
   // 인증
   const cookies = new Cookies();
@@ -406,7 +460,8 @@ export default function Community() {
   const [searchTerm, setSearchTerm] = useState("");
 
   // 페이지네이션
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(0); // 1페이지로 초기화
+  const [pageCount, setPageCount] = useState(0); // 페이지범위
 
   useEffect(() => {
     token ? setHasToken(true) : setHasToken(false);
@@ -416,6 +471,11 @@ export default function Community() {
   const handleClick = () => {
     hasToken ? navigate("/writing") : alert("로그인을 먼저 진행해주세요");
   };
+
+  // 드롭다운
+  const [isActive, setIsActive] = useState(false);
+  const [selected, setSelected] = useState("");
+  const options = ["최신순", "조회순", "추천순", "북마크순"];
 
   //----------------------------------------------------------------------------
 
@@ -443,6 +503,11 @@ export default function Community() {
       // setItems(res.data.body);
       setLoading(false);
       setPage(0); // 페이지 초기화
+      for (let key in res.data.body) {
+        // console.log(key);
+        const total = key;
+        setPageCount(total / limit);
+      }
     } catch (err) {
       throw err;
     }
@@ -490,12 +555,12 @@ export default function Community() {
         // setPosts(response.data);
         // setLoading(false);
         // console.log(res.data);
-        for (let key in res.data.body) {
-          // console.log(key);
-          console.log(res.data.body[key]);
-          setItems(res.data.body[key]);
-        }
-        // setItems(res.data.body[2]);
+        // for (let key in res.data.body) {
+        //   // console.log(key);
+        //   console.log(res.data.body[key]);
+        //   setItems(res.data.body[key]);
+        // }
+        setItems(res.data);
         setLoading(false);
       }
     } catch (err) {
@@ -564,10 +629,96 @@ export default function Community() {
     setLoading(false);
   };
 
+  // 아바타 데이터
+  const axiosAvata = async () => {
+    const res = await axios.get("https://api.dicebear.com/5.x/icons/svg");
+    const data = await res;
+    return data;
+    // const data = await res.data.body[2];
+    // return data;
+  };
+
+  console.log(axiosAvata);
+
   return (
     <>
       <Container>
         <ComuContainer>
+          <FilterDiv>
+            <FilterList>
+              <Filter>
+                <FontAwesomeIcon icon={faFilter} color="#62B6B7" />
+              </Filter>
+              <Filter
+                style={{ fontWeight: sortby === "최신순" ? "600" : "" }}
+                onClick={() => {
+                  setSortby("최신순");
+                  if (cate === 0) {
+                    handleLoadAll("", "최신순");
+                  } else if (cate === 1) {
+                    handleLoadAll("/1", "최신순");
+                  } else if (cate === 2) {
+                    handleLoadAll("/2", "최신순");
+                  } else {
+                    handleLoadAll("/3", "최신순");
+                  }
+                }}
+              >
+                최신순
+              </Filter>
+              <Filter
+                style={{ fontWeight: sortby === "조회순" ? "600" : "" }}
+                onClick={() => {
+                  setSortby("조회순");
+                  if (cate === 0) {
+                    handleLoadAll("", "조회순");
+                  } else if (cate === 1) {
+                    handleLoadAll("/1", "조회순");
+                  } else if (cate === 2) {
+                    handleLoadAll("/2", "조회순");
+                  } else {
+                    handleLoadAll("/3", "조회순");
+                  }
+                }}
+              >
+                조회순
+              </Filter>
+              <Filter
+                style={{ fontWeight: sortby === "추천순" ? "600" : "" }}
+                onClick={() => {
+                  setSortby("추천순");
+                  if (cate === 0) {
+                    handleLoadAll("", "추천순");
+                  } else if (cate === 1) {
+                    handleLoadAll("/1", "추천순");
+                  } else if (cate === 2) {
+                    handleLoadAll("/2", "추천순");
+                  } else {
+                    handleLoadAll("/3", "추천순");
+                  }
+                }}
+              >
+                추천순
+              </Filter>
+              <Filter
+                style={{ fontWeight: sortby === "북마크순" ? "600" : "" }}
+                onClick={() => {
+                  setSortby("북마크순");
+                  if (cate === 0) {
+                    handleLoadAll("", "북마크순");
+                  } else if (cate === 1) {
+                    handleLoadAll("/1", "북마크순");
+                  } else if (cate === 2) {
+                    handleLoadAll("/2", "북마크순");
+                  } else {
+                    handleLoadAll("/3", "북마크순");
+                  }
+                }}
+              >
+                북마크순
+              </Filter>
+            </FilterList>
+          </FilterDiv>
           <TopBox>
             <CategoryWritingBtnBar>
               <Categories>
@@ -612,11 +763,12 @@ export default function Community() {
                 </Cate>
                 {console.log(cate)}
               </Categories>
+
               <BtnBox>
-                <FilterBtn>
+                {/* <FilterBtn>
                   <FontAwesomeIcon icon={faFilter} size="xs" color="gray" />{" "}
                   FILTER
-                </FilterBtn>
+                </FilterBtn> */}
                 <WritingBtn onClick={handleClick}>글 작성</WritingBtn>
               </BtnBox>
             </CategoryWritingBtnBar>
@@ -626,82 +778,84 @@ export default function Community() {
             {loading && <Loading>게시글을 받아오는 중입니다... </Loading>}
             {Array.isArray(items) && items.length > 0
               ? items.map((item) => {
+                  // item마다 state 뿌려주기
                   return (
-                    <Post key={item.boardSeq}>
-                      <PostHead>
-                        {item.category === "# 일반" ? (
-                          <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
-                        ) : (
-                          ""
-                        )}
-                        {item.category === "# 정보" ? (
-                          <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
-                        ) : (
-                          ""
-                        )}
-                        {item.category === "# 질문" ? (
-                          <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
-                        ) : (
-                          ""
-                        )}
-                      </PostHead>
-                      {/* <PostBox> */}
+                    <StyledLink to={`/boards/${item.boardSeq}`}>
+                      <Post key={item.boardSeq}>
+                        <PostHead>
+                          {item.category === "# 일반" ? (
+                            <PostHeadBox bgColor="#6DB8B9">일반</PostHeadBox>
+                          ) : (
+                            ""
+                          )}
+                          {item.category === "# 정보" ? (
+                            <PostHeadBox bgColor="#AEDC88">정보</PostHeadBox>
+                          ) : (
+                            ""
+                          )}
+                          {item.category === "# 질문" ? (
+                            <PostHeadBox bgColor="#A6D9DE">질문</PostHeadBox>
+                          ) : (
+                            ""
+                          )}
+                        </PostHead>
+                        <PostTitleBox>
+                          <PostTitle className="ellipsis">
+                            <StyledLink to={`/boards/${item.boardSeq}`}>
+                              {item.title}
+                            </StyledLink>
+                          </PostTitle>
 
-                      <PostTitleBox>
-                        <PostTitle className="ellipsis">
-                          <StyledLink to={`/boards/${item.boardSeq}`}>
-                            {item.title}
-                          </StyledLink>
-                        </PostTitle>
-
-                        <PostComment>[{item.commented}]</PostComment>
-                      </PostTitleBox>
-                      {/* <PostInfo>
-                        <PostDate>
-                          <FontAwesomeIcon
-                            icon={faClock}
-                            size="xs"
-                            className="clock"
-                          />{" "}
-                          <ViewdateCommu createdAt={item.createdAt} />
-                        </PostDate>
-                        <PostView>
-                          <FontAwesomeIcon icon={faEye} size="xs" />{" "}
-                          {item.viewCount}
-                        </PostView>
-                        <PostLike>
-                          <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
-                          {item.likeCount}
-                        </PostLike>
-                      </PostInfo> */}
-                      {/* </PostBox> */}
-                      <PostWriter>
-                        <FontAwesomeIcon
-                          icon={faCircleUser}
-                          size="lg"
-                          color="gray"
-                        />{" "}
-                        {item.username}
-                      </PostWriter>
-                      <PostInfo>
-                        <PostDate>
-                          <FontAwesomeIcon
-                            icon={faClock}
-                            size="xs"
-                            className="clock"
-                          />{" "}
-                          <ViewdateCommu createdAt={item.createdAt} />
-                        </PostDate>
-                        <PostView>
-                          <FontAwesomeIcon icon={faEye} size="xs" />{" "}
-                          {item.viewCount}
-                        </PostView>
-                        <PostLike>
-                          <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
-                          {item.likeCount}
-                        </PostLike>
-                      </PostInfo>
-                    </Post>
+                          <PostComment>[{item.commented}]</PostComment>
+                        </PostTitleBox>
+                        <PostWriter>
+                          {0 <= item.point && item.point <= 30 ? <Icon1 /> : ""}
+                          {31 <= item.point && item.point <= 70 ? (
+                            <Icon2 />
+                          ) : (
+                            ""
+                          )}
+                          {71 <= item.point && item.point <= 100 ? (
+                            <Icon3 />
+                          ) : (
+                            ""
+                          )}
+                          {101 <= item.point && item.point <= 200 ? (
+                            <Icon4 />
+                          ) : (
+                            ""
+                          )}
+                          {201 <= item.point && item.point <= 300 ? (
+                            <Icon5 />
+                          ) : (
+                            ""
+                          )}
+                          {301 <= item.point ? <Icon6 /> : ""} {item.username}
+                        </PostWriter>
+                        <PostInfo>
+                          <PostDate>
+                            <FontAwesomeIcon
+                              icon={faClock}
+                              size="xs"
+                              className="clock"
+                            />{" "}
+                            <ViewdateCommu createdAt={item.createdAt} />
+                          </PostDate>
+                          <PostView>
+                            <FontAwesomeIcon icon={faEye} size="xs" />{" "}
+                            {item.viewCount}
+                          </PostView>
+                          <PostLike>
+                            <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                            {item.likeCount}
+                          </PostLike>
+                          <PostBookmark>
+                            <FontAwesomeIcon icon={faBookmark} size="xs" />{" "}
+                            {item.bookmarkCount}
+                          </PostBookmark>
+                        </PostInfo>
+                      </Post>
+                    </StyledLink>
                   );
                 })
               : // : Array.isArray(items) && items.length === 0 ? (
@@ -720,9 +874,9 @@ export default function Community() {
         previousLabel={"〈"}
         nextLabel={"〉"}
         breakLabel={"..."}
-        pageCount={15}
-        marginPagesDisplayed={3}
-        pageRangeDisplayed={2}
+        pageCount={pageCount}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={1}
         onPageChange={handlePageClick}
         containerClassName="pagination justify-content-center"
         pageClassName="page-item"
@@ -744,169 +898,76 @@ export default function Community() {
           <FontAwesomeIcon icon={faMagnifyingGlass} color="gray" size="lg" />
         </Search>
       </SearchContainer>
-      <Filter1
-        onClick={() => {
-          handleLoadAll("", "최신순");
-        }}
-      >
-        최신순
-      </Filter1>
-      <Filter2
-        onClick={
-          () => {
-            handleLoadAll("", "조회순");
-          }
-          // cate에 따라 작동 나누기
-          // {cate === 0 ? () => {handleLoadAll("", "조회순")} : ""};
-          //   {cate === 1 ? () => {handleLoadAll("/1", "조회순")} : ""};
-        }
-      >
-        조회순
-      </Filter2>
-      <Filter3
-        onClick={() => {
-          handleLoadAll("", "추천순");
-        }}
-      >
-        추천순
-      </Filter3>
-      <Filter4
-        onClick={() => {
-          handleLoadAll("", "북마크순");
-        }}
-      >
-        북마크순
-      </Filter4>
-      {/* <Mui /> */}
-      <MuiContainer>
-        <CategoryBox sx={{ minWidth: 180 }}>
-          <CategoryFormControl>
-            <CategoryInputLabel id="demo-simple-select-label">
-              <span className="CategorySpan">
-                <FontAwesomeIcon icon={faFilter} size="xs" color="gray" />
-                FILTER
-              </span>
-              {/* 카테고리 */}
-            </CategoryInputLabel>
-            <CategorySelect
-              sx={{
-                // 카테고리 테두리 지우는 부분
-                boxShadow: "none",
-                ".MuiOutlinedInput-notchedOutline": {
-                  border: "none",
-                },
-              }}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              // value={category}
-              label="category"
-              // onChange={handleChange}
-            >
-              <CategoryMenuItem value={"GENERAL"}>최신순</CategoryMenuItem>
-              <CategoryMenuItem value={"INFORMATION"}>조회순</CategoryMenuItem>
-              <CategoryMenuItem value={"QUESTION"}>추천순</CategoryMenuItem>
-              <CategoryMenuItem value={"QUESTION"}>북마크순</CategoryMenuItem>
-            </CategorySelect>
-          </CategoryFormControl>
-        </CategoryBox>
-      </MuiContainer>
+      {/* item.point에 따라 아이콘 설정 */}
+      <IconTest>
+        <FontAwesomeIcon className="icon" icon={faLemon} color="#D5A56D" />
+      </IconTest>
+      <IconTest>
+        <FontAwesomeIcon className="icon" icon={faSeedling} color="#AAC9C9" />
+      </IconTest>
+      <IconTest>
+        <FontAwesomeIcon className="icon" icon={faCannabis} color="#7ABCBD" />
+      </IconTest>
+      <IconTest>
+        <FontAwesomeIcon className="icon" icon={faTree} color="#62B6B7" />
+      </IconTest>
+      <IconTest>
+        <FontAwesomeIcon className="icon" icon={faMountain} color="#40A5A6" />
+      </IconTest>
+      <IconTest>
+        <FontAwesomeIcon
+          className="icon"
+          icon={faMountainSun}
+          color="#309798"
+        />
+      </IconTest>
+      <IconTestXS>
+        <FontAwesomeIcon icon={faMountainSun} color="#62B6B7" size="xs" />
+      </IconTestXS>
+      <IconTestXS>
+        <FontAwesomeIcon
+          className="icon"
+          icon={faMountainSun}
+          color="#62B6B7"
+          size="xs"
+        />
+      </IconTestXS>
+      <Icon1></Icon1>
     </>
   );
 }
 
-const Filter1 = styled.div``;
-const Filter2 = styled.div``;
-const Filter3 = styled.div``;
-const Filter4 = styled.div``;
-
-const MuiContainer = styled.div`
-  button {
-    border: none;
-    background-color: ${({ theme }) => theme.colors.white};
-    cursor: pointer;
+// IconTest
+const IconTest = styled.div`
+  margin: 10px;
+  background-color: ${({ theme }) => theme.colors.container};
+  border: 1px solid #aaa;
+  width: 20px;
+  height: 20px;
+  border-radius: 15px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const IconTestXS = styled.div`
+  margin: 10px;
+  background-color: #fafafa;
+  /* ${({ theme }) => theme.colors.container}; */
+  border: 1px solid #bbb;
+  /* width: 17px;
+  height: 17px; */
+  width: 17px;
+  height: 17px;
+  border-radius: 17px;
+  padding: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 2px 3px #eee;
+  @media (max-width: 600px) {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
   }
 `;
-const CategoryBox = styled(Box)`
-  width: 180px;
-
-  @media (max-width: 1336px) {
-    width: 100%;
-    margin-top: 8%;
-  }
-  @media (max-width: 456px) {
-    margin-top: 27%;
-  }
-  // 방금 한것
-  .css-1nrlq1o-MuiFormControl-root {
-    @media (max-width: 1336px) {
-    }
-  }
-`;
-// 카테고리 글씨 움직이는 틀
-const CategoryInputLabel = styled(InputLabel)`
-  width: 100%;
-  margin: -8px 0 0px 12px;
-
-  .CategorySpan {
-    @media (max-width: 1336px) {
-      font-size: 14px;
-    }
-  }
-
-  /* @media (max-width: 1336px) {
-    width: 50%;
-    font-size: 12px;
-  } */
-`;
-//.
-const CategorySelect = styled(Select)`
-  height: 40px;
-  width: 130px;
-
-  // icon
-  // 반응형을 줬을 때 아이콘이 변함
-  .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
-    color: ${({ theme }) => theme.colors.main};
-    font-size: ${({ theme }) => theme.fontSizes.fs24};
-    margin-right: 8px;
-
-    @media (max-width: 1336px) {
-      width: 30%;
-    }
-  }
-`;
-// 전체 크기
-const CategoryFormControl = styled(FormControl)`
-  width: 100%;
-
-  border-radius: 8px;
-  background-color: ${({ theme }) => theme.colors.white};
-
-  label {
-    font-weight: 800;
-    font-family: "Noto Sans CJK KR";
-  }
-  // X
-  .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
-    margin: 8px 0 0 12px;
-    font-size: ${({ theme }) => theme.fontSizes.fs18};
-  }
-  // x
-  .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
-    display: none;
-  }
-  //전체 크기
-  @media (max-width: 1336px) {
-    width: 75%;
-  }
-  /* @media (max-width: 850px) {
-    width: 75%;
-    background-color: black;
-  } */
-
-  .css-1m5xwth-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
-    @media (max-width: 850px) {
-    }
-  }
-`;
-const CategoryMenuItem = styled(MenuItem)``;

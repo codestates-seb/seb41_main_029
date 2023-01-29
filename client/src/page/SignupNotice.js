@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-regular-svg-icons";
-import { MainBtn } from "../component/Button";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
