@@ -48,6 +48,7 @@ public interface BoardMapper {
                         .boardSeq(board.getBoardSeq())
                         .userSeq(board.getUser().getUserSeq())
                                 .username(board.getUser().getUsername())
+                                .point(board.getUser().getPoint())
                                 .category(board.getCategory().category)
                                 .title(board.getTitle())
                                 .bookmarkCount(board.getBookmarked())
