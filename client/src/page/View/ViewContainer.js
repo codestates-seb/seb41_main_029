@@ -34,10 +34,12 @@ const TitleLayout = styled.div`
   flex-direction: row;
   word-break: break-all;
   width: 100%;
+
   max-width: 1100px;
   margin: 64px 0px;
   font-size: ${({ theme }) => theme.fontSizes.fs30};
   padding-right: 30px;
+
   @media screen and (max-width: 1336px) {
     width: 80%;
     max-width: 800px;
