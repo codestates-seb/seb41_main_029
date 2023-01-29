@@ -140,15 +140,18 @@ const CategoryMenuItem = styled(MenuItem)``;
 
 const BottomDiv = styled.div`
   width: 100%;
+  height: 100%;
   justify-content: center;
   display: flex;
   margin-top: 40px;
+
   @media (max-width: 1336px) {
     width: 100%;
+
+    margin-bottom: 5%;
   }
 `;
 // button or a 태그
-// button 이면 align,justify,display 삭제하기
 const ViewButton = styled.a`
   width: 120px;
   height: 50px;
@@ -158,6 +161,7 @@ const ViewButton = styled.a`
   color: white;
   font-size: ${({ theme }) => theme.fontSizes.fs24};
   margin: 0 36px 0px 36px;
+
   align-items: center;
   justify-content: center;
   display: flex;

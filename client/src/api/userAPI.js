@@ -18,11 +18,17 @@ export const login = async (data) => {
   }
 };
 
-export const renewal = async (data) => {
+export const guestLogin = async (data) => {
+  const getRandom = Math.random();
+  const formdata = {
+    userId: getRandom,
+    username: getRandom,
+    password: getRandom,
+  };
   try {
     const res = await axios({
       method: "post",
-      data,
+      formdata,
       headers: { Authorization: null },
       url: `${url}auth/login`,
     });

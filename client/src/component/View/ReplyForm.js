@@ -57,14 +57,21 @@ const CommentReplyLayout1 = styled.div`
   /* margin-left: 24px; */
   justify-content: center;
   @media screen and (max-width: 1336px) {
-    /* width: 70%;
-    max-width: 630px; */
+    /* width: 100%; */
+    /* max-width: 720px; */
     /* margin-top: 20px; */
   }
   .form {
     @media screen and (max-width: 1336px) {
       width: 80%;
       margin-right: 450px;
+      /* max-width: 630px; 
+     margin-top: 20px; */
+    }
+    @media screen and (max-width: 750px) {
+      width: 60%;
+      max-width: 300px;
+      margin-right: 850px;
       /* max-width: 630px; 
      margin-top: 20px; */
     }
@@ -79,9 +86,9 @@ const CommentReplyLayout1 = styled.div`
     height: 30px;
     border-radius: 5px;
     color: white;
-    background-color: ${({ theme }) => theme.colors.main};
+    background-color: #bbbbbb;
     &:hover {
-      background-color: ${({ theme }) => theme.colors.main_hover};
+      background-color: #aaaaaa;
     }
 
     &:active {
@@ -97,8 +104,8 @@ const Line = styled.div`
   width: 100%;
   border: 1px dotted black;
   margin-bottom: 20px;
-  @media screen and (max-width: 1336px) {
-    /* width: 70%; */
+  @media screen and (max-width: 750px) {
+    width: 227%;
     /* max-width: 630px; 
      margin-top: 20px; */
   }
@@ -107,12 +114,15 @@ const ReplyContainer = styled.div`
   display: flex;
   float: right;
   width: 100%;
+  max-width: 1440px;
   /* height: 100px; */
   .input {
     @media screen and (max-width: 1336px) {
-      /* width: 200%; */
-      /* max-width: 630px; 
-     margin-top: 20px; */
+      /* width: 100%; */
+      /* width: 630px; */
+      /* width: fit-content; */
+      /* width: 63rem; */
+      /* max-width: 600px; */
     }
   }
 `;

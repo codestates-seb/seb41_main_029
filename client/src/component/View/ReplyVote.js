@@ -10,24 +10,36 @@ const VoteBtn = styled.button`
   /* margin-left: 24px; */
   margin-left: 76px;
   border-radius: 10px;
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+  border: 1px solid grey;
   @media screen and (max-width: 1336px) {
     margin-left: 76px;
+  }
+`;
+
+const VoteActBtn1 = styled.button`
+  margin-top: 12px;
+  /* margin-left: 24px; */
+  margin-left: 76px;
+  border-radius: 10px;
+  color: ${({ theme }) => theme.colors.main_hover};
+  border: 1px solid #439a97;
+  @media screen and (max-width: 1336px) {
+    /* margin-left: 78px; */
   }
 `;
 const VoteBtn1 = styled.button`
   margin-top: 12px;
   margin-left: 12px;
   border-radius: 10px;
-`;
-const VoteActBtn1 = styled.button`
-  margin-top: 12px;
-  /* margin-left: 24px; */
-  margin-left: 66px;
-  border-radius: 10px;
-  color: ${({ theme }) => theme.colors.main_hover};
-  border: 2px solid #439a97;
-  @media screen and (max-width: 1336px) {
-    margin-left: 78px;
+  border: 1px solid grey;
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
   }
 `;
 const VoteActBtn2 = styled.button`
@@ -35,7 +47,7 @@ const VoteActBtn2 = styled.button`
   margin-left: 12px;
   border-radius: 10px;
   color: red;
-  border: 2px solid red;
+  border: 1px solid red;
 `;
 const VoteContainer = styled.div`
   display: flex;

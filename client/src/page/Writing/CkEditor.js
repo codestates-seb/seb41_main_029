@@ -6,6 +6,7 @@ import axios from "axios";
 import { getCookie } from "../../Cookies";
 import { useNavigate } from "react-router-dom";
 import { faL } from "@fortawesome/free-solid-svg-icons";
+import { Cookies } from "react-cookie";
 
 const BottomDiv = styled.div`
   width: 100%;
@@ -84,26 +85,33 @@ export default function CkEditor({ setImage, title, category }) {
       return uploadAdapter(loader);
     };
   }
+  const files1 = new FormData();
+  files1.append("image", null);
+
+  const cookie = new Cookies();
+  const token = cookie.get("token");
 
   const onClicks = async () => {
-    const formdata = {
-      title: title,
-      content: answer,
-      category: category,
-      files: "",
-    };
+    // const formdata = {
+    //   title: title,
+    //   content: answer,
+    //   category: category,
+    //   files: files1,
+    // };
     await axios
       .post(
         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
+        {
+          title: title,
+          content: answer,
+          category: category,
+        },
         {
           headers: {
             "Content-Type": "application/json",
             // Authorization: `Bearer ${Token}`,
             Authorization: `Bearer ${getCookie("token")}`,
           },
-        },
-        {
-          data: formdata,
         }
       )
       .then((res) => {
