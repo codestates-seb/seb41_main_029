@@ -197,6 +197,7 @@ const EditWritingEditor = ({ setImage }) => {
     if (viewInfo) {
       setDetail(viewInfo?.data?.title);
       setCategory(reqcategory);
+      setAnswer(viewInfo?.data?.content);
     }
   }, [viewInfo]);
   console.log(viewInfo);
@@ -257,8 +258,9 @@ const EditWritingEditor = ({ setImage }) => {
     setDetail(event.target.value);
     console.log(detail);
   };
-  const API_URL = "https://noteyard-backend.herokuapp.com";
-  const UPLOAD_ENDPOINT = "api/blogs/uploadImg";
+  const API_URL =
+    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+  const UPLOAD_ENDPOINT = "uploadFiles";
   // console.log(detail);
   const uploadAdapter = (loader) => {
     // (2)
@@ -266,15 +268,23 @@ const EditWritingEditor = ({ setImage }) => {
       upload: () => {
         return new Promise((resolve, reject) => {
           const body = new FormData();
-          loader.file.then((file) => {
-            body.append("uploadImg", file);
+          loader.file.then((files) => {
+            body.append("files", files);
+            //  res.url로 작성 할거 같다
             fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
               method: "post",
               body: body,
+              files: files,
             })
               .then((res) => res.json())
               .then((res) => {
-                resolve({ default: `https://ibb.co/TWfQMJN` });
+                // resolve({ default: `https://ifh.cc/g/HkGCpv.png` }); // 구글 이미지 호스팅 한것
+                resolve({ default: res[0] }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
+                // setImgUrl(res.imgUrl);
+                // resolve({ default: res[0] });
+                console.log(files);
+                console.log(res.body);
+                console.log(res);
               })
               .catch((err) => {
                 reject(err);
