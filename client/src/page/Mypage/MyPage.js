@@ -475,7 +475,7 @@ export default function MyPage() {
       alert("취소 되었습니다.");
     } else {
       await axios
-        .delete("https://gohiking.co.kr/users", {
+        .delete("https://api.gohiking.co.kr/users", {
           headers: {
             "Content-Type": "application/json",
 

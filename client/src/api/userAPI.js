@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookie } from "../Cookies";
 
 // const url = `https://gohiking.co.kr/`;
-const url = `https://gohiking.co.kr/`;
+const url = `https://api.gohiking.co.kr`;
 const upload_endpoint = "uploadFiles";
 
 export const login = async (data) => {

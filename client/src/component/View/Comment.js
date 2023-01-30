@@ -8,7 +8,6 @@ import CommentVote from "./CommentVote";
 import { useForm, FormProvider } from "react-hook-form";
 import CommentReply from "./ReplyForm";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Reply from "./Reply";
 
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";

@@ -113,7 +113,7 @@ export default function Signup() {
   const onSubmit = (data) => {
     // console.log(data);
     axios
-      .post("https://gohiking.co.kr/users/signup", data, {
+      .post("https://api.gohiking.co.kr/users/signup", data, {
         headers: { "Content-Type": "application/json" },
       })
       .then((res) => {

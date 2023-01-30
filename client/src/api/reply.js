@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = `https://gohiking.co.kr/`;
+const url = `https://api.gohiking.co.kr`;
 
 export const postReply = async (token, data, boardSeq, commentSeq) => {
   const formdata = {

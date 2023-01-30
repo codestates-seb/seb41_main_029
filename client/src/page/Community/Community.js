@@ -410,7 +410,7 @@ const SearchInput = styled.input`
 export default function Community() {
   const navigate = useNavigate();
 
-  const url = "https://gohiking.co.kr";
+  const url = "https://api.gohiking.co.kr";
 
   // axios
   const [items, setItems] = useState([]);

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = `https://gohiking.co.kr/`;
+const url = `https://api.gohiking.co.kr`;
 const instance = axios.create({
   timeout: 30000,
 });
