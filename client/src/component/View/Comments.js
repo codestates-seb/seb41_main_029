@@ -89,7 +89,7 @@ const Comments = ({ commented, comments }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-  console.log(comments);
+  // console.log(comments);
   return (
     <>
       <CommentsLayout>

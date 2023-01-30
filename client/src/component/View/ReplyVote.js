@@ -97,7 +97,7 @@ const ReplyVote = ({ replySeq, liked, disliked }) => {
       setIsDownVote(true);
     }
   };
-  console.log(replySeq);
+  // console.log(replySeq);
   return (
     <>
       {isUpVote ? (

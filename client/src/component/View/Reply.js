@@ -237,7 +237,7 @@ const Reply = ({ reply }) => {
   const onSubmit = async (data) => {
     editReply(token, data, replySeq);
     window.location.reload();
-    console.log(data);
+    // console.log(data);
   };
   const handleDelete = () => {
     if (window.confirm("정말 삭제 하시겠습니까?")) {
@@ -246,7 +246,7 @@ const Reply = ({ reply }) => {
       window.location.reload();
     }
   };
-  console.log(reply);
+  // console.log(reply);
   return (
     <>
       {reply?.replyStatus === "REPLY_NOT_EXIST" ? (
