@@ -13,11 +13,8 @@ export const postReply = async (token, data, boardSeq, commentSeq) => {
       url: `${url}reply/${boardSeq}/${commentSeq}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 export const editReply = async (token, data, replySep) => {
   const formdata = {
@@ -30,11 +27,8 @@ export const editReply = async (token, data, replySep) => {
       data: formdata,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response);
     return response;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const deleteReply = async (token, boardSeq, replySep) => {
@@ -44,11 +38,8 @@ export const deleteReply = async (token, boardSeq, replySep) => {
       url: `${url}reply/${boardSeq}/${replySep}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
     return res;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const ReplyUpVote = async (Token, replySep) => {
@@ -62,12 +53,9 @@ export const ReplyUpVote = async (Token, replySep) => {
       alert("이미 추천하셨습니다.");
       window.location.reload();
     } else {
-      console.log(res);
       return res;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 export const ReplyDownVote = async (Token, replySep) => {
   try {
@@ -80,10 +68,7 @@ export const ReplyDownVote = async (Token, replySep) => {
       alert("이미 비추천하셨습니다.");
       window.location.reload();
     } else {
-      console.log(res);
       return res;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

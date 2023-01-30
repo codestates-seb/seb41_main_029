@@ -83,7 +83,7 @@ const CommentVote = ({ commentSeq, liked, disliked }) => {
       setIsDownVote(true);
     }
   };
-  console.log(commentSeq);
+  // console.log(commentSeq);
   return (
     <>
       {isUpVote ? (

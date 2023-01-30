@@ -200,7 +200,7 @@ const EditWritingEditor = ({ setImage }) => {
       setAnswer(viewInfo?.data?.content);
     }
   }, [viewInfo]);
-  console.log(viewInfo);
+  // console.log(viewInfo);
 
   const editwriting = async () => {
     await axios
@@ -220,12 +220,12 @@ const EditWritingEditor = ({ setImage }) => {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         navigate(`/boards/${boardSeq}`);
       })
       .catch((err) => {
         // navigate(`/boards/${boardSeq}`);
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -241,20 +241,20 @@ const EditWritingEditor = ({ setImage }) => {
   /** */
   const handleChange = (event) => {
     setCategory(event.target.value);
-    console.log(category);
+    // console.log(category);
   };
   const editorChange = (event) => {
     setAnswer({
       ...answer,
       content: event.target.value,
     });
-    console.log(answer);
+    // console.log(answer);
   };
   const titleChange = (event) => {
     setDetail(event.target.value);
-    console.log(detail);
+    // console.log(detail);
   };
-  console.log(answer?.content);
+  // console.log(answer?.content);
   const API_URL =
     "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
   const UPLOAD_ENDPOINT = "uploadFiles";
@@ -279,9 +279,9 @@ const EditWritingEditor = ({ setImage }) => {
                 resolve({ default: res[0] }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
                 // setImgUrl(res.imgUrl);
                 // resolve({ default: res[0] });
-                console.log(files);
-                console.log(res.body);
-                console.log(res);
+                // console.log(files);
+                // console.log(res.body);
+                // console.log(res);
               })
               .catch((err) => {
                 reject(err);
@@ -309,7 +309,7 @@ const EditWritingEditor = ({ setImage }) => {
   }
   const userId1 = JSON.parse(localStorage.getItem("userId"));
   const userId2 = viewInfo?.data?.userId;
-  console.log(viewInfo?.data?.userId);
+  // console.log(viewInfo?.data?.userId);
   return (
     <>
       {userId1 === userId2 ? (
@@ -368,7 +368,7 @@ const EditWritingEditor = ({ setImage }) => {
               // });
               // console.log(answer);
               setAnswer(editor.getData());
-              console.log(answer);
+              // console.log(answer);
             }}
             config={{
               extraPlugins: [uploadPlugin],

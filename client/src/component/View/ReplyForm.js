@@ -136,7 +136,7 @@ const CommentReply = ({ commentSeq }) => {
   const token = cookie.get("token");
   const methods = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     postReply(token, data, boardSeq, commentSeq);
     window.location.reload();
   };

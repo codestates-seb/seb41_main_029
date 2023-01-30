@@ -60,7 +60,7 @@ const CommentForm = () => {
     } else {
       postComment(data, Token, boardSeq);
       window.location.reload();
-      console.log(data);
+      // console.log(data);
     }
   };
 

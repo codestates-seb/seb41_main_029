@@ -20,6 +20,7 @@ const Card = styled.div`
   justify-content: center;
   max-width: 1920px;
   width: 100vw;
+  word-break: keep-all;
   img {
     height: auto;
     max-width: 800px;
@@ -29,7 +30,7 @@ const Card = styled.div`
     justify-content: space-around;
   }
   .text {
-    max-width: 400px;
+    max-width: 450px;
   }
   .mr50 {
     margin-right: 50px;
@@ -100,6 +101,9 @@ const Card = styled.div`
     .fs30 {
       font-size: ${(props) => props.theme.fontSizes.fs18};
     }
+    .text {
+      max-width: 500px;
+    }
     .mtb200 {
       margin: 50px 0;
     }
@@ -137,7 +141,9 @@ export default function LandingPage() {
               <div className="fs64 mt80">community</div>
               <div className="fs48">커뮤니티</div>
               <div className="fs30">
-                등산을 좋아하는 사람들과 함께 이야기를 나누어보세요
+                등산을 좋아하는 사람들과 함께 이야기를 나누어보세요 <br />
+                정보를 공유하고 질문할 수도 있어요 <br />
+                열심히 활동하시고 포인트를 얻어서 아이콘을 진화시켜 보세요
               </div>
             </div>
             <div>
@@ -145,7 +151,9 @@ export default function LandingPage() {
                 <div className="fs64 mt80">community</div>
                 <div className="fs48">커뮤니티</div>
                 <div className="fs30">
-                  등산을 좋아하는 사람들과 함께 이야기를 나누어보세요
+                  등산을 좋아하는 사람들과 함께 이야기를 나누어보세요 <br />
+                  정보를 공유하고 질문할 수도 있어요 <br />
+                  열심히 활동하시고 포인트를 얻어서 아이콘을 진화시켜 보세요
                 </div>
               </div>
             </div>
