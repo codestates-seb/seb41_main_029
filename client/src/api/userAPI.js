@@ -1,7 +1,8 @@
 import axios from "axios";
 import { getCookie } from "../Cookies";
 
-const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
+// const url = `https://gohiking.co.kr/`;
+const url = `https://gohiking.co.kr/`;
 const upload_endpoint = "uploadFiles";
 
 export const login = async (data) => {
@@ -49,7 +50,7 @@ export const socialLogin = async (data) => {
 export const getUser = async (Token, userId) => {
   try {
     const res = await axios({
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/mypage`,
+      url: `${url}users/mypage`,
       method: "get",
       headers: { Authorization: `Bearer ${Token}` },
       // "Content-Type": "application/json",
@@ -75,7 +76,7 @@ export const patchUser = async (data) => {
   try {
     const response = await axios({
       method: "patch",
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/mypage`,
+      url: `${url}users/mypage`,
       data: data,
       headers: { Authorization: `Bearer ${getCookie("token")}` },
     });
@@ -86,7 +87,7 @@ export const patchUser = async (data) => {
 export const getWrite = async (Token, userId) => {
   try {
     const res = await axios({
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/write`,
+      url: `${url}users/write`,
       method: "get",
       headers: { Authorization: `Bearer ${Token}` },
       // "Content-Type": "application/json",
@@ -99,7 +100,7 @@ export const getWrite = async (Token, userId) => {
 export const getComment = async (Token, useId) => {
   try {
     const res = await axios({
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/comment`,
+      url: `${url}users/comment`,
       method: "get",
       headers: { Authorization: `Bearer ${Token}` },
     });
@@ -110,7 +111,7 @@ export const getComment = async (Token, useId) => {
 export const getBookmark = async (Token, useId) => {
   try {
     const res = await axios({
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/bookmark`,
+      url: `${url}users/bookmark`,
       method: "get",
       headers: { Authorization: `Bearer ${Token}` },
     });

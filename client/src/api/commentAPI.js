@@ -2,7 +2,7 @@ import axios from "axios";
 import { Cookies } from "react-cookie";
 import { getCookie } from "../Cookies";
 
-const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
+const url = `https://gohiking.co.kr/`;
 
 export const postComment = async (data, token, boardSeq) => {
   const formdata = {

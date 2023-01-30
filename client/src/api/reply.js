@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
+const url = `https://gohiking.co.kr/`;
 
 export const postReply = async (token, data, boardSeq, commentSeq) => {
   const formdata = {

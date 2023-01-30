@@ -95,7 +95,7 @@ export default function CkEditor({ setImage, title, category }) {
   const onClicks = async () => {
     await axios
       .post(
-        "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
+        "https://gohiking.co.kr/boards/articles",
         {
           title: title,
           content: answer,

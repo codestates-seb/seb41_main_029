@@ -475,16 +475,13 @@ export default function MyPage() {
       alert("취소 되었습니다.");
     } else {
       await axios
-        .delete(
-          "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users",
-          {
-            headers: {
-              "Content-Type": "application/json",
+        .delete("https://gohiking.co.kr/users", {
+          headers: {
+            "Content-Type": "application/json",
 
-              Authorization: `Bearer ${getCookie("token")}`,
-            },
-          }
-        )
+            Authorization: `Bearer ${getCookie("token")}`,
+          },
+        })
         .then((res) => {
           console.log(res.data);
           alert("이용해 주셔서 감사합니다.");

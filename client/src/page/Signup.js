@@ -113,13 +113,9 @@ export default function Signup() {
   const onSubmit = (data) => {
     // console.log(data);
     axios
-      .post(
-        "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/signup",
-        data,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+      .post("https://gohiking.co.kr/users/signup", data, {
+        headers: { "Content-Type": "application/json" },
+      })
       .then((res) => {
         // console.log(res.data);
         navigate("/signupnotice");
