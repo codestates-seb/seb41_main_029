@@ -21,12 +21,10 @@ const SpanContainer = styled.div`
   .SpanTitle {
     font-size: ${({ theme }) => theme.fontSizes.fs24};
     width: 45px;
-    /* display: flex; */
 
     @media (max-width: 1336px) {
       padding-left: 5%;
       white-space: nowrap;
-      /* display: none; */
     }
     @media (max-width: 500px) {
       font-size: ${theme.fontSizes.fs18};
@@ -47,7 +45,6 @@ const SpanContainer = styled.div`
 `;
 
 const SpanContent = styled.div`
-  /* width: 1070px; */
   width: 100%;
   display: flex;
   gap: 20px;
@@ -55,12 +52,11 @@ const SpanContent = styled.div`
 
   @media (max-width: 1336px) {
     display: flex;
-    /* flex-direction: column-reverse; // 세로 */
+
     align-items: center;
   }
   @media (max-width: 350px) {
     display: flex;
-    /* justify-content: space-between; */
   }
 `;
 const MuiContainer = styled.div`
@@ -73,22 +69,16 @@ const MuiContainer = styled.div`
     cursor: pointer;
   }
 `;
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-// 전체 사이즈 테스트
+
+// 전체 사이즈
 const CategoryBox = styled(Box)`
   width: 180px;
   display: flex;
-  /* border: 2px solid blue; */
-  /* justify-content: right; */
-  /* padding-left: 20px; */
+
   @media (max-width: 1336px) {
-    /* margin-top: 8%; // 세로 */
-    /* width: 100%; // 남은 공간의 퍼센트 */
     width: 150px;
   }
   @media (max-width: 1250px) {
-    /* margin-top: 8%; // 세로 */
-    /* width: 100%; // 남은 공간의 퍼센트 */
     width: 120px;
   }
 
@@ -96,20 +86,17 @@ const CategoryBox = styled(Box)`
     display: flex;
     float: right;
 
-    /* margin-top: 27%; // 세로 */
     width: 115px;
   }
 
-  // 딱 박스 사이즈 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  // 맞춤 사이즈
   .css-1nrlq1o-MuiFormControl-root {
     @media (max-width: 1336px) {
       width: 80%;
-      /* border: 2px solid red; */
     }
     @media (max-width: 500px) {
       width: 90%;
       margin-left: 12px;
-      /* border: 2px solid red; */
     }
   }
 `;
@@ -122,9 +109,6 @@ const CategoryInputLabel = styled(InputLabel)`
     @media (max-width: 1336px) {
       font-size: ${theme.fontSizes.fs16};
     }
-    @media (max-width: 360px) {
-      /* display: none; */
-    }
   }
 `;
 //.
@@ -132,7 +116,7 @@ const CategorySelect = styled(Select)`
   height: 40px;
 
   // icon
-  // 반응형을 줬을 때 아이콘이 변함
+
   .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
     color: ${({ theme }) => theme.colors.main};
     font-size: ${({ theme }) => theme.fontSizes.fs64};
@@ -160,17 +144,12 @@ const CategoryFormControl = styled(FormControl)`
     display: none;
   }
 
-  // X 이건 전체 박스 사이즈에서 위로 더 높음 그러니 딱히 필요없는 듯 한데 밑에 전체 크기가 신경쓰인다
   .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
-    /* margin: 8px 0 0 12px; */
     font-size: ${({ theme }) => theme.fontSizes.fs18};
-    /* border: 2px solid red; */
   }
   //전체 크기
   @media (max-width: 1336px) {
-    /* border: 2px solid blue; */
     width: 70%;
-    /* width: 600px; */
   }
   @media (max-width: 360px) {
     width: 45%;
@@ -185,11 +164,9 @@ const WritingMui = ({ setImage }) => {
 
   const handleChange = (event) => {
     setCategory(event.target.value);
-    console.log(category);
   };
   const titleChange = (event) => {
     setTitle(event.target.value);
-    console.log(title);
   };
 
   return (
@@ -197,19 +174,13 @@ const WritingMui = ({ setImage }) => {
       <SpanContainer>
         <SpanContent>
           <span className="SpanTitle">제목</span>
-          <input
-            type="text"
-            value={title.title}
-            // placeholder="제목을 적어주세요"
-            onChange={titleChange}
-          />
+          <input type="text" value={title.title} onChange={titleChange} />
           {/* <Mui /> */}
           <MuiContainer>
             <CategoryBox>
               <CategoryFormControl>
                 <CategoryInputLabel id="demo-simple-select-label">
                   <span className="CategorySpan">일 반</span>
-                  {/* 카테고리 */}
                 </CategoryInputLabel>
                 <CategorySelect
                   sx={{
