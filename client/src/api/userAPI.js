@@ -78,7 +78,6 @@ export const postImage = async (data) => {
       headers: { Authorization: `Bearer ${getCookie("token")}` },
       url: `${url}${upload_endpoint}`,
     });
-    console.log(res);
     return res;
   } catch (e) {
     console.log(e);
@@ -93,7 +92,6 @@ export const patchUser = async (data) => {
       data: data,
       headers: { Authorization: `Bearer ${getCookie("token")}` },
     });
-    console.log(response);
     return response;
   } catch (error) {
     console.log(error);
