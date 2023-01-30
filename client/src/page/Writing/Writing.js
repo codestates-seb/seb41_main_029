@@ -1,18 +1,13 @@
 import styled from "styled-components";
-import theme from "../../Theme";
-import axios from "axios";
 import * as React from "react";
 import WritingMui from "./WritingMui";
 import { Cookies } from "react-cookie";
 import { Navigate } from "react-router-dom";
 
 const TotalContainer = styled.div`
-  /* width: 100%; */
-  /* height: 100%; */
   justify-content: center;
   display: flex;
   margin-top: 80px;
-  /* !importantf를 하면 css 안먹는걸 우선적으로 적용하게 해준다  */
 
   @media (max-width: 1336px) {
     width: 100%;
@@ -27,7 +22,6 @@ const TotalContainer = styled.div`
 
     @media (max-width: 1336px) {
       padding: 0 4% 0 4%;
-      /* margin: 0 4% 0 4%; */
     }
   }
   // 글 쓰는 창 크기 조절
@@ -45,8 +39,6 @@ const TotalContainer = styled.div`
     border-radius: 0 0 10px 10px;
     outline: none;
   }
-
-  //--------------------------------------------------------------------------------------------
 
   // 아이콘 부분
   .ck-reset_all :not(.ck-reset_all-excluded *),
@@ -66,11 +58,7 @@ const TotalContainer = styled.div`
     }
   }
 
-  // 아이콘 끝의 버튼 2개 건들이지 말것@@@@@@@
-  /* .ck.ck-button.ck-disabled .ck-button__icon {
-    @media (max-width: 1570px) {
-    }
-  } */
+  // 아이콘 끝 버튼
   .ck.ck-button.ck-disabled .ck-button__icon,
   a.ck.ck-button.ck-disabled .ck-button__icon {
     @media (max-width: 570px) {
@@ -78,19 +66,17 @@ const TotalContainer = styled.div`
     }
   }
 
-  // 아이콘들 세부 기능 건드리지 말것@@@@@@@
+  // 아이콘들 세부 기능
   .ck.ck-toolbar.ck-toolbar_grouping > .ck-toolbar__items {
     button {
       @media (max-width: 1336px) {
         width: 80px;
       }
       svg {
-        /* border: 2px solid red; */
         width: 31px;
       }
     }
     div {
-      /* border: 2px solid red; */
       @media (max-width: 1336px) {
         width: 100px;
       }
@@ -104,7 +90,7 @@ const TotalContainer = styled.div`
     }
   }
 
-  // 아이콘 있는 창 중앙으로 정렬 건들이지 말것@@@@@@@
+  // 아이콘 있는 창
   .ck-toolbar {
     width: 1141px;
     border-radius: 20px 20px 0 0;
@@ -113,31 +99,19 @@ const TotalContainer = styled.div`
     }
   }
 
-  //아이콘들 설정 건들이지 말것@@@@@@@@@@@@@
-  //반응형 시 아이콘의 크기들이 줄어든다
+  //아이콘 크기
   .ck.ck-icon {
     @media (max-width: 1336px) {
     }
   }
 
-  //아이콘 창에 border-radius 건들이지 말것@@@@@@@
   .ck.ck-editor__top .ck-sticky-panel .ck-toolbar,
   .ck.ck-editor__top .ck-sticky-panel .ck-toolbar.ck-rounded-corners {
     border-radius: 10px 10px 0 0;
     @media (max-width: 1336px) {
     }
   }
-  .ck.ck-button.ck-dropdown__button {
-    /* @media (max-width: 480px) {
-      pointer-events: none;
-    }
-    svg {
-      @media (max-width: 480px) {
-        border: 2px solid red;
-        display: none;
-      }
-    } */
-  }
+
   // 아이콘 클릭 안되게 하는 classname
   [dir="ltr"]
     .ck.ck-dropdown
@@ -162,7 +136,7 @@ export const ContainerView = styled.div`
     height: 100%;
   }
 `;
-// ${(props) => props.editMode ? '':'filter: blur(1rem);'}
+
 export default function Writing() {
   const cookie = new Cookies();
   const Token = cookie.get("token");

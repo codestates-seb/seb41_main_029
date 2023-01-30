@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Cookies } from "react-cookie";
 
-import { getUser, patchUser, postImage } from "../api/userAPI";
+import { patchUser, postImage } from "../api/userAPI";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -72,6 +72,12 @@ const Wrapper = styled.div`
   .hidden {
     display: none;
   }
+  .message {
+    margin-top: 10px;
+    font-size: ${({ theme }) => theme.fontSizes.fs12};
+    word-break: keep-all;
+    text-align: center;
+  }
   .profile {
     align-items: center;
     background-color: ${(props) => props.theme.colors.container};
@@ -94,7 +100,8 @@ const Wrapper = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: ${({ theme }) => theme.colors.main};
+  background-color: ${(props) =>
+    props.disabled === true ? "#CCCCCC" : "#62B6B7"};
   font-size: ${({ theme }) => theme.fontSizes.fs16};
   color: ${({ theme }) => theme.colors.white};
   font-weight: 400;
@@ -103,12 +110,16 @@ const Button = styled.button`
   width: ${(props) => props.width || "80px"};
   height: ${(props) => props.height || "30px"};
   &:hover {
-    background-color: ${({ theme }) => theme.colors.main_hover};
+    background-color: ${(props) =>
+      props.disabled === true ? "#CCCCCC" : "#439A97"};
   }
 
   &:active {
-    transform: scale(0.95);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+    transform: ${(props) => (props.disabled === true ? "none" : "scale(0.95)")};
+    box-shadow: ${(props) =>
+      props.disabled === true
+        ? "none"
+        : "3px 2px 22px 1px rgba(0, 0, 0, 0.24)"};
   }
 `;
 
@@ -121,7 +132,6 @@ const Input = styled.input`
 `;
 
 export default function MyPageEdit() {
-  const [userInfo, setUserInfo] = useState([]);
   const [fileImage, setFileImage] = useState("");
   const [request, setRequest] = useState({
     username: "",
@@ -129,23 +139,14 @@ export default function MyPageEdit() {
     profileImageUrl: "",
   });
   const [validityCheck, setValidityCheck] = useState({
-    usernameMessage: "",
-    passwordMeassge: "",
     isUsernamePass: false,
     isPasswordPass: false,
+    isProfileImageUrlPass: false,
   });
   const inputRef = useRef();
   const navigate = useNavigate();
   const cookies = new Cookies();
   const token = cookies.get("token");
-
-  useEffect(() => {
-    async function getUserInfo() {
-      const res = await getUser(token);
-      setUserInfo(res.data.body.user);
-    }
-    getUserInfo();
-  }, []);
 
   const onImageAttachClick = () => {
     inputRef.current.click();
@@ -167,17 +168,66 @@ export default function MyPageEdit() {
       ...request,
       profileImageUrl: profilImageUrl,
     });
+    if (validityCheck.profilImageUrl === "") {
+      setValidityCheck({
+        ...validityCheck,
+        isProfileImageUrlPass: false,
+      });
+    } else {
+      setValidityCheck({
+        ...validityCheck,
+        isProfileImageUrlPass: true,
+      });
+    }
   };
 
-  const onChangeInput = (e) => {
+  const onChangeUsername = (e) => {
     setRequest({
       ...request,
       [e.target.id]: e.target.value,
     });
+    if (e.target.value.length === 0) {
+      setValidityCheck({
+        ...validityCheck,
+        isUsernamePass: false,
+      });
+    } else if (e.target.value.length > 8) {
+      setValidityCheck({
+        ...validityCheck,
+        isUsernamePass: false,
+      });
+    } else {
+      setValidityCheck({
+        ...validityCheck,
+        isUsernamePass: true,
+      });
+    }
   };
 
-  const onSubmit = async () => {
+  const onChangePassword = (e) => {
+    const passwordValidityCheck =
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/;
+    setRequest({
+      ...request,
+      [e.target.id]: e.target.value,
+    });
+    if (!passwordValidityCheck.test(e.target.value)) {
+      setValidityCheck({
+        ...validityCheck,
+        isPasswordPass: false,
+      });
+    } else {
+      setValidityCheck({
+        ...validityCheck,
+        isPasswordPass: true,
+      });
+    }
+  };
+
+  const onSubmit = () => {
     patchUser(request);
+    alert("개인정보 수정이 완료되었습니다!");
+    navigate("/mypage");
   };
 
   const onCancleButtonClick = () => {
@@ -198,10 +248,11 @@ export default function MyPageEdit() {
               </div>
               <div className="content">
                 <div className="profile">
-                  <img
-                    src={fileImage || userInfo.profileImageUrl}
-                    alt="profile"
-                  />
+                  {validityCheck.isProfileImageUrlPass ? (
+                    <img src={fileImage} alt="profile" />
+                  ) : (
+                    <div className="message">이미지를 첨부해주세요</div>
+                  )}
                 </div>
                 <input
                   className="hidden"
@@ -223,8 +274,15 @@ export default function MyPageEdit() {
                   id="username"
                   width="80%"
                   height="40px"
-                  onChange={onChangeInput}
+                  onChange={onChangeUsername}
                 />
+                {validityCheck.isUsernamePass ? (
+                  <div />
+                ) : (
+                  <div className="message">
+                    최대 8자 이하의 닉네임을 입력해주세요
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex">
@@ -235,8 +293,16 @@ export default function MyPageEdit() {
                   width="80%"
                   height="40px"
                   type="password"
-                  onChange={onChangeInput}
+                  onChange={onChangePassword}
                 />
+                {validityCheck.isPasswordPass ? (
+                  <div />
+                ) : (
+                  <div className="message">
+                    8자리 이상, 숫자, 문자, 특수문자($@$!%*#?&)가 들어가야
+                    됩니다.
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -244,7 +310,18 @@ export default function MyPageEdit() {
             <Button className="gray" onClick={onCancleButtonClick}>
               취소
             </Button>
-            <Button onClick={onSubmit}>수정</Button>
+            <Button
+              disabled={
+                !(
+                  validityCheck.isUsernamePass &&
+                  validityCheck.isPasswordPass &&
+                  validityCheck.isProfileImageUrlPass
+                )
+              }
+              onClick={onSubmit}
+            >
+              수정
+            </Button>
           </div>
         </Wrapper>
       ) : (
