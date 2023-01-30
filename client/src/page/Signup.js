@@ -48,7 +48,7 @@ const InputContainer = styled.div`
   margin-top: 4px;
 `;
 
-// ---------------SocialLogin------------------------
+// 소셜로그인
 
 let SocialLogin = styled.div`
   display: flex;
@@ -110,7 +110,6 @@ export default function Signup() {
   const error = methods?.formState?.errors;
 
   // 회원가입 요청
-  // 버튼을 누르면 validation이 완료된 후에 실행되서 각 필드를 다시 확인안해도 됨
   const onSubmit = (data) => {
     // console.log(data);
     axios
@@ -122,18 +121,14 @@ export default function Signup() {
         }
       )
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         navigate("/signupnotice");
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
         alert("이미 등록된 아이디입니다.");
       });
   };
-
-  // 아이디 중복 체크
-  // 회원검색 get 요청해서 id 확인 후 input 밑에 에러문구 띄우기
-  // 이것도 react-hook-form으로 가능??
 
   return (
     <>

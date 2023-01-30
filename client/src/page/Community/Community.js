@@ -12,12 +12,6 @@ import {
   faEye,
   faFilter,
   faBookmark,
-  faSeedling,
-  faLemon,
-  faTree,
-  faMountain,
-  faMountainSun,
-  faCannabis,
 } from "@fortawesome/free-solid-svg-icons";
 import { ViewdateCommu } from "../../component/DateCalculator";
 import {
@@ -165,6 +159,7 @@ const Loading = styled.div`
   text-align: center;
   margin-top: 30px;
 `;
+const LoadingText = styled.div``;
 const PostsError = styled.div`
   text-align: center;
   margin-top: 30px;
@@ -266,12 +261,7 @@ const PostInfo = styled.div`
   min-width: 200px;
   font-size: 15px;
   color: #aaa;
-  /* ${({ theme }) => theme.colors.gray_03}; */
   @media (max-width: 800px) {
-    /* min-width: 65px;
-    display: flex;
-    flex-direction: column;
-    margin-left: 10px; */
     font-size: ${({ theme }) => theme.fontSizes.fs12};
   }
   @media (max-width: 600px) {
@@ -288,13 +278,9 @@ const PostDate = styled.div`
   justify-content: center;
   min-width: 65px;
   .clock {
-    /* padding: 7px 3px 0 0; */
     padding: 8% 3px 0 0;
   }
   @media (max-width: 600px) {
-    /* .clock {
-        padding: 2px 3px 0 0;
-    } */
   }
 `;
 
@@ -318,22 +304,6 @@ const PostWriter = styled.div`
   width: 200px;
   min-width: 100px;
   margin-left: 4%;
-  /* @media (max-width: 1200px) {
-    width: 180px;
-    min-width: 70px;
-  }
-  @media (max-width: 1000px) {
-    width: 250px;
-    min-width: 70px;
-  }
-  @media (max-width: 800px) {
-    width: 360px;
-    min-width: 70px;
-  }
-  @media (max-width: 700px) {
-    width: 400px;
-    min-width: 70px;
-  } */
   @media (max-width: 1000px) {
     width: 320px;
     min-width: 70px;
@@ -368,8 +338,7 @@ const PostWriter = styled.div`
 `;
 
 const MyPaginate = styled(ReactPaginate).attrs({
-  // You can redefine classes here, if you want.
-  activeClassName: "active", // default to "selected"
+  activeClassName: "active",
 })`
   margin: 50px 16px;
   display: flex;
@@ -385,8 +354,6 @@ const MyPaginate = styled(ReactPaginate).attrs({
     color: #62b6b7;
   }
   li.active a {
-    /* background-color: #62b6b7;
-    color: white; */
     color: #91cccd;
     font-weight: 700;
     min-width: 32px;
@@ -420,7 +387,6 @@ const Search = styled.div`
   width: 290px;
   border-radius: 10px;
   padding-right: 13px;
-  /* border-bottom: 3px solid ${({ theme }) => theme.colors.gray_01}; */
   @media (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSizes.fs12};
     width: 200px;
@@ -477,11 +443,6 @@ export default function Community() {
     hasToken ? navigate("/writing") : alert("로그인을 먼저 진행해주세요");
   };
 
-  // 드롭다운
-  const [isActive, setIsActive] = useState(false);
-  const [selected, setSelected] = useState("");
-  const options = ["최신순", "조회순", "추천순", "북마크순"];
-
   //----------------------------------------------------------------------------
 
   // 정식 데이터 1페이지 조회
@@ -496,49 +457,15 @@ export default function Community() {
           },
         }
       );
-      // console.log(res.data);
-      console.log(res.data.body);
-
       for (let key in res.data.body) {
-        // console.log(key);
-        console.log(res.data.body[key]);
         setItems(res.data.body[key]);
       }
-
-      // setItems(res.data.body);
       setLoading(false);
       setPage(0); // 페이지 초기화
       for (let key in res.data.body) {
-        // console.log(key);
         const total = key;
         setPageCount(total / limit);
       }
-    } catch (err) {
-      throw err;
-    }
-  };
-
-  // 카테고리별 데이터 1페이지 조회
-  const handleLoadCate = async (cate) => {
-    try {
-      setLoading(true);
-      const res = await axios.get(
-        `${url}/boards/all/${cate}?page=1&size=${limit}&sort-by=${sortby}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      // setLoading(false);
-      // console.log(res.data);
-      for (let key in res.data.body) {
-        // console.log(key);
-        console.log(res.data.body[key]);
-        setItems(res.data.body[key]);
-      }
-      // setItems(res.data.body);
-      setLoading(false);
     } catch (err) {
       throw err;
     }
@@ -557,14 +484,6 @@ export default function Community() {
             },
           }
         );
-        // setPosts(response.data);
-        // setLoading(false);
-        // console.log(res.data);
-        // for (let key in res.data.body) {
-        //   // console.log(key);
-        //   console.log(res.data.body[key]);
-        //   setItems(res.data.body[key]);
-        // }
         setItems(res.data);
         setLoading(false);
       }
@@ -585,65 +504,32 @@ export default function Community() {
       `${url}/boards/all${cate}?page=${currentPage}&size=${limit}&sort-by=${sortby}`
     );
     for (let key in res.data.body) {
-      // console.log(key);
-      console.log(res.data.body[key]);
       const data = await res.data.body[key];
       return data;
     }
-    // const data = await res.data.body[2];
-    // return data;
-  };
-
-  const axiosPostsCate = async (currentPage, cate) => {
-    const res = await axios.get(
-      `${url}/boards/all/${cate}?page=${currentPage}&size=${limit}&sort-by=${sortby}`
-    );
-    for (let key in res.data.body) {
-      // console.log(key);
-      console.log(res.data.body[key]);
-      const data = await res.data.body[key];
-      return data;
-    }
-    // const data = await res.data.body[2];
-    // return data;
   };
 
   const handlePageClick = async (data) => {
-    // console.log(data.selected);
     setPage(data.selected);
     let currentPage = data.selected + 1;
     let commentsFormServer = await axiosPosts(currentPage, "");
     setLoading(true);
 
     if (cate === 1) {
-      // commentsFormServer = await axiosPostsCate(currentPage, 1);
       commentsFormServer = await axiosPosts(currentPage, "/1");
     }
 
     if (cate === 2) {
-      // commentsFormServer = await axiosPostsCate(currentPage, 2);
       commentsFormServer = await axiosPosts(currentPage, "/2");
     }
 
     if (cate === 3) {
-      // commentsFormServer = await axiosPostsCate(currentPage, 3);
       commentsFormServer = await axiosPosts(currentPage, "/3");
     }
 
     setItems(commentsFormServer);
     setLoading(false);
   };
-
-  // 아바타 데이터
-  const axiosAvata = async () => {
-    const res = await axios.get("https://api.dicebear.com/5.x/icons/svg");
-    const data = await res;
-    return data;
-    // const data = await res.data.body[2];
-    // return data;
-  };
-
-  console.log(axiosAvata);
 
   return (
     <>
@@ -740,7 +626,6 @@ export default function Community() {
                   style={{ fontWeight: cate === 1 ? "700" : "" }}
                   onClick={() => {
                     setCate(1);
-                    // handleLoadCate(1);
                     handleLoadAll("/1", "최신순");
                   }}
                 >
@@ -750,7 +635,6 @@ export default function Community() {
                   style={{ fontWeight: cate === 2 ? "700" : "" }}
                   onClick={() => {
                     setCate(2);
-                    // handleLoadCate(2);
                     handleLoadAll("/2", "최신순");
                   }}
                 >
@@ -760,30 +644,33 @@ export default function Community() {
                   style={{ fontWeight: cate === 3 ? "700" : "" }}
                   onClick={() => {
                     setCate(3);
-                    // handleLoadCate(3);
                     handleLoadAll("/3", "최신순");
                   }}
                 >
                   질문
                 </Cate>
-                {console.log(cate)}
+                {/* {console.log(cate)} */}
               </Categories>
 
               <BtnBox>
-                {/* <FilterBtn>
-                  <FontAwesomeIcon icon={faFilter} size="xs" color="gray" />{" "}
-                  FILTER
-                </FilterBtn> */}
                 <WritingBtn onClick={handleClick}>글 작성</WritingBtn>
               </BtnBox>
             </CategoryWritingBtnBar>
             <PostInfoBarMargin></PostInfoBarMargin>
           </TopBox>
           <PostsList>
-            {loading && <Loading>게시글을 받아오는 중입니다... </Loading>}
+            {loading && (
+              <Loading>
+                <LoadingText>게시글을 받아오는 중입니다...</LoadingText>
+                <img
+                  src={process.env.PUBLIC_URL + "/image/Loading.gif"}
+                  alt="Loading"
+                  width="40px"
+                />
+              </Loading>
+            )}
             {Array.isArray(items) && items.length > 0
               ? items.map((item) => {
-                  // item마다 state 뿌려주기
                   return (
                     <StyledLink to={`/boards/${item.boardSeq}`}>
                       <Post key={item.boardSeq}>
@@ -815,12 +702,12 @@ export default function Community() {
                         </PostTitleBox>
                         <PostWriter>
                           {0 <= item.point && item.point <= 30 ? <Icon1 /> : ""}
-                          {31 <= item.point && item.point <= 60 ? (
+                          {31 <= item.point && item.point <= 70 ? (
                             <Icon2 />
                           ) : (
                             ""
                           )}
-                          {61 <= item.point && item.point <= 100 ? (
+                          {71 <= item.point && item.point <= 100 ? (
                             <Icon3 />
                           ) : (
                             ""
@@ -863,14 +750,7 @@ export default function Community() {
                     </StyledLink>
                   );
                 })
-              : // : Array.isArray(items) && items.length === 0 ? (
-                //   <PostsError>작성된 게시글이 없습니다.</PostsError>
-                // )
-                ""}
-            {/* // : (
-            //   <PostsError>게시글을 받아올 수 없습니다.</PostsError>
-            // )
-          } */}
+              : ""}
           </PostsList>
         </ComuContainer>
       </Container>
@@ -903,7 +783,6 @@ export default function Community() {
           <FontAwesomeIcon icon={faMagnifyingGlass} color="gray" size="lg" />
         </Search>
       </SearchContainer>
-      {/* item.point에 따라 아이콘 설정 */}
       {/* <Icon1 />
       <Icon2 />
       <Icon3 />
@@ -913,38 +792,3 @@ export default function Community() {
     </>
   );
 }
-
-// IconTest
-const IconTest = styled.div`
-  margin: 10px;
-  background-color: ${({ theme }) => theme.colors.container};
-  border: 1px solid #aaa;
-  width: 20px;
-  height: 20px;
-  border-radius: 15px;
-  padding: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-const IconTestXS = styled.div`
-  margin: 10px;
-  background-color: #fafafa;
-  /* ${({ theme }) => theme.colors.container}; */
-  border: 1px solid #bbb;
-  /* width: 17px;
-  height: 17px; */
-  width: 17px;
-  height: 17px;
-  border-radius: 17px;
-  padding: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: inset 0 0 2px 3px #eee;
-  @media (max-width: 600px) {
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
-  }
-`;

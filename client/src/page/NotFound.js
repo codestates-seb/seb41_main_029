@@ -21,26 +21,25 @@ const NoticeDiv = styled.div`
   width: 420px;
   margin: 150px 16px;
   border-radius: 20px;
-  background-color:
-  /* ${({ theme }) => theme.colors.container}; */ #f2f2f2;
+  background-color: #f2f2f2;
 `;
 
 const CheckImg = styled.div`
   margin-bottom: 10px;
 `;
 
-const SignupComplete = styled.div`
+const Notfound = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.fs24};
   font-weight: 500;
   margin: 10px;
 `;
 
-const LoginInfo = styled.div`
+const NotfoundInfo = styled.div`
   color: gray;
   padding: 0 20px;
 `;
 
-const LoginBtn = styled.button`
+const PageBtn = styled.button`
   background-color: ${({ theme }) => theme.colors.main};
   font-size: ${({ theme }) => theme.fontSizes.fs16};
   color: ${({ theme }) => theme.colors.white};
@@ -78,27 +77,27 @@ export default function NotFound() {
               size="4x"
             />
           </CheckImg>
-          <SignupComplete>페이지를 찾을 수 없습니다.</SignupComplete>
-          {/* <LoginInfo>
+          <Notfound>페이지를 찾을 수 없습니다.</Notfound>
+          {/* <NotfoundInfo>
             찾으시려는 페이지의 주소가 잘못 입력되었거나, 페이지 주소의 변경
             혹은 삭제로 인해 현재 사용하실 수 없습니다. 아래 바로 가기 버튼을
             클릭 후 이동하여 이용해 주시기 바랍니다.
-          </LoginInfo> */}
+          </NotfoundInfo> */}
           <BtnBox>
-            <LoginBtn
+            <PageBtn
               onClick={() => {
                 navigate(-1);
               }}
             >
               이전 페이지
-            </LoginBtn>
-            <LoginBtn
+            </PageBtn>
+            <PageBtn
               onClick={() => {
                 navigate("/");
               }}
             >
               홈으로 가기
-            </LoginBtn>
+            </PageBtn>
           </BtnBox>
         </NoticeDiv>
       </Container>
