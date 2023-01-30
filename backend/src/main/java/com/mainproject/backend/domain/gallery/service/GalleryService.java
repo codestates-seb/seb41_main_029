@@ -44,7 +44,7 @@ public class GalleryService {
     //추천
     @Transactional
     public String updateLikeOfGallery(Long gallerySeq, User user) {
-        Gallery gallery = new Gallery();
+        Gallery gallery = galleryRepository.findById(gallerySeq).orElseThrow();
         gallery.setGallerySeq(gallerySeq);
         if (!hasLikeGallery(gallery, user)) {
             //포인트로직
