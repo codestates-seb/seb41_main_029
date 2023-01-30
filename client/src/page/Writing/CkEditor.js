@@ -46,7 +46,7 @@ const ViewButton = styled.a`
 `;
 
 export default function CkEditor({ setImage, title, category }) {
-  const [answer, setAnswer] = useState(""); //editor이 부분에 html을 막는 기능으 넣으면 될까?
+  const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
 
   const API_URL =
@@ -61,7 +61,7 @@ export default function CkEditor({ setImage, title, category }) {
           const body = new FormData();
           loader.file.then((files) => {
             body.append("files", files);
-            //  res.url로 작성 할거 같다
+
             fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
               method: "post",
               body: body,
@@ -69,13 +69,7 @@ export default function CkEditor({ setImage, title, category }) {
             })
               .then((res) => res.json())
               .then((res) => {
-                // resolve({ default: `https://ifh.cc/g/HkGCpv.png` }); // 구글 이미지 호스팅 한것
-                resolve({ default: res[0] }); // 사진은 나오지만 콘솔에 img 주소가 안찍힌다
-
-                // resolve({ default: res[0] });
-                console.log(files);
-                console.log(res.body);
-                console.log(res);
+                resolve({ default: res[0] });
               })
               .catch((err) => {
                 reject(err);
@@ -99,12 +93,6 @@ export default function CkEditor({ setImage, title, category }) {
   const token = cookie.get("token");
 
   const onClicks = async () => {
-    // const formdata = {
-    //   title: title,
-    //   content: answer,
-    //   category: category,
-    //   files: files1,
-    // };
     await axios
       .post(
         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
@@ -116,18 +104,15 @@ export default function CkEditor({ setImage, title, category }) {
         {
           headers: {
             "Content-Type": "application/json",
-            // Authorization: `Bearer ${Token}`,
+
             Authorization: `Bearer ${getCookie("token")}`,
           },
         }
       )
       .then((res) => {
-        console.log(res.data);
         navigate("/community");
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
     if (category === "") {
       return alert("카테고리를 입력하세요");
     } else if (title === "") {
@@ -144,7 +129,6 @@ export default function CkEditor({ setImage, title, category }) {
         data=""
         onChange={(event, editor) => {
           setAnswer(editor.getData());
-          console.log(answer);
         }}
         config={{
           extraPlugins: [uploadPlugin],
