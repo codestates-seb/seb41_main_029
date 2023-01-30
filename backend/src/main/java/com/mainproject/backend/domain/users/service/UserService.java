@@ -103,7 +103,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<CommentSimpleDto> findComment(User user){
-        List<Comment> write = commentRepository.findAllByUser(user);
+        List<Comment> write = commentRepository.findAllByUserAndCommentExist(user, Comment.CommentStatus.COMMENT_EXIST);
         List<CommentSimpleDto> commentSimpleDtoList = write.stream()
                 .map(comment -> new CommentSimpleDto().toDto(comment))
                 .collect(Collectors.toList());

@@ -11,21 +11,26 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentSimpleDto {
-    private Long CommentSeq;
     private Long boardSeq;
-    private String content;
+    private String title;
     private String username;
     private int liked;
-    private int disliked;
+    private int bookmarked;
+    private int viewCount;
+    private int commented;
+    private String category;
     private LocalDateTime createdAt;
 
     public CommentSimpleDto toDto(Comment comment) {
-        return new CommentSimpleDto(comment.getCommentSeq(),
+        return new CommentSimpleDto(
                 comment.getBoard().getBoardSeq(),
+                comment.getBoard().getTitle(),
                 comment.getUser().getUsername(),
-                comment.getContent(),
-                comment.getLiked(),
-                comment.getDisliked(),
+                comment.getBoard().getLiked(),
+                comment.getBoard().getBookmarked(),
+                comment.getBoard().getViewCount(),
+                comment.getBoard().getCommented(),
+                comment.getBoard().getCategory().category,
                 comment.getCreatedAt());
     }
 }
