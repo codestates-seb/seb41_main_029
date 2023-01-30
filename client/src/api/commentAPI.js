@@ -16,11 +16,8 @@ export const postComment = async (data, token, boardSeq) => {
       data: formdata,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(response);
     return response;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const editComment = async (token, data, boardSeq, commentSeq) => {
@@ -34,11 +31,8 @@ export const editComment = async (token, data, boardSeq, commentSeq) => {
       data: formdata,
       // headers: { Authorization: `Bearer ${getCookie("token")}` },
     });
-    console.log(response);
     return response;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const deleteComment = async (token, boardSeq, commentSeq) => {
@@ -48,11 +42,8 @@ export const deleteComment = async (token, boardSeq, commentSeq) => {
       url: `${url}comments/${boardSeq}/${commentSeq}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
     return res;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const commentUpVote = async (Token, commentSeq) => {
@@ -66,12 +57,9 @@ export const commentUpVote = async (Token, commentSeq) => {
       alert("이미 추천하셨습니다.");
       window.location.reload();
     } else {
-      console.log(res);
       return res;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 export const commentDownVote = async (Token, commentSeq) => {
   try {
@@ -84,10 +72,7 @@ export const commentDownVote = async (Token, commentSeq) => {
       alert("이미 비추천하셨습니다.");
       window.location.reload();
     } else {
-      console.log(res);
       return res;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

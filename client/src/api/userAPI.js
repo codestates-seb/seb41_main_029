@@ -12,11 +12,8 @@ export const login = async (data) => {
       headers: { Authorization: null },
       url: `${url}auth/login`,
     });
-    console.log(res);
     return res;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 export const guestLogin = async (data) => {
@@ -33,11 +30,8 @@ export const guestLogin = async (data) => {
       headers: { Authorization: null },
       url: `${url}auth/login`,
     });
-    console.log(res);
     return res;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 export const socialLogin = async (data) => {
@@ -48,11 +42,8 @@ export const socialLogin = async (data) => {
       headers: { Authorization: null },
       url: `${url}auth/login`,
     });
-    console.log(res);
     return res;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 export const getUser = async (Token, userId) => {
@@ -65,9 +56,7 @@ export const getUser = async (Token, userId) => {
     });
     // return res.data.data;
     return res;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const postImage = async (data) => {
@@ -78,11 +67,8 @@ export const postImage = async (data) => {
       headers: { Authorization: `Bearer ${getCookie("token")}` },
       url: `${url}${upload_endpoint}`,
     });
-    console.log(res);
     return res;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
 };
 
 export const patchUser = async (data) => {
@@ -93,11 +79,8 @@ export const patchUser = async (data) => {
       data: data,
       headers: { Authorization: `Bearer ${getCookie("token")}` },
     });
-    console.log(response);
     return response;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getWrite = async (Token, userId) => {
@@ -110,9 +93,7 @@ export const getWrite = async (Token, userId) => {
     });
     // return res.data.data;
     return res;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getComment = async (Token, useId) => {
@@ -123,9 +104,7 @@ export const getComment = async (Token, useId) => {
       headers: { Authorization: `Bearer ${Token}` },
     });
     return res;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getBookmark = async (Token, useId) => {
@@ -136,9 +115,7 @@ export const getBookmark = async (Token, useId) => {
       headers: { Authorization: `Bearer ${Token}` },
     });
     return res;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 // export const deleteUser = async (Token, useId) => {
