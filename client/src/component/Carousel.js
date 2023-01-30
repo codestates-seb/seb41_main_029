@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
+import carouselPrase from "../data/CarouselPhrase";
+
 const Wrapper = styled.div`
   body {
     display: flex;
@@ -84,34 +86,26 @@ const Wrapper = styled.div`
 `;
 
 export default function Test() {
+  const num = Math.floor(Math.random() * 4);
+
   const images = useRef([
     {
       src:
         process.env.PUBLIC_URL +
         "/image/maciek-sulkowski-58tP7g7x1LQ-unsplash.jpg",
-      content: (
-        <>
-          <div> 등산의 기쁨은 정상에 오를 때가 가장 크다. </div>
-          <div>
-            {" "}
-            그러나 나의 최상의 기쁨은 험악한 산을 기어 올라가는 순간에 있다.{" "}
-          </div>
-          <div> 길이 험하면 험할수록 가슴이 뛴다. </div>
-          <div> - 프리드리히 니체 </div>
-        </>
-      ),
+      content: carouselPrase[num].first,
     },
     {
       src:
         process.env.PUBLIC_URL +
         "/image/nicolas-houdayer-qMDhXONZdXk-unsplash.jpg",
-      content: `등산은 60kg 성인 기준 1시간에 500칼로리를 소모할 수 있는 체중 감량 효과가 있어요.`,
+      content: carouselPrase[num].second,
     },
     {
       src:
         process.env.PUBLIC_URL +
         "/image/matej-rieciciar-bPRxj7wNft8-unsplash.jpg",
-      content: `본격적인 등산에 앞서 준비 운동 잊지 마세요.`,
+      content: carouselPrase[num].third,
     },
   ]);
 
