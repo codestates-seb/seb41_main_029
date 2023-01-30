@@ -516,210 +516,198 @@ export default function MyPage() {
   };
 
   return (
-    <>
-      {Token !== undefined ? (
-        <MypageContainer>
-          <MypageTitle>
-            <MypageInfo>
-              <MypageInfoA>
-                <MypageProfile src={userInfo?.profileImageUrl}></MypageProfile>
-                <MypageProfileModify href="mypageEdit">
-                  개인정보 수정
-                </MypageProfileModify>
-                <MypageDelete onClick={DeleteClice}>회원 탈퇴</MypageDelete>
-              </MypageInfoA>
-              <MypageCenter>
-                <MypageText> {userInfo.username} 님</MypageText>
-                <MypageProfileInfo>
-                  가입 날짜 :
-                  <ModifiedDate modifiedAt={userInfo.modifiedAt} />
-                </MypageProfileInfo>
-                <MypageId>아이디 : {userInfo.userId}</MypageId>
-              </MypageCenter>
-            </MypageInfo>
+    // <>
+    //   {Token !== undefined ? (
+    <MypageContainer>
+      <MypageTitle>
+        <MypageInfo>
+          <MypageInfoA>
+            <MypageProfile src={userInfo?.profileImageUrl}></MypageProfile>
+            <MypageProfileModify href="mypageEdit">
+              개인정보 수정
+            </MypageProfileModify>
+            <MypageDelete onClick={DeleteClice}>회원 탈퇴</MypageDelete>
+          </MypageInfoA>
+          <MypageCenter>
+            <MypageText> {userInfo.username} 님</MypageText>
+            <MypageProfileInfo>
+              가입 날짜 :
+              <ModifiedDate modifiedAt={userInfo.modifiedAt} />
+            </MypageProfileInfo>
+            <MypageId>아이디 : {userInfo.userId}</MypageId>
+          </MypageCenter>
+        </MypageInfo>
 
-            <MypageBtns>
-              {munuArr.map((ele, index) => {
-                return (
-                  <div className="Btn">
-                    <button
-                      key={index}
-                      className={
-                        current === index ? "submenu focused" : "submenu"
-                      }
-                      onClick={() => currentClick(index)}
-                    >
-                      {ele.name}
-                    </button>
-                  </div>
-                );
-              })}
-            </MypageBtns>
+        <MypageBtns>
+          {munuArr.map((ele, index) => {
+            return (
+              <div className="Btn">
+                <button
+                  key={index}
+                  className={current === index ? "submenu focused" : "submenu"}
+                  onClick={() => currentClick(index)}
+                >
+                  {ele.name}
+                </button>
+              </div>
+            );
+          })}
+        </MypageBtns>
 
-            <TitleContainer>
-              <TitleDiv>
-                {userWrite.map((item, id) =>
-                  current === 0 ? (
-                    <InfoContainer key={item.boardSeq}>
-                      {item.category === "# 일반" ? (
-                        <Info bgColor="#62B6B7">일반</Info>
-                      ) : (
-                        ""
-                      )}
-                      {item.category === "# 정보" ? (
-                        <Info bgColor="#AEDC88">정보</Info>
-                      ) : (
-                        ""
-                      )}
-                      {item.category === "# 질문" ? (
-                        <Info bgColor="#A6D9DE">질문</Info>
-                      ) : (
-                        ""
-                      )}
-
-                      <InfoContent>
-                        <InfoTitle>
-                          <StyledLink to={`/boards/${item.boardSeq}`}>
-                            {item.title}
-                          </StyledLink>
-                        </InfoTitle>
-                        <InfoComment>[{item.commented}]</InfoComment>
-                      </InfoContent>
-
-                      <InfoDate>
-                        <FontAwesomeIcon
-                          icon={faClock}
-                          size="xs"
-                          className="clock"
-                        />
-                        <ViewdateCommu createdAt={item.createdAt} />
-                      </InfoDate>
-                      <InfoView>
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          size="xs"
-                          className="eye"
-                        />
-                        {item.viewCount}
-                      </InfoView>
-                      <InfoLike>
-                        <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
-                        {item.liked}
-                      </InfoLike>
-                    </InfoContainer>
+        <TitleContainer>
+          <TitleDiv>
+            {userWrite.map((item, id) =>
+              current === 0 ? (
+                <InfoContainer key={item.boardSeq}>
+                  {item.category === "# 일반" ? (
+                    <Info bgColor="#62B6B7">일반</Info>
                   ) : (
                     ""
-                  )
-                )}
-                {userComment.map((item, id) =>
-                  current === 1 ? (
-                    <InfoContainer key={item.boardSeq}>
-                      <Info bgColor="#62B6B7">댓글</Info>
-
-                      <InfoContent>
-                        <InfoTitle>
-                          <StyledLink to={`/boards/${item.boardSeq}`}>
-                            {item.content}
-                          </StyledLink>
-                        </InfoTitle>
-                        <InfoComment>{item.commented}</InfoComment>
-                      </InfoContent>
-
-                      <InfoDate>
-                        <FontAwesomeIcon
-                          icon={faClock}
-                          size="xs"
-                          className="clock"
-                        />
-                        <ViewdateCommu createdAt={item.createdAt} />
-                      </InfoDate>
-                      <InfoView>
-                        <img
-                          className="eye"
-                          src={process.env.PUBLIC_URL + "/image/upVote.svg"}
-                          alt="Up"
-                          width="22px"
-                        />
-                        {item.liked}
-                      </InfoView>
-                      <InfoLike>
-                        <img
-                          src={process.env.PUBLIC_URL + "/image/downVote.svg"}
-                          className="disliked"
-                          alt="Down"
-                          width="18px"
-                          height="18px"
-                        />
-                        {item.disliked}
-                      </InfoLike>
-                    </InfoContainer>
+                  )}
+                  {item.category === "# 정보" ? (
+                    <Info bgColor="#AEDC88">정보</Info>
                   ) : (
                     ""
-                  )
-                )}
-                {userBook.map((item, id) =>
-                  current === 2 ? (
-                    <InfoContainer key={item.boardSeq}>
-                      {item.category === "# 일반" ? (
-                        <Info bgColor="#62B6B7">일반</Info>
-                      ) : (
-                        ""
-                      )}
-                      {item.category === "# 정보" ? (
-                        <Info bgColor="#AEDC88">정보</Info>
-                      ) : (
-                        ""
-                      )}
-                      {item.category === "# 질문" ? (
-                        <Info bgColor="#A6D9DE">질문</Info>
-                      ) : (
-                        ""
-                      )}
-
-                      <InfoContent>
-                        <InfoTitle>
-                          <StyledLink to={`/boards/${item.boardSeq}`}>
-                            {item.title}
-                          </StyledLink>
-                        </InfoTitle>
-                        <InfoComment>[{item.commented}]</InfoComment>
-                      </InfoContent>
-
-                      <InfoDate>
-                        <FontAwesomeIcon
-                          icon={faClock}
-                          size="xs"
-                          className="clock"
-                        />
-                        <ViewdateCommu createdAt={item.createdAt} />
-                      </InfoDate>
-                      <InfoView>
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          size="xs"
-                          className="eye"
-                        />
-                        {item.viewCount}
-                      </InfoView>
-                      <InfoLike>
-                        <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
-                        {item.liked}
-                      </InfoLike>
-                    </InfoContainer>
+                  )}
+                  {item.category === "# 질문" ? (
+                    <Info bgColor="#A6D9DE">질문</Info>
                   ) : (
                     ""
-                  )
-                )}
-              </TitleDiv>
-            </TitleContainer>
-          </MypageTitle>
-        </MypageContainer>
-      ) : (
-        <>
-          {alert("로그인이 되어 있지 않습니다!")}
-          <Navigate to="/login" />
-        </>
-      )}
-    </>
+                  )}
+
+                  <InfoContent>
+                    <InfoTitle>
+                      <StyledLink to={`/boards/${item.boardSeq}`}>
+                        {item.title}
+                      </StyledLink>
+                    </InfoTitle>
+                    <InfoComment>[{item.commented}]</InfoComment>
+                  </InfoContent>
+
+                  <InfoDate>
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      size="xs"
+                      className="clock"
+                    />
+                    <ViewdateCommu createdAt={item.createdAt} />
+                  </InfoDate>
+                  <InfoView>
+                    <FontAwesomeIcon icon={faEye} size="xs" className="eye" />
+                    {item.viewCount}
+                  </InfoView>
+                  <InfoLike>
+                    <FontAwesomeIcon icon={faHeart} size="xs" /> {item.liked}
+                  </InfoLike>
+                </InfoContainer>
+              ) : (
+                ""
+              )
+            )}
+            {userComment.map((item, id) =>
+              current === 1 ? (
+                <InfoContainer key={item.boardSeq}>
+                  <Info bgColor="#62B6B7">댓글</Info>
+
+                  <InfoContent>
+                    <InfoTitle>
+                      <StyledLink to={`/boards/${item.boardSeq}`}>
+                        {item.content}
+                      </StyledLink>
+                    </InfoTitle>
+                    <InfoComment>{item.commented}</InfoComment>
+                  </InfoContent>
+
+                  <InfoDate>
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      size="xs"
+                      className="clock"
+                    />
+                    <ViewdateCommu createdAt={item.createdAt} />
+                  </InfoDate>
+                  <InfoView>
+                    <img
+                      className="eye"
+                      src={process.env.PUBLIC_URL + "/image/upVote.svg"}
+                      alt="Up"
+                      width="22px"
+                    />
+                    {item.liked}
+                  </InfoView>
+                  <InfoLike>
+                    <img
+                      src={process.env.PUBLIC_URL + "/image/downVote.svg"}
+                      className="disliked"
+                      alt="Down"
+                      width="18px"
+                      height="18px"
+                    />
+                    {item.disliked}
+                  </InfoLike>
+                </InfoContainer>
+              ) : (
+                ""
+              )
+            )}
+            {userBook.map((item, id) =>
+              current === 2 ? (
+                <InfoContainer key={item.boardSeq}>
+                  {item.category === "# 일반" ? (
+                    <Info bgColor="#62B6B7">일반</Info>
+                  ) : (
+                    ""
+                  )}
+                  {item.category === "# 정보" ? (
+                    <Info bgColor="#AEDC88">정보</Info>
+                  ) : (
+                    ""
+                  )}
+                  {item.category === "# 질문" ? (
+                    <Info bgColor="#A6D9DE">질문</Info>
+                  ) : (
+                    ""
+                  )}
+
+                  <InfoContent>
+                    <InfoTitle>
+                      <StyledLink to={`/boards/${item.boardSeq}`}>
+                        {item.title}
+                      </StyledLink>
+                    </InfoTitle>
+                    <InfoComment>[{item.commented}]</InfoComment>
+                  </InfoContent>
+
+                  <InfoDate>
+                    <FontAwesomeIcon
+                      icon={faClock}
+                      size="xs"
+                      className="clock"
+                    />
+                    <ViewdateCommu createdAt={item.createdAt} />
+                  </InfoDate>
+                  <InfoView>
+                    <FontAwesomeIcon icon={faEye} size="xs" className="eye" />
+                    {item.viewCount}
+                  </InfoView>
+                  <InfoLike>
+                    <FontAwesomeIcon icon={faHeart} size="xs" /> {item.liked}
+                  </InfoLike>
+                </InfoContainer>
+              ) : (
+                ""
+              )
+            )}
+          </TitleDiv>
+        </TitleContainer>
+      </MypageTitle>
+    </MypageContainer>
+    //   ) : (
+    //     <>
+    //       {alert("로그인이 되어 있지 않습니다!")}
+    //       <Navigate to="/login" />
+    //     </>
+    //   )}
+    // </>
   );
 }
