@@ -68,15 +68,9 @@ export const ViewdateCommu = ({ createdAt }) => {
   const now = dayjs();
   const now2 = dayjs().format("YY/MM/DD");
   const now3 = dayjs().format("YY/MM/DD");
-  // console.log(now);
-  // console.log(now2);
-  // console.log(getDay.format("YY/MM/DD"));
   if (now2 === getDay.format("YY/MM/DD")) {
     return <div>{getDay.add(9, "h").format("HH:mm")}</div>;
   } else {
     return <div>{getDay.format("YY/MM/DD")}</div>;
   }
-
-  // return <div>{getDay.format("YY/MM/DD")}</div>;
-  // 오늘 날짜면 작성시간 뜨게, 그 외에는 날짜 뜨게 하기
 };

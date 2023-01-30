@@ -19,8 +19,7 @@ const NoticeDiv = styled.div`
   width: 430px;
   margin: 150px 16px;
   border-radius: 20px;
-  background-color:
-  /* ${({ theme }) => theme.colors.container}; */ #f2f2f2;
+  background-color: #f2f2f2;
 `;
 
 const CheckImg = styled.div``;
