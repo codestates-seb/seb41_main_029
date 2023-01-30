@@ -9,19 +9,15 @@ import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.Response.api.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/boards")
@@ -33,10 +29,7 @@ public class BoardController {
     private final BoardService boardService;
     private final BoardMapper boardMapper;
     private final UserRepository userRepository;
-    private final AwsS3Service awsS3Service;
 
-//    @Value("${cloud.aws.s3.bucket}")
-//    private String bucket;
 
     //게시글 등록
     @PostMapping("/articles")
@@ -48,17 +41,6 @@ public class BoardController {
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
-//    //이미지 등록
-//    @PostMapping("/upload")
-//    public ResponseEntity ImageUpload(@Valid @RequestParam("files") MultipartFile[] files) throws IOException {
-//
-//        User user = getPrincipal();
-//        Board board1 = new Board();
-//
-//        Board board = boardService.uploadImage(board1, user, files);
-//
-//        return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
-//    }
 
     //게시글 수정
     @PatchMapping("/{board-seq}")

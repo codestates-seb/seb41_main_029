@@ -26,13 +26,6 @@ public class Board extends Auditable { //시간 추가
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardSeq; // 게시판 ID
 
-    public void increaseLikeCount() {
-        this.liked += 1;
-    }
-    public void increaseDislikeCount() {
-        this.disliked += 1;
-    }
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category; // 카테고리
@@ -85,6 +78,13 @@ public class Board extends Auditable { //시간 추가
 
     public void decreaseBookmarkStatus(){
         this.bookmarkStatus = false;
+    }
+
+    public void increaseLikeCount() {
+        this.liked += 1;
+    }
+    public void increaseDislikeCount() {
+        this.disliked += 1;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

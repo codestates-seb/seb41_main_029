@@ -66,23 +66,6 @@ public class CommentService {
         findComment.setCommentExist(Comment.CommentStatus.COMMENT_NOT_EXIST);
         commentRepository.save(findComment);
     }
-//    public void deleteBoard(Long boardSeq, Long userSeq) {
-//        Board findBoard = findVerifiedBoard(boardSeq);
-//
-//        long writerBoardSeq = findWriteBoardSeq(boardSeq);
-//
-//        if(userSeq != writerBoardSeq) {
-//            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
-//        }
-//        findBoard.setBoardStatus(Board.BoardStatus.BOARD_NOT_EXIST);
-//        boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 결정한다.
-//    }
-//
-//    //질문 작성자 아이디 찾는 메서드
-//    public long findWriteBoardSeq(long boardSeq) {
-//        Board board = findVerifiedBoard(boardSeq);
-//        return board.getUser().getUserSeq();
-//    }
 
     //코맨트 존재 확인
     private Comment findVerifiedComment(Long commentSeq){
