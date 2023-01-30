@@ -34,6 +34,7 @@ public class CommentService {
     private final static String SUCCESS_DISLIKE_COMMENT = "비추천 처리 완료";
     private final static String FAIL_DISLIKE_COMMENT = "이미 비추천을 누르셨습니다.";
 
+    //코맨트 생성
     public Comment createComment(Comment comment, User user, Board board){
         comment.setUser(user);
         comment.setBoard(board);
@@ -43,6 +44,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    //코맨트 수정
     public Comment updateComment(Comment comment){
 
         Comment findComment = findVerifiedComment(comment.getCommentSeq());
@@ -53,6 +55,7 @@ public class CommentService {
         return commentRepository.save(findComment);
     }
 
+    //코맨트 삭제
     public void deleteComment(long commentSeq){
         Comment findComment = findVerifiedComment(commentSeq);
         Board currentBoard = boardService.findVerifiedBoard(findComment.getBoard().getBoardSeq());
@@ -60,6 +63,7 @@ public class CommentService {
         commentRepository.delete(findComment);
     }
 
+    //코맨트 존재 확인
     private Comment findVerifiedComment(Long commentSeq){
         Optional<Comment> optionalComment = commentRepository.findById(commentSeq);
         Comment findComment =
@@ -82,6 +86,7 @@ public class CommentService {
     }
 
 
+    //코맨트 추천 로직
     @Transactional
     public String updateLikeOfComment(Long CommentSeq, User user) {
         Comment comment = commentRepository.findById(CommentSeq).orElseThrow(CommentNotFoundException::new);
@@ -91,6 +96,7 @@ public class CommentService {
         }else return FAIL_LIKE_COMMENT;
     }
 
+    //코맨트 비추천 로직
     @Transactional
     public String updateDislikeOfComment(Long CommentSeq, User user) {
         Comment comment = commentRepository.findById(CommentSeq).orElseThrow(CommentNotFoundException::new);
@@ -100,10 +106,12 @@ public class CommentService {
         }else return FAIL_DISLIKE_COMMENT;
     }
 
+    //코맨트 추천 여부 확인
     public boolean hasLikeComment(Comment comment, User user){
         return likeCommentRepository.findByCommentAndUser(comment, user).isPresent();
     }
 
+    //코맨트 비추천 여부 확인
     public boolean hasDislikeComment(Comment comment, User user) {
         return dislikeCommentRepository.findByCommentAndUser(comment, user).isPresent();
     }

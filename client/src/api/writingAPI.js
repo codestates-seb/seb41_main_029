@@ -14,9 +14,7 @@ export const postWriting = async (Token) => {
       headers: { Authorization: `Bearer ${Token}` },
     });
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const getWriting = async (Token, boardSeq) => {
@@ -28,9 +26,7 @@ export const getWriting = async (Token, boardSeq) => {
         headers: { Authorization: `Bearer ${Token}` },
       });
       return res;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   } else if (!Token) {
     try {
       const res = await axios({
@@ -38,9 +34,7 @@ export const getWriting = async (Token, boardSeq) => {
         url: `${url}boards/${boardSeq}`,
       });
       return res;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 };
 
@@ -54,11 +48,8 @@ export const deleteWriting = async (Token, boardSeq) => {
       // url: `${url}boards/7`,
       headers: { Authorization: `Bearer ${Token}` },
     });
-    console.log(res);
     return res;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const editWriting = async (data, token, boardSeq) => {
@@ -76,9 +67,7 @@ export const editWriting = async (data, token, boardSeq) => {
     });
 
     return response;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const bookMarking = async (Token, boardSeq) => {
@@ -88,11 +77,8 @@ export const bookMarking = async (Token, boardSeq) => {
       url: `${url}boards/bookmark/${boardSeq}`,
       headers: { Authorization: `Bearer ${Token}` },
     });
-    console.log(response);
     return response;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const viewUpVote = async (Token, boardSeq) => {
@@ -103,16 +89,13 @@ export const viewUpVote = async (Token, boardSeq) => {
       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/like/${boardSeq}`,
       // url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/11`,
     });
-    console.log(res?.data?.header);
     if (res?.data?.header?.code === 403) {
       alert("이미 추천하셨습니다.");
       window.location.reload();
     } else {
       return res;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 export const viewDownVote = async (Token, boardSeq) => {
   try {
@@ -127,7 +110,5 @@ export const viewDownVote = async (Token, boardSeq) => {
     } else {
       return res;
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
