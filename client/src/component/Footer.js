@@ -41,8 +41,6 @@ const Wrapper = styled.div`
   }
 `;
 
-// 푸터 디자인 전반적으로 교체
-// 푸터 밑에 고정(푸터에서 처리하거나 페이지에서 처리하거나)
 export default function Footer() {
   return (
     <Wrapper path={window.location.pathname}>
@@ -55,7 +53,7 @@ export default function Footer() {
         </div>
         <div>
           Demo Video{" "}
-          <a href="https://www.youtube.com/">
+          <a href="https://www.youtube.com/watch?v=vcq_Zif8PHI">
             <FontAwesomeIcon icon={faYoutube} />
           </a>
         </div>

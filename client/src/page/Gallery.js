@@ -2,8 +2,9 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
-import { Icon1, Icon2 } from "../component/UserIcon";
-import SwiperComponent from "../component/Swiper";
+import { Icon1 } from "../component/UserIcon";
+
+import SwiperComponent from "../component/Swiper/Swiper";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -196,36 +197,6 @@ export default function Gallery() {
               </div>
             </div>
             <div className="flex post">
-              <img src="https://i.imgur.com/XgbGYJD.jpeg" alt="postimage" />
-              <div className="content">
-                <div className="divider" />
-                <div className="flex jcsb mb10">
-                  <div className="mr10">
-                    <div className="flex mb10">
-                      <Icon2 />
-                      <div className="va"> MWJOB </div>
-                    </div>
-                    <div className="flex">
-                      <div className="mr10 tag"> # 데이트 </div>
-                      <div className="mr10 tag"> # 강아지 </div>
-                    </div>
-                  </div>
-                  <div className="flex mt10">
-                    <FontAwesomeIcon
-                      icon={faHeartSolid}
-                      color="#62B6B7"
-                      size="xl"
-                      className="mr10"
-                    />
-                    <div> 2929 </div>
-                  </div>
-                </div>
-                <div className="phrase">
-                  " 남자친구와 달이, 별이도 함께 💚 "
-                </div>
-              </div>
-            </div>
-            <div className="flex post">
               <img src="https://i.imgur.com/JsWOQSb.jpeg" alt="postimage" />
               <div className="content">
                 <div className="divider" />
@@ -242,7 +213,7 @@ export default function Gallery() {
                   </div>
                   <div className="flex mt10">
                     <FontAwesomeIcon
-                      icon={faHeart}
+                      icon={faHeartSolid}
                       color="#62B6B7"
                       size="xl"
                       className="mr10"
