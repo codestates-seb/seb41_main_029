@@ -128,12 +128,12 @@ public class User extends Auditable {
     }
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Board> boards = new ArrayList<>();
+    private final List<Board> boards = new ArrayList<>();
 
     @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
 
 
 }
