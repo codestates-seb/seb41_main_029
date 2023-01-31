@@ -30,7 +30,7 @@
 |[@MWJOB](https://github.com/MWJOB)|[@Hanul01](https://github.com/Hanul01)|[@tty0912](https://github.com/tty0912)|
 
 ## 🖥 시연 및 발표영상
-[🔗 링크]()
+[🔗 링크](http://pre41-deploy-test.s3-website.ap-northeast-2.amazonaws.com/)
 
 ### 랜딩 페이지(Log in 전)
 ![_1_메인]()
