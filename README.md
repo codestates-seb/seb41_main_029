@@ -30,65 +30,53 @@
 |[@MWJOB](https://github.com/MWJOB)|[@Hanul01](https://github.com/Hanul01)|[@tty0912](https://github.com/tty0912)|
 
 ## 🖥 시연 및 발표영상
-[🔗 링크](http://pre41-deploy-test.s3-website.ap-northeast-2.amazonaws.com/)
+[🔗 링크]()
 
-### 랜딩 페이지(Log in 전)
-![_1_메인]()
 
-### 랜딩 페이지(Log in 후)
-![_1_메인](https://user-images.githubusercontent.com/36831218/205998994-425c2d2e-a896-4c22-900a-9168240b10ae.gif)
+
+### 랜딩 페이지
+![_1_메인](https://ifh.cc/g/m4m98X.gif)
 
 ### 회원가입
-![_6_회원가입](https://user-images.githubusercontent.com/36831218/205999131-71df75c7-6c02-4422-a538-1411307b8696.gif)
+![_6_회원가입](https://ifh.cc/g/PY1KkO.gif)
 
 ### 로그인
-![_7_메인후기생성](https://user-images.githubusercontent.com/36831218/205999063-99b96422-6644-4587-80ed-389be1ac2018.gif)
+![_로그인](https://ifh.cc/g/DagH8k.gif)
 
 ### 커뮤니티
-![_2_복망고생성](https://ifh.cc/g/d2Wgch.gif)
+![_2_복망고생성](https://ifh.cc/g/n8BZbs.gif)
 
 ### 커뮤니티 세부 조회 페이지
-![_3_생성후공유하기](https://user-images.githubusercontent.com/36831218/205999273-e5c7469a-4ddd-4f6c-98a0-a349d96a610f.gif)
+![_3_생성후공유하기](https://ifh.cc/g/a21WTh.gif)
 
 ### 게시글 작성
-![_4_내복망고덕담보기](https://user-images.githubusercontent.com/36831218/205999335-1d5044ab-1be2-45e9-bb2d-5c2beb2b5b6f.gif)
+![_4_내복망고덕담보기](https://ifh.cc/g/lmOYH0.gif)
 
 ### 게시글 수정 
-![_8_덕담남기기](https://user-images.githubusercontent.com/36831218/205999376-27d6e604-3ff7-4d29-be4b-86095ed08157.gif)
+![_8_덕담남기기](https://ifh.cc/g/pdyt6a.gif)
 
 ### 마이페이지
 ![_5_마이페이지정보수정](https://ifh.cc/g/nc0Hhd.gif)
 
 ### 마이페이지 수정
-![_5_마이페이지정보수정](https://user-images.githubusercontent.com/36831218/205999416-3c1161a0-7b31-41a7-adde-519bbefedd3d.gif)
+![_5_마이페이지정보수정](https://ifh.cc/g/K0o7hA.gif)
 
 ### 등산 지도 
-![_5_마이페이지정보수정](https://user-images.githubusercontent.com/36831218/205999416-3c1161a0-7b31-41a7-adde-519bbefedd3d.gif)
+![_5_마이페이지정보수정](https://ifh.cc/g/BR4jtD.gif)
 
 
-## 📔 Document
-<details>
-<summary>전체 구현 목록 & 담당</summary>
+## 🛠 기술 스택
 
-<br>
-
- 프로젝트 소개
-  
-
-  
-[Frontend]
-
-- 우성윤: Header, Footer, RandingPage, MyPaheEdit
-- 박승철: Log in, 게시글 세부 조회 페이지, 게시글 수정
-- 박한나: Sign Up, 커뮤니티 
-- 노수혁: 게시글 작성, MyPage
+![스택](https://user-images.githubusercontent.com/111442906/215719720-90602663-918a-4a39-9103-980f50d59890.png)
 
 <br>
 
-[Backend]
-
-- 박민우: 
-- 박정한울: 
-- 장현준:
-
-<br>
+## 📑문서
+ <ul>
+   <li><a href="https://www.notion.so/codestates/06c06c7db75e4ecc9b0cbe08db5d940b" target='_blank'>팀 노션 페이지</a></li>
+   <li><a href="https://docs.google.com/spreadsheets/d/1ZppFR4KfICokyxrVkfQbXsoXFQAcMq0WFfTPNUBOWwg/edit#gid=0" target='_blank'>사용자 요구사항 정의서</a></li>
+   <li><a href="https://documenter.getpostman.com/view/23682011/2s8ZDa2MYg" target='_blank'>API 명세서</a></li>
+  <li><a href="https://docs.google.com/presentation/d/17WFJV_vw8L1AiPvVkbu5MXBu9LztfyQL7DiH6AhwnNw/edit#slide=id.g1c8f20fffb8_0_1" target='_blank'>화면 정의서</a></li>
+  <li><a href="https://docs.google.com/spreadsheets/d/14zcB7qL8oZpVOleOv8aI_WeolJv1qjxlMvBykPYiotg/edit" target='_blank'>테이블 명세서</a></li>
+  <li><a href="https://www.figma.com/file/C2xztR0ih0KaEWABcSXM7X/%EB%93%B1%EC%82%B0%ED%95%98%EC%A1%B0?node-id=0%3A1&t=3PPUxVAxjNdLcUZs-0" target='_blank'>figma</a></li>
+ </ul>
