@@ -39,7 +39,7 @@
 
 
 ## 🖥 시연 및 발표영상
-[🔗 링크]()
+[🔗 링크](http://pre41-deploy-test.s3-website.ap-northeast-2.amazonaws.com/)
 
 
 
