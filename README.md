@@ -1,6 +1,6 @@
 # 🌳 등산어때
 ♂️ 등산러를 위한 커뮤니티<br/>
-배포링크 : http://...................
+배포링크 : http://pre41-deploy-test.s3-website.ap-northeast-2.amazonaws.com/
 
 ##  서비스 소개
 #### 누구나 
@@ -48,4 +48,5 @@
    <li><a href="https://docs.google.com/spreadsheets/d/1ZppFR4KfICokyxrVkfQbXsoXFQAcMq0WFfTPNUBOWwg/edit#gid=0" target='_blank'>사용자 요구사항 정의서</a></li>
    <li><a href="https://documenter.getpostman.com/view/23682011/2s8ZDa2MYg" target='_blank'>API 명세서</a></li>
   <li><a href="https://docs.google.com/presentation/d/17WFJV_vw8L1AiPvVkbu5MXBu9LztfyQL7DiH6AhwnNw/edit#slide=id.g1c8f20fffb8_0_1" target='_blank'>화면 정의서</a></li>
+  <li><a href="https://docs.google.com/spreadsheets/d/14zcB7qL8oZpVOleOv8aI_WeolJv1qjxlMvBykPYiotg/edit" target='_blank'>테이블 명세서</a></li>
  </ul>
