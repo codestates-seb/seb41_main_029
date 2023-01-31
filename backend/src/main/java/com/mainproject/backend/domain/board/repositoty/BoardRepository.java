@@ -18,7 +18,7 @@ import java.util.Optional;
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
-    List<Board> findAllByUser(User user);
+    List<Board> findAllByUserAndBoardStatus(User user, Board.BoardStatus boardStatus);
 
 
     //제목 검색 기능
@@ -29,5 +29,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     //카테고리 페이지
     Optional<Page<Board>> findByCategoryAndBoardStatus(Category boardCategory, Pageable pageable, Board.BoardStatus boardStatus);
+
+    List<Board> findByCategoryAndBoardStatus(Category boardCategory, Board.BoardStatus boardStatus);
 }
 

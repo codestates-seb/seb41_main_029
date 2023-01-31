@@ -4,6 +4,7 @@ import com.mainproject.backend.domain.comment.entity.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.procedure.spi.ParameterRegistrationImplementor;
 
 import java.time.LocalDateTime;
 
@@ -11,18 +12,17 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentSimpleDto {
-    private Long CommentSeq;
+    private Long commentSeq;
     private Long boardSeq;
-    private String username;
     private String content;
     private int liked;
     private int disliked;
     private LocalDateTime createdAt;
 
     public CommentSimpleDto toDto(Comment comment) {
-        return new CommentSimpleDto(comment.getCommentSeq(),
+        return new CommentSimpleDto(
+                comment.getCommentSeq(),
                 comment.getBoard().getBoardSeq(),
-                comment.getUser().getUsername(),
                 comment.getContent(),
                 comment.getLiked(),
                 comment.getDisliked(),

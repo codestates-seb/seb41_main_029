@@ -56,11 +56,15 @@ public class CommentService {
     }
 
     //코맨트 삭제
-    public void deleteComment(long commentSeq){
+    public void deleteComment(long commentSeq, Long userSeq){
         Comment findComment = findVerifiedComment(commentSeq);
         Board currentBoard = boardService.findVerifiedBoard(findComment.getBoard().getBoardSeq());
-        currentBoard.DecreaseCommentCount();
-        commentRepository.delete(findComment);
+        if(userSeq != findComment.getUser().getUserSeq()) {
+            throw new BusinessLogicException(ExceptionCode.ACCESS_DENIED_USER);
+        }
+        currentBoard.decreaseCommentCount();
+        findComment.setCommentExist(Comment.CommentStatus.COMMENT_NOT_EXIST);
+        commentRepository.save(findComment);
     }
 
     //코맨트 존재 확인
@@ -92,6 +96,8 @@ public class CommentService {
         Comment comment = commentRepository.findById(CommentSeq).orElseThrow(CommentNotFoundException::new);
         if (!hasLikeComment(comment, user)) {
             comment.increaseLikeCount();
+            comment.setUser(comment.getUser());
+            comment.getUser().increasePoint();
             return createLikeComment(comment, user);
         }else return FAIL_LIKE_COMMENT;
     }
@@ -102,6 +108,8 @@ public class CommentService {
         Comment comment = commentRepository.findById(CommentSeq).orElseThrow(CommentNotFoundException::new);
         if (!hasDislikeComment(comment, user)) {
             comment.increaseDislikeCount();
+            comment.setUser(comment.getUser());
+            comment.getUser().decreasePoint();
             return createDislikeComment(comment, user);
         }else return FAIL_DISLIKE_COMMENT;
     }

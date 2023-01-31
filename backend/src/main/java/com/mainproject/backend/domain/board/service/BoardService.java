@@ -1,5 +1,6 @@
 package com.mainproject.backend.domain.board.service;
 
+import com.mainproject.backend.domain.AWS.s3.AwsS3Service;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
 import com.mainproject.backend.domain.board.entity.DislikeBoard;
@@ -11,7 +12,6 @@ import com.mainproject.backend.domain.board.repositoty.DislikeBoardRepository;
 import com.mainproject.backend.domain.board.repositoty.LikeBoardRepository;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
-import com.mainproject.backend.global.exception.BoardNotFoundException;
 import com.mainproject.backend.global.exception.BookmarkNotFoundException;
 import com.mainproject.backend.global.exception.BusinessLogicException;
 import com.mainproject.backend.global.exception.ExceptionCode;
@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,12 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-/*
-*
-*
- */
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -48,14 +42,17 @@ public class BoardService {
     private final DislikeBoardRepository dislikeBoardRepository;
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
-    //유저 서비스
+
+
 
     //게시글 등록
-    public Board createBoard(Board board, User user) {
+    public Board createBoard(Board board, User user){
         board.setUser(user);
+        user.increaseManyPoint();
 
         return boardRepository.save(board);
     }
+
 
     //게시글 수정
     public Board updateBoard(Board board) {
@@ -89,6 +86,18 @@ public class BoardService {
     //전체 게시물 조회
     public Page<Board> findAllBoard(int page, int size, String sortBy) {
         return boardRepository.findAllByBoardStatus(getPageRequest(page, size, sortBy), Board.BoardStatus.BOARD_EXIST);
+    }
+
+    //게시글 전체 개수 조회
+    public Integer countAllBoard(){
+        List<Board> write = boardRepository.findAll();
+        return write.size();
+    }
+
+    //카테고리 게시글 전체 개수 조회
+    public Integer countBoard(Long categoryId){
+        Category boardCategory = categoryIdToboardCategory(categoryId);
+        return boardRepository.findByCategoryAndBoardStatus(boardCategory, Board.BoardStatus.BOARD_EXIST).size();
     }
 
     //카테고리 별 게시물 조회
@@ -168,13 +177,18 @@ public class BoardService {
     @Transactional
     public String updateOfBookmarkBoard(Long boardSeq, User user) {
         Board board = findVerifiedBoard(boardSeq);
+        board.setUser(board.getUser());
         if (!hasBookmarkBoard(board, user)) {
             board.increaseBookmarkCount();
             board.increaseBookmarkStatus();
+            //포인트로직
+            board.getUser().increaseManyManyPoint();
             return createBookmarkBoard(board, user);
         }
         board.decreaseBookmarkCount();
         board.decreaseBookmarkStatus();
+        //포인트로직
+        board.getUser().decreaseManyManyPoint();
         return removeBookmarkBoard(board, user);
     }
 
@@ -183,7 +197,11 @@ public class BoardService {
     public String updateLikeOfBoard(Long boardSeq, User user) {
         Board board = findVerifiedBoard(boardSeq);
         if (!hasLikeBoard(board, user)) {
+            //포인트로직
             board.increaseLikeCount();
+            board.setUser(board.getUser());
+            board.getUser().increaseManyPoint();
+
             return createLikeBoard(board, user);
         }else return FAIL_LIKE_BOARD;
     }
@@ -194,6 +212,9 @@ public class BoardService {
         Board board = findVerifiedBoard(boardSeq);
         if (!hasDislikeBoard(board, user)) {
             board.increaseDislikeCount();
+            //포인트로직
+            board.setUser(board.getUser());
+            board.getUser().decreasePoint();
             return createDislikeBoard(board, user);
         }else return FAIL_DISLIKE_BOARD;
     }

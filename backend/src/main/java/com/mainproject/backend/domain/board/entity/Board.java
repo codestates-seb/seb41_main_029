@@ -26,13 +26,6 @@ public class Board extends Auditable { //시간 추가
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardSeq; // 게시판 ID
 
-    public void increaseLikeCount() {
-        this.liked += 1;
-    }
-    public void increaseDislikeCount() {
-        this.disliked += 1;
-    }
-
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Category category; // 카테고리
@@ -43,6 +36,10 @@ public class Board extends Auditable { //시간 추가
     @Lob
     @Column(nullable = false)
     private String content; // 게시판 내용
+
+    @Lob
+    @Column(nullable = true)
+    private String imageUrl;
 
     private Integer viewCount = 0;  // 조회 수
 
@@ -63,7 +60,7 @@ public class Board extends Auditable { //시간 추가
         this.commented += 1;
     }
 
-    public void DecreaseCommentCount() {
+    public void decreaseCommentCount() {
         this.commented -= 1;
     }
 
@@ -81,6 +78,13 @@ public class Board extends Auditable { //시간 추가
 
     public void decreaseBookmarkStatus(){
         this.bookmarkStatus = false;
+    }
+
+    public void increaseLikeCount() {
+        this.liked += 1;
+    }
+    public void increaseDislikeCount() {
+        this.disliked += 1;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -115,4 +119,7 @@ public class Board extends Auditable { //시간 추가
             this.status = status;
         }
     }
+
+//    @ElementCollection
+//    private List<String> imageUrls;
 }

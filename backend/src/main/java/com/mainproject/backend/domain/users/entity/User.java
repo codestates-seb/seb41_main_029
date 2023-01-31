@@ -57,6 +57,29 @@ public class User extends Auditable {
     @Size(max = 512)
     private String profileImageUrl;
 
+    @Column(nullable = false)
+    private int point;
+
+    public void increasePoint() {
+        this.point += 1;
+    }
+
+    public void increaseManyPoint() {
+        this.point += 5;
+    }
+
+    public void increaseManyManyPoint() {
+        this.point += 10;
+    }
+    public void decreaseManyManyPoint() {
+        this.point -= 10;
+    }
+
+    public void decreasePoint() {
+        this.point -= 1;
+    }
+
+
     @Column(name = "PROVIDER_TYPE", length = 20)
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -105,12 +128,12 @@ public class User extends Auditable {
     }
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Board> boards = new ArrayList<>();
+    private final List<Board> boards = new ArrayList<>();
 
     @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
 
 
 }

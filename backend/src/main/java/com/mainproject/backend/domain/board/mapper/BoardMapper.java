@@ -48,6 +48,7 @@ public interface BoardMapper {
                         .boardSeq(board.getBoardSeq())
                         .userSeq(board.getUser().getUserSeq())
                                 .username(board.getUser().getUsername())
+                                .point(board.getUser().getPoint())
                                 .category(board.getCategory().category)
                                 .title(board.getTitle())
                                 .bookmarkCount(board.getBookmarked())
@@ -66,11 +67,11 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setBoardSeq(board.getBoardSeq());
        boardWithCommentResponseDto.setUserSeq(board.getUser().getUserSeq());
        boardWithCommentResponseDto.setUsername(board.getUser().getUsername());
+       boardWithCommentResponseDto.setPoint(board.getUser().getPoint());
        boardWithCommentResponseDto.setProfileImageUrl(board.getUser().getProfileImageUrl());
        boardWithCommentResponseDto.setCategory(board.getCategory().category);
        boardWithCommentResponseDto.setTitle(board.getTitle());
        boardWithCommentResponseDto.setUserId(board.getUser().getUserId());
-       boardWithCommentResponseDto.setUsername(board.getUser().getUsername());
        boardWithCommentResponseDto.setProfileImageUrl(board.getUser().getProfileImageUrl());
        boardWithCommentResponseDto.setBookmarkStatus(board.isBookmarkStatus());
        boardWithCommentResponseDto.setContent(board.getContent());
@@ -81,6 +82,7 @@ public interface BoardMapper {
        boardWithCommentResponseDto.setDislikeCount(board.getDisliked());
        boardWithCommentResponseDto.setCreatedAt(board.getCreatedAt());
        boardWithCommentResponseDto.setModifiedAt(board.getModifiedAt());
+       boardWithCommentResponseDto.setImageUrls(board.getImageUrl());
 
        //커맨트
         boardWithCommentResponseDto.setComments(commentToBoardWithCommentResponseDtos(comments));
@@ -102,7 +104,9 @@ public interface BoardMapper {
                         .liked(comment.getLiked())
                         .disliked(comment.getDisliked())
                         .userId(comment.getUser().getUserId())
+                        .point(comment.getUser().getPoint())
                         .content(comment.getContent())
+                        .commentStatus(comment.getCommentExist())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())
                         .reply(replyToCommentWithCommentResponseDto(comment.getReplies()))
@@ -119,10 +123,12 @@ public interface BoardMapper {
                         .replySeq(reply.getReplySeq())
                         .userSeq(reply.getUser().getUserSeq())
                         .username(reply.getUser().getUsername())
+                        .point(reply.getUser().getPoint())
                         .liked(reply.getLiked())
                         .disliked(reply.getDisliked())
                         .userId(reply.getUser().getUserId())
                         .content(reply.getContent())
+                        .replyStatus(reply.getReplyExist())
                         .createdAt(reply.getCreatedAt())
                         .modifiedAt(reply.getModifiedAt())
                         .build())

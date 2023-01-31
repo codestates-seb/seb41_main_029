@@ -1,6 +1,7 @@
 package com.mainproject.backend.domain.comment.dto;
 
 import com.mainproject.backend.domain.board.dto.SimpleReplyDto;
+import com.mainproject.backend.domain.comment.entity.Comment;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,8 +19,10 @@ public class CommentResponseDto {
     private int disliked;
     private String userId;
     private String username;
+    private int point;
     private String content;
     private long boardSeq;
+    private Comment.CommentStatus commentStatus;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<SimpleReplyDto> reply;

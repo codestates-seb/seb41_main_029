@@ -18,12 +18,14 @@ public class BoardWithCommentDto {
     private Integer viewCount;
     private String userId;
     private String username;
+    private int point;
     private String profileImageUrl;
     private boolean bookmarkStatus;
     private int bookmarkCount;
     private int likeCount;
     private int dislikeCount;
     private int commented;
+    private String imageUrls;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> comments;

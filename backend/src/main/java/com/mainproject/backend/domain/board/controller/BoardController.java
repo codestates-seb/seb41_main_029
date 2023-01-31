@@ -1,5 +1,6 @@
 package com.mainproject.backend.domain.board.controller;
 
+import com.mainproject.backend.domain.AWS.s3.AwsS3Service;
 import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.mapper.BoardMapper;
@@ -29,6 +30,7 @@ public class BoardController {
     private final BoardMapper boardMapper;
     private final UserRepository userRepository;
 
+
     //게시글 등록
     @PostMapping("/articles")
     public ResponseEntity boardPost(@Valid @RequestBody BoardDto.Post postDto) {
@@ -36,7 +38,6 @@ public class BoardController {
         User user = getPrincipal();
 
         Board board = boardService.createBoard(boardMapper.boardPostDtoToBoard(postDto), user);
-
 
         return new ResponseEntity<>(boardMapper.boardToBoardResponseDto(board), HttpStatus.CREATED);
     }
@@ -61,22 +62,28 @@ public class BoardController {
 
     //전체 게시글 조회
     @GetMapping("/all")
-    public ResponseEntity getAllBoard(@RequestParam(value = "sort-by") String sortBy,
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse getAllBoard(@RequestParam(value = "sort-by") String sortBy,
                                       @Positive @RequestParam("page") int page,
                                       @Positive @RequestParam("size") int size) {
         List<Board> board = boardService.findAllBoard(page -1, size, sortBy).getContent();
-        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
+        int Count = boardService.countAllBoard();
+        String boardCount = String.valueOf(Count);
+        return ApiResponse.success(boardCount, boardMapper.boardsToBoardResponsesDto(board));
     }
 
     //카테고리별 조회
     @GetMapping("/all/{category-id}")
-    public ResponseEntity getAllBoardCategory(@PathVariable("category-id") Long categoryId,
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse getAllBoardCategory(@PathVariable("category-id") Long categoryId,
                                               @RequestParam(value = "sort-by") String sortBy,
                                               @Positive @RequestParam("page") int page,
                                               @Positive @RequestParam("size") int size) {
 
         List<Board> board = boardService.findAllCategoryBoard(categoryId, page -1, size, sortBy).getContent();
-        return new ResponseEntity<>(boardMapper.boardsToBoardResponsesDto(board), HttpStatus.OK);
+        int count = boardService.countBoard(categoryId);
+        String boardCount = String.valueOf(count);
+        return ApiResponse.success(boardCount, boardMapper.boardsToBoardResponsesDto(board));
     }
 
 
@@ -133,6 +140,9 @@ public class BoardController {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse BookmarkBoard(@PathVariable("board-seq") @Positive Long boardSeq){
         User user = getPrincipal();
+        Board currentBoard = new Board();
+        currentBoard.setBoardSeq(boardSeq);
+
         return ApiResponse.success("북마크", boardService.updateOfBookmarkBoard(boardSeq, user));
     }
 
