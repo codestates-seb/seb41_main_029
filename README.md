@@ -13,10 +13,7 @@
 
 ## 🛠 기술 스택
 
-### ✔️Frond-end
-
-
-### ✔️Back-end
+![스택](https://user-images.githubusercontent.com/111442906/215719720-90602663-918a-4a39-9103-980f50d59890.png)
 
 <br>
 
