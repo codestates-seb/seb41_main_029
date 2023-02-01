@@ -549,7 +549,7 @@ export default function MyPage() {
   const currentClick = (index) => {
     setCurrent(index);
   };
-  // console.log(userInfo?.roleType);
+  console.log(userComment);
   return (
     <>
       {userInfo?.roleType === "GUEST" ? (
@@ -752,7 +752,7 @@ export default function MyPage() {
                       <InfoContent>
                         <InfoTitle>
                           <StyledLink to={`/boards/${item.boardSeq}`}>
-                            {item.title}
+                            {item.content}
                           </StyledLink>
                         </InfoTitle>
                         <InfoComment></InfoComment>

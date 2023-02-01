@@ -53,7 +53,7 @@ const TotalContainer = styled.div`
     // 처음 이걸 써서 왼쪽으로 살짝 밀려 있는 걸
     @media (max-width: 1336px) {
       /* width: 1123px; */
-      width: 97.8%;
+      width: 97.93%;
       // 이게 줄이는 순간 아이콘들 간격이 벌어진다
       // %로 설정하면 아이콘들이 다 보이고 px로 하면 ...으로 표시가 된다
     }
@@ -67,7 +67,7 @@ const TotalContainer = styled.div`
       // 애가 밀려 있는 걸 오른쪽으로 밀어서 위치를 밑이랑 같이 맞춰줌
       /* margin-left: 3.1%; // ok! */ /* width: 97.8%; 같이 세트 */
       /* margin-left: 3.9%; width: 1123px; 사이즈 세트 인데 ... 으로 나온다 // ok! */
-      margin-left: 3.1%;
+      margin-left: 3%;
     }
   }
 

@@ -125,8 +125,8 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function SwiperComponent() {
-  const [heart, setHeart] = useState(
+export default function SwiperComponent({ postList }) {
+ const [heart, setHeart] = useState(
     SwiperDummyData.map((e) => e.isHearCliked)
   );
   const [likes, setLikes] = useState(SwiperDummyData.map((e) => e.likes));
@@ -148,6 +148,7 @@ export default function SwiperComponent() {
       setLikes(likesState);
     }
   };
+  console.log(postList);
 
   const swiperSlideMaker = SwiperDummyData.map((e, idx) => {
     return (
