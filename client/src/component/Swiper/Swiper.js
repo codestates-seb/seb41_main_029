@@ -48,7 +48,7 @@ const Wrapper = styled.div`
   }
 
   .heartanimation {
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-name: heartreaction;
   }
 
@@ -114,7 +114,7 @@ const Wrapper = styled.div`
 
   @keyframes heartreaction {
     0% {
-      font-size: 24px;
+      font-size: 27px;
     }
 
     50% {
@@ -122,7 +122,7 @@ const Wrapper = styled.div`
     }
 
     100% {
-      font-size: 24px;
+      font-size: 27px;
     }
   }
 `;
