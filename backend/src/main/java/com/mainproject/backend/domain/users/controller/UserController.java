@@ -33,6 +33,14 @@ public class UserController {
         return ApiResponse.success("user", mapper.userToUserResponse(createUser));
     }
 
+    // 게스트 로그인
+    @PostMapping("/guest")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ApiResponse<UserDto.Response> postGuest(@Valid @RequestBody UserDto.post requestBody){
+        User createUser = userService.createGuestUser(requestBody);
+        return ApiResponse.success("guest", mapper.userToUserResponse(createUser));
+    }
+
 
 
     //마이 페이지 조회

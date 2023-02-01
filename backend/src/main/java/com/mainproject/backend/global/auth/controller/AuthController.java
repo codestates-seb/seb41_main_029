@@ -40,9 +40,6 @@ public class AuthController {
     private final static String REFRESH_TOKEN = "refresh_token";
 
 
-
-
-
     @PostMapping("/login")
     public ApiResponse login(
             HttpServletRequest request,

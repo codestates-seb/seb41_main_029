@@ -39,14 +39,16 @@ public class UserService {
     private final CommentRepository commentRepository;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
     private final String NoEmail = "NO Email";
-//    private final AwsS3Service awsS3Service;
-//
-//    @Value("${cloud.aws.s3.bucket}")
-//    private String bucket;
 
 
     public User createUser(UserDto.post req) {
         User user = createSignupFormOfUser(req);
+        userRepository.save(user);
+
+        return userRepository.saveAndFlush(user);
+    }
+    public User createGuestUser(UserDto.post req){
+        User user = createSignupFormOfGuestUser(req);
         userRepository.save(user);
 
         return userRepository.saveAndFlush(user);
@@ -60,14 +62,6 @@ public class UserService {
     }
 
 
-//    @Transactional
-//    public User editMemberInfo(User user, UserDto.Patch req, @Valid MultipartFile file) throws IOException {
-//        user.editUser(req);
-//        user.setPassword(passwordEncoder.encode(req.getPassword()));
-//        String imageUrl = awsS3Service.uploadImage(bucket, user.getUserId(), file.getOriginalFilename(), file.getInputStream());
-//        user.setProfileImageUrl(imageUrl);
-//        return userRepository.save(user);
-//    }
 
     @Transactional
     public void deleteMemberInfo(User user) {
@@ -76,6 +70,24 @@ public class UserService {
         UserRefreshToken userToken = userRefreshTokenRepository.findByUserId(user.getUserId());
         userRefreshTokenRepository.delete(userToken);
     }
+    private User createSignupFormOfGuestUser(UserDto.post req) {
+        User user = User.builder()
+                .userId(req.getUserId())
+                .username("게스트 "+ countAllUser() + 1 )
+                .email(NoEmail)
+                .password(passwordEncoder.encode(req.getPassword()))
+                .providerType(ProviderType.LOCAL)
+                .profileImageUrl("https://ifh.cc/g/B2fA6Y.png")
+                .roleType(RoleType.GUEST)
+                .build();
+        return user;
+    }
+
+    public Integer countAllUser(){
+        List<User> user = userRepository.findAll();
+        return user.size();
+    }
+
 
     private User createSignupFormOfUser(UserDto.post req) {
         LocalDateTime now = LocalDateTime.now();
