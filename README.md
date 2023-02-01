@@ -17,7 +17,9 @@
 >  정보들을 공유하고 자유롭게 소통할 수 있는 공간이 어디 없을까?
 
 **등산을 좋아하는 사람들을 위한 커뮤니티 등산 어때에서 찾아보세요!**
+
 <br>
+
 ## 😎팀원 소개
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -37,11 +39,12 @@
   </tbody>
 </table>
 
+<br>
 
 ## 🖥 배포링크
 [🔗 링크](http://pre41-deploy-test.s3-website.ap-northeast-2.amazonaws.com/)
 
-
+<br>
 
 ### 랜딩 페이지
 ![_1_메인](https://ifh.cc/g/m4m98X.gif)
@@ -73,6 +76,7 @@
 ### 등산 지도 
 ![_5_마이페이지정보수정](https://ifh.cc/g/BR4jtD.gif)
 
+<br>
 
 ## 🛠 기술 스택
 
@@ -89,4 +93,5 @@
   <li><a href="https://docs.google.com/spreadsheets/d/14zcB7qL8oZpVOleOv8aI_WeolJv1qjxlMvBykPYiotg/edit" target='_blank'>테이블 명세서</a></li>
   <li><a href="https://www.figma.com/file/C2xztR0ih0KaEWABcSXM7X/%EB%93%B1%EC%82%B0%ED%95%98%EC%A1%B0?node-id=0%3A1&t=3PPUxVAxjNdLcUZs-0" target='_blank'>figma</a></li>
  </ul>
-
+ 
+<br>
