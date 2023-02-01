@@ -53,7 +53,7 @@ export const deleteWriting = async (Token, boardSeq) => {
 };
 
 export const editWriting = async (data, token, boardSeq) => {
-  const endpoint = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`;
+  const endpoint = `${url}${boardSeq}`;
   const formData = {
     content: data.content,
     title: data.title,
@@ -86,7 +86,7 @@ export const viewUpVote = async (Token, boardSeq) => {
     const res = await axios({
       method: "post",
       headers: { Authorization: `Bearer ${Token}` },
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/like/${boardSeq}`,
+      url: `${url}boards/like/${boardSeq}`,
       // url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/11`,
     });
     if (res?.data?.header?.code === 403) {
@@ -102,7 +102,7 @@ export const viewDownVote = async (Token, boardSeq) => {
     const res = await axios({
       method: "post",
       headers: { Authorization: `Bearer ${Token}` },
-      url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/dislike/${boardSeq}`,
+      url: `${url}boards/dislike/${boardSeq}`,
     });
     if (res?.data?.header?.code === 403) {
       alert("이미 비추천하셨습니다.");

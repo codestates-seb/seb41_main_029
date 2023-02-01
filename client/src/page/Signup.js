@@ -6,6 +6,8 @@ import AlertWarning from "../component/AlertWarning";
 import { MainBtn } from "../component/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { guestLogin, guestSignup } from "../api/userAPI";
+import { Cookies } from "react-cookie";
 
 const LoginLayout = styled.div`
   display: flex;
@@ -62,7 +64,47 @@ let SocialLoginLogo = styled.img`
   margin: 20px;
 `;
 
+//게스트 로그인
+const GuestLayout = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const GuestBtn = styled.button`
+  background-color: #cccccc;
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
+  color: ${({ theme }) => theme.colors.white};
+  font-weight: 400;
+  border: 0px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 210px;
+  height: 40px;
+  &:hover {
+    background-color: #bbbbbb;
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+`;
+
 export default function Signup() {
+  const cookie = new Cookies();
+  const guestHandle = () => {
+    guestSignup();
+    setTimeout(async () => {
+      const res = await guestLogin();
+      console.log(res);
+      const userId1 = res?.data?.body?.token?.userId;
+      localStorage.setItem("userId", JSON.stringify(userId1));
+      const token = res.data?.body?.token?.refreshToken;
+      cookie.set("token", token);
+      navigate("/");
+      window.location.reload();
+    }, 200);
+  };
+
   const methods = useForm();
   const getValues = methods?.getValues;
   const password = useRef();
@@ -194,6 +236,9 @@ export default function Signup() {
               </BtnLayout>
             </form>
           </FormProvider>
+          <GuestLayout>
+            <GuestBtn onClick={guestHandle}>게스트 로그인</GuestBtn>
+          </GuestLayout>
           <SocialLogin>
             <SocialLoginLogo
               src={process.env.PUBLIC_URL + "/image/google.svg"}

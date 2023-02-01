@@ -12,7 +12,7 @@ import Writing from "./page/Writing/Writing";
 import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
-import NotFound from "./page/NotFound";
+import { NotFound } from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";
 import SignupNotice from "./page/SignupNotice";
 import Gallery from "./page/Gallery";

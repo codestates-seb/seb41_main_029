@@ -5,7 +5,7 @@ import styled from "styled-components";
 import theme from "../../Theme";
 import { Cookies } from "react-cookie";
 import { getBookmark, getComment, getUser, getWrite } from "../../api/userAPI";
-
+import NotFound, { GuestNotFound } from "../NotFound";
 import { getCookie, removeCookie } from "../../Cookies";
 import { ModifiedDate, ViewdateCommu } from "../../component/DateCalculator";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -509,7 +509,7 @@ export default function MyPage() {
     }
     getUserBookmark();
   }, []);
-
+  // Number();
   const DeleteClice = async () => {
     if (window.confirm("정말 회원 탈퇴 하시겠습니까?") === false) {
       alert("취소 되었습니다.");
@@ -549,7 +549,7 @@ export default function MyPage() {
   const currentClick = (index) => {
     setCurrent(index);
   };
-
+  // console.log(userInfo?.roleType);
   return (
     // <>
     //   {Token !== undefined ? (
