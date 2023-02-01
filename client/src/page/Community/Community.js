@@ -494,7 +494,6 @@ export default function Community() {
         setPage(0); // 페이지 초기화
         const total = res.data.length;
         setPageCount(total / limit);
-        // 검색 디바운스 적용해야함!!!!!!!!!
       }
     } catch (err) {
       throw err;
@@ -808,5 +807,3 @@ export default function Community() {
     </>
   );
 }
-
-const SearchIcon = styled.div``;

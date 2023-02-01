@@ -163,11 +163,11 @@ const EditWritingMui = ({ setImage }) => {
 
   const handleChange = (event) => {
     setCategory(event.target.value);
-    console.log(category);
+    // console.log(category);
   };
   const titleChange = (event) => {
     setTitle(event.target.value);
-    console.log(title);
+    // console.log(title);
   };
 
   return (

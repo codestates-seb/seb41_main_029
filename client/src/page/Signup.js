@@ -11,6 +11,8 @@ const LoginLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  min-height: 650px;
 `;
 
 let SignupBackground = styled.div`

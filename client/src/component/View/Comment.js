@@ -187,7 +187,7 @@ const Comment = ({ comment }) => {
   const onSubmit = async (data) => {
     editComment(token, data, boardSeq, commentSeq);
     window.location.reload();
-    console.log(data);
+    // console.log(data);
   };
   const [edit, setEdit] = useState(false);
   // const userId = localStorage.getItem("userId");
@@ -196,7 +196,7 @@ const Comment = ({ comment }) => {
   const userId1 = JSON.parse(localStorage.getItem("userId"));
   const commentSeq = comment?.commentSeq;
   const [cancle, setCancle] = useState();
-  console.log(comment?.hide);
+  // console.log(comment?.hide);
   const handleClickEdit = () => {
     //수정예정
     if (2 !== 2) {
@@ -214,7 +214,7 @@ const Comment = ({ comment }) => {
       // alert("삭제되었습니다")
       const res = deleteComment(token, boardSeq, commentSeq);
       window.location.reload();
-      console.log(res);
+      // console.log(res);
     }
   };
   return (
