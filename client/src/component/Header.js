@@ -177,6 +177,9 @@ export default function Header(props) {
         <div className="desktopVer ml96 va">
           <a href="/hikingmap">등산지도</a>
         </div>
+        <div className="desktopVer ml96 va">
+          <a href="/gallery">갤러리</a>
+        </div>
         <div className="desktopVer spacing"></div>
         {hasToken ? (
           <>
@@ -222,6 +225,9 @@ export default function Header(props) {
           </div>
           <div className="flex">
             <a href="/hikingmap">등산지도</a>
+          </div>
+          <div className="flex">
+            <a href="/gallery">갤러리</a>
           </div>
           {hasToken ? (
             <>
