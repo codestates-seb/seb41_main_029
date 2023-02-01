@@ -9,6 +9,9 @@ import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
 import com.mainproject.backend.domain.comment.dto.CommentSimpleDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.repository.CommentRepository;
+import com.mainproject.backend.domain.gallery.dto.GallerySimpleDto;
+import com.mainproject.backend.domain.gallery.entity.Gallery;
+import com.mainproject.backend.domain.gallery.repository.GalleryRepository;
 import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.entity.UserRefreshToken;
@@ -39,6 +42,7 @@ public class UserService {
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final GalleryRepository galleryRepository;
     private final String NoEmail = "NO Email";
 
 
@@ -131,5 +135,14 @@ public class UserService {
                 .map(bookmark -> new BoardSimpleDto().toDto(bookmark.getBoard()))
                 .collect(Collectors.toList());
         return boardSimpleDtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<GallerySimpleDto> findGallery(User user) {
+        List<Gallery> galleries = galleryRepository.findAllByUser(user);
+        List<GallerySimpleDto> gallerySimpleDtoList = galleries.stream()
+                .map(gallery -> new GallerySimpleDto().toDto(gallery))
+                .collect(Collectors.toList());
+        return gallerySimpleDtoList;
     }
 }

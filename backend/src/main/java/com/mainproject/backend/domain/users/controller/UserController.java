@@ -100,6 +100,14 @@ public class UserController {
         return ApiResponse.success("comment",userService.findComment(user));
     }
 
+    //작성자가 쓴 갤러리 조회findGallery
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/gallery")
+    public ApiResponse findGallery() {
+        User user = getPrincipal();
+        return ApiResponse.success("comment",userService.findGallery(user));
+    }
+
     public User getPrincipal() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserId(authentication.getName());

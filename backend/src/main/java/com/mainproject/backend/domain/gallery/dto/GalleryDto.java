@@ -63,6 +63,7 @@ public class GalleryDto {
         private Long gallerySeq;
         private Long userSeq;
         private int point;
+        private String imgUrl;
         private String userRole;
         private String username;
         private String content;

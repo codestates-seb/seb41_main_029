@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CommentSimpleDto {
     private Long commentSeq;
+    private Long boardSeq;
     private String content;
     private String username;
     private int liked;
@@ -21,6 +22,7 @@ public class CommentSimpleDto {
     public CommentSimpleDto toDto(Comment comment) {
         return new CommentSimpleDto(
                 comment.getCommentSeq(),
+                comment.getBoard().getBoardSeq(),
                 comment.getContent(),
                 comment.getUser().getUsername(),
                 comment.getLiked(),
