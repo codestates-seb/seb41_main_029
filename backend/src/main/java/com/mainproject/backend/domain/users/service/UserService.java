@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -99,21 +100,11 @@ public class UserService {
                 .profileImageUrl("https://ifh.cc/g/B2fA6Y.png")
                 .roleType(RoleType.USER)
                 .build();
+        if(Objects.equals(user.getUserId(), "admin"))
+            user.setRoleType(RoleType.ADMIN);
         return user;
     }
 
-    private User createSignupFormOfAdminUser(UserDto.post req) {
-        User user = User.builder()
-                .userId(req.getUserId())
-                .username(req.getUsername())
-                .email(NoEmail)
-                .password(passwordEncoder.encode(req.getPassword()))
-                .providerType(ProviderType.LOCAL)
-                .profileImageUrl("https://ifh.cc/g/B2fA6Y.png")
-                .roleType(RoleType.ADMIN)
-                .build();
-        return user;
-    }
 
     @Transactional(readOnly = true)
     public List<BoardSimpleDto> findWrite(User user){

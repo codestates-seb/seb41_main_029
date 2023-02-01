@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface GalleryMapper {
@@ -22,6 +24,22 @@ public interface GalleryMapper {
 
         return gallery;
     }
+    default List<GalleryDto.PageGalleryResponse> galleriesToGalleryResponsesDto(List<Gallery> galleries){
+        return galleries.stream()
+                .map(gallery -> GalleryDto.PageGalleryResponse
+                        .builder()
+                        .gallerySeq(gallery.getGallerySeq())
+                        .userSeq(gallery.getUser().getUserSeq())
+                        .username(gallery.getUser().getUsername())
+                        .content(gallery.getContent())
+                        .tags(gallery.getTag())
+                        .liked(gallery.getLiked())
+                        .createdAt(gallery.getCreatedAt())
+                        .likedStatus(gallery.isLikedStatus())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
     default GalleryDto.response galleryToGalleryResponseDto(Gallery gallery) {
         GalleryDto.response response = new GalleryDto.response(gallery);
 

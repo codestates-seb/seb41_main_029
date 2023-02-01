@@ -49,4 +49,19 @@ public class Gallery extends Auditable {
     public void increaseLikeCount() {
         this.liked += 1;
     }
+
+    public void decreaseLikedCount() {
+        this.liked -= 1;
+    }
+
+    @Column(nullable = false)
+    private boolean likedStatus = false; // true = 즐겨찾기, false = 즐겨찾기 취소
+
+
+    public void increaseLikedStatus(){
+        this.likedStatus = true;
+    }
+    public void decreaseLikedStatus(){
+        this.likedStatus = false;
+    }
 }

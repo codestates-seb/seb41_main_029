@@ -1,5 +1,6 @@
 package com.mainproject.backend.domain.gallery.controller;
 
+import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.gallery.dto.GalleryDto;
 import com.mainproject.backend.domain.gallery.entity.Gallery;
 import com.mainproject.backend.domain.gallery.mapper.GalleryMapper;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @RequestMapping("/gallery")
 @RequiredArgsConstructor
@@ -46,6 +48,17 @@ public class GalleryController {
 
         return ApiResponse.success("갤러리 삭제 완료", HttpStatus.NO_CONTENT);
     }
+    //전체 게시글 조회
+    @GetMapping("/all")
+    @ResponseStatus(HttpStatus.OK)
+    public ApiResponse getAllBoard(@RequestParam(value = "sort-by") String sortBy,
+                                   @Positive @RequestParam("page") int page,
+                                   @Positive @RequestParam("size") int size) {
+        List<Gallery> galleries = galleryService.findAllGallery(page -1, size, sortBy).getContent();
+
+        return ApiResponse.success("galleries", galleryMapper.galleriesToGalleryResponsesDto(galleries));
+    }
+
 
     //추천
     @PostMapping("/like/{gallery-seq}")
@@ -55,9 +68,9 @@ public class GalleryController {
         //추천 중복 처리
         Gallery currentGallery = new Gallery();
         currentGallery.setGallerySeq(gallerySeq);
-        if(galleryService.hasLikeGallery(currentGallery, user)){
-            return ApiResponse.fail();
-        }
+//        if(galleryService.hasLikeGallery(currentGallery, user)){
+//            return ApiResponse.fail();
+//        }
         return ApiResponse.success("갤러리 추천", galleryService.updateLikeOfGallery(gallerySeq, user));
     }
 

@@ -1,11 +1,14 @@
 package com.mainproject.backend.domain.gallery.dto;
 
+import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.gallery.entity.Gallery;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 public class GalleryDto {
 
@@ -38,6 +41,7 @@ public class GalleryDto {
         private String tag;
         private int liked;
         private int point;
+        private Boolean LikedStatus;
 
         public response(Gallery gallery){
             this.gallerySeq = gallery.getGallerySeq();
@@ -48,7 +52,22 @@ public class GalleryDto {
             this.tag = gallery.getTag();
             this.liked = gallery.getLiked();
             this.point = gallery.getUser().getPoint();
+            this.LikedStatus = gallery.isLikedStatus();
 
         }
+    }
+    @Getter
+    @AllArgsConstructor
+    @Builder
+    public static class PageGalleryResponse {
+        private Long gallerySeq;
+        private Long userSeq;
+        private String username;
+        private String content;
+        private String tags;
+        private boolean likedStatus;
+        private int liked;
+        private LocalDateTime createdAt;
+
     }
 }
