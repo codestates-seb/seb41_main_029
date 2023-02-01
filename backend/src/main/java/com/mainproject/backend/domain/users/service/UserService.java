@@ -90,7 +90,6 @@ public class UserService {
 
 
     private User createSignupFormOfUser(UserDto.post req) {
-        LocalDateTime now = LocalDateTime.now();
         User user = User.builder()
                 .userId(req.getUserId())
                 .username(req.getUsername())
@@ -99,11 +98,23 @@ public class UserService {
                 .providerType(ProviderType.LOCAL)
                 .profileImageUrl("https://ifh.cc/g/B2fA6Y.png")
                 .roleType(RoleType.USER)
-//                .createdAt(now)
-//                .modifiedAt(now)
                 .build();
         return user;
     }
+
+    private User createSignupFormOfAdminUser(UserDto.post req) {
+        User user = User.builder()
+                .userId(req.getUserId())
+                .username(req.getUsername())
+                .email(NoEmail)
+                .password(passwordEncoder.encode(req.getPassword()))
+                .providerType(ProviderType.LOCAL)
+                .profileImageUrl("https://ifh.cc/g/B2fA6Y.png")
+                .roleType(RoleType.ADMIN)
+                .build();
+        return user;
+    }
+
     @Transactional(readOnly = true)
     public List<BoardSimpleDto> findWrite(User user){
         List<Board> write = boardRepository.findAllByUserAndBoardStatus(user, Board.BoardStatus.BOARD_EXIST);

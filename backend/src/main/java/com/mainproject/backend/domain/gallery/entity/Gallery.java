@@ -1,5 +1,6 @@
 package com.mainproject.backend.domain.gallery.entity;
 
+import com.mainproject.backend.domain.audit.Auditable;
 import com.mainproject.backend.domain.users.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +18,7 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Gallery {
+public class Gallery extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

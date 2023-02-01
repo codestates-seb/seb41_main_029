@@ -1,7 +1,9 @@
 package com.mainproject.backend.global.auth.controller;
 
+import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.entity.UserRefreshToken;
 import com.mainproject.backend.domain.users.repository.UserRefreshTokenRepository;
+import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.Response.api.ApiResponse;
 import com.mainproject.backend.global.auth.dto.LoginDto;
 import com.mainproject.backend.global.auth.entity.RoleType;
@@ -35,6 +37,7 @@ public class AuthController {
     private final AuthTokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
+    private final UserRepository userRepository;
 
     private final static long THREE_DAYS_MSEC = 259200000;
     private final static String REFRESH_TOKEN = "refresh_token";
@@ -85,9 +88,15 @@ public class AuthController {
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookeMaxAge);
 
+        User user = userRepository.findByUserId(userId);
+        RoleType roleType = user.getRoleType();
+
+
         UserRefreshToken userRefreshToken1 = new UserRefreshToken();
         userRefreshToken1.setRefreshToken(accessToken.getToken());
         userRefreshToken1.setUserId(userId);
+        userRefreshToken1.setRoleType(roleType);
+
 
         return ApiResponse.success("token", userRefreshToken1);
     }

@@ -1,6 +1,7 @@
 package com.mainproject.backend.domain.users.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,11 @@ public class UserRefreshToken {
     @NotNull
     @Size(max = 256)
     private String refreshToken;
+
+    @Column(name = "ROLE_TYPE", length = 20)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private RoleType roleType;
 
     public UserRefreshToken(
             @NotNull @Size(max = 64) String userId,
