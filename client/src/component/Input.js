@@ -54,6 +54,7 @@ const Input = ({
       defaultValue={defaultValue}
       className={className}
       onClick={onClick}
+      autoComplete="off"
     />
   );
 };

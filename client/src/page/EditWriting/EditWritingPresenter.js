@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import theme from "../../Theme";
-import axios from "axios";
 import * as React from "react";
 import EditWritingEditor from "./EditWritingContainer";
 import { useLocation } from "react-router-dom";

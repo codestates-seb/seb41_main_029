@@ -47,6 +47,7 @@ public class Comment extends Auditable {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_seq")
     private User user;
 
@@ -60,10 +61,23 @@ public class Comment extends Auditable {
             reply.setComment(this);
         }
     }
-
-    @Column(nullable = true)
+    @Column(nullable = false)
     private int liked; // 추천 수
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private int disliked; // 비추천 수
+
+    @Enumerated(value = EnumType.STRING)
+    @Column(nullable = false)
+    private Comment.CommentStatus commentExist = Comment.CommentStatus.COMMENT_EXIST;
+
+    public enum CommentStatus {
+        COMMENT_EXIST("존재하는 댓글"),
+        COMMENT_NOT_EXIST("존재하지 않는 댓글");
+        @Getter
+        private String status;
+        CommentStatus(String status) {
+            this.status = status;
+        }
+    }
 }

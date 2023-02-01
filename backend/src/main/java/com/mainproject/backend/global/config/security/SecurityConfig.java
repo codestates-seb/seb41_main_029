@@ -68,8 +68,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/").permitAll()
                 .antMatchers(HttpMethod.GET, "/image/**").permitAll()
                 .antMatchers("/users/signup", "/users/**").permitAll()
+                .antMatchers("/uploadFiles").permitAll()
                 .antMatchers("/auth/login", "/auth/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/boards", "/boards/**", "/comments", "/comments/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/boards/**").permitAll()
@@ -174,7 +176,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
         corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
         corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
-        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+//        corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
 

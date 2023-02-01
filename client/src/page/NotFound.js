@@ -10,6 +10,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 660px;
 `;
 
 const NoticeDiv = styled.div`
@@ -30,6 +31,11 @@ const CheckImg = styled.div`
 
 const Notfound = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.fs24};
+  font-weight: 500;
+  margin: 10px;
+`;
+const Notfound1 = styled.div`
+  font-size: ${({ theme }) => theme.fontSizes.fs18};
   font-weight: 500;
   margin: 10px;
 `;
@@ -64,7 +70,7 @@ const BtnBox = styled.div`
   display: flex;
 `;
 
-export default function NotFound() {
+export function NotFound() {
   const navigate = useNavigate();
   return (
     <>
@@ -104,3 +110,46 @@ export default function NotFound() {
     </>
   );
 }
+
+export function GuestNotFound() {
+  const navigate1 = useNavigate();
+  return (
+    <>
+      <Container>
+        <NoticeDiv>
+          <CheckImg>
+            <FontAwesomeIcon
+              icon={faCircleExclamation}
+              color="#aaa"
+              size="4x"
+            />
+          </CheckImg>
+          <Notfound1>게스트는 마이페이지를 이용하실 수 없습니다.</Notfound1>
+          {/* <NotfoundInfo>
+            찾으시려는 페이지의 주소가 잘못 입력되었거나, 페이지 주소의 변경
+            혹은 삭제로 인해 현재 사용하실 수 없습니다. 아래 바로 가기 버튼을
+            클릭 후 이동하여 이용해 주시기 바랍니다.
+          </NotfoundInfo> */}
+          <BtnBox>
+            <PageBtn
+              onClick={() => {
+                navigate1(-1);
+              }}
+            >
+              이전 페이지
+            </PageBtn>
+            <PageBtn
+              onClick={() => {
+                navigate1("/");
+              }}
+            >
+              홈으로 가기
+            </PageBtn>
+          </BtnBox>
+        </NoticeDiv>
+      </Container>
+    </>
+  );
+}
+
+export default NotFound;

@@ -1,7 +1,6 @@
 package com.mainproject.backend.domain.comment.controller;
 
 import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.dto.CommentDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.mapper.CommentMapper;
@@ -27,7 +26,6 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
     private final UserRepository userRepository;
-    private final BoardService boardService;
 
 
 
@@ -38,6 +36,7 @@ public class CommentController {
         User user = getPrincipal();
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
+        user.increaseManyPoint(); // 포인트로직 +5
 
 
         Comment comment = commentService.createComment(commentMapper.commentPostDtoToComment(commentPostDto), user, currentBoard);
@@ -58,16 +57,9 @@ public class CommentController {
         currentComment.setBoard(currentBoard);
         currentComment = commentService.updateComment(currentComment);
 
-//        Comment comment = commentService.updateComment(commentMapper.commentPatchDtoToComment(commentPatchDto));
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(currentComment), HttpStatus.OK);
     }
 
-//    //답변조회
-//    @GetMapping("/{comment-id}")
-//    public ResponseEntity getComment(@PathVariable("comment-id")long commentId){
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 
     //답변 삭제
     @DeleteMapping("/{board-seq}/{comment-seq}")
@@ -76,8 +68,8 @@ public class CommentController {
 
         Board currentBoard = new Board();
         currentBoard.setBoardSeq(boardSeq);
-        commentService.deleteComment(commentSeq);
-        currentBoard.DecreaseCommentCount();
+        commentService.deleteComment(commentSeq, getPrincipal().getUserSeq());
+        currentBoard.decreaseCommentCount();
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -93,6 +85,8 @@ public class CommentController {
         if(commentService.hasLikeComment(currentComment, user)){
             return ApiResponse.fail();
         }
+//        User WriterUser = userRepository.findUserByUserId(currentComment.getUser());
+//        WriterUser.increasePoint();
         return ApiResponse.success("boardLike", commentService.updateLikeOfComment(commentSeq, user));
     }
 
@@ -107,6 +101,7 @@ public class CommentController {
         if(commentService.hasDislikeComment(currentComment, user)){
             return ApiResponse.fail();
         }
+
         return ApiResponse.success("boardDislike", commentService.updateDislikeOfComment(commentSeq, user));
     }
 
@@ -115,8 +110,5 @@ public class CommentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserId(authentication.getName());
         return user;
-
-        //답변 좋아요
-//    public ResponseEntity likeComment()
     }
 }

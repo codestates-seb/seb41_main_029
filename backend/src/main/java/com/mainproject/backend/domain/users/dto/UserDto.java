@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
@@ -43,6 +42,7 @@ public class UserDto {
     @AllArgsConstructor
     public static class Response{
         private long userSeq;
+        private long point;
         private String userId;
         private String username;
         private String password;

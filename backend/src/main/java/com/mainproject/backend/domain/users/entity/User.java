@@ -9,12 +9,10 @@ import com.mainproject.backend.global.audit.Auditable;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.*;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,6 +57,29 @@ public class User extends Auditable {
     @Size(max = 512)
     private String profileImageUrl;
 
+    @Column(nullable = false)
+    private int point;
+
+    public void increasePoint() {
+        this.point += 1;
+    }
+
+    public void increaseManyPoint() {
+        this.point += 5;
+    }
+
+    public void increaseManyManyPoint() {
+        this.point += 10;
+    }
+    public void decreaseManyManyPoint() {
+        this.point -= 10;
+    }
+
+    public void decreasePoint() {
+        this.point -= 1;
+    }
+
+
     @Column(name = "PROVIDER_TYPE", length = 20)
     @Enumerated(EnumType.STRING)
     @NotNull
@@ -92,7 +113,7 @@ public class User extends Auditable {
         this.username = username;
         this.password = "NO_PASS";
         this.email = email != null ? email : "NO_EMAIL";
-        this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "https://user-images.githubusercontent.com/95069395/211246989-dd36a342-bf18-412e-b3ec-841ab3280d56.png";
+        this.profileImageUrl = profileImageUrl != null ? profileImageUrl : "https://ifh.cc/g/B2fA6Y.png";
         this.providerType = providerType;
         this.roleType = roleType;
 //        this.createdAt = createdAt;
@@ -107,12 +128,12 @@ public class User extends Auditable {
     }
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    private List<Board> boards = new ArrayList<>();
+    private final List<Board> boards = new ArrayList<>();
 
     @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Comment> comments = new ArrayList<>();
+    private final List<Comment> comments = new ArrayList<>();
 
 
 }

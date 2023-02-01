@@ -8,7 +8,6 @@ import CommentVote from "./CommentVote";
 import { useForm, FormProvider } from "react-hook-form";
 import CommentReply from "./ReplyForm";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import Reply from "./Reply";
 
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
@@ -79,7 +78,7 @@ const CommentContainer1 = styled.div`
   width: 100%;
   max-width: 136px;
   height: 100%;
-  font-size: 17px;
+  font-size: 15px;
   max-height: 30px;
   border-radius: 10px;
   /* margin-left: 24px;

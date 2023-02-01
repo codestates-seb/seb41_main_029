@@ -20,9 +20,9 @@ const LoginBtn = styled.button`
   }
 `;
 
-export const MainBtn = ({ text, width, height, style }) => {
+export const MainBtn = ({ text, width, height, style, onclick }) => {
   return (
-    <LoginBtn style={style} width={width} height={height}>
+    <LoginBtn onClick={onclick} style={style} width={width} height={height}>
       {text}
     </LoginBtn>
   );

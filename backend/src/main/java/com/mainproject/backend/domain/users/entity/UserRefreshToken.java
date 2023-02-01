@@ -1,6 +1,7 @@
 package com.mainproject.backend.domain.users.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,9 +34,11 @@ public class UserRefreshToken {
     @Size(max = 256)
     private String refreshToken;
 
+
     public UserRefreshToken(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 256) String refreshToken
+
     ) {
         this.userId = userId;
         this.refreshToken = refreshToken;

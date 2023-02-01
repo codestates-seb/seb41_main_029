@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Cookies } from "react-cookie";
 import { useNavigate, useParams } from "react-router-dom";
-import { commentDownVote, commentUpVote } from "../../api/commentAPI";
 import { ReplyDownVote, ReplyUpVote } from "../../api/reply";
 
 const VoteBtn = styled.button`
