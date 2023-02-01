@@ -16,6 +16,7 @@ import NotFound from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";
 import SignupNotice from "./page/SignupNotice";
 import axios from "axios";
+import Landing2 from "./page/Landing2";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -47,6 +48,7 @@ function App() {
             <Route path="/hikingmap" element={<HikingMap />} />
             <Route path="/boards/:boardSeq" element={<View />} />
             <Route path="/signupnotice" element={<SignupNotice />} />
+            <Route path="/landing" element={<Landing2 />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
