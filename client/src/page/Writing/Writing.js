@@ -28,7 +28,7 @@ const TotalContainer = styled.div`
   .ck-editor__editable {
     min-height: 400px;
     margin-bottom: 20px;
-    width: 1120px;
+    width: 1121px;
     @media (max-width: 1336px) {
       width: 100%;
       height: 100%;
@@ -141,19 +141,19 @@ export default function Writing() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
   return (
-    <>
-      {Token !== undefined ? (
-        <TotalContainer>
-          <ContainerView>
-            <WritingMui />
-          </ContainerView>
-        </TotalContainer>
-      ) : (
-        <>
-          {alert("로그인이 되어 있지 않습니다!")}
-          <Navigate to="/login" />
-        </>
-      )}
-    </>
+    // <>
+    //   {Token !== undefined ? (
+    <TotalContainer>
+      <ContainerView>
+        <WritingMui />
+      </ContainerView>
+    </TotalContainer>
+    //   ) : (
+    //     <>
+    //       {alert("로그인이 되어 있지 않습니다!")}
+    //       <Navigate to="/login" />
+    //     </>
+    //   )}
+    // </>
   );
 }

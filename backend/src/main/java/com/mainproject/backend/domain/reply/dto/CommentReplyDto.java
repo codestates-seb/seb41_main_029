@@ -41,14 +41,5 @@ public class CommentReplyDto {
         private String username;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-
-//        public ReplyResponse(Reply reply){
-//            this.replySeq = reply.getReplySeq();
-//            this.commentSeq = reply.getComment().getCommentSeq();
-//            this.userSeq = reply.getUser().getUserSeq();
-//            this.content = reply.getContent();
-//            this.createdAt = reply.getCreatedAt();
-//            this.modifiedAt = reply.getModifiedAt();
-//        }
     }
 }

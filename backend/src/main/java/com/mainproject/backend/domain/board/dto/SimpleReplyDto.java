@@ -10,14 +10,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class SimpleReplyDto {
-
         private long replySeq;
         private long commentSeq;
         private long userSeq;
+        private int liked;
+        private int disliked;
         private String userId;
         private String content;
         private String username;
         private LocalDateTime createdAt;
         private LocalDateTime modifiedAt;
-
 }

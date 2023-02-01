@@ -60,7 +60,7 @@ export const CommentDate = ({ createdAt }) => {
 export const ModifiedDate = ({ createdAt }) => {
   const getDay = dayjs(createdAt);
   // getDay.add(9, "h");
-  return <div>({getDay.format("YY-MM-DD")})</div>;
+  return <div>{getDay.format("YY-MM-DD")}</div>;
 };
 
 export const ViewdateCommu = ({ createdAt }) => {

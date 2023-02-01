@@ -1,7 +1,6 @@
 package com.mainproject.backend.domain.comment.controller;
 
 import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.dto.CommentDto;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.mapper.CommentMapper;
@@ -27,7 +26,6 @@ public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
     private final UserRepository userRepository;
-    private final BoardService boardService;
 
 
 
@@ -58,16 +56,9 @@ public class CommentController {
         currentComment.setBoard(currentBoard);
         currentComment = commentService.updateComment(currentComment);
 
-//        Comment comment = commentService.updateComment(commentMapper.commentPatchDtoToComment(commentPatchDto));
         return new ResponseEntity<>(commentMapper.commentToCommentResponseDto(currentComment), HttpStatus.OK);
     }
 
-//    //답변조회
-//    @GetMapping("/{comment-id}")
-//    public ResponseEntity getComment(@PathVariable("comment-id")long commentId){
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 
     //답변 삭제
     @DeleteMapping("/{board-seq}/{comment-seq}")
@@ -115,8 +106,5 @@ public class CommentController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUserId(authentication.getName());
         return user;
-
-        //답변 좋아요
-//    public ResponseEntity likeComment()
     }
 }

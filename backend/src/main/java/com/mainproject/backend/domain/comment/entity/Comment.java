@@ -47,6 +47,7 @@ public class Comment extends Auditable {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_seq")
     private User user;
 
@@ -61,9 +62,9 @@ public class Comment extends Auditable {
         }
     }
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private int liked; // 추천 수
 
-    @Column(nullable = true)
+    @Column(nullable = false)
     private int disliked; // 비추천 수
 }
