@@ -63,6 +63,7 @@ const Wrapper = styled.div`
     width: 960px;
     word-break: keep-all;
     filter: none;
+    margin-top: -270px;
   }
   @media (max-width: 1336px) {
     .btn {

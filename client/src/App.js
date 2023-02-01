@@ -15,7 +15,8 @@ import HikingMap from "./page/HikingMap";
 import NotFound from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";
 import SignupNotice from "./page/SignupNotice";
-import axios from "axios";
+import Gallery from "./page/Gallery";
+import Test from "./page/Test";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -47,6 +48,8 @@ function App() {
             <Route path="/hikingmap" element={<HikingMap />} />
             <Route path="/boards/:boardSeq" element={<View />} />
             <Route path="/signupnotice" element={<SignupNotice />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/test" element={<Test />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />
