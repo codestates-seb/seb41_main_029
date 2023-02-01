@@ -1,9 +1,12 @@
 package com.mainproject.backend.domain.board.dto;
 
 import com.mainproject.backend.domain.board.entity.Board;
+import com.mainproject.backend.domain.board.option.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -14,9 +17,20 @@ public class BoardSimpleDto {
     private String username;
     private int liked;
     private int bookmarked;
+    private int viewCount;
+    private int commented;
+    private String category;
+    private LocalDateTime createdAt;
 
     public BoardSimpleDto toDto(Board board) {
-        return new BoardSimpleDto(board.getBoardSeq(), board.getTitle(), board.getUser().getUsername(), board.getLiked(),
-                board.getBookmarked());
+        return new BoardSimpleDto(board.getBoardSeq(),
+                board.getTitle(),
+                board.getUser().getUsername(),
+                board.getLiked(),
+                board.getBookmarked(),
+                board.getViewCount(),
+                board.getCommented(),
+                board.getCategory().category,
+                board.getCreatedAt());
     }
 }

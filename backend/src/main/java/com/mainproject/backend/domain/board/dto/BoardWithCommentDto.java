@@ -27,6 +27,4 @@ public class BoardWithCommentDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     private List<CommentResponseDto> comments;
-
-
 }

@@ -180,7 +180,7 @@ const WritingMui = ({ setImage }) => {
             <CategoryBox>
               <CategoryFormControl>
                 <CategoryInputLabel id="demo-simple-select-label">
-                  <span className="CategorySpan">일 반</span>
+                  <span className="CategorySpan">카테고리</span>
                 </CategoryInputLabel>
                 <CategorySelect
                   sx={{

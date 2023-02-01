@@ -1,8 +1,9 @@
 package com.mainproject.backend.global.exception;
 
-public class BoardNotFoundException extends RuntimeException{
+public class ReplyNotFoundException extends RuntimeException{
+
     public ExceptionCode ReplyNotFoundException() {
 
-        return ExceptionCode.BOARD_NOT_FOUND;
+        return ExceptionCode.REPLY_NOT_FOUND;
     }
 }
