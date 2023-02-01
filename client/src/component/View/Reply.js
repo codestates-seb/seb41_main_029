@@ -79,7 +79,7 @@ const ContentContainer = styled.div`
 const ContentContainer1 = styled.div`
   width: 100%;
   max-width: 136px;
-  font-size: 17px;
+  font-size: 15px;
   /* margin-top: 20px; */
   height: 26px;
   /* min-height: 65px; */

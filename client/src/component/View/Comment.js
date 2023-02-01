@@ -78,7 +78,7 @@ const CommentContainer1 = styled.div`
   width: 100%;
   max-width: 136px;
   height: 100%;
-  font-size: 17px;
+  font-size: 15px;
   max-height: 30px;
   border-radius: 10px;
   /* margin-left: 24px;

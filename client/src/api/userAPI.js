@@ -1,8 +1,9 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { getCookie } from "../Cookies";
 
-// const url = `https://gohiking.co.kr/`;
-const url = `https://api.gohiking.co.kr`;
+// const url = `https://api.gohiking.co.kr/`;
+const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
 const upload_endpoint = "uploadFiles";
 
 export const login = async (data) => {
@@ -17,22 +18,79 @@ export const login = async (data) => {
   } catch (e) {}
 };
 
-export const guestLogin = async (data) => {
-  const getRandom = Math.random();
-  const formdata = {
-    userId: getRandom,
-    username: getRandom,
-    password: getRandom,
-  };
+// export const gusetLogin = async () => {
+//   const getRandom = Math.random();
+//   await axios
+//     .post(
+//       "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
+//       {
+//         userId: getRandom,
+//         username: getRandom,
+//         password: getRandom,
+//       },
+//       {
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//       }
+//     )
+//     .then(
+//       axios
+//         .post(
+//           "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/articles",
+//           {
+//             userId: getRandom,
+//             password: getRandom,
+//           },
+//           {
+//             headers: {
+//               "Content-Type": "application/json",
+//             },
+//           }
+//         )
+//         return res;
+//     )
+//     .catch((err) => {
+//       alert("다시한번 시도해주세요.");
+//     });
+// };
+const getRandom = Math.random();
+export const guestSignup = async () => {
   try {
-    const res = await axios({
+    const res = axios({
       method: "post",
-      formdata,
+      data: {
+        userId: getRandom,
+        username: getRandom,
+        password: getRandom,
+      },
       headers: { Authorization: null },
-      url: `${url}auth/login`,
+      url: "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/guest",
     });
+    // console.log(res);
     return res;
-  } catch (e) {}
+  } catch (err) {
+    console.log(err);
+    alert("다시 시도해주세요.");
+  }
+};
+
+export const guestLogin = async () => {
+  try {
+    const res = axios({
+      method: "post",
+      data: {
+        userId: getRandom,
+        password: getRandom,
+      },
+      headers: { Authorization: null },
+      url: "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/auth/login",
+    });
+    // console.log(res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const socialLogin = async (data) => {

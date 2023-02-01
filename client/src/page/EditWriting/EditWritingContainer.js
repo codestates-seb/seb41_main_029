@@ -205,7 +205,7 @@ const EditWritingEditor = ({ setImage }) => {
   const editwriting = async () => {
     await axios
       .patch(
-        `https://api.gohiking.co.kr/boards/${boardSeq}`,
+        `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/boards/${boardSeq}`,
         {
           title: detail,
           content: answer,
