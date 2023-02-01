@@ -12,8 +12,7 @@ import "swiper/css/free-mode";
 import "./styles.css";
 
 import { Scrollbar } from "swiper";
-
-import { Icon1 } from "../UserIcon";
+import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
@@ -127,10 +126,9 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function SwiperComponent() {
+export default function SwiperComponent({ postList }) {
   const [heart, setHeart] = useState(false);
   const [likes, setLikes] = useState(0);
-
   const onClickHeart = () => {
     if (heart === false) {
       setHeart(true);
@@ -140,6 +138,7 @@ export default function SwiperComponent() {
       setLikes((likes) => --likes);
     }
   };
+  console.log(postList);
 
   return (
     <Wrapper>
@@ -152,6 +151,77 @@ export default function SwiperComponent() {
         modules={[Scrollbar]}
         className="mySwiper"
       >
+        {postList?.map((item, index) => (
+          <SwiperSlide key={index}>
+            <div className="flex post">
+              <img src={item?.imgUrl} alt="postimage" />
+              <div className="content">
+                <div className="divider" />
+                <div className="flex jcsb mb10">
+                  <div className="mr10">
+                    <div className="flex mb10">
+                      {item?.userRole === "USER" ? (
+                        <>
+                          {0 <= item?.point && item?.point <= 30 ? (
+                            <Icon1 />
+                          ) : (
+                            ""
+                          )}
+                          {31 <= item?.point && item?.point <= 70 ? (
+                            <Icon2 />
+                          ) : (
+                            ""
+                          )}
+                          {71 <= item?.point && item?.point <= 100 ? (
+                            <Icon3 />
+                          ) : (
+                            ""
+                          )}
+                          {101 <= item?.point && item?.point <= 200 ? (
+                            <Icon4 />
+                          ) : (
+                            ""
+                          )}
+                          {201 <= item?.point && item?.point <= 300 ? (
+                            <Icon5 />
+                          ) : (
+                            ""
+                          )}
+                          {301 <= item?.point ? <Icon6 /> : ""}{" "}
+                        </>
+                      ) : null}
+                      <div className="va"> {item?.username} </div>
+                    </div>
+                    <div className="flex">
+                      <div className="mr10 tag"> {item?.tags} </div>
+                    </div>
+                  </div>
+                  <div className="flex mt10">
+                    {heart ? (
+                      <FontAwesomeIcon
+                        icon={faSolidHeart}
+                        color="#62B6B7"
+                        size="xl"
+                        className="heartanimation mr10"
+                        onClick={onClickHeart}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        icon={faHeart}
+                        color="#62B6B7"
+                        size="xl"
+                        className="mr10"
+                        onClick={onClickHeart}
+                      />
+                    )}
+                    <div>{item?.liked}</div>
+                  </div>
+                </div>
+                <div className="phrase">{item?.content}</div>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
         <SwiperSlide>
           <div className="flex post">
             <img src="https://i.imgur.com/fNPu0Hr.jpeg" alt="postimage" />
