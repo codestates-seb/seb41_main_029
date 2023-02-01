@@ -15,6 +15,7 @@ public class SimpleReplyDto {
         private long replySeq;
         private long commentSeq;
         private long userSeq;
+        private String userRole;
         private int liked;
         private int disliked;
         private String userId;

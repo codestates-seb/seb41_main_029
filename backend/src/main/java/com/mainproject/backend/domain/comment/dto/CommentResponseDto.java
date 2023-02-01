@@ -19,6 +19,7 @@ public class CommentResponseDto {
     private int disliked;
     private String userId;
     private String username;
+    private String userRole;
     private int point;
     private String content;
     private long boardSeq;

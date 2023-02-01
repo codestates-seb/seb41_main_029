@@ -150,8 +150,8 @@ public class BoardService {
 
     //제목 검색
     public Page<Board> findAllBySearch(String keyword, int page, int size) {
-        return boardRepository.findAllByTitleContaining(keyword, PageRequest.of(page - 1, size,
-                Sort.by("boardSeq").descending()));
+        return boardRepository.findAllByTitleContainingAndBoardStatus(keyword, PageRequest.of(page - 1, size,
+                Sort.by("boardSeq").descending()), Board.BoardStatus.BOARD_EXIST);
     }
 
     //게시글 삭제

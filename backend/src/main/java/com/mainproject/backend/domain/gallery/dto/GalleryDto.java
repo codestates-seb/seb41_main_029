@@ -62,6 +62,8 @@ public class GalleryDto {
     public static class PageGalleryResponse {
         private Long gallerySeq;
         private Long userSeq;
+        private int point;
+        private String userRole;
         private String username;
         private String content;
         private String tags;

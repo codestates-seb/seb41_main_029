@@ -22,7 +22,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 
     //제목 검색 기능
-    Page<Board> findAllByTitleContaining(String keyword, Pageable pageable);
+    Page<Board> findAllByTitleContainingAndBoardStatus(String keyword, Pageable pageable, Board.BoardStatus boardStatus);
 
 
     Page<Board> findAllByBoardStatus(Pageable pageable, Board.BoardStatus boardStatus);

@@ -30,6 +30,8 @@ public interface GalleryMapper {
                         .builder()
                         .gallerySeq(gallery.getGallerySeq())
                         .userSeq(gallery.getUser().getUserSeq())
+                        .point(gallery.getUser().getPoint())
+                        .userRole(gallery.getUser().getRoleType().toString())
                         .username(gallery.getUser().getUsername())
                         .content(gallery.getContent())
                         .tags(gallery.getTag())

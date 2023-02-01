@@ -90,9 +90,9 @@ public class BoardDto {
     @Builder
     public static class PageBoardResponse {
         private Long boardSeq;
-
         private Long userSeq;
         private int point;
+        private String userRole;
         private String username;
         private String category;
         private String title;
@@ -108,6 +108,7 @@ public class BoardDto {
             this.boardSeq = board.getBoardSeq();
             this.userSeq = board.getUser().getUserSeq();
             this.username = board.getUser().getUsername();
+            this.userRole = board.getUser().getRoleType().toString();
             this.category = board.getCategory().category;
             this.title = board.getTitle();
             this.commented = board.getCommented();

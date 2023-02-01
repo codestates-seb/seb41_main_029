@@ -49,6 +49,7 @@ public interface BoardMapper {
                         .userSeq(board.getUser().getUserSeq())
                                 .username(board.getUser().getUsername())
                                 .point(board.getUser().getPoint())
+                                .userRole(board.getUser().getRoleType().toString())
                                 .category(board.getCategory().category)
                                 .title(board.getTitle())
                                 .bookmarkCount(board.getBookmarked())
@@ -66,6 +67,7 @@ public interface BoardMapper {
 
        boardWithCommentResponseDto.setBoardSeq(board.getBoardSeq());
        boardWithCommentResponseDto.setUserSeq(board.getUser().getUserSeq());
+       boardWithCommentResponseDto.setUserRole(board.getUser().getRoleType().toString());
        boardWithCommentResponseDto.setUsername(board.getUser().getUsername());
        boardWithCommentResponseDto.setPoint(board.getUser().getPoint());
        boardWithCommentResponseDto.setProfileImageUrl(board.getUser().getProfileImageUrl());
@@ -99,6 +101,7 @@ public interface BoardMapper {
                         .builder()
                         .commentSeq(comment.getCommentSeq())
                         .userSeq(comment.getUser().getUserSeq())
+                        .userRole(comment.getUser().getRoleType().toString())
                         .boardSeq(comment.getBoard().getBoardSeq())
                         .username(comment.getUser().getUsername())
                         .liked(comment.getLiked())
@@ -120,6 +123,7 @@ public interface BoardMapper {
                 .map(reply -> SimpleReplyDto
                         .builder()
                         .commentSeq(reply.getComment().getCommentSeq())
+                        .userRole(reply.getUser().getRoleType().toString())
                         .replySeq(reply.getReplySeq())
                         .userSeq(reply.getUser().getUserSeq())
                         .username(reply.getUser().getUsername())
