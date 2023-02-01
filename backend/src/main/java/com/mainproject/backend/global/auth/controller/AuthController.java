@@ -88,14 +88,10 @@ public class AuthController {
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookeMaxAge);
 
-        User user = userRepository.findByUserId(userId);
-        RoleType roleType = user.getRoleType();
-
 
         UserRefreshToken userRefreshToken1 = new UserRefreshToken();
         userRefreshToken1.setRefreshToken(accessToken.getToken());
         userRefreshToken1.setUserId(userId);
-        userRefreshToken1.setRoleType(roleType);
 
 
         return ApiResponse.success("token", userRefreshToken1);

@@ -36,7 +36,7 @@ public class GalleryController {
         return ApiResponse.success("갤러리 포스트 성공", galleryMapper.galleryToGalleryResponseDto(gallery));
     }
 
-    @PostMapping("/delete/{gallery-seq}")
+    @DeleteMapping("/delete/{gallery-seq}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ApiResponse GalleryDelete(@PathVariable("gallery-seq") @Positive Long gallerySeq){
         Gallery currentGallery = new Gallery();

@@ -34,14 +34,11 @@ public class UserRefreshToken {
     @Size(max = 256)
     private String refreshToken;
 
-    @Column(name = "ROLE_TYPE", length = 20)
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private RoleType roleType;
 
     public UserRefreshToken(
             @NotNull @Size(max = 64) String userId,
             @NotNull @Size(max = 256) String refreshToken
+
     ) {
         this.userId = userId;
         this.refreshToken = refreshToken;
