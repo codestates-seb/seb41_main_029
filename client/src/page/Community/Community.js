@@ -159,7 +159,12 @@ const Loading = styled.div`
   text-align: center;
   margin-top: 30px;
 `;
-const LoadingText = styled.div``;
+const LoadingText = styled.div`
+  margin-bottom: 10px;
+  @media (max-width: 600px) {
+    font-size: ${({ theme }) => theme.fontSizes.fs12};
+  }
+`;
 const PostsError = styled.div`
   text-align: center;
   margin-top: 30px;
@@ -220,7 +225,7 @@ const PostTitleBox = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  min-width: 80px;
+  min-width: 95px;
   margin-right: 20px;
   @media (max-width: 600px) {
     .ellipsis {
@@ -444,7 +449,7 @@ export default function Community() {
 
   //----------------------------------------------------------------------------
 
-  // 정식 데이터 1페이지 조회
+  // 데이터 1페이지 조회
   const handleLoadAll = async (cate, sortby2) => {
     try {
       setLoading(true);
@@ -485,6 +490,9 @@ export default function Community() {
         );
         setItems(res.data);
         setLoading(false);
+        setPage(0); // 페이지 초기화
+        const total = res.data.length;
+        setPageCount(total / limit);
       }
     } catch (err) {
       throw err;
@@ -660,7 +668,7 @@ export default function Community() {
           <PostsList>
             {loading && (
               <Loading>
-                <LoadingText>게시글을 받아오는 중입니다...</LoadingText>
+                <LoadingText>게시글을 받아오는 중입니다</LoadingText>
                 <img
                   src={process.env.PUBLIC_URL + "/image/Loading.gif"}
                   alt="Loading"
@@ -779,7 +787,14 @@ export default function Community() {
             }}
             onKeyDown={handleLoadSearch}
           ></SearchInput>
-          <FontAwesomeIcon icon={faMagnifyingGlass} color="gray" size="lg" />
+          {/* <SearchIcon onClick={handleLoadSearch}> */}
+          <FontAwesomeIcon
+            icon={faMagnifyingGlass}
+            color="gray"
+            size="lg"
+            // onClick={handleLoadSearch}
+          />
+          {/* </SearchIcon> */}
         </Search>
       </SearchContainer>
       {/* <Icon1 />

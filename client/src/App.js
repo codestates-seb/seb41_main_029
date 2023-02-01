@@ -15,6 +15,7 @@ import HikingMap from "./page/HikingMap";
 import { NotFound } from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";
 import SignupNotice from "./page/SignupNotice";
+import axios from "axios";
 import Gallery from "./page/Gallery";
 import Test from "./page/Test";
 

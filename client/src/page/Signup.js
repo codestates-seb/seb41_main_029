@@ -13,6 +13,8 @@ const LoginLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  min-height: 650px;
 `;
 
 let SignupBackground = styled.div`
@@ -189,9 +191,11 @@ export default function Signup() {
                     height="40px"
                     fieldName="userId"
                     validation={idValidation}
-                    error={error.id}
+                    error={error.userId}
                   />
-                  {error?.id && <AlertWarning text={error.id?.message} />}
+                  {error?.userId && (
+                    <AlertWarning text={error.userId?.message} />
+                  )}
                 </InputContainer>
                 <LabelLayout>
                   <label>닉네임</label>
@@ -203,10 +207,10 @@ export default function Signup() {
                     height="40px"
                     fieldName="username"
                     validation={nicknameValidation}
-                    error={error.nickname}
+                    error={error.username}
                   />
-                  {error?.nickname && (
-                    <AlertWarning text={error.nickname?.message} />
+                  {error?.username && (
+                    <AlertWarning text={error.username?.message} />
                   )}
                 </InputContainer>
                 <LabelLayout>
