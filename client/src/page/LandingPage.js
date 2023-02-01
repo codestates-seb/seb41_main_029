@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import Carousel from "../component/Carousel";
+import { useScrollFadeIn } from "../component/useScrollFadeIn";
+import { useScrollMoveIn } from "../component/useScrollMoveIn";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -18,6 +20,7 @@ const Card = styled.div`
   justify-content: center;
   max-width: 1920px;
   width: 100vw;
+  word-break: keep-all;
   img {
     height: auto;
     max-width: 800px;
@@ -27,7 +30,7 @@ const Card = styled.div`
     justify-content: space-around;
   }
   .text {
-    max-width: 400px;
+    max-width: 450px;
   }
   .mr50 {
     margin-right: 50px;
@@ -98,6 +101,9 @@ const Card = styled.div`
     .fs30 {
       font-size: ${(props) => props.theme.fontSizes.fs18};
     }
+    .text {
+      max-width: 500px;
+    }
     .mtb200 {
       margin: 50px 0;
     }
@@ -108,12 +114,20 @@ const Card = styled.div`
 `;
 
 export default function LandingPage() {
+  const animatedItem1 = useScrollFadeIn();
+  const animatedItem2 = useScrollFadeIn();
+  const animatedItem3 = useScrollMoveIn();
+  const animatedItem4 = useScrollMoveIn();
+  const animatedItem5 = useScrollMoveIn();
+  const animatedItem6 = useScrollMoveIn();
+
   return (
     <>
       <Wrapper>
         <Carousel />
         <Card>
           <div className="flex mtb200 tar">
+            {/* 구조분해할당을 통해 해당 컴포넌트에 속성값 부여 */}
             <img
               src={
                 process.env.PUBLIC_URL +
@@ -121,22 +135,25 @@ export default function LandingPage() {
               }
               alt="card 1"
               className="mr50"
+              {...animatedItem1}
             />
-            <div className="desktopVer text ra">
+            <div className="desktopVer text ra" {...animatedItem3}>
               <div className="fs64 mt80">community</div>
               <div className="fs48">커뮤니티</div>
               <div className="fs30">
-                헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-                재판관은 대통령이 임명한다.
+                등산을 좋아하는 사람들과 함께 이야기를 나누어보세요 <br />
+                정보를 공유하고 질문할 수도 있어요 <br />
+                열심히 활동하시고 포인트를 얻어서 아이콘을 진화시켜 보세요
               </div>
             </div>
             <div>
-              <div className="tabletVer text">
+              <div className="tabletVer text" {...animatedItem4}>
                 <div className="fs64 mt80">community</div>
                 <div className="fs48">커뮤니티</div>
                 <div className="fs30">
-                  헌법재판소는 법관의 자격을 가진 9인의 재판관으로 구성하며,
-                  재판관은 대통령이 임명한다.
+                  등산을 좋아하는 사람들과 함께 이야기를 나누어보세요 <br />
+                  정보를 공유하고 질문할 수도 있어요 <br />
+                  열심히 활동하시고 포인트를 얻어서 아이콘을 진화시켜 보세요
                 </div>
               </div>
             </div>
@@ -145,23 +162,19 @@ export default function LandingPage() {
         <Card color="White">
           <div className="flex mtb200 sa">
             <div>
-              <div className="tabletVer text">
+              <div className="tabletVer text" {...animatedItem5}>
                 <div className="fs64 mt80">hikingmap</div>
                 <div className="fs48">등산지도</div>
                 <div className="fs30">
-                  국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야
-                  한다. 제1항의 해임건의는 국회재적의원 3분의 1 이상의 발의에
-                  의하여 국회재적의원 과반수의 찬성이 있어야 한다.
+                  날씨, 산 위치, 등산로 등을 찾아볼 수 있는 지도입니다
                 </div>
               </div>
             </div>
-            <div className="desktopVer text mr50">
+            <div className="desktopVer text mr50" {...animatedItem6}>
               <div className="fs64 mt80">hikingmap</div>
               <div className="fs48">등산지도</div>
               <div className="fs30">
-                국가는 전통문화의 계승·발전과 민족문화의 창달에 노력하여야 한다.
-                제1항의 해임건의는 국회재적의원 3분의 1 이상의 발의에 의하여
-                국회재적의원 과반수의 찬성이 있어야 한다.
+                날씨, 산 위치, 등산로 등을 찾아볼 수 있는 지도입니다
               </div>
             </div>
             <img
@@ -170,6 +183,7 @@ export default function LandingPage() {
                 "/image/sanket-darji-LKge0b91IU8-unsplash 2.png"
               }
               alt="card 2"
+              {...animatedItem2}
             ></img>
           </div>
         </Card>

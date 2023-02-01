@@ -6,6 +6,8 @@ import AlertWarning from "../component/AlertWarning";
 import { MainBtn } from "../component/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { guestLogin, guestSignup } from "../api/userAPI";
+import { Cookies } from "react-cookie";
 
 const LoginLayout = styled.div`
   display: flex;
@@ -48,7 +50,7 @@ const InputContainer = styled.div`
   margin-top: 4px;
 `;
 
-// ---------------SocialLogin------------------------
+// 소셜로그인
 
 let SocialLogin = styled.div`
   display: flex;
@@ -62,7 +64,47 @@ let SocialLoginLogo = styled.img`
   margin: 20px;
 `;
 
+//게스트 로그인
+const GuestLayout = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const GuestBtn = styled.button`
+  background-color: #cccccc;
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
+  color: ${({ theme }) => theme.colors.white};
+  font-weight: 400;
+  border: 0px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 210px;
+  height: 40px;
+  &:hover {
+    background-color: #bbbbbb;
+  }
+
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+`;
+
 export default function Signup() {
+  const cookie = new Cookies();
+  const guestHandle = () => {
+    guestSignup();
+    setTimeout(async () => {
+      const res = await guestLogin();
+      console.log(res);
+      const userId1 = res?.data?.body?.token?.userId;
+      localStorage.setItem("userId", JSON.stringify(userId1));
+      const token = res.data?.body?.token?.refreshToken;
+      cookie.set("token", token);
+      navigate("/");
+      window.location.reload();
+    }, 200);
+  };
+
   const methods = useForm();
   const getValues = methods?.getValues;
   const password = useRef();
@@ -110,7 +152,6 @@ export default function Signup() {
   const error = methods?.formState?.errors;
 
   // 회원가입 요청
-  // 버튼을 누르면 validation이 완료된 후에 실행되서 각 필드를 다시 확인안해도 됨
   const onSubmit = (data) => {
     // console.log(data);
     axios
@@ -122,31 +163,14 @@ export default function Signup() {
         }
       )
       .then((res) => {
-        console.log(res.data);
-        navigate("/login");
+        // console.log(res.data);
+        navigate("/signupnotice");
       })
       .catch((err) => {
-        console.log(err.data);
+        // console.log(err);
+        alert("이미 등록된 아이디입니다.");
       });
-    // if (res?.status !== 200) {
-    //   alert("중복된 아이디입니다.");
-    //   return setisAuthorized(false);
-    // } else {
-    //   // console.log(res?.data?.body?.token?.userId);
-    //   const userId1 = res?.data?.body?.token?.userId;
-    //   // console.log(userId1);
-    //   localStorage.setItem("userId", JSON.stringify(userId1));
-    //   const token = res.data?.body?.token?.refreshToken;
-    //   cookie.set("token", token);
-    //   // dispatch(setUser({ token, userId1 }));
-    //   navigate("/");
-    // }
-    // };
   };
-
-  // 아이디 중복 체크
-  // 회원검색 get 요청해서 id 확인 후 input 밑에 에러문구 띄우기
-  // 이것도 react-hook-form으로 가능??
 
   return (
     <>
@@ -201,22 +225,6 @@ export default function Signup() {
                     <AlertWarning text={error.password?.message} />
                   )}
                 </InputContainer>
-                {/* <LabelLayout>
-                  <label>비밀번호 확인</label>
-                </LabelLayout> */}
-                {/* <InputContainer> */}
-                {/* <Input
-                    type="password"
-                    width="15rem"
-                    height="40px"
-                    fieldName="confirmPassword"
-                    validation={confirmPwdValidation}
-                    error={error.confirmPassword}
-                  /> */}
-                {/* {error?.confirmPassword && (
-                    <AlertWarning text={error.confirmPassword?.message} />
-                  )} */}
-                {/* </InputContainer> */}
               </InputLayout>
               <BtnLayout>
                 <MainBtn
@@ -225,10 +233,12 @@ export default function Signup() {
                   width="210px"
                   height="40px"
                 />
-                {/* 폰트사이즈 16으로 */}
               </BtnLayout>
             </form>
           </FormProvider>
+          <GuestLayout>
+            <GuestBtn onClick={guestHandle}>게스트 로그인</GuestBtn>
+          </GuestLayout>
           <SocialLogin>
             <SocialLoginLogo
               src={process.env.PUBLIC_URL + "/image/google.svg"}

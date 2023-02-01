@@ -4,9 +4,9 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   iframe {
-    max-width: 100%;
-    height: 920px;
-    width: 1920px;
+    height: calc(100vh - 80px);
+    max-width: 1920px;
+    width: 100%;
   }
   .hidden {
     display: none;

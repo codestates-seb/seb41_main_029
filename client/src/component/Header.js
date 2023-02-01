@@ -83,7 +83,7 @@ const TabletMenu = styled.div`
 const MenuModal = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   border-left: 1px solid;
-  display: ${(props) => (props.open ? "block" : "none")};
+  display: ${(props) => (props.open ? "flex" : "none")};
   height: 100vh;
   position: absolute;
   width: 100vw;
@@ -113,9 +113,11 @@ const MenuModal = styled.div`
     background-color: #ffffff;
     height: 100vh;
     max-width: 320px;
-    position: absolute;
-    right: 0;
     width: 50vw;
+  }
+  .modalout {
+    height: 100vh;
+    width: 100%;
   }
 `;
 
@@ -132,6 +134,10 @@ export default function Header(props) {
     }
   };
 
+  const modaloutClick = () => {
+    setModalOpen(false);
+  };
+
   const cookies = new Cookies();
   const token = cookies.get("token");
 
@@ -144,6 +150,7 @@ export default function Header(props) {
   const logoutClick = () => {
     removeCookie("token");
     localStorage.removeItem("userId");
+    window.location.reload();
   };
 
   return (
@@ -169,6 +176,9 @@ export default function Header(props) {
         </div>
         <div className="desktopVer ml96 va">
           <a href="/hikingmap">등산지도</a>
+        </div>
+        <div className="desktopVer ml96 va">
+          <a href="/gallery">갤러리</a>
         </div>
         <div className="desktopVer spacing"></div>
         {hasToken ? (
@@ -207,6 +217,7 @@ export default function Header(props) {
         )}
       </TabletMenu>
       <MenuModal open={modalOpen} path={window.location.pathname}>
+        <div className="modalout" onClick={modaloutClick} />
         <div className="modal">
           <div className="landing" />
           <div className="flex">
@@ -214,6 +225,9 @@ export default function Header(props) {
           </div>
           <div className="flex">
             <a href="/hikingmap">등산지도</a>
+          </div>
+          <div className="flex">
+            <a href="/gallery">갤러리</a>
           </div>
           {hasToken ? (
             <>

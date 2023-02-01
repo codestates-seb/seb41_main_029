@@ -12,9 +12,11 @@ import Writing from "./page/Writing/Writing";
 import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
-import NotFound from "./page/NotFound";
+import { NotFound } from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";
-import HikingInfo from "./page/HikingInfo";
+import SignupNotice from "./page/SignupNotice";
+import Gallery from "./page/Gallery";
+import Test from "./page/Test";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -45,7 +47,9 @@ function App() {
             <Route path="/mypageedit" element={<MyPageEdit />} />
             <Route path="/hikingmap" element={<HikingMap />} />
             <Route path="/boards/:boardSeq" element={<View />} />
-            <Route path="/hikingInfo" element={<HikingInfo />} />
+            <Route path="/signupnotice" element={<SignupNotice />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/test" element={<Test />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

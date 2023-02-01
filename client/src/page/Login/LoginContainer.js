@@ -3,11 +3,12 @@ import { FormProvider, useForm } from "react-hook-form";
 import styled from "styled-components";
 import Input from "../../component/Input";
 import AlertWarning from "../../component/AlertWarning";
-import { login, socialLogin } from "../../api/userAPI";
+import { guestLogin, guestSignup, login, socialLogin } from "../../api/userAPI";
 import { useNavigate } from "react-router-dom";
 import { MainBtn } from "../../component/Button";
 import { Cookies } from "react-cookie";
 import { setCookie } from "../../Cookies";
+import axios from "axios";
 
 const InputLayout = styled.div`
   margin-top: 30px;
@@ -39,7 +40,29 @@ let SocialLoginLogo = styled.img`
   height: 40px;
   margin: 20px;
 `;
+const GuestLayout = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+const GuestBtn = styled.button`
+  background-color: #cccccc;
+  font-size: ${({ theme }) => theme.fontSizes.fs16};
+  color: ${({ theme }) => theme.colors.white};
+  font-weight: 400;
+  border: 0px;
+  border-radius: 5px;
+  margin-top: 20px;
+  width: 200px;
+  height: 40px;
+  &:hover {
+    background-color: #bbbbbb;
+  }
 
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+`;
 const LoginContainer = () => {
   const [isAuthorized, setisAuthorized] = useState(true);
   // const dispatch = useDispatch();
@@ -48,9 +71,32 @@ const LoginContainer = () => {
   const cookie = new Cookies();
   const methods = useForm();
   const error = methods?.formState?.errors;
-
-  const handleSocial = () => {
-    // socialLogin;
+  // const getRandom = Math.random();
+  const guestHandle = () => {
+    guestSignup();
+    setTimeout(async () => {
+      const res = await guestLogin();
+      console.log(res);
+      const userId1 = res?.data?.body?.token?.userId;
+      localStorage.setItem("userId", JSON.stringify(userId1));
+      const token = res.data?.body?.token?.refreshToken;
+      cookie.set("token", token);
+      navigate("/");
+      window.location.reload();
+    }, 200);
+    // guestLogin();
+    // if (res?.status !== 200) {
+    //   alert("다시한번 시도해주세요.");
+    //   return setisAuthorized(false);
+    // } else {
+    // const userId1 = res?.data?.body?.token?.userId;
+    // localStorage.setItem("userId", JSON.stringify(userId1));
+    // const token = res.data?.body?.token?.refreshToken;
+    // cookie.set("token", token);
+    // navigate("/");
+    // window.location.reload();
+    // }
+    // console.log(res);
   };
 
   const idValidation = {
@@ -76,20 +122,24 @@ const LoginContainer = () => {
   // expireDate.setMinutes(expireDate.getMinutes() + 10)
   const onSubmit = async (data) => {
     const res = await login(data);
-    if (res?.status !== 200) {
+    if (res?.response?.data?.status) {
       alert("가입된 정보가 없습니다.");
       return setisAuthorized(false);
-    } else {
+    } else if (res?.status === 200) {
       // console.log(res?.data?.body?.token?.userId);
       const userId1 = res?.data?.body?.token?.userId;
       // console.log(userId1);
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
       cookie.set("token", token);
-      // dispatch(setUser({ token, userId1 }));
       navigate("/");
       window.location.reload();
+      return setisAuthorized(true);
+      // dispatch(setUser({ token, userId1 }));
+    } else {
+      alert("서버와 연결되어있지 않습니다.");
     }
+    console.log(res?.data);
   };
 
   return (
@@ -107,11 +157,9 @@ const LoginContainer = () => {
                 height="40px"
                 fieldName="userId"
                 validation={idValidation}
-                error={error.id}
+                error={error.userId}
               />
-              {error?.username && (
-                <AlertWarning text={error.username?.message} />
-              )}
+              {error?.userId && <AlertWarning text={error.userId?.message} />}
             </InputContainer>
             <LabelLayout>
               <label>비밀번호</label>
@@ -139,20 +187,26 @@ const LoginContainer = () => {
           </LoginBtnLayout>
         </form>
       </FormProvider>
+      <GuestLayout>
+        <GuestBtn onClick={guestHandle}>게스트 로그인</GuestBtn>
+      </GuestLayout>
       <SocialLogin>
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/google.svg"}
-          alt=""
+          alt="GOOGLE"
           // onClick={handleSocial}
         />
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/naver.svg"}
-          alt=""
+          alt="NAVER"
         />
-        <SocialLoginLogo
-          src={process.env.PUBLIC_URL + "/image/cacao.svg"}
-          alt=""
-        />
+        {/* `https://kauth.kakao.com/oauth/authorize?client_id=${8e9ebc53811a31af7c567edfb77bff91}&redirect_uri=${http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao}&response_type=code` */}
+        <a href="https://kauth.kakao.com/oauth/authorize?client_id=8e9ebc53811a31af7c567edfb77bff91&redirect_uri=http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao&response_type=code">
+          <SocialLoginLogo
+            src={process.env.PUBLIC_URL + "/image/cacao.svg"}
+            alt="KAKAO"
+          />
+        </a>
       </SocialLogin>
     </>
   );
