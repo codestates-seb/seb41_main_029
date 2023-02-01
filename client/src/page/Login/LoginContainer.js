@@ -122,7 +122,7 @@ const LoginContainer = () => {
   // expireDate.setMinutes(expireDate.getMinutes() + 10)
   const onSubmit = async (data) => {
     const res = await login(data);
-    if (res?.status === 500) {
+    if (res?.response?.data?.status) {
       alert("가입된 정보가 없습니다.");
       return setisAuthorized(false);
     } else if (res?.status === 200) {
@@ -139,7 +139,7 @@ const LoginContainer = () => {
     } else {
       alert("서버와 연결되어있지 않습니다.");
     }
-    console.log(res);
+    console.log(res?.data);
   };
 
   return (

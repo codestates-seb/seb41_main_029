@@ -15,7 +15,9 @@ export const login = async (data) => {
       url: `${url}auth/login`,
     });
     return res;
-  } catch (e) {}
+  } catch (e) {
+    return e;
+  }
 };
 
 // export const gusetLogin = async () => {
