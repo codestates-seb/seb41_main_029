@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface CommentRepository extends JpaRepository<Comment,Long> {
     List<Comment> findAllByUserAndCommentExist(User user, Comment.CommentStatus commentStatus);
-    List<Comment> findAllByBoardExists(Board.BoardStatus boardStatus);
+//    List<Comment> findAllByBoardExists(Board.BoardStatus boardStatus);
 
 }

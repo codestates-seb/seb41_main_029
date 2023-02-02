@@ -169,7 +169,7 @@ public class BoardService {
         findBoard.setBoardStatus(Board.BoardStatus.BOARD_NOT_EXIST);
         boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 결정한다.
 
-        List<Comment> comment = commentRepository.findAllByBoardExists(Board.BoardStatus.BOARD_NOT_EXIST);
+//        List<Comment> comment = commentRepository.findAllByBoardExists(Board.BoardStatus.BOARD_NOT_EXIST);
 
     }
 
