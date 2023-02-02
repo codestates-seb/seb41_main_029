@@ -1,6 +1,5 @@
 package com.mainproject.backend.domain.users.service;
 
-import com.mainproject.backend.domain.AWS.s3.AwsS3Service;
 import com.mainproject.backend.domain.board.dto.BoardSimpleDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
@@ -20,15 +19,10 @@ import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.auth.entity.ProviderType;
 import com.mainproject.backend.global.auth.entity.RoleType;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

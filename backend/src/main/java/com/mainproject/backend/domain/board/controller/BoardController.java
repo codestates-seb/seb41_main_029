@@ -1,6 +1,5 @@
 package com.mainproject.backend.domain.board.controller;
 
-import com.mainproject.backend.domain.AWS.s3.AwsS3Service;
 import com.mainproject.backend.domain.board.dto.BoardDto;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.mapper.BoardMapper;

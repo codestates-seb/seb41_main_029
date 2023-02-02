@@ -1,7 +1,6 @@
 package com.mainproject.backend.domain.comment.service;
 
 import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.entity.DislikeComment;

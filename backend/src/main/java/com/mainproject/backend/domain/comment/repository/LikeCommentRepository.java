@@ -1,7 +1,5 @@
 package com.mainproject.backend.domain.comment.repository;
 
-import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.board.entity.LikeBoard;
 import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.comment.entity.LikeComment;
 import com.mainproject.backend.domain.users.entity.User;

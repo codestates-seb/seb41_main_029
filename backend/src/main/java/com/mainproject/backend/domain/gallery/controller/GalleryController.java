@@ -1,6 +1,5 @@
 package com.mainproject.backend.domain.gallery.controller;
 
-import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.gallery.dto.GalleryDto;
 import com.mainproject.backend.domain.gallery.entity.Gallery;
 import com.mainproject.backend.domain.gallery.mapper.GalleryMapper;

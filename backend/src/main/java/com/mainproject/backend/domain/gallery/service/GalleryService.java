@@ -1,15 +1,11 @@
 package com.mainproject.backend.domain.gallery.service;
 
-import com.mainproject.backend.domain.board.entity.Board;
-import com.mainproject.backend.domain.board.entity.Bookmark;
-import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.gallery.entity.Gallery;
 import com.mainproject.backend.domain.gallery.entity.LikeGallery;
 import com.mainproject.backend.domain.gallery.repository.GalleryRepository;
 import com.mainproject.backend.domain.gallery.repository.LikeGalleryRepository;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
-import com.mainproject.backend.global.exception.BookmarkNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

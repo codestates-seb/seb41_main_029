@@ -1,7 +1,6 @@
 package com.mainproject.backend.domain.gallery.entity;
 
 import com.mainproject.backend.domain.audit.Auditable;
-import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.users.entity.User;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

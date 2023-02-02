@@ -1,6 +1,5 @@
 package com.mainproject.backend.domain.gallery.dto;
 
-import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.gallery.entity.Gallery;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

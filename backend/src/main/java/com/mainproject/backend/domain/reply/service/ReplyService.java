@@ -1,13 +1,7 @@
 package com.mainproject.backend.domain.reply.service;
 
-import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.service.BoardService;
 import com.mainproject.backend.domain.comment.entity.Comment;
-import com.mainproject.backend.domain.comment.entity.DislikeComment;
-import com.mainproject.backend.domain.comment.entity.LikeComment;
-import com.mainproject.backend.domain.comment.repository.CommentRepository;
-import com.mainproject.backend.domain.comment.repository.DislikeCommentRepository;
-import com.mainproject.backend.domain.comment.repository.LikeCommentRepository;
 import com.mainproject.backend.domain.reply.dto.CommentReplyDto;
 import com.mainproject.backend.domain.reply.entity.DislikeReply;
 import com.mainproject.backend.domain.reply.entity.LikeReply;
@@ -15,14 +9,13 @@ import com.mainproject.backend.domain.reply.entity.Reply;
 import com.mainproject.backend.domain.reply.repository.DislikeReplyRepository;
 import com.mainproject.backend.domain.reply.repository.LikeReplyRepository;
 import com.mainproject.backend.domain.reply.repository.ReplyRepository;
-import com.mainproject.backend.domain.users.dto.UserDto;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.global.exception.BusinessLogicException;
-import com.mainproject.backend.global.exception.CommentNotFoundException;
 import com.mainproject.backend.global.exception.ExceptionCode;
 import com.mainproject.backend.global.exception.ReplyNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -34,7 +27,6 @@ public class ReplyService {
     private final DislikeReplyRepository dislikeReplyRepository;
     private final LikeReplyRepository likeReplyRepository;
     private final ReplyRepository replyRepository;
-    private final BoardService boardService;
     private final static String SUCCESS_LIKE_REPLY = "추천 처리 완료";
     private final static String FAIL_LIKE_REPLY = "이미 추천을 누르셨습니다.";
     private final static String SUCCESS_DISLIKE_REPLY = "비추천 처리 완료";

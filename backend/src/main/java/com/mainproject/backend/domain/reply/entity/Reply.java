@@ -25,11 +25,6 @@ public class Reply extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replySeq;
 
-//    @JsonBackReference
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "board_seq")
-//    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private Board board;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)

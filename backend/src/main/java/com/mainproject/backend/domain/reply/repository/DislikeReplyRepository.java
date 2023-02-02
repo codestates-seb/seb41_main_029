@@ -1,7 +1,5 @@
 package com.mainproject.backend.domain.reply.repository;
 
-import com.mainproject.backend.domain.comment.entity.Comment;
-import com.mainproject.backend.domain.comment.entity.DislikeComment;
 import com.mainproject.backend.domain.reply.entity.DislikeReply;
 import com.mainproject.backend.domain.reply.entity.Reply;
 import com.mainproject.backend.domain.users.entity.User;

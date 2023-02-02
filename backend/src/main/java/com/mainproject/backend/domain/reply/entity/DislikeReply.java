@@ -1,7 +1,6 @@
 package com.mainproject.backend.domain.reply.entity;
 
 import com.mainproject.backend.domain.audit.Auditable;
-import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.users.entity.User;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;

@@ -1,7 +1,5 @@
 package com.mainproject.backend.domain.reply.mapper;
 
-import com.mainproject.backend.domain.comment.dto.CommentDto;
-import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.reply.dto.CommentReplyDto;
 import com.mainproject.backend.domain.reply.entity.Reply;
 import org.mapstruct.Mapper;

@@ -1,6 +1,5 @@
 package com.mainproject.backend.domain.board.service;
 
-import com.mainproject.backend.domain.AWS.s3.AwsS3Service;
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
 import com.mainproject.backend.domain.board.entity.DislikeBoard;

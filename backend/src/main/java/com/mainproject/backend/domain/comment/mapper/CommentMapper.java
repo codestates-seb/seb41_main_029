@@ -8,8 +8,6 @@ import org.mapstruct.Mapper;
 public interface CommentMapper {
 
 
-//    CommentReplyDto.ReplyResponse replyToReplyResponse(Reply reply);
-
     default Comment commentPostDtoToComment(CommentDto.CommentPostDto commentPostDto){
         Comment comment = new Comment();
 
