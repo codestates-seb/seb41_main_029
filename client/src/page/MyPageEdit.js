@@ -160,19 +160,19 @@ export default function MyPageEdit() {
     }
 
     setFileImage(URL.createObjectURL(file));
-    console.log(file);
+    // console.log(file);
     const formData = new FormData();
     formData.append("files", file);
-    console.log(formData);
+    // console.log(formData);
     const res = await postImage(formData);
-    console.log(res);
+    // console.log(res);
     let profilImageUrl = res.data[0].split("?")[0];
-    console.log(profilImageUrl);
+    // console.log(profilImageUrl);
     setRequest({
       ...request,
       profileImageUrl: profilImageUrl,
     });
-    console.log(request);
+    // console.log(request);
     if (validityCheck.profilImageUrl === "") {
       setValidityCheck({
         ...validityCheck,
@@ -231,7 +231,7 @@ export default function MyPageEdit() {
 
   const onSubmit = () => {
     patchUser(request);
-    console.log(request);
+    // console.log(request);
     alert("개인정보 수정이 완료되었습니다!");
     navigate("/mypage");
   };

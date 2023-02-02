@@ -484,7 +484,6 @@ export default function MyPage() {
     async function getUserWrite() {
       const res = await getWrite(Token);
       setUserWrite(res.data.body.write);
-      // console.log(res.data.body);
     }
     getUserWrite();
   }, []);
@@ -493,7 +492,6 @@ export default function MyPage() {
     async function getUserComment() {
       const res = await getComment(Token);
       setUserComment(res.data.body.comment);
-      // console.log(res.data);
     }
     getUserComment();
   }, []);
@@ -505,8 +503,7 @@ export default function MyPage() {
     }
     getUserBookmark();
   }, []);
-  // console.log(userBook);
-  // Number();
+
   const DeleteClice = async () => {
     if (window.confirm("정말 회원 탈퇴 하시겠습니까?") === false) {
       alert("취소 되었습니다.");
@@ -523,23 +520,20 @@ export default function MyPage() {
           }
         )
         .then((res) => {
-          console.log(res.data);
           alert("이용해 주셔서 감사합니다.");
           removeCookie("token");
           localStorage.removeItem("userId");
           navigate("/");
           window.location.reload();
         })
-        .catch((error) => {
-          console.log(error.data);
-        });
+        .catch((error) => {});
     }
   };
 
   const currentClick = (index) => {
     setCurrent(index);
   };
-  // console.log(userInfo?.roleType);
+
   return (
     <>
       {userInfo?.roleType === "GUEST" ? (
