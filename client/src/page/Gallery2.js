@@ -7,7 +7,6 @@ import { likedGallery, newGallery } from "../api/galleryAPI";
 import { MainBtn } from "../component/Button";
 
 import SwiperComponent from "../component/Swiper/Swiper";
-// import Swipers from "../component/Swiper/Swipers";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -92,9 +91,9 @@ const SubmitLayout = styled.div`
   margin-right: 20px;
   justify-content: right;
 `;
-export default function Gallery() {
+export default function Gallery2() {
   const [dropDown, setDropDown] = useState(false);
-  const [sortby, setSortby] = useState("최신순");
+  const [sortby, setSortby] = useState("좋아요순");
   const navigate = useNavigate();
   const [inform, newInform] = useState();
   const [seq, setSeq] = useState();
@@ -125,15 +124,15 @@ export default function Gallery() {
     getlikeGallery(token);
   };
   useEffect(() => {
-    async function getNewGallery() {
-      const res = await newGallery(token);
+    async function getlikeGallery() {
+      const res = await likedGallery(token);
       newInform(res);
-      // console.log(res);
+      console.log(res);
       // for (let key in res) {
       //   setSeq(res[key]);
       // }
     }
-    getNewGallery();
+    getlikeGallery();
   }, []);
 
   console.log(seq);
@@ -169,8 +168,9 @@ export default function Gallery() {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  setSortby("최신순");
-                  newHandle();
+                  //   setSortby("최신순");
+                  //   newHandle();
+                  navigate("/gallery");
                 }}
               >
                 최신순
@@ -183,9 +183,8 @@ export default function Gallery() {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  // setSortby("좋아요순");
-                  // likeHandle();
-                  navigate("/gallery2");
+                  //   setSortby("좋아요순");
+                  //   likeHandle();
                 }}
               >
                 좋아요순

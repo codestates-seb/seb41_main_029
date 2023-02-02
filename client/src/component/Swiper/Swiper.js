@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
+import { TiDeleteOutline } from "react-icons/ti";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,6 +18,8 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
 
 import SwiperDummyData from "./SwiperDummyData";
+import { deleteGallery } from "../../api/galleryAPI";
+import { Cookies } from "react-cookie";
 
 const Wrapper = styled.div`
   img {
@@ -125,8 +128,23 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function SwiperComponent({ postList }) {
- const [heart, setHeart] = useState(
+export default function SwiperComponent({ postList, seq }) {
+  const cookie = new Cookies();
+  const token = cookie.get("token");
+  // const gallerySeq = postList?.gallerySeq;
+  const gallerySeq = seq?.gallerySeq;
+  const userId1 = JSON.parse(localStorage.getItem("userId"));
+  const deletePost = (data) => {
+    if (window.confirm("정말 삭제 하시겠습니까?")) {
+      // alert("삭제되었습니다")
+      deleteGallery(token, data);
+
+      window.location.reload();
+      // console.log(res);
+    }
+    // deleteGallery(token, gallerySeq);
+  };
+  const [heart, setHeart] = useState(
     SwiperDummyData.map((e) => e.isHearCliked)
   );
   const [likes, setLikes] = useState(SwiperDummyData.map((e) => e.likes));
@@ -148,42 +166,55 @@ export default function SwiperComponent({ postList }) {
       setLikes(likesState);
     }
   };
-  console.log(postList);
 
-  const swiperSlideMaker = SwiperDummyData.map((e, idx) => {
+  // console.log(postList);
+  // console.log(seq1);
+  const swiperSlideMaker = postList?.map((e, idx) => {
     return (
-      <SwiperSlide>
-        <div className="flex post">
-          <img src={e.img} alt="postimage" />
-          <div className="content">
-            <div className="divider" />
-            <div className="flex jcsb mb10">
-              <div className="mr10">
-                <div className="flex mb10">
-                  {e.icon}
-                  <div className="va"> {e.nickname} </div>
+      <>
+        <SwiperSlide key={idx}>
+          <div className="flex post">
+            <img src={e.imgUrl} alt="postimage" />
+            <div className="content">
+              <div className="divider" />
+              <div className="flex jcsb mb10">
+                <div className="mr10">
+                  <div className="flex mb10">
+                    {e.icon}
+                    <div className="va"> {e.username} </div>
+                  </div>
+                  <div className="flex"></div>
                 </div>
-                <div className="flex">
-                  {e.tags.map((e) => {
-                    return <div className="mr10 tag"> # {e} </div>;
-                  })}
+                <div className="flex mr10 mt10">
+                  <FontAwesomeIcon
+                    icon={heart[idx] ? faSolidHeart : faHeart}
+                    color="#62B6B7"
+                    size="xl"
+                    className={heart[idx] ? "heartanimation mr10" : "mr10"}
+                    onClick={() => UseClickHeart(idx)}
+                  />
+                  {/* <div>{likes[idx]}</div> */}
+                  <div>{e.liked}</div>
                 </div>
               </div>
-              <div className="flex mr10 mt10">
-                <FontAwesomeIcon
-                  icon={heart[idx] ? faSolidHeart : faHeart}
-                  color="#62B6B7"
-                  size="xl"
-                  className={heart[idx] ? "heartanimation mr10" : "mr10"}
-                  onClick={() => UseClickHeart(idx)}
-                />
-                <div>{likes[idx]}</div>
-              </div>
+              <div className="phrase">" {e.content} "</div>
             </div>
-            <div className="phrase">" {e.comment} "</div>
           </div>
-        </div>
-      </SwiperSlide>
+          {userId1 === e.userId ? (
+            <>
+              <TiDeleteOutline
+                style={{
+                  marginBottom: "610px",
+                  marginLeft: "-20px",
+                  cursor: "pointer",
+                }}
+                size="30px"
+                onClick={() => deletePost(e.gallerySeq)}
+              />
+            </>
+          ) : null}
+        </SwiperSlide>
+      </>
     );
   });
 

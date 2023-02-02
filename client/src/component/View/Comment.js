@@ -216,6 +216,7 @@ const Comment = ({ comment }) => {
       // console.log(res);
     }
   };
+  console.log(comment);
   return (
     <>
       {comment?.commentStatus === "COMMENT_NOT_EXIST" ? (
