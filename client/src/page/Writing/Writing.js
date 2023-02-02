@@ -141,19 +141,19 @@ export default function Writing() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
   return (
-    // <>
-    //   {Token !== undefined ? (
-    <TotalContainer>
-      <ContainerView>
-        <WritingMui />
-      </ContainerView>
-    </TotalContainer>
-    //   ) : (
-    //     <>
-    //       {alert("로그인이 되어 있지 않습니다!")}
-    //       <Navigate to="/login" />
-    //     </>
-    //   )}
-    // </>
+    <>
+      {Token !== undefined ? (
+        <TotalContainer>
+          <ContainerView>
+            <WritingMui />
+          </ContainerView>
+        </TotalContainer>
+      ) : (
+        <>
+          {alert("로그인이 되어 있지 않습니다!")}
+          <Navigate to="/login" />
+        </>
+      )}
+    </>
   );
 }
