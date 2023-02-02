@@ -275,7 +275,6 @@ export default function Gallery() {
     const newTags = tags.filter((tag) => tag !== removedTag);
     setTags(newTags);
   };
-  console.log(tags);
 
   // const postGallery = async (data) => {
   //   try {
@@ -299,7 +298,6 @@ export default function Gallery() {
     //   ...request,
     //   [e.target.id]: tagAdd,
     // });
-    // console.log(request);
   };
 
   const onChangeContent = (e) => {
@@ -307,7 +305,6 @@ export default function Gallery() {
       ...request,
       [e.target.id]: e.target.value,
     });
-    console.log(request);
   };
 
   const inputRef = useRef();
@@ -318,26 +315,20 @@ export default function Gallery() {
 
   const onUploadImage = async () => {
     const file = inputRef.current.files[0];
-    console.log(file);
 
     if (!file) {
       return;
     }
 
     setFileImage(URL.createObjectURL(file));
-    // console.log(file);
     const formData = new FormData();
     formData.append("files", file);
-    // console.log(formData);
     const res = await postImage(formData);
-    console.log(res);
     let imageUrl = res.data[0].split("?")[0];
-    console.log(imageUrl);
     setRequest({
       ...request,
       imageUrl: imageUrl,
     });
-    console.log(request);
     if (validityCheck.isProfileImageUrlPass === "") {
       setValidityCheck({
         ...validityCheck,
@@ -352,7 +343,6 @@ export default function Gallery() {
   };
 
   const onSubmit = () => {
-    console.log(request);
     postGallery(token, request);
     window.location.reload();
     // alert("개인정보 수정이 완료되었습니다!");
@@ -466,7 +456,6 @@ export default function Gallery() {
                         onClick={() => {
                           tag1();
                           setAb("");
-                          console.log(request);
                           onSubmit();
                         }}
                       >
