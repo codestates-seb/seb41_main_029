@@ -240,13 +240,7 @@ export default function Gallery() {
   };
 
   const menuClick = () => {
-    if (isOpen) {
-      setIsOpen(false);
-      document.body.style.cssText = `overflow: auto;`;
-    } else {
-      setIsOpen(true);
-      document.body.style.cssText = `overflow: hidden;`;
-    }
+    alert("등산어때 페이지를 이용해 주셔서 감사합니다.");
   };
 
   useEffect(() => {
@@ -264,58 +258,18 @@ export default function Gallery() {
           <PostContainer>
             <MainBtn
               style={{ marginBottom: "16px" }}
-              text={"POST"}
+              text={"?"}
               onclick={() => {
                 menuClick();
-                post();
               }}
             />
-            {isOpen === true ? (
-              <ModalBackdrop>
-                <ModalView width="330px" height="680px">
-                  <PostLayout>
-                    <ImgContainer
-                    // onClick={crop}
-                    >
-                      {validityCheck.isProfileImageUrlPass ? (
-                        <img src={fileImage} alt="profile" />
-                      ) : (
-                        <div>이미지를 첨부해주세요.</div>
-                      )}
-                    </ImgContainer>
-                    <input
-                      className="hidden"
-                      id="profileImageUrl"
-                      type="file"
-                      accept="image/*"
-                      ref={inputRef}
-                      onChange={onUploadImage}
-                    />
-                    <ImgBtn onClick={onImageAttachClick}>이미지 첨부</ImgBtn>
-                    <TagInput></TagInput>
-                    <Input />
-                    <SubmitLayout>
-                      <Submit
-                        onClick={() => {
-                          openModalHandler();
-                          menuClick();
-                        }}
-                      >
-                        취소
-                      </Submit>
-                      <Submit onClick={onSubmit}>등록</Submit>
-                    </SubmitLayout>
-                  </PostLayout>
-                </ModalView>
-              </ModalBackdrop>
-            ) : null}
           </PostContainer>
           <div className="roof">
             <FliterLaout>
               <Newest
                 style={{
                   //   fontSize: sortby === "최신순" ? "18px" : "16px",
-                  //   color: sortby === "최신순" ? "black" : "",
+                  color: sortby === "최신순" ? "white" : "",
                   //   fontWeight: sortby === "최신순" ? "700" : "",
                   cursor: "pointer",
                 }}
@@ -329,7 +283,7 @@ export default function Gallery() {
               <Liked
                 style={{
                   fontSize: "18px",
-                  color: "black",
+                  color: "white",
                   fontWeight: "700",
                   cursor: "pointer",
                 }}
