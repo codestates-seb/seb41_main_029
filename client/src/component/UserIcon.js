@@ -57,6 +57,53 @@ export const Icon6 = () => {
     </IconTestXS>
   );
 };
+export const Icon11 = () => {
+  return (
+    <IconTest>
+      <FontAwesomeIcon icon={faLemon} color="#D5A56D" size="xs" />
+    </IconTest>
+  );
+};
+
+export const Icon12 = () => {
+  return (
+    <IconTest>
+      <FontAwesomeIcon icon={faSeedling} color="#AAC9C9" size="xs" />
+    </IconTest>
+  );
+};
+
+export const Icon13 = () => {
+  return (
+    <IconTest>
+      <FontAwesomeIcon icon={faCannabis} color="#7ABCBD" size="xs" />
+    </IconTest>
+  );
+};
+
+export const Icon14 = () => {
+  return (
+    <IconTest>
+      <FontAwesomeIcon icon={faTree} color="#62B6B7" size="xs" />
+    </IconTest>
+  );
+};
+
+export const Icon15 = () => {
+  return (
+    <IconTest>
+      <FontAwesomeIcon icon={faMountain} color="#49AEAF" size="xs" />
+    </IconTest>
+  );
+};
+
+export const Icon16 = () => {
+  return (
+    <IconTest>
+      <FontAwesomeIcon icon={faMountainSun} color="#309798" size="xs" />
+    </IconTest>
+  );
+};
 
 const IconTestXS = styled.div`
   margin: 10px;
@@ -66,6 +113,7 @@ const IconTestXS = styled.div`
   /* width: 17px;
   height: 17px; */
   width: 17px;
+
   height: 17px;
   border-radius: 17px;
   padding: 3px;
@@ -78,4 +126,20 @@ const IconTestXS = styled.div`
     height: 10px;
     border-radius: 10px;
   }
+`;
+const IconTest = styled.div`
+  /* display: flex; 애들만 나두고 밑에 다 지우면 됌 그리고 위에는 태그 둘다 
+  justify-content: center; */
+  width: 15px;
+  margin: 10px;
+  background-color: #fafafa;
+  border: 1px solid #bbb;
+  height: 17px;
+  border-radius: 17px;
+  padding: 3px;
+  box-shadow: inset 0 0 2px 3px #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: inline-block;
 `;
