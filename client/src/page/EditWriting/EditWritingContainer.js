@@ -169,7 +169,7 @@ const BottomDiv = styled.div`
   justify-content: center;
   display: flex;
   margin-top: 40px;
-
+  margin-bottom: 24px;
   @media (max-width: 1336px) {
     width: 100%;
 
