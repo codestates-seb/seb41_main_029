@@ -552,7 +552,7 @@ export default function MyPage() {
   const currentClick = (index) => {
     setCurrent(index);
   };
-  // console.log(userInfo?.roleType);
+  console.log(userComment);
   return (
     <>
       {userInfo?.roleType === "GUEST" ? (
@@ -725,6 +725,7 @@ export default function MyPage() {
                         </InfoContainer>
                       ) : (
                         ""
+
                       )
                     )}
                     {userComment.map((item, id) =>
@@ -771,6 +772,99 @@ export default function MyPage() {
                             {item.disliked}
                           </InfoLike>
                         </InfoContainer>
+
+                      )}
+
+                      <InfoContent>
+                        <InfoTitle>
+                          <StyledLink to={`/boards/${item.boardSeq}`}>
+                            {item.title}
+                          </StyledLink>
+                        </InfoTitle>
+                        <InfoComment>[{item.commented}]</InfoComment>
+                      </InfoContent>
+
+                      <InfoDate>
+                        <FontAwesomeIcon
+                          icon={faClock}
+                          size="xs"
+                          className="clock"
+                        />
+                        <ViewdateCommu createdAt={item.createdAt} />
+                      </InfoDate>
+                      <InfoView>
+                        <FontAwesomeIcon
+                          icon={faEye}
+                          size="xs"
+                          className="eye"
+                        />
+                        {item.viewCount}
+                      </InfoView>
+                      <InfoLike>
+                        <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                        {item.liked}
+                      </InfoLike>
+                    </InfoContainer>
+                  ) : (
+                    ""
+                  )
+                )}
+                {userComment.map((item, id) =>
+                  current === 1 ? (
+                    <InfoContainer key={item.boardSeq}>
+                      <Info bgColor="#62B6B7">댓글</Info>
+
+                      <InfoContent>
+                        <InfoTitle>
+                          <StyledLink to={`/boards/${item.boardSeq}`}>
+                            {item.content}
+                          </StyledLink>
+                        </InfoTitle>
+                        <InfoComment></InfoComment>
+                      </InfoContent>
+
+                      <InfoDate>
+                        <FontAwesomeIcon
+                          icon={faClock}
+                          size="xs"
+                          className="clock"
+                        />
+                        <ViewdateCommu createdAt={item.createdAt} />
+                      </InfoDate>
+                      <InfoView>
+                        <img
+                          className="eye"
+                          src={process.env.PUBLIC_URL + "/image/upVote.svg"}
+                          alt="Up"
+                          width="22px"
+                        />
+                        {item.liked}
+                      </InfoView>
+                      <InfoLike>
+                        <img
+                          src={process.env.PUBLIC_URL + "/image/downVote.svg"}
+                          className="disliked"
+                          alt="Down"
+                          width="18px"
+                          height="18px"
+                        />
+                        {item.disliked}
+                      </InfoLike>
+                    </InfoContainer>
+                  ) : (
+                    ""
+                  )
+                )}
+                {userBook.map((item, id) =>
+                  current === 2 ? (
+                    <InfoContainer key={item.boardSeq}>
+                      {item.category === "# 일반" ? (
+                        <Info bgColor="#62B6B7">일반</Info>
+                      ) : (
+                        ""
+                      )}
+                      {item.category === "# 정보" ? (
+                        <Info bgColor="#AEDC88">정보</Info>
                       ) : (
                         ""
                       )

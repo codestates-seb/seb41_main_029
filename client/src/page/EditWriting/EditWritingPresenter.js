@@ -47,6 +47,7 @@ const TotalContainer = styled.div`
   .ck-reset_all :not(.ck-reset_all-excluded *),
   .ck.ck-reset_all {
     @media (max-width: 1336px) {
+
       width: 97.93%;
     }
   }
@@ -57,6 +58,8 @@ const TotalContainer = styled.div`
     justify-content: center;
 
     @media (max-width: 1336px) {
+
+   
       margin-left: 3%;
     }
   }
