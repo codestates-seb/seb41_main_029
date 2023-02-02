@@ -30,11 +30,11 @@ export const postGallery = async (token) => {
   }
 };
 
-export const deleteGallery = async (token) => {
+export const deleteGallery = async (token, gallerySeq) => {
   try {
     const res = await axios({
       method: "delete",
-      url: `${url}/gallery/delete/{gallery-seq}`,
+      url: `${url}gallery/delete/${gallerySeq}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log(res);

@@ -93,7 +93,7 @@ const SubmitLayout = styled.div`
 `;
 export default function Gallery() {
   const [dropDown, setDropDown] = useState(false);
-  const [sortby, setSortby] = useState("최신순");
+  const [sortby, setSortby] = useState("종아요순");
   const navigate = useNavigate();
   const [inform, newInform] = useState();
   const [seq, setSeq] = useState();
@@ -107,12 +107,12 @@ export default function Gallery() {
 
   useEffect(() => {
     async function getNewGallery() {
-      const res = await newGallery(token, 10);
+      const res = await likedGallery(token, 10);
       newInform(res);
     }
     getNewGallery();
   }, []);
-
+  console.log(inform);
   return (
     <>
       <Wrapper>
@@ -139,28 +139,29 @@ export default function Gallery() {
             <FliterLaout>
               <Newest
                 style={{
-                  fontSize: sortby === "최신순" ? "18px" : "16px",
-                  color: sortby === "최신순" ? "black" : "",
-                  fontWeight: sortby === "최신순" ? "700" : "",
+                  //   fontSize: sortby === "최신순" ? "18px" : "16px",
+                  //   color: sortby === "최신순" ? "black" : "",
+                  //   fontWeight: sortby === "최신순" ? "700" : "",
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  setSortby("최신순");
+                  //   setSortby("최신순");
+                  navigate("/gallery");
                 }}
               >
                 최신순
               </Newest>
               <Liked
                 style={{
-                  fontSize: sortby === "좋아요순" ? "18px" : "16px",
-                  color: sortby === "좋아요순" ? "black" : "",
-                  fontWeight: sortby === "좋아요순" ? "700" : "",
+                  fontSize: "18px",
+                  color: "black",
+                  fontWeight: "700",
                   cursor: "pointer",
                 }}
                 onClick={() => {
                   // setSortby("좋아요순");
                   // likeHandle();
-                  navigate("/gallery2");
+                  //   navigate("/gallery2");
                 }}
               >
                 좋아요순
