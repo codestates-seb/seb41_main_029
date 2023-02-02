@@ -187,6 +187,8 @@ export default function SwiperComponent1({ postList1, sortby }) {
   }, [post]);
   //   console.log(postList);
 
+  console.log(post);
+
   const swiperSlideMaker = post?.map((e, idx) => {
     if (heart !== undefined && likes !== undefined) {
       return (

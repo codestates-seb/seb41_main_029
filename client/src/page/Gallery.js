@@ -1,18 +1,13 @@
-import { useRef, useCallback, useEffect, useState } from "react";
+import { useRef, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { likedGallery, newGallery } from "../api/galleryAPI";
-import { MainBtn } from "../component/Button";
 
+import { newGallery, postGallery } from "../api/galleryAPI";
+import { postImage } from "../api/userAPI";
+import { MainBtn } from "../component/Button";
 import SwiperComponent from "../component/Swiper/Swiper";
 import TagInput from "../component/TagInput";
-import ImageCrop from "../component/ImageCrop";
-import ImageCrop2 from "../component/ImageCrop2";
-import { postImage } from "../api/userAPI";
-
-import { postGallery } from "../api/galleryAPI";
-// import Swipers from "../component/Swiper/Swipers";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -43,7 +38,7 @@ const Wrapper = styled.div`
 `;
 
 // 모달창
-export const ModalBackdrop = styled.div`
+const ModalBackdrop = styled.div`
   position: fixed;
   z-index: 999;
   top: 0;
@@ -55,7 +50,7 @@ export const ModalBackdrop = styled.div`
   place-items: center;
 `;
 
-export const ModalView = styled.div.attrs((props) => ({
+const ModalView = styled.div.attrs((props) => ({
   // attrs 메소드를 이용해서 아래와 같이 div 엘리먼트에 속성을 추가할 수 있습니다.
   role: "dialog",
 }))`
@@ -168,30 +163,23 @@ const SubmitLayout = styled.div`
 `;
 
 export default function Gallery() {
-  const navigate = useNavigate();
-  const [dropDown, setDropDown] = useState(false);
   const [sortby, setSortby] = useState("최신순");
-  const [newInfor, setNewInfor] = useState();
-  const [likeInfor, setLikeNewInfor] = useState();
-
   const [fileImage, setFileImage] = useState("");
-
   const [request, setRequest] = useState({
     imageUrl: "",
     tag: "",
     content: "",
   });
-
   const [validityCheck, setValidityCheck] = useState({
     isProfileImageUrlPass: false,
   });
-
   const [inform, newInform] = useState();
-  const [seq, setSeq] = useState();
+
+  const navigate = useNavigate();
 
   const cookie = new Cookies();
   const token = cookie.get("token");
-  // const [dropDown, setDropDown] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
 
@@ -240,6 +228,7 @@ export default function Gallery() {
     const res = await postImage(formData);
     console.log(res);
     let profilImageUrl = res.data[0].split("?")[0];
+    console.log(profilImageUrl);
     setRequest({
       ...request,
       profileImageUrl: profilImageUrl,
@@ -384,7 +373,6 @@ export default function Gallery() {
           <div className="floor" />
         </div>
       </Wrapper>
-      <ImageCrop2 />
     </>
   );
 }

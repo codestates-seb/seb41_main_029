@@ -19,7 +19,6 @@ import {
 
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
 import { useInfiniteScrollSensor } from "../useInfiniteScrollSensor";
-import SwiperDummyData from "./SwiperDummyData";
 import { deleteGallery } from "../../api/galleryAPI";
 import { Cookies } from "react-cookie";
 

@@ -1,13 +1,11 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { likedGallery, newGallery } from "../api/galleryAPI";
+import { likedGallery } from "../api/galleryAPI";
 import { MainBtn } from "../component/Button";
 
-import SwiperComponent from "../component/Swiper/Swiper";
 import SwiperComponent1 from "../component/Swiper/Swiper1";
-// import Swipers from "../component/Swiper/Swipers";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -92,12 +90,12 @@ const SubmitLayout = styled.div`
   margin-right: 20px;
   justify-content: right;
 `;
+
 export default function Gallery() {
   const [dropDown, setDropDown] = useState(false);
-  const [sortby, setSortby] = useState("종아요순");
+  const [sortby, setSortby] = useState("좋아요순");
   const navigate = useNavigate();
   const [inform1, newInform1] = useState();
-  const [seq, setSeq] = useState();
 
   const cookie = new Cookies();
   const token = cookie.get("token");
@@ -113,7 +111,8 @@ export default function Gallery() {
     }
     getNewGallery();
   }, []);
-  //   console.log(inform);
+
+  console.log(inform1);
   return (
     <>
       <Wrapper>
