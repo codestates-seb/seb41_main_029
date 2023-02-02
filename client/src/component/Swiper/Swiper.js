@@ -19,7 +19,7 @@ import {
 
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
 import { useInfiniteScrollSensor } from "../useInfiniteScrollSensor";
-import { deleteGallery } from "../../api/galleryAPI";
+import { deleteGallery, voteGallery } from "../../api/galleryAPI";
 import { Cookies } from "react-cookie";
 
 const Wrapper = styled.div`
@@ -143,7 +143,6 @@ export default function SwiperComponent({ postList, sortby }) {
       deleteGallery(token, data);
 
       window.location.reload();
-      // console.log(res);
     }
     // deleteGallery(token, gallerySeq);
   };
@@ -155,21 +154,27 @@ export default function SwiperComponent({ postList, sortby }) {
 
   const infiniteScrollSensor = useInfiniteScrollSensor(setPost, sortby);
 
-  const UseClickHeart = (idx) => {
-    if (heart[idx] === false) {
-      let heartState = [...heart];
-      heartState[idx] = true;
-      setHeart(heartState);
-      let likesState = [...likes];
-      ++likesState[idx];
-      setLikes(likesState);
+  const UseClickHeart = (idx, seq) => {
+    if (!token) {
+      alert("로그인이 필요한 기능입니다.");
     } else {
-      let heartState = [...heart];
-      heartState[idx] = false;
-      setHeart(heartState);
-      let likesState = [...likes];
-      --likesState[idx];
-      setLikes(likesState);
+      if (heart[idx] === false) {
+        let heartState = [...heart];
+        heartState[idx] = true;
+        setHeart(heartState);
+        let likesState = [...likes];
+        ++likesState[idx];
+        setLikes(likesState);
+        voteGallery(token, seq);
+      } else {
+        let heartState = [...heart];
+        heartState[idx] = false;
+        setHeart(heartState);
+        let likesState = [...likes];
+        --likesState[idx];
+        setLikes(likesState);
+        voteGallery(token, seq);
+      }
     }
   };
 
@@ -184,7 +189,6 @@ export default function SwiperComponent({ postList, sortby }) {
   useEffect(() => {
     post !== undefined && setPostLength(Object.keys(post).length);
   }, [post]);
-  console.log(postList);
 
   const swiperSlideMaker = post?.map((e, idx) => {
     if (heart !== undefined && likes !== undefined) {
@@ -220,7 +224,7 @@ export default function SwiperComponent({ postList, sortby }) {
                       color="#62B6B7"
                       size="xl"
                       className={heart[idx] ? "heartanimation mr10" : "mr10"}
-                      onClick={() => UseClickHeart(idx)}
+                      onClick={() => UseClickHeart(idx, e.gallerySeq)}
                       {...useInfiniteScrollSensor}
                     />
                     <div>{likes[idx]}</div>

@@ -19,8 +19,7 @@ import {
 
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
 import { useInfiniteScrollSensor } from "../useInfiniteScrollSensor";
-import SwiperDummyData from "./SwiperDummyData";
-import { deleteGallery } from "../../api/galleryAPI";
+import { deleteGallery, voteGallery } from "../../api/galleryAPI";
 import { Cookies } from "react-cookie";
 
 const Wrapper = styled.div`
@@ -144,52 +143,54 @@ export default function SwiperComponent1({ postList1, sortby }) {
       deleteGallery(token, data);
 
       window.location.reload();
-      // console.log(res);
     }
     // deleteGallery(token, gallerySeq);
   };
 
-  const [post, setPost] = useState(postList1);
-  const [heart, setHeart] = useState(post?.map((e) => e.likedStatus));
-  const [likes, setLikes] = useState(post?.map((e) => e.liked));
+  const [post1, setPost] = useState(postList1);
+  const [heart, setHeart] = useState(post1?.map((e) => e.likedStatus));
+  const [likes, setLikes] = useState(post1?.map((e) => e.liked));
   const [postLength, setPostLength] = useState(0);
 
   const infiniteScrollSensor = useInfiniteScrollSensor(setPost, sortby);
 
-  const UseClickHeart = (idx) => {
-    if (heart[idx] === false) {
-      let heartState = [...heart];
-      heartState[idx] = true;
-      setHeart(heartState);
-      let likesState = [...likes];
-      ++likesState[idx];
-      setLikes(likesState);
+  const UseClickHeart = (idx, seq) => {
+    if (!token) {
+      alert("로그인이 필요한 기능입니다.");
     } else {
-      let heartState = [...heart];
-      heartState[idx] = false;
-      setHeart(heartState);
-      let likesState = [...likes];
-      --likesState[idx];
-      setLikes(likesState);
+      if (heart[idx] === false) {
+        let heartState = [...heart];
+        heartState[idx] = true;
+        setHeart(heartState);
+        let likesState = [...likes];
+        ++likesState[idx];
+        setLikes(likesState);
+        voteGallery(token, seq);
+      } else {
+        let heartState = [...heart];
+        heartState[idx] = false;
+        setHeart(heartState);
+        let likesState = [...likes];
+        --likesState[idx];
+        setLikes(likesState);
+        voteGallery(token, seq);
+      }
     }
   };
 
   useEffect(() => {
-    setHeart(post?.map((e) => e.likedStatus));
-  }, [post]);
+    setHeart(post1?.map((e) => e.likedStatus));
+  }, [post1]);
 
   useEffect(() => {
-    setLikes(post?.map((e) => e.liked));
-  }, [post]);
+    setLikes(post1?.map((e) => e.liked));
+  }, [post1]);
 
   useEffect(() => {
-    post !== undefined && setPostLength(Object.keys(post).length);
-  }, [post]);
-  //   console.log(postList);
+    post1 !== undefined && setPostLength(Object.keys(post1).length);
+  }, [post1]);
 
-  console.log(post);
-
-  const swiperSlideMaker = post?.map((e, idx) => {
+  const swiperSlideMaker1 = post1?.map((e, idx) => {
     if (heart !== undefined && likes !== undefined) {
       return (
         <>
@@ -223,7 +224,7 @@ export default function SwiperComponent1({ postList1, sortby }) {
                       color="#62B6B7"
                       size="xl"
                       className={heart[idx] ? "heartanimation mr10" : "mr10"}
-                      onClick={() => UseClickHeart(idx)}
+                      onClick={() => UseClickHeart(idx, e.gallerySeq)}
                       {...useInfiniteScrollSensor}
                     />
                     <div>{likes[idx]}</div>
@@ -262,7 +263,7 @@ export default function SwiperComponent1({ postList1, sortby }) {
         modules={[Scrollbar]}
         className="mySwiper"
       >
-        {swiperSlideMaker}
+        {swiperSlideMaker1}
         <SwiperSlide>
           <div className="flex h668 post">
             {postLength % 10 !== 0 ? (
