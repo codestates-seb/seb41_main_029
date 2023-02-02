@@ -1,5 +1,4 @@
-import { fontWeight } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import styled from "styled-components";
 import { likedGallery, newGallery } from "../api/galleryAPI";
@@ -93,46 +92,23 @@ const SubmitLayout = styled.div`
 export default function Gallery() {
   const [dropDown, setDropDown] = useState(false);
   const [sortby, setSortby] = useState("최신순");
-  const [newInfor, setNewInfor] = useState();
-  const [likeInfor, setLikeNewInfor] = useState();
-
   const [inform, newInform] = useState();
 
   const cookie = new Cookies();
   const token = cookie.get("token");
+
   const post = () => {
     setDropDown(!dropDown);
   };
-  const newHandle = () => {
-    async function getNewGallery() {
-      const res = await newGallery(token);
-      // for (let key in res) {
-      //   setNewInfor(res[key]);
-      // }
-      newInform(res);
-    }
-    getNewGallery(token);
-  };
-  const likeHandle = () => {
-    async function getlikeGallery() {
-      const res = await likedGallery(token);
-      // for (let key in res) {
-      //   setLikeNewInfor(res[key]);
-      // }
-      newInform(res);
-    }
-    getlikeGallery(token);
-  };
+
   useEffect(() => {
     async function getNewGallery() {
-      const res = await newGallery(token);
+      const res = await newGallery(token, 10);
       newInform(res);
-      console.log(res);
     }
     getNewGallery();
   }, []);
 
-  console.log(inform);
   return (
     <>
       <Wrapper>
@@ -166,7 +142,6 @@ export default function Gallery() {
                 }}
                 onClick={() => {
                   setSortby("최신순");
-                  newHandle();
                 }}
               >
                 최신순
@@ -180,14 +155,13 @@ export default function Gallery() {
                 }}
                 onClick={() => {
                   setSortby("좋아요순");
-                  likeHandle();
                 }}
               >
                 좋아요순
               </Liked>
             </FliterLaout>
           </div>
-          <SwiperComponent postList={inform} />
+          <SwiperComponent postList={inform} sortby={sortby} />
           <div className="floor" />
         </div>
       </Wrapper>
