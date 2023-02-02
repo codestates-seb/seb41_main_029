@@ -17,8 +17,7 @@ public class GalleryDto {
     @Setter
     public static class post{
 
-        @NotBlank
-        private String title;
+
         @NotBlank
         private String imageUrl;
         @NotBlank
@@ -34,7 +33,6 @@ public class GalleryDto {
 
 
         private Long gallerySeq;
-        private String title;
         private String username;
         private String userId;
         private String content;
@@ -46,7 +44,6 @@ public class GalleryDto {
 
         public response(Gallery gallery){
             this.gallerySeq = gallery.getGallerySeq();
-            this.title = gallery.getTitle();
             this.username = gallery.getUser().getUsername();
             this.content = gallery.getContent();
             this.imageUrl = gallery.getImageUrl();

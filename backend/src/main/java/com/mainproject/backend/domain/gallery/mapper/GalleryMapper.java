@@ -1,13 +1,10 @@
 package com.mainproject.backend.domain.gallery.mapper;
 
-import com.mainproject.backend.domain.board.dto.BoardDto;
-import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.gallery.dto.GalleryDto;
 import com.mainproject.backend.domain.gallery.entity.Gallery;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,11 +13,9 @@ public interface GalleryMapper {
 
     default Gallery galleryToGalleryPostDto(GalleryDto.post postDto){
         Gallery gallery = new Gallery();
-        gallery.setTitle(postDto.getTitle());
-        gallery.setContent(postDto.getTitle());
+        gallery.setContent(postDto.getContent());
         gallery.setTag(postDto.getTag());
         gallery.setImageUrl(postDto.getImageUrl());
-
 
         return gallery;
     }

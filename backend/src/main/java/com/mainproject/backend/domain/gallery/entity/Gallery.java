@@ -35,9 +35,6 @@ public class Gallery extends Auditable {
     private User user;
 
     @Column(nullable = false, length = 64)
-    private String title;
-
-    @Column(nullable = false, length = 64)
     private String content;
 
     @Column(nullable = false, length = 64)
