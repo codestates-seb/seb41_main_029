@@ -63,6 +63,7 @@ export default function TagInput() {
     const newTags = tags.filter((tag) => tag !== removedTag);
     setTags(newTags);
   };
+  console.log(tags);
   return (
     <Container>
       <TagContainer>
