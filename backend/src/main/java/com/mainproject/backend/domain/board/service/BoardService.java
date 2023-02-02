@@ -169,8 +169,12 @@ public class BoardService {
         findBoard.setBoardStatus(Board.BoardStatus.BOARD_NOT_EXIST);
         boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 결정한다.
 
-//        List<Comment> comment = commentRepository.findAllByBoardExists(Board.BoardStatus.BOARD_NOT_EXIST);
-
+        //삭제한 글에 달린 댓글들 상태 변경
+        List<Comment> comments = commentRepository.findAllByBoardAndCommentExist(findBoard, Comment.CommentStatus.COMMENT_EXIST);
+        for(Comment comment : comments) {
+            comment.setCommentExist(Comment.CommentStatus.COMMENT_NOT_EXIST);
+            commentRepository.save(comment);
+        }
     }
 
     //질문 작성자 아이디 찾는 메서드
