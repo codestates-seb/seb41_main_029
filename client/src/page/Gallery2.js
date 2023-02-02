@@ -6,6 +6,7 @@ import { likedGallery, newGallery } from "../api/galleryAPI";
 import { MainBtn } from "../component/Button";
 
 import SwiperComponent from "../component/Swiper/Swiper";
+import SwiperComponent1 from "../component/Swiper/Swiper1";
 // import Swipers from "../component/Swiper/Swipers";
 
 const Wrapper = styled.div`
@@ -95,7 +96,7 @@ export default function Gallery() {
   const [dropDown, setDropDown] = useState(false);
   const [sortby, setSortby] = useState("종아요순");
   const navigate = useNavigate();
-  const [inform, newInform] = useState();
+  const [inform1, newInform1] = useState();
   const [seq, setSeq] = useState();
 
   const cookie = new Cookies();
@@ -108,11 +109,11 @@ export default function Gallery() {
   useEffect(() => {
     async function getNewGallery() {
       const res = await likedGallery(token, 10);
-      newInform(res);
+      newInform1(res);
     }
     getNewGallery();
   }, []);
-  console.log(inform);
+  //   console.log(inform);
   return (
     <>
       <Wrapper>
@@ -168,7 +169,7 @@ export default function Gallery() {
               </Liked>
             </FliterLaout>
           </div>
-          <SwiperComponent postList={inform} sortby={sortby} />
+          <SwiperComponent1 postList1={inform1} sortby={sortby} />
           <div className="floor" />
         </div>
       </Wrapper>

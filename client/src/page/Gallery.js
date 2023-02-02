@@ -9,9 +9,9 @@ import { MainBtn } from "../component/Button";
 import SwiperComponent from "../component/Swiper/Swiper";
 import TagInput from "../component/TagInput";
 import ImageCrop from "../component/ImageCrop";
-import { useNavigate } from "react-router-dom";
 import ImageCrop2 from "../component/ImageCrop2";
 import { postImage } from "../api/userAPI";
+import { useNavigate } from "react-router-dom";
 
 import { postGallery } from "../api/galleryAPI";
 
@@ -40,6 +40,55 @@ const Wrapper = styled.div`
 
   .w95p {
     width: 95%;
+  }
+`;
+
+// 태그
+const TagContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  margin: 10px 0;
+`;
+const TagContainer2 = styled.div`
+  width: 260px;
+  /* min-width: 60%; */
+  /* max-width: 75%; */
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 30px;
+  border: 3px solid #62b6b7;
+  border-radius: 10px;
+  padding: 5.5px 8px;
+
+  > input {
+    border: none;
+    /* flex: 0.3; */
+    width: 120px;
+    outline: none;
+    padding: 5px;
+    background: #fff;
+    color: #000;
+  }
+`;
+
+const Tag = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  /* border: 1px solid gray; */
+  border-radius: 8px;
+  height: 25px;
+  margin: 2px 5px 2px 0px;
+  color: #fff;
+  background-color: #62b6b7;
+  font-size: 14px;
+
+  > span {
+    margin-left: 5px;
+    font-size: 12px;
+    cursor: pointer;
   }
 `;
 
@@ -97,9 +146,16 @@ const ImgContainer = styled.div`
     justify-content: center;
     align-items: center;
   }
+  img {
+    object-fit: cover;
+    width: 270px;
+    height: 390px;
+    border-radius: 8px;
+  }
 `;
 
 const Input = styled.input.attrs({ placeholder: "글을 작성해주세요." })`
+  margin-top: 10px;
   width: 255px;
   height: 30px;
   border: 3px solid #62b6b7;
@@ -179,7 +235,7 @@ export default function Gallery() {
 
   const [request, setRequest] = useState({
     imageUrl: "",
-    tag: "",
+    tag: "태그",
     content: "",
   });
 
@@ -203,6 +259,24 @@ export default function Gallery() {
     content: "가나다라",
   };
 
+  const [tags, setTags] = useState([]);
+  const [ab, setAb] = useState([]);
+  let tagAdd = "";
+  let obj = {};
+  const addTag = (e) => {
+    if (e.key === "Enter") {
+      if (e.target.value.length > 0) {
+        setTags([...tags, e.target.value]);
+        e.target.value = "";
+      }
+    }
+  };
+  const removeTag = (removedTag) => {
+    const newTags = tags.filter((tag) => tag !== removedTag);
+    setTags(newTags);
+  };
+  console.log(tags);
+
   // const postGallery = async (data) => {
   //   try {
   //     const res = await axios({
@@ -220,6 +294,22 @@ export default function Gallery() {
   //   } catch (e) {}
   // };
 
+  const onChangeTag = (e) => {
+    // setRequest({
+    //   ...request,
+    //   [e.target.id]: tagAdd,
+    // });
+    // console.log(request);
+  };
+
+  const onChangeContent = (e) => {
+    setRequest({
+      ...request,
+      [e.target.id]: e.target.value,
+    });
+    console.log(request);
+  };
+
   const inputRef = useRef();
 
   const onImageAttachClick = () => {
@@ -228,24 +318,27 @@ export default function Gallery() {
 
   const onUploadImage = async () => {
     const file = inputRef.current.files[0];
+    console.log(file);
 
     if (!file) {
       return;
     }
 
     setFileImage(URL.createObjectURL(file));
-    console.log(file);
+    // console.log(file);
     const formData = new FormData();
     formData.append("files", file);
-    console.log(formData);
+    // console.log(formData);
     const res = await postImage(formData);
     console.log(res);
-    let profilImageUrl = res.data[0].split("?")[0];
+    let imageUrl = res.data[0].split("?")[0];
+    console.log(imageUrl);
     setRequest({
       ...request,
-      profileImageUrl: profilImageUrl,
+      imageUrl: imageUrl,
     });
-    if (validityCheck.profilImageUrl === "") {
+    console.log(request);
+    if (validityCheck.isProfileImageUrlPass === "") {
       setValidityCheck({
         ...validityCheck,
         isProfileImageUrlPass: false,
@@ -259,7 +352,9 @@ export default function Gallery() {
   };
 
   const onSubmit = () => {
-    postGallery(data);
+    console.log(request);
+    postGallery(token, request);
+    window.location.reload();
     // alert("개인정보 수정이 완료되었습니다!");
     // navigate("/mypage");
   };
@@ -315,6 +410,13 @@ export default function Gallery() {
     getNewGallery();
   }, []);
 
+  const tag1 = () => {
+    setAb("");
+    for (let el of tags) {
+      tagAdd += el + ",";
+    }
+  };
+
   return (
     <>
       <Wrapper>
@@ -330,7 +432,7 @@ export default function Gallery() {
             />
             {isOpen === true ? (
               <ModalBackdrop>
-                <ModalView width="330px" height="680px">
+                <ModalView width="330px" height="600px">
                   <PostLayout>
                     <ImgContainer
                     // onClick={crop}
@@ -350,8 +452,7 @@ export default function Gallery() {
                       onChange={onUploadImage}
                     />
                     <ImgBtn onClick={onImageAttachClick}>이미지 첨부</ImgBtn>
-                    <TagInput></TagInput>
-                    <Input />
+                    <Input id="content" onChange={onChangeContent} />
                     <SubmitLayout>
                       <Submit
                         onClick={() => {
@@ -361,7 +462,16 @@ export default function Gallery() {
                       >
                         취소
                       </Submit>
-                      <Submit onClick={onSubmit}>등록</Submit>
+                      <Submit
+                        onClick={() => {
+                          tag1();
+                          setAb("");
+                          console.log(request);
+                          onSubmit();
+                        }}
+                      >
+                        등록
+                      </Submit>
                     </SubmitLayout>
                   </PostLayout>
                 </ModalView>
@@ -404,7 +514,6 @@ export default function Gallery() {
           <div className="floor" />
         </div>
       </Wrapper>
-      <ImageCrop2 />
     </>
   );
 }
