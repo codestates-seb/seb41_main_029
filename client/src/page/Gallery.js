@@ -384,7 +384,6 @@ export default function Gallery() {
           <div className="floor" />
         </div>
       </Wrapper>
-      <ImageCrop2 />
     </>
   );
 }
