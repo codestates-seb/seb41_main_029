@@ -18,6 +18,8 @@ import SignupNotice from "./page/SignupNotice";
 import axios from "axios";
 import Gallery from "./page/Gallery";
 import Test from "./page/Test";
+import Crop from "./page/Crop";
+import PostGallery from "./page/PostGallery";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -52,6 +54,8 @@ function App() {
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/test" element={<Test />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/crop" element={<Crop />} />
+            <Route path="/postGallery" element={<PostGallery />} />
           </Routes>
           <Footer />
         </BrowserRouter>

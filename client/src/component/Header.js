@@ -31,14 +31,8 @@ const Wrapper = styled.div`
   .ml-96 {
     margin-left: -96px;
   }
-  .ml192 {
-    margin-left: 192px;
-  }
   .ml96 {
     margin-left: 96px;
-  }
-  .mr192 {
-    margin-right: 192px;
   }
   .mr96 {
     margin-right: 96px;
@@ -55,9 +49,6 @@ const Wrapper = styled.div`
     justify-content: center;
     .desktopVer {
       display: none;
-    }
-    .ml192 {
-      margin: 0;
     }
     .tabletVer {
       display: flex !important;
@@ -156,7 +147,7 @@ export default function Header(props) {
   return (
     <>
       <Wrapper path={window.location.pathname}>
-        <div className="ml192">
+        <div className="ml96">
           <a href="/">
             {window.location.pathname === "/" ? (
               <img
@@ -186,7 +177,7 @@ export default function Header(props) {
             <div className="desktopVer mr96 va">
               <a href="/mypage">마이페이지</a>
             </div>
-            <div className="desktopVer mr192 va">
+            <div className="desktopVer mr96 va">
               <a href="/" onClick={logoutClick}>
                 로그아웃
               </a>
@@ -199,7 +190,7 @@ export default function Header(props) {
                 <a href="/login">로그인</a>
               </a>
             </div>
-            <div className="desktopVer mr192 va">
+            <div className="desktopVer mr96 va">
               <a href="/signup">회원가입</a>
             </div>
           </>

@@ -7,24 +7,22 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/scrollbar";
-import "swiper/css/free-mode";
 
 import "./styles.css";
 
 import { Scrollbar } from "swiper";
 
-import { Icon1 } from "../UserIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
 
+import SwiperDummyData from "./SwiperDummyData";
+
 const Wrapper = styled.div`
   img {
     border-radius: 10px 10px 0 0;
-    height: 100%;
-    max-height: 525px;
-    max-width: 325px;
-    width: 100%;
+    height: 500px;
+    width: 310px;
     object-fit: cover;
   }
 
@@ -48,7 +46,7 @@ const Wrapper = styled.div`
   }
 
   .heartanimation {
-    animation-duration: 1s;
+    animation-duration: 0.5s;
     animation-name: heartreaction;
   }
 
@@ -90,7 +88,7 @@ const Wrapper = styled.div`
     box-sizing: border-box;
     flex-direction: column;
     justify-content: center;
-    margin: 40px 40px 40px 0;
+    margin: 40px 0;
     min-width: 325px;
     padding: 5px;
   }
@@ -114,7 +112,7 @@ const Wrapper = styled.div`
 
   @keyframes heartreaction {
     0% {
-      font-size: 24px;
+      font-size: 27px;
     }
 
     50% {
@@ -122,367 +120,85 @@ const Wrapper = styled.div`
     }
 
     100% {
-      font-size: 24px;
+      font-size: 27px;
     }
   }
 `;
 
-export default function SwiperComponent() {
-  const [heart, setHeart] = useState(false);
-  const [likes, setLikes] = useState(0);
+export default function SwiperComponent({ postList }) {
+ const [heart, setHeart] = useState(
+    SwiperDummyData.map((e) => e.isHearCliked)
+  );
+  const [likes, setLikes] = useState(SwiperDummyData.map((e) => e.likes));
 
-  const onClickHeart = () => {
-    if (heart === false) {
-      setHeart(true);
-      setLikes((likes) => ++likes);
+  const UseClickHeart = (idx) => {
+    if (heart[idx] === false) {
+      let heartState = [...heart];
+      heartState[idx] = true;
+      setHeart(heartState);
+      let likesState = [...likes];
+      ++likesState[idx];
+      setLikes(likesState);
     } else {
-      setHeart(false);
-      setLikes((likes) => --likes);
+      let heartState = [...heart];
+      heartState[idx] = false;
+      setHeart(heartState);
+      let likesState = [...likes];
+      --likesState[idx];
+      setLikes(likesState);
     }
   };
+  console.log(postList);
+
+  const swiperSlideMaker = SwiperDummyData.map((e, idx) => {
+    return (
+      <SwiperSlide>
+        <div className="flex post">
+          <img src={e.img} alt="postimage" />
+          <div className="content">
+            <div className="divider" />
+            <div className="flex jcsb mb10">
+              <div className="mr10">
+                <div className="flex mb10">
+                  {e.icon}
+                  <div className="va"> {e.nickname} </div>
+                </div>
+                <div className="flex">
+                  {e.tags.map((e) => {
+                    return <div className="mr10 tag"> # {e} </div>;
+                  })}
+                </div>
+              </div>
+              <div className="flex mr10 mt10">
+                <FontAwesomeIcon
+                  icon={heart[idx] ? faSolidHeart : faHeart}
+                  color="#62B6B7"
+                  size="xl"
+                  className={heart[idx] ? "heartanimation mr10" : "mr10"}
+                  onClick={() => UseClickHeart(idx)}
+                />
+                <div>{likes[idx]}</div>
+              </div>
+            </div>
+            <div className="phrase">" {e.comment} "</div>
+          </div>
+        </div>
+      </SwiperSlide>
+    );
+  });
 
   return (
     <Wrapper>
       <Swiper
         slidesPerView={"auto"}
-        freeMode={true}
+        spaceBetween={20}
         scrollbar={{
           hide: true,
         }}
         modules={[Scrollbar]}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/fNPu0Hr.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  {heart ? (
-                    <FontAwesomeIcon
-                      icon={faSolidHeart}
-                      color="#62B6B7"
-                      size="xl"
-                      className="heartanimation mr10"
-                      onClick={onClickHeart}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faHeart}
-                      color="#62B6B7"
-                      size="xl"
-                      className="mr10"
-                      onClick={onClickHeart}
-                    />
-                  )}
-                  <div>{likes}</div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/JsWOQSb.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/sfOjpEM.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/oQ6T2Y7.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/Pb4OB5K.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/Qmv3O9W.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/fnym8NM.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/OCCktEm.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/ob8Gq1k.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
-          <div className="flex post">
-            <img src="https://i.imgur.com/Vs9BNjp.jpeg" alt="postimage" />
-            <div className="content">
-              <div className="divider" />
-              <div className="flex jcsb mb10">
-                <div className="mr10">
-                  <div className="flex mb10">
-                    <Icon1 />
-                    <div className="va"> sywoo0109 </div>
-                  </div>
-                  <div className="flex">
-                    <div className="mr10 tag"> # 화나요 </div>
-                    <div className="mr10 tag"> # 등산 매너 </div>
-                  </div>
-                </div>
-                <div className="flex mt10">
-                  <FontAwesomeIcon
-                    icon={faHeart}
-                    color="#62B6B7"
-                    size="xl"
-                    className="mr10"
-                  />
-                  <div> 29 </div>
-                </div>
-              </div>
-              <div className="phrase">
-                " 산에서 쓰레기 버린 나쁜 사람 누구야! 😠 "
-              </div>
-            </div>
-          </div>
-        </SwiperSlide>
+        {swiperSlideMaker}
       </Swiper>
     </Wrapper>
   );
