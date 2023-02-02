@@ -99,10 +99,11 @@ const ImgContainer = styled.div`
 `;
 
 const Input = styled.input.attrs({ placeholder: "글을 작성해주세요." })`
-  width: 265px;
+  width: 255px;
   height: 30px;
   border: 3px solid #62b6b7;
-  padding: 5px;
+  outline: none;
+  padding: 5px 10px;
   border-radius: 10px;
 `;
 
@@ -114,6 +115,7 @@ const ImgBtn = styled.button`
   color: #fff;
   border-radius: 8px;
   padding: 8px 0;
+  cursor: pointer;
 `;
 const FliterLaout = styled.div`
   display: flex;

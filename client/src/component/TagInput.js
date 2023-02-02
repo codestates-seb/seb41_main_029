@@ -17,7 +17,7 @@ const TagContainer = styled.div`
   min-height: 30px;
   border: 3px solid #62b6b7;
   border-radius: 10px;
-  padding: 6px 8px;
+  padding: 5.5px 8px;
 
   > input {
     border: none;
