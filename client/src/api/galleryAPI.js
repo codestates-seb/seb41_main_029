@@ -59,28 +59,55 @@ export const voteGallery = async (token) => {
 };
 
 export const newGallery = async (token, size) => {
-  try {
-    const res = await axios({
-      method: "get",
-      url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=최신순`,
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return res?.data?.body?.galleries;
-  } catch (error) {
-    console.log(error);
+  if (token) {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=최신순`,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res?.data?.body?.galleries;
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (!token) {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=최신순`,
+        // headers: { Authorization: `Bearer ${token}` },
+      });
+      return res?.data?.body?.galleries;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
 export const likedGallery = async (token, size) => {
-  try {
-    const res = await axios({
-      method: "get",
-      //   url: `${url}gallery/all/?page=1&size=30&sort-by=최신순`,
-      url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=추천순`,
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return res?.data?.body?.galleries;
-  } catch (error) {
-    console.log(error);
+  if (token) {
+    try {
+      const res = await axios({
+        method: "get",
+        //   url: `${url}gallery/all/?page=1&size=30&sort-by=최신순`,
+        url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=추천순`,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res?.data?.body?.galleries;
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (!token) {
+    try {
+      const res = await axios({
+        method: "get",
+        //   url: `${url}gallery/all/?page=1&size=30&sort-by=최신순`,
+        url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=추천순`,
+        // headers: { Authorization: `Bearer ${token}` },
+      });
+      return res?.data?.body?.galleries;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
