@@ -2,6 +2,7 @@ package com.mainproject.backend.domain.gallery.service;
 
 import com.mainproject.backend.domain.board.entity.Board;
 import com.mainproject.backend.domain.board.entity.Bookmark;
+import com.mainproject.backend.domain.comment.entity.Comment;
 import com.mainproject.backend.domain.gallery.entity.Gallery;
 import com.mainproject.backend.domain.gallery.entity.LikeGallery;
 import com.mainproject.backend.domain.gallery.repository.GalleryRepository;
@@ -18,12 +19,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class GalleryService {
     private final GalleryRepository galleryRepository;
     private final LikeGalleryRepository likeGalleryRepository;
+    private final UserRepository userRepository;
     private final static String SUCCESS_LIKE_GALLERY = "추천 처리 완료";
     private final static String FAIL_LIKE_GALLERY = "추천이 취소되었습니다..";
 
@@ -69,6 +73,14 @@ public class GalleryService {
     }
     //전체 게시물 조회
     public Page<Gallery> findAllGallery(int page, int size, String sortBy) {
+        User user = getPrincipal();
+        List<Gallery> galleries = galleryRepository.findAll();
+        for(Gallery gallery : galleries) {
+            if (!hasLikeGallery(gallery, user)) {
+                gallery.setLikedStatus(false);
+            }else gallery.setLikedStatus(true);
+        }
+
         return galleryRepository.findAll(getPageRequest(page, size, sortBy));
     }
 
@@ -88,5 +100,11 @@ public class GalleryService {
                 .orElseThrow();
         likeGalleryRepository.delete(likeGallery);
         return FAIL_LIKE_GALLERY;
+    }
+
+    private User getPrincipal() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByUserId(authentication.getName());
+        return user;
     }
 }
