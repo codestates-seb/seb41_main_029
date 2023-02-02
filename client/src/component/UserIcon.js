@@ -110,8 +110,6 @@ const IconTestXS = styled.div`
   background-color: #fafafa;
   /* ${({ theme }) => theme.colors.container}; */
   border: 1px solid #bbb;
-  /* width: 17px;
-  height: 17px; */
   width: 17px;
 
   height: 17px;
@@ -128,10 +126,8 @@ const IconTestXS = styled.div`
   }
 `;
 const IconTest = styled.div`
-  /* display: flex; 애들만 나두고 밑에 다 지우면 됌 그리고 위에는 태그 둘다 
-  justify-content: center; */
   width: 15px;
-  margin: 10px;
+  margin: 8px;
   background-color: #fafafa;
   border: 1px solid #bbb;
   height: 17px;

@@ -259,7 +259,7 @@ const PointModal = styled.div`
 
 const PointHover = styled.div`
   display: inline-block;
-  width: 100px;
+  width: 110px;
 `;
 /** 전체, 댓글, 북마크 버튼을 감싸는 큰 틀 */
 const MypageBtns = styled.div`
@@ -620,10 +620,11 @@ export default function MyPage() {
                         <div className="ModalDiv">
                           포인트 획득 방법
                           <div className="ModalText">
-                            글 작성 시 +5, <br /> 글 추천 시 +5, <br />글 비추천
-                            시 -1 , <br />
-                            북마크 시 +10, <br />
-                            댓글 추천 시 +1, <br />
+                            글 작성 시 +5 <br /> 글 추천 시 +5
+                            <br />글 비추천 시 -1 <br />
+                            북마크 시 +10 <br />
+                            댓글 추천 시 +1
+                            <br />
                             댓글 비추천 시 -1
                           </div>
                         </div>
@@ -631,13 +632,13 @@ export default function MyPage() {
                         <div className="ModalDiv">
                           멤버 등급 안내
                           <div className="ModalText">
-                            <PointHover>0점</PointHover>
+                            <PointHover>0 ~ 30점</PointHover>
                             {<Icon11 />}
                             <br />
-                            <PointHover>1 ~ 30 점</PointHover>
+                            <PointHover>31 ~ 70 점</PointHover>
                             {<Icon12 />} <br />
-                            <PointHover>31 ~ 60 점</PointHover> {<Icon13 />}{" "}
-                            <br />
+                            <PointHover>71 ~ 100 점</PointHover>
+                            {<Icon13 />} <br />
                             <PointHover>101 ~ 200 점</PointHover>
                             <Icon14 />
                             <br />
