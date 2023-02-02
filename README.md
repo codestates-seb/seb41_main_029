@@ -10,6 +10,11 @@
 
 <br>
 
+## 🖥 배포링크
+[🔗 링크](http://pre41-deploy-test.s3-website.ap-northeast-2.amazonaws.com/)
+
+<br>
+
 ## 📑 프로젝트 소개
 
 >  등산을 시작하려는 사람들과 등산을 사랑하는 사람들이 모여서 
@@ -41,10 +46,6 @@
 
 <br>
 
-## 🖥 배포링크
-[🔗 링크](http://pre41-deploy-test.s3-website.ap-northeast-2.amazonaws.com/)
-
-<br>
 
 ### 랜딩 페이지
 ![_1_메인](https://ifh.cc/g/m4m98X.gif)
