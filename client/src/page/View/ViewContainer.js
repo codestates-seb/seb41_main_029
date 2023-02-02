@@ -328,7 +328,7 @@ const ViewContainer = () => {
       viewInfo?.data?.bookmarkStatus === true ? setIsBM(true) : setIsBM(false);
     }
   }, [viewInfo]);
-  console.log(viewInfo);
+  // console.log(viewInfo);
 
   return (
     <>
