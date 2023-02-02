@@ -76,7 +76,7 @@ const LoginContainer = () => {
     guestSignup();
     setTimeout(async () => {
       const res = await guestLogin();
-      console.log(res);
+
       const userId1 = res?.data?.body?.token?.userId;
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
@@ -96,7 +96,6 @@ const LoginContainer = () => {
     // navigate("/");
     // window.location.reload();
     // }
-    // console.log(res);
   };
 
   const idValidation = {
@@ -126,9 +125,8 @@ const LoginContainer = () => {
       alert("가입된 정보가 없습니다.");
       return setisAuthorized(false);
     } else if (res?.status === 200) {
-      // console.log(res?.data?.body?.token?.userId);
       const userId1 = res?.data?.body?.token?.userId;
-      // console.log(userId1);
+
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
       cookie.set("token", token);
@@ -139,7 +137,6 @@ const LoginContainer = () => {
     } else {
       alert("서버와 연결되어있지 않습니다.");
     }
-    console.log(res?.data);
   };
 
   return (

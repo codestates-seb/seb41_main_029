@@ -8,7 +8,6 @@ import TagInput from "../component/TagInput";
 import { postImage } from "../api/userAPI";
 import SwiperComponent from "../component/Swiper/Swiper";
 import SwiperComponent1 from "../component/Swiper/Swiper1";
-// import Swipers from "../component/Swiper/Swipers";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -147,6 +146,7 @@ const SubmitLayout = styled.div`
   margin-right: 20px;
   justify-content: right;
 `;
+
 export default function Gallery() {
   const navigate = useNavigate();
   const [dropDown, setDropDown] = useState(false);
