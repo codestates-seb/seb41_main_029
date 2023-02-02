@@ -134,7 +134,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function SwiperComponent({ postList, sortby }) {
+export default function SwiperComponent1({ postList1, sortby }) {
   const cookie = new Cookies();
   const token = cookie.get("token");
   const userId1 = JSON.parse(localStorage.getItem("userId"));
@@ -149,7 +149,7 @@ export default function SwiperComponent({ postList, sortby }) {
     // deleteGallery(token, gallerySeq);
   };
 
-  const [post, setPost] = useState(postList);
+  const [post, setPost] = useState(postList1);
   const [heart, setHeart] = useState(post?.map((e) => e.likedStatus));
   const [likes, setLikes] = useState(post?.map((e) => e.liked));
   const [postLength, setPostLength] = useState(0);
@@ -185,7 +185,7 @@ export default function SwiperComponent({ postList, sortby }) {
   useEffect(() => {
     post !== undefined && setPostLength(Object.keys(post).length);
   }, [post]);
-  console.log(postList);
+  //   console.log(postList);
 
   const swiperSlideMaker = post?.map((e, idx) => {
     if (heart !== undefined && likes !== undefined) {
