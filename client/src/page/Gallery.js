@@ -22,13 +22,11 @@ const Wrapper = styled.div`
   margin: 80px auto 0 auto;
   max-width: 1336px;
   width: 100%;
-
   .floor {
     background-color: ${(props) => props.theme.colors.main};
     border-radius: 0 0 10px 10px;
     height: 40px;
   }
-
   .roof {
     background-color: ${(props) => props.theme.colors.main};
     border-radius: 10px 10px 0 0;
@@ -37,7 +35,6 @@ const Wrapper = styled.div`
     flex-direction: row-reverse;
     align-items: center;
   }
-
   .w95p {
     width: 95%;
   }
@@ -61,7 +58,6 @@ const TagContainer2 = styled.div`
   border: 3px solid #62b6b7;
   border-radius: 10px;
   padding: 5.5px 8px;
-
   > input {
     border: none;
     /* flex: 0.3; */
@@ -84,7 +80,6 @@ const Tag = styled.div`
   color: #fff;
   background-color: #62b6b7;
   font-size: 14px;
-
   > span {
     margin-left: 5px;
     font-size: 12px;
@@ -113,12 +108,10 @@ export const ModalView = styled.div.attrs((props) => ({
   background-color: #ffffff;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-
   > span.close-btn {
     margin-top: 5px;
     cursor: pointer;
   }
-
   > div.desc {
     margin-top: 25px;
     color: gray;

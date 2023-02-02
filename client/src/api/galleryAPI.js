@@ -10,9 +10,7 @@ export const getGallery = async () => {
       //   headers: { Authorization: `Bearer ${token}` },
     });
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const postGallery = async (token, formdata2) => {
@@ -23,11 +21,8 @@ export const postGallery = async (token, formdata2) => {
       url: `${url}gallery/post`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const deleteGallery = async (token, gallerySeq) => {
@@ -37,11 +32,8 @@ export const deleteGallery = async (token, gallerySeq) => {
       url: `${url}gallery/delete/${gallerySeq}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const voteGallery = async (token, seq) => {
@@ -51,11 +43,8 @@ export const voteGallery = async (token, seq) => {
       url: `${url}gallery/like/${seq}`,
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
     return res.data;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const newGallery = async (token, size) => {
@@ -67,9 +56,7 @@ export const newGallery = async (token, size) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res?.data?.body?.galleries;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   } else if (!token) {
     try {
       const res = await axios({
@@ -78,9 +65,7 @@ export const newGallery = async (token, size) => {
         // headers: { Authorization: `Bearer ${token}` },
       });
       return res?.data?.body?.galleries;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 };
 
@@ -94,9 +79,7 @@ export const likedGallery = async (token, size) => {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res?.data?.body?.galleries;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   } else if (!token) {
     try {
       const res = await axios({
@@ -106,8 +89,6 @@ export const likedGallery = async (token, size) => {
         // headers: { Authorization: `Bearer ${token}` },
       });
       return res?.data?.body?.galleries;
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 };
