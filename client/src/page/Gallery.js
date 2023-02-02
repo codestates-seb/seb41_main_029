@@ -483,7 +483,7 @@ export default function Gallery() {
               <Newest
                 style={{
                   fontSize: sortby === "최신순" ? "18px" : "16px",
-                  color: sortby === "최신순" ? "black" : "",
+                  color: sortby === "최신순" ? "white" : "",
                   fontWeight: sortby === "최신순" ? "700" : "",
                   cursor: "pointer",
                 }}
@@ -496,7 +496,7 @@ export default function Gallery() {
               <Liked
                 style={{
                   fontSize: sortby === "좋아요순" ? "18px" : "16px",
-                  color: sortby === "좋아요순" ? "black" : "",
+                  color: sortby === "좋아요순" ? "black" : "white",
                   fontWeight: sortby === "좋아요순" ? "700" : "",
                   cursor: "pointer",
                 }}

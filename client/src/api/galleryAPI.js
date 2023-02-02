@@ -44,11 +44,11 @@ export const deleteGallery = async (token, gallerySeq) => {
   }
 };
 
-export const voteGallery = async (token) => {
+export const voteGallery = async (token, seq) => {
   try {
     const res = await axios({
       method: "post",
-      url: `${url}gallery/like/{gallery-seq}`,
+      url: `${url}gallery/like/${seq}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log(res);
