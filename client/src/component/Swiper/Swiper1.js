@@ -133,7 +133,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function SwiperComponent({ postList, sortby }) {
+export default function SwiperComponent1({ postList1, sortby }) {
   const cookie = new Cookies();
   const token = cookie.get("token");
   const userId1 = JSON.parse(localStorage.getItem("userId"));
@@ -147,9 +147,9 @@ export default function SwiperComponent({ postList, sortby }) {
     // deleteGallery(token, gallerySeq);
   };
 
-  const [post, setPost] = useState(postList);
-  const [heart, setHeart] = useState(post?.map((e) => e.likedStatus));
-  const [likes, setLikes] = useState(post?.map((e) => e.liked));
+  const [post1, setPost] = useState(postList1);
+  const [heart, setHeart] = useState(post1?.map((e) => e.likedStatus));
+  const [likes, setLikes] = useState(post1?.map((e) => e.liked));
   const [postLength, setPostLength] = useState(0);
 
   const infiniteScrollSensor = useInfiniteScrollSensor(setPost, sortby);
@@ -179,18 +179,18 @@ export default function SwiperComponent({ postList, sortby }) {
   };
 
   useEffect(() => {
-    setHeart(post?.map((e) => e.likedStatus));
-  }, [post]);
+    setHeart(post1?.map((e) => e.likedStatus));
+  }, [post1]);
 
   useEffect(() => {
-    setLikes(post?.map((e) => e.liked));
-  }, [post]);
+    setLikes(post1?.map((e) => e.liked));
+  }, [post1]);
 
   useEffect(() => {
-    post !== undefined && setPostLength(Object.keys(post).length);
-  }, [post]);
+    post1 !== undefined && setPostLength(Object.keys(post1).length);
+  }, [post1]);
 
-  const swiperSlideMaker = post?.map((e, idx) => {
+  const swiperSlideMaker1 = post1?.map((e, idx) => {
     if (heart !== undefined && likes !== undefined) {
       return (
         <>
@@ -263,7 +263,7 @@ export default function SwiperComponent({ postList, sortby }) {
         modules={[Scrollbar]}
         className="mySwiper"
       >
-        {swiperSlideMaker}
+        {swiperSlideMaker1}
         <SwiperSlide>
           <div className="flex h668 post">
             {postLength % 10 !== 0 ? (

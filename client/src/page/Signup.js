@@ -13,6 +13,8 @@ const LoginLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  min-height: 650px;
 `;
 
 let SignupBackground = styled.div`
@@ -95,7 +97,7 @@ export default function Signup() {
     guestSignup();
     setTimeout(async () => {
       const res = await guestLogin();
-      console.log(res);
+      // console.log(res);
       const userId1 = res?.data?.body?.token?.userId;
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
@@ -153,7 +155,6 @@ export default function Signup() {
 
   // 회원가입 요청
   const onSubmit = (data) => {
-    // console.log(data);
     axios
       .post(
         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/signup",
@@ -163,11 +164,9 @@ export default function Signup() {
         }
       )
       .then((res) => {
-        // console.log(res.data);
         navigate("/signupnotice");
       })
       .catch((err) => {
-        // console.log(err);
         alert("이미 등록된 아이디입니다.");
       });
   };
@@ -189,9 +188,11 @@ export default function Signup() {
                     height="40px"
                     fieldName="userId"
                     validation={idValidation}
-                    error={error.id}
+                    error={error.userId}
                   />
-                  {error?.id && <AlertWarning text={error.id?.message} />}
+                  {error?.userId && (
+                    <AlertWarning text={error.userId?.message} />
+                  )}
                 </InputContainer>
                 <LabelLayout>
                   <label>닉네임</label>
@@ -203,10 +204,10 @@ export default function Signup() {
                     height="40px"
                     fieldName="username"
                     validation={nicknameValidation}
-                    error={error.nickname}
+                    error={error.username}
                   />
-                  {error?.nickname && (
-                    <AlertWarning text={error.nickname?.message} />
+                  {error?.username && (
+                    <AlertWarning text={error.username?.message} />
                   )}
                 </InputContainer>
                 <LabelLayout>

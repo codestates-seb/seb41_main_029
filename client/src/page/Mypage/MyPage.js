@@ -17,6 +17,12 @@ import {
   Icon4,
   Icon5,
   Icon6,
+  Icon11,
+  Icon12,
+  Icon13,
+  Icon14,
+  Icon15,
+  Icon16,
 } from "../../component/UserIcon";
 /** 전체 컨테이너 */
 const MypageContainer = styled.div`
@@ -49,8 +55,6 @@ const MypageUser = styled.div`
 `;
 /** Mypage 사진과 수정 정보들 */
 const MypageInfo = styled.div`
-  /* width: 100%; */
-  /* height: 250px; */
   display: flex;
   justify-content: space-between;
   font-size: 0;
@@ -75,19 +79,22 @@ const MypageProfile = styled.img`
 /** 유저 정보들 */
 const MypageCenter = styled.div`
   width: 50%;
-  @media screen and (max-width: 730px) {
+  @media screen and (max-width: 430px) {
+    font-size: 14px;
   }
 `;
 
 /** 아이디 */
 const MypageText = styled.div`
   color: #686868;
+  white-space: nowrap;
   font-size: ${theme.fontSizes.fs30};
 
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 430px) {
     white-space: nowrap;
     font-size: 24px;
-    padding-bottom: 20px;
+    margin-top: 4px;
+    padding-bottom: 22px;
   }
 `;
 
@@ -99,26 +106,19 @@ const MypageProfileInfo = styled.div`
 
   @media screen and (max-width: 540px) {
     white-space: nowrap;
-    /* margin-bottom: 8px; */
-    /* font-size: ${theme.fontSizes.fs14}; */
-    font-size: 14px;
-    /* margin-top: 12px; */
   }
 `;
 const MypageId = styled.div`
   margin-top: 4px;
   color: #686868;
-
-  @media screen and (max-width: 540px) {
-    /* white-space: nowrap;
-    padding-bottom: 28px;
-    font-size: ${theme.fontSizes.fs16}; */
-    font-size: 14px;
-  }
+  white-space: nowrap;
 `;
 const MypageUserInfo = styled.div`
-  @media screen and (max-width: 540px) {
+  @media screen and (max-width: 1336px) {
     white-space: nowrap;
+  }
+  @media screen and (max-width: 430px) {
+    font-size: ${theme.fontSizes.fs12};
   }
 `;
 /** 회원정보 수정 */
@@ -133,11 +133,6 @@ const MypageProfileModify = styled.a`
   &:hover {
     color: ${theme.colors.main_hover};
   }
-  @media screen and (max-width: 540px) {
-    /* display: flex;
-    justify-content: center;
-    font-size: ${theme.fontSizes.fs12}; */
-  }
 `;
 /** 회원 탈퇴 */
 const MypageDelete = styled.a`
@@ -146,33 +141,27 @@ const MypageDelete = styled.a`
   &:hover {
     color: ${theme.colors.main_hover};
   }
-  @media screen and (max-width: 400px) {
-    /* white-space: nowrap; */
-    /* display: flex;
-    justify-content: center;
-    margin-right: 16px;
-    justify-content: center;
-    font-size: ${theme.fontSizes.fs12}; */
-  }
 `;
 const MypageInfoA = styled.div`
   margin-left: 10px;
   width: 55%;
   @media screen and (max-width: 390px) {
-    width: 42%;
+    width: 41%;
   }
 `;
 
 const PointContainer = styled.div`
   display: flex;
   align-items: center;
-  /* justify-content: center; */
   font-size: 16px;
   margin-right: 40px;
   @media screen and (max-width: 730px) {
     justify-content: center;
     font-size: 14px;
     margin-left: 36px;
+  }
+  @media screen and (max-width: 430px) {
+    font-size: ${theme.fontSizes.fs12};
   }
 `;
 
@@ -181,10 +170,6 @@ const PointTitle = styled.div`
   /* height: 140px; */
 `;
 
-const PointLevelDiv = styled.div`
-  display: flex;
-  justify-content: right;
-`;
 const PointLevel = styled.div`
   display: flex;
   justify-content: center;
@@ -196,11 +181,78 @@ const PointUserDiv = styled.div`
   justify-content: center;
 `;
 
-const PointUser = styled.div``;
 const PointModal = styled.div`
-  /* display: flex; */
-  /* justify-content: center; */
-  /* margin-right: 20px; */
+  display: flex;
+  text-align: center;
+
+  .ModalDiv {
+    width: 100px;
+    font-size: 14px;
+    padding: 10px;
+    color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
+    background-color: ${theme.colors.main};
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+
+    @media screen and (max-width: 430px) {
+      width: 80px;
+      white-space: nowrap;
+      font-size: ${theme.fontSizes.fs12};
+    }
+  }
+  // 호버시 나오는 내용
+  .ModalDiv .ModalText {
+    visibility: hidden;
+    width: 200px;
+    background-color: white;
+    color: ${theme.colors.main};
+    text-align: center;
+    border-radius: 10px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 20%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+    text-align: center;
+
+    border: 1px solid ${theme.colors.main};
+
+    @media screen and (max-width: 430px) {
+      width: 150px;
+      left: 42%;
+    }
+  }
+
+  .ModalDiv:hover .ModalText {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .ModalDiv .ModalText::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin: -60px 0 0 -10px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent ${theme.colors.main} transparent;
+  }
+  .ModalDiv:hover .ModalText {
+    visibility: visible;
+  }
+`;
+
+const PointHover = styled.div`
+  display: inline-block;
+  width: 110px;
 `;
 /** 전체, 댓글, 북마크 버튼을 감싸는 큰 틀 */
 const MypageBtns = styled.div`
@@ -217,7 +269,6 @@ const MypageBtns = styled.div`
     }
     @media screen and (max-width: 430px) {
       width: 60%;
-      /* display: flex; */
     }
   }
 
@@ -236,8 +287,11 @@ const MypageBtns = styled.div`
     &:hover {
       background-color: #828282;
     }
-    @media screen and (max-width: 1336px) {
-      width: 100px;
+    @media screen and (max-width: 430px) {
+      width: 80px;
+      height: 35px;
+      white-space: nowrap;
+      font-size: 14px;
     }
   }
 
@@ -339,19 +393,12 @@ const InfoTitle = styled.span`
   padding-left: 8px;
   cursor: pointer;
   @media screen and (max-width: 370px) {
-    width: 55px;
   }
 `;
 /** 댓글 수 */
 const InfoComment = styled.span`
   color: ${({ theme }) => theme.colors.gray_03};
   margin-left: 8px;
-`;
-/** 작성한 날짜 조회 추천 나오는 전체 틀 */
-const InfoDiv = styled.div`
-  /* width: 700px; */
-  display: flex;
-  justify-content: right;
 `;
 
 /** 내가 등록한 날짜*/
@@ -413,55 +460,6 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-export const ModalBackdrop = styled.div`
-  position: fixed;
-  z-index: 999;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: grid;
-  place-items: center;
-`;
-
-export const ModalBtn = styled.button`
-  background-color: ${theme.colors.main};
-  text-decoration: none;
-  border: none;
-  padding: 10px;
-  color: white;
-  border-radius: 10px;
-  cursor: grab;
-  margin-top: 10px;
-  margin-right: 10px;
-  @media screen and (max-width: 430px) {
-    font-size: 12px;
-  }
-`;
-
-export const ModalView = styled.div.attrs((props) => ({
-  // attrs 메소드를 이용해서 아래와 같이 div 엘리먼트에 속성을 추가할 수 있습니다.
-  role: "dialog",
-}))`
-  border-radius: 10px;
-  background-color: #ffffff;
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-
-  > span.close-btn {
-    margin-top: 5px;
-    cursor: pointer;
-  }
-
-  > div.desc {
-    margin-top: 25px;
-    color: ${theme.colors.tag_general};
-    text-align: center;
-    font-size: 20px;
-  }
-`;
-
 export default function MyPage() {
   const cookie = new Cookies();
   const Token = cookie.get("token");
@@ -472,9 +470,7 @@ export default function MyPage() {
   const [userComment, setUserComment] = useState([]);
   const [userBook, setUserBook] = useState([]);
   const [current, setCurrent] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const [isOpens, setIsOpens] = useState(false);
   const munuArr = [{ name: "작성글" }, { name: "댓글" }, { name: "북마크" }];
   useEffect(() => {
     async function getUserInfo() {
@@ -488,7 +484,6 @@ export default function MyPage() {
     async function getUserWrite() {
       const res = await getWrite(Token);
       setUserWrite(res.data.body.write);
-      console.log(res.data.body);
     }
     getUserWrite();
   }, []);
@@ -497,7 +492,6 @@ export default function MyPage() {
     async function getUserComment() {
       const res = await getComment(Token);
       setUserComment(res.data.body.comment);
-      console.log(res.data);
     }
     getUserComment();
   }, []);
@@ -509,7 +503,7 @@ export default function MyPage() {
     }
     getUserBookmark();
   }, []);
-  // Number();
+
   const DeleteClice = async () => {
     if (window.confirm("정말 회원 탈퇴 하시겠습니까?") === false) {
       alert("취소 되었습니다.");
@@ -526,303 +520,315 @@ export default function MyPage() {
           }
         )
         .then((res) => {
-          console.log(res.data);
           alert("이용해 주셔서 감사합니다.");
           removeCookie("token");
           localStorage.removeItem("userId");
           navigate("/");
           window.location.reload();
         })
-        .catch((error) => {
-          console.log(error.data);
-        });
+        .catch((error) => {});
     }
-  };
-
-  const openModalHandler = () => {
-    setIsOpen(!isOpen);
-  };
-  const openModalHandlers = () => {
-    setIsOpens(!isOpens);
   };
 
   const currentClick = (index) => {
     setCurrent(index);
   };
-  // console.log(userInfo?.roleType);
+
   return (
-    // <>
-    //   {Token !== undefined ? (
-    <MypageContainer>
-      <MypageTitle>
-        {/* <MypageTest>  info > c test > item*/}
-        <MypageInfo>
-          <MypageUser>
-            <MypageInfoA>
-              <MypageProfile src={userInfo?.profileImageUrl}></MypageProfile>
-              <MypageUserInfo>
-                <MypageProfileModify href="mypageEdit">
-                  개인정보 수정
-                </MypageProfileModify>
-                <MypageDelete onClick={DeleteClice}>회원 탈퇴</MypageDelete>
-              </MypageUserInfo>
-            </MypageInfoA>
-            <MypageCenter>
-              <MypageText> {userInfo.username} 님</MypageText>
-              <MypageProfileInfo>
-                가입 날짜 :
-                <ModifiedDate modifiedAt={userInfo.modifiedAt} />
-              </MypageProfileInfo>
-              <MypageId>아이디 : {userInfo.userId}</MypageId>
-            </MypageCenter>
-          </MypageUser>
-          <PointContainer>
-            <PointTitle>
-              <PointLevel>
-                나의 등급
-                {userInfo.point <= 30 ? (
-                  <Icon1 />
-                ) : "" || (31 <= userInfo.point && userInfo.point <= 60) ? (
-                  <Icon2 />
-                ) : "" || (61 <= userInfo.point && userInfo.point <= 100) ? (
-                  <Icon3 />
-                ) : "" || (101 <= userInfo.point && userInfo.point <= 200) ? (
-                  <Icon4 />
-                ) : "" || (201 <= userInfo.point && userInfo.point <= 300) ? (
-                  <Icon5 />
-                ) : "" || 301 <= userInfo.point ? (
-                  <Icon6 />
-                ) : (
-                  ""
-                )}
-              </PointLevel>
+    <>
+      {userInfo?.roleType === "GUEST" ? (
+        <>
+          <GuestNotFound></GuestNotFound>
+        </>
+      ) : (
+        <>
+          {Token !== undefined ? (
+            <MypageContainer>
+              <MypageTitle>
+                <MypageInfo>
+                  <MypageUser>
+                    <MypageInfoA>
+                      <MypageProfile
+                        src={userInfo?.profileImageUrl}
+                      ></MypageProfile>
+                      <MypageUserInfo>
+                        <MypageProfileModify href="mypageEdit">
+                          개인정보 수정
+                        </MypageProfileModify>
+                        <MypageDelete onClick={DeleteClice}>
+                          회원 탈퇴
+                        </MypageDelete>
+                      </MypageUserInfo>
+                    </MypageInfoA>
+                    <MypageCenter>
+                      <MypageText> {userInfo.username} 님</MypageText>
+                      <MypageProfileInfo>
+                        가입 날짜 :
+                        <ModifiedDate modifiedAt={userInfo.modifiedAt} />
+                      </MypageProfileInfo>
+                      <MypageId>아이디 : {userInfo.userId}</MypageId>
+                    </MypageCenter>
+                  </MypageUser>
+                  <PointContainer>
+                    <PointTitle>
+                      <PointLevel>
+                        나의 등급
+                        {userInfo.point <= 30 ? (
+                          <Icon1 />
+                        ) : "" ||
+                          (31 <= userInfo.point && userInfo.point <= 60) ? (
+                          <Icon2 />
+                        ) : "" ||
+                          (61 <= userInfo.point && userInfo.point <= 100) ? (
+                          <Icon3 />
+                        ) : "" ||
+                          (101 <= userInfo.point && userInfo.point <= 200) ? (
+                          <Icon4 />
+                        ) : "" ||
+                          (201 <= userInfo.point && userInfo.point <= 300) ? (
+                          <Icon5 />
+                        ) : "" || 301 <= userInfo.point ? (
+                          <Icon6 />
+                        ) : (
+                          ""
+                        )}
+                      </PointLevel>
 
-              <PointUserDiv>나의 포인트 : {userInfo.point} 점</PointUserDiv>
-              <PointModal>
-                <ModalBtn onClick={openModalHandler}>포인트 획득 방법</ModalBtn>
-                {isOpen === true ? (
-                  <ModalBackdrop onClick={openModalHandler}>
-                    <ModalView
-                      width="280px"
-                      height="280px"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span onClick={openModalHandler} className="close-btn">
-                        &times;
-                      </span>
-                      <div className="desc">
-                        글 작성시 +5,
-                        <br />글 추천 당할 시 +5,
-                        <br />글 비추천 당할 시 -1
-                        <br />
-                        북마크 당할 시 +10,
-                        <br /> 댓글 추천 당할 시 +1,
-                        <br />
-                        댓글 비추천 당할시 -1
+                      <PointUserDiv>
+                        나의 포인트 : {userInfo.point} 점
+                      </PointUserDiv>
+                      <PointModal>
+                        <div className="ModalDiv">
+                          포인트 획득 방법
+                          <div className="ModalText">
+                            글 작성 시 +5 <br /> 글 추천 시 +5
+                            <br />글 비추천 시 -1 <br />
+                            북마크 시 +10 <br />
+                            댓글 추천 시 +1
+                            <br />
+                            댓글 비추천 시 -1
+                          </div>
+                        </div>
+
+                        <div className="ModalDiv">
+                          멤버 등급 안내
+                          <div className="ModalText">
+                            <PointHover>0 ~ 30점</PointHover>
+                            {<Icon11 />}
+                            <br />
+                            <PointHover>31 ~ 70 점</PointHover>
+                            {<Icon12 />} <br />
+                            <PointHover>71 ~ 100 점</PointHover>
+                            {<Icon13 />} <br />
+                            <PointHover>101 ~ 200 점</PointHover>
+                            <Icon14 />
+                            <br />
+                            <PointHover>201 ~ 300 점 </PointHover>
+                            {<Icon15 />}
+                            <br />
+                            <PointHover>301 점 이상 </PointHover>
+                            {<Icon16 />}
+                          </div>
+                        </div>
+                      </PointModal>
+                    </PointTitle>
+                  </PointContainer>
+                </MypageInfo>
+
+                <MypageBtns>
+                  {munuArr.map((ele, index) => {
+                    return (
+                      <div className="Btn">
+                        <button
+                          key={index}
+                          className={
+                            current === index ? "submenu focused" : "submenu"
+                          }
+                          onClick={() => currentClick(index)}
+                        >
+                          {ele.name}
+                        </button>
                       </div>
-                    </ModalView>
-                  </ModalBackdrop>
-                ) : null}
+                    );
+                  })}
+                </MypageBtns>
 
-                <ModalBtn onClick={openModalHandlers}>멤버 등급 안내</ModalBtn>
-                {isOpens === true ? (
-                  <ModalBackdrop onClick={openModalHandlers}>
-                    <ModalView
-                      width="300px"
-                      height="500px"
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <span onClick={openModalHandlers} className="close-btn">
-                        &times;
-                      </span>
-                      <div className="desc">
-                        point : 0점 {<Icon1 className="Icon" />}1 ~ 30 점{" "}
-                        {<Icon2 />}31 ~ 60 점 {<Icon3 />} 101 ~ 200 점 <Icon4 />
-                        201 ~ 300 점 {<Icon5 />} 301 점 이상 {<Icon6 />}
-                      </div>
-                    </ModalView>
-                  </ModalBackdrop>
-                ) : null}
-              </PointModal>
-            </PointTitle>
-          </PointContainer>
-        </MypageInfo>
-        {/* </MypageTest> */}
+                <TitleContainer>
+                  <TitleDiv>
+                    {userWrite
+                      .map((item, id) =>
+                        current === 0 ? (
+                          <InfoContainer key={item.boardSeq}>
+                            {item.category === "# 일반" ? (
+                              <Info bgColor="#62B6B7">일반</Info>
+                            ) : (
+                              ""
+                            )}
+                            {item.category === "# 정보" ? (
+                              <Info bgColor="#AEDC88">정보</Info>
+                            ) : (
+                              ""
+                            )}
+                            {item.category === "# 질문" ? (
+                              <Info bgColor="#A6D9DE">질문</Info>
+                            ) : (
+                              ""
+                            )}
 
-        <MypageBtns>
-          {munuArr.map((ele, index) => {
-            return (
-              <div className="Btn">
-                <button
-                  key={index}
-                  className={current === index ? "submenu focused" : "submenu"}
-                  onClick={() => currentClick(index)}
-                >
-                  {ele.name}
-                </button>
-              </div>
-            );
-          })}
-        </MypageBtns>
+                            <InfoContent>
+                              <InfoTitle>
+                                <StyledLink to={`/boards/${item.boardSeq}`}>
+                                  {item.title}
+                                </StyledLink>
+                              </InfoTitle>
+                              <InfoComment>[{item.commented}]</InfoComment>
+                            </InfoContent>
 
-        <TitleContainer>
-          <TitleDiv>
-            {userWrite.map((item, id) =>
-              current === 0 ? (
-                <InfoContainer key={item.boardSeq}>
-                  {item.category === "# 일반" ? (
-                    <Info bgColor="#62B6B7">일반</Info>
-                  ) : (
-                    ""
-                  )}
-                  {item.category === "# 정보" ? (
-                    <Info bgColor="#AEDC88">정보</Info>
-                  ) : (
-                    ""
-                  )}
-                  {item.category === "# 질문" ? (
-                    <Info bgColor="#A6D9DE">질문</Info>
-                  ) : (
-                    ""
-                  )}
+                            <InfoDate>
+                              <FontAwesomeIcon
+                                icon={faClock}
+                                size="xs"
+                                className="clock"
+                              />
+                              <ViewdateCommu createdAt={item.createdAt} />
+                            </InfoDate>
+                            <InfoView>
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                size="xs"
+                                className="eye"
+                              />
+                              {item.viewCount}
+                            </InfoView>
+                            <InfoLike>
+                              <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                              {item.liked}
+                            </InfoLike>
+                          </InfoContainer>
+                        ) : (
+                          ""
+                        )
+                      )
+                      .reverse()}
+                    {userComment
+                      .map((item, id) =>
+                        current === 1 ? (
+                          <InfoContainer key={item.boardSeq}>
+                            <Info bgColor="#62B6B7">댓글</Info>
 
-                  <InfoContent>
-                    <InfoTitle>
-                      <StyledLink to={`/boards/${item.boardSeq}`}>
-                        {item.title}
-                      </StyledLink>
-                    </InfoTitle>
-                    <InfoComment>[{item.commented}]</InfoComment>
-                  </InfoContent>
+                            <InfoContent>
+                              <InfoTitle>
+                                <StyledLink to={`/boards/${item.boardSeq}`}>
+                                  {item.content}
+                                </StyledLink>
+                              </InfoTitle>
+                              <InfoComment></InfoComment>
+                            </InfoContent>
 
-                  <InfoDate>
-                    <FontAwesomeIcon
-                      icon={faClock}
-                      size="xs"
-                      className="clock"
-                    />
-                    <ViewdateCommu createdAt={item.createdAt} />
-                  </InfoDate>
-                  <InfoView>
-                    <FontAwesomeIcon icon={faEye} size="xs" className="eye" />
-                    {item.viewCount}
-                  </InfoView>
-                  <InfoLike>
-                    <FontAwesomeIcon icon={faHeart} size="xs" /> {item.liked}
-                  </InfoLike>
-                </InfoContainer>
-              ) : (
-                ""
-              )
-            )}
-            {userComment.map((item, id) =>
-              current === 1 ? (
-                <InfoContainer key={item.boardSeq}>
-                  <Info bgColor="#62B6B7">댓글</Info>
+                            <InfoDate>
+                              <FontAwesomeIcon
+                                icon={faClock}
+                                size="xs"
+                                className="clock"
+                              />
+                              <ViewdateCommu createdAt={item.createdAt} />
+                            </InfoDate>
+                            <InfoView>
+                              <img
+                                className="eye"
+                                src={
+                                  process.env.PUBLIC_URL + "/image/upVote.svg"
+                                }
+                                alt="Up"
+                                width="22px"
+                              />
+                              {item.liked}
+                            </InfoView>
+                            <InfoLike>
+                              <img
+                                src={
+                                  process.env.PUBLIC_URL + "/image/downVote.svg"
+                                }
+                                className="disliked"
+                                alt="Down"
+                                width="18px"
+                                height="18px"
+                              />
+                              {item.disliked}
+                            </InfoLike>
+                          </InfoContainer>
+                        ) : (
+                          ""
+                        )
+                      )
+                      .reverse()}
+                    {userBook
+                      .map((item, id) =>
+                        current === 2 ? (
+                          <InfoContainer key={item.boardSeq}>
+                            {item.category === "# 일반" ? (
+                              <Info bgColor="#62B6B7">일반</Info>
+                            ) : (
+                              ""
+                            )}
+                            {item.category === "# 정보" ? (
+                              <Info bgColor="#AEDC88">정보</Info>
+                            ) : (
+                              ""
+                            )}
+                            {item.category === "# 질문" ? (
+                              <Info bgColor="#A6D9DE">질문</Info>
+                            ) : (
+                              ""
+                            )}
 
-                  <InfoContent>
-                    <InfoTitle>
-                      <StyledLink to={`/boards/${item.boardSeq}`}>
-                        {item.title}
-                      </StyledLink>
-                    </InfoTitle>
-                    <InfoComment></InfoComment>
-                  </InfoContent>
+                            <InfoContent>
+                              <InfoTitle>
+                                <StyledLink to={`/boards/${item.boardSeq}`}>
+                                  {item.title}
+                                </StyledLink>
+                              </InfoTitle>
+                              <InfoComment>[{item.commented}]</InfoComment>
+                            </InfoContent>
 
-                  <InfoDate>
-                    <FontAwesomeIcon
-                      icon={faClock}
-                      size="xs"
-                      className="clock"
-                    />
-                    <ViewdateCommu createdAt={item.createdAt} />
-                  </InfoDate>
-                  <InfoView>
-                    <img
-                      className="eye"
-                      src={process.env.PUBLIC_URL + "/image/upVote.svg"}
-                      alt="Up"
-                      width="22px"
-                    />
-                    {item.liked}
-                  </InfoView>
-                  <InfoLike>
-                    <img
-                      src={process.env.PUBLIC_URL + "/image/downVote.svg"}
-                      className="disliked"
-                      alt="Down"
-                      width="18px"
-                      height="18px"
-                    />
-                    {item.disliked}
-                  </InfoLike>
-                </InfoContainer>
-              ) : (
-                ""
-              )
-            )}
-            {userBook.map((item, id) =>
-              current === 2 ? (
-                <InfoContainer key={item.boardSeq}>
-                  {item.category === "# 일반" ? (
-                    <Info bgColor="#62B6B7">일반</Info>
-                  ) : (
-                    ""
-                  )}
-                  {item.category === "# 정보" ? (
-                    <Info bgColor="#AEDC88">정보</Info>
-                  ) : (
-                    ""
-                  )}
-                  {item.category === "# 질문" ? (
-                    <Info bgColor="#A6D9DE">질문</Info>
-                  ) : (
-                    ""
-                  )}
-
-                  <InfoContent>
-                    <InfoTitle>
-                      <StyledLink to={`/boards/${item.boardSeq}`}>
-                        {item.title}
-                      </StyledLink>
-                    </InfoTitle>
-                    <InfoComment>[{item.commented}]</InfoComment>
-                  </InfoContent>
-
-                  <InfoDate>
-                    <FontAwesomeIcon
-                      icon={faClock}
-                      size="xs"
-                      className="clock"
-                    />
-                    <ViewdateCommu createdAt={item.createdAt} />
-                  </InfoDate>
-                  <InfoView>
-                    <FontAwesomeIcon icon={faEye} size="xs" className="eye" />
-                    {item.viewCount}
-                  </InfoView>
-                  <InfoLike>
-                    <FontAwesomeIcon icon={faHeart} size="xs" /> {item.liked}
-                  </InfoLike>
-                </InfoContainer>
-              ) : (
-                ""
-              )
-            )}
-          </TitleDiv>
-        </TitleContainer>
-      </MypageTitle>
-    </MypageContainer>
-    //   ) : (
-    //     <>
-    //       {alert("로그인이 되어 있지 않습니다!")}
-    //       <Navigate to="/login" />
-    //     </>
-    //   )}
-    // </>
+                            <InfoDate>
+                              <FontAwesomeIcon
+                                icon={faClock}
+                                size="xs"
+                                className="clock"
+                              />
+                              <ViewdateCommu createdAt={item.createdAt} />
+                            </InfoDate>
+                            <InfoView>
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                size="xs"
+                                className="eye"
+                              />
+                              {item.viewCount}
+                            </InfoView>
+                            <InfoLike>
+                              <FontAwesomeIcon icon={faHeart} size="xs" />{" "}
+                              {item.liked}
+                            </InfoLike>
+                          </InfoContainer>
+                        ) : (
+                          ""
+                        )
+                      )
+                      .reverse()}
+                  </TitleDiv>
+                </TitleContainer>
+              </MypageTitle>
+            </MypageContainer>
+          ) : (
+            <>
+              {alert("로그인이 되어 있지 않습니다!")}
+              <Navigate to="/login" />
+            </>
+          )}
+        </>
+      )}
+    </>
   );
 }
-
-//  <MypageText> {userInfo.username} 님</MypageText>
-// <MypageId>아이디 : {userInfo.userId}</MypageId>;
-// <PointUser> 나의 포인트 : {userInfo.point} 점</PointUser>

@@ -216,6 +216,7 @@ const Comment = ({ comment }) => {
       // console.log(res);
     }
   };
+  console.log(comment);
   return (
     <>
       {comment?.commentStatus === "COMMENT_NOT_EXIST" ? (
@@ -252,12 +253,32 @@ const Comment = ({ comment }) => {
 
           <CommentInfo>
             <PostWriter>
-              {0 <= comment?.point && comment?.point <= 30 ? <Icon1 /> : ""}
-              {31 <= comment?.point && comment?.point <= 70 ? <Icon2 /> : ""}
-              {71 <= comment?.point && comment?.point <= 100 ? <Icon3 /> : ""}
-              {101 <= comment?.point && comment?.point <= 200 ? <Icon4 /> : ""}
-              {201 <= comment?.point && comment?.point <= 300 ? <Icon5 /> : ""}
-              {301 <= comment?.point ? <Icon6 /> : ""}
+              {comment?.userRole === "USER" ? (
+                <>
+                  {0 <= comment?.point && comment?.point <= 30 ? <Icon1 /> : ""}
+                  {31 <= comment?.point && comment?.point <= 70 ? (
+                    <Icon2 />
+                  ) : (
+                    ""
+                  )}
+                  {71 <= comment?.point && comment?.point <= 100 ? (
+                    <Icon3 />
+                  ) : (
+                    ""
+                  )}
+                  {101 <= comment?.point && comment?.point <= 200 ? (
+                    <Icon4 />
+                  ) : (
+                    ""
+                  )}
+                  {201 <= comment?.point && comment?.point <= 300 ? (
+                    <Icon5 />
+                  ) : (
+                    ""
+                  )}
+                  {301 <= comment?.point ? <Icon6 /> : ""}{" "}
+                </>
+              ) : null}
             </PostWriter>
             <span style={{ marginRight: "10px" }}>{comment?.username}</span>
             <CommentDate createdAt={comment?.createdAt} />

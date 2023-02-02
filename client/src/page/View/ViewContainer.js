@@ -11,6 +11,14 @@ import { deleteComment } from "../../api/commentAPI";
 import Loading from "../../component/Loading";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../redux/usersReducer";
+import {
+  Icon1,
+  Icon2,
+  Icon3,
+  Icon4,
+  Icon5,
+  Icon6,
+} from "../../component/UserIcon";
 
 const ViewLayout = styled.div`
   @media screen and (max-width: 1336px) {
@@ -129,7 +137,7 @@ const UserInfoLayout = styled.div`
   @media screen and (max-width: 1336px) {
     margin-right: 20px;
   }
-  @media screen and (max-width: 666px) {
+  @media screen and (max-width: 705px) {
     display: flex;
     float: none;
     justify-content: center;
@@ -235,10 +243,12 @@ const ProfileContainer = styled.div`
   /* background-color: white; */
 `;
 
-const Profile = styled.div`
-  width: 100px;
-  height: 100px;
-  background-color: #5dd986;
+const Div1 = styled.div`
+  height: 36px;
+  display: flex;
+`;
+const Point1 = styled.div`
+  margin-bottom: 80px;
 `;
 
 const ViewContainer = () => {
@@ -422,7 +432,43 @@ const ViewContainer = () => {
             />
           </ProfileContainer>
           <div>
-            {viewInfo?.data?.username}
+            <Div1>
+              <div style={{ marginTop: "8px" }}>{viewInfo?.data?.username}</div>
+              {viewInfo?.data?.userRole === "USER" ? (
+                <Point1>
+                  {0 <= viewInfo?.data?.point && viewInfo?.data?.point <= 30 ? (
+                    <Icon1 />
+                  ) : (
+                    ""
+                  )}
+                  {31 <= viewInfo?.data?.point &&
+                  viewInfo?.data?.point <= 70 ? (
+                    <Icon2 />
+                  ) : (
+                    ""
+                  )}
+                  {71 <= viewInfo?.data?.point &&
+                  viewInfo?.data?.point <= 100 ? (
+                    <Icon3 />
+                  ) : (
+                    ""
+                  )}
+                  {101 <= viewInfo?.data?.point &&
+                  viewInfo?.data?.point <= 200 ? (
+                    <Icon4 />
+                  ) : (
+                    ""
+                  )}
+                  {201 <= viewInfo?.data?.point &&
+                  viewInfo?.data?.point <= 300 ? (
+                    <Icon5 />
+                  ) : (
+                    ""
+                  )}
+                  {301 <= viewInfo?.data?.point ? <Icon6 /> : ""}
+                </Point1>
+              ) : null}
+            </Div1>
             <Viewdate createdAt={viewInfo?.data?.createdAt} />
             <div>조회수 : {viewInfo?.data?.viewCount}</div>
           </div>

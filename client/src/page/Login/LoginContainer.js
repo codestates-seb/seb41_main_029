@@ -76,7 +76,7 @@ const LoginContainer = () => {
     guestSignup();
     setTimeout(async () => {
       const res = await guestLogin();
-      console.log(res);
+
       const userId1 = res?.data?.body?.token?.userId;
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
@@ -96,7 +96,6 @@ const LoginContainer = () => {
     // navigate("/");
     // window.location.reload();
     // }
-    // console.log(res);
   };
 
   const idValidation = {
@@ -113,10 +112,10 @@ const LoginContainer = () => {
 
   const passwordValidation = {
     required: "비밀번호를 입력해주세요.",
-    pattern: {
-      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-      message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
-    },
+    // pattern: {
+    //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+    //   message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
+    // },
   };
   // const expireDate = new Date()
   // expireDate.setMinutes(expireDate.getMinutes() + 10)
@@ -126,9 +125,8 @@ const LoginContainer = () => {
       alert("가입된 정보가 없습니다.");
       return setisAuthorized(false);
     } else if (res?.status === 200) {
-      // console.log(res?.data?.body?.token?.userId);
       const userId1 = res?.data?.body?.token?.userId;
-      // console.log(userId1);
+
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
       cookie.set("token", token);
@@ -139,7 +137,6 @@ const LoginContainer = () => {
     } else {
       alert("서버와 연결되어있지 않습니다.");
     }
-    console.log(res?.data);
   };
 
   return (
@@ -191,11 +188,13 @@ const LoginContainer = () => {
         <GuestBtn onClick={guestHandle}>게스트 로그인</GuestBtn>
       </GuestLayout>
       <SocialLogin>
+        {/* <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email"> */}
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/google.svg"}
           alt="GOOGLE"
           // onClick={handleSocial}
         />
+        {/* </a> */}
         <SocialLoginLogo
           src={process.env.PUBLIC_URL + "/image/naver.svg"}
           alt="NAVER"

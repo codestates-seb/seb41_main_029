@@ -38,7 +38,7 @@ const SpanContainer = styled.div`
     outline: none;
     border: none;
     @media (max-width: 500px) {
-      width: 47%;
+      width: 100%;
       margin-left: 20px;
     }
   }
@@ -52,16 +52,12 @@ const SpanContent = styled.div`
 
   @media (max-width: 1336px) {
     display: flex;
-
     align-items: center;
-  }
-  @media (max-width: 350px) {
-    display: flex;
   }
 `;
 const MuiContainer = styled.div`
   @media (max-width: 1336px) {
-    margin-right: 20px;
+    margin-right: 18px;
   }
   button {
     border: none;
@@ -85,7 +81,6 @@ const CategoryBox = styled(Box)`
   @media (max-width: 500px) {
     display: flex;
     float: right;
-
     width: 115px;
   }
 
@@ -105,25 +100,28 @@ const CategoryInputLabel = styled(InputLabel)`
   width: 100%;
   margin: -8px 0 0px 12px;
   display: none;
+
+  @media (max-width: 1336px) {
+    margin: -10px 0 0 0;
+  }
   .CategorySpan {
     @media (max-width: 1336px) {
-      font-size: ${theme.fontSizes.fs16};
+      font-size: ${theme.fontSizes.fs12};
     }
   }
 `;
-//.
+//
 const CategorySelect = styled(Select)`
   height: 40px;
 
-  // icon
-
+  // icon(삼각형)
   .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
     color: ${({ theme }) => theme.colors.main};
     font-size: ${({ theme }) => theme.fontSizes.fs64};
     width: 60px;
 
     @media (max-width: 1336px) {
-      width: 30%;
+      width: 35%;
     }
   }
 `;
@@ -145,7 +143,7 @@ const CategoryFormControl = styled(FormControl)`
   }
 
   .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
-    font-size: ${({ theme }) => theme.fontSizes.fs18};
+    font-size: 14px;
   }
   //전체 크기
   @media (max-width: 1336px) {
