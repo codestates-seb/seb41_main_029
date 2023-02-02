@@ -97,7 +97,6 @@ export default function Signup() {
     guestSignup();
     setTimeout(async () => {
       const res = await guestLogin();
-      console.log(res);
       const userId1 = res?.data?.body?.token?.userId;
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
