@@ -230,11 +230,11 @@ const PointModal = styled.div`
     border: 1px solid ${theme.colors.main};
 
     @media screen and (max-width: 430px) {
-      width: 135px;
+      width: 150px;
       left: 42%;
     }
   }
-  // 흰색이나 회색 배경에 흰색 클씨 메인 색 보더 주던가 글씨 메인색 주던가 하자
+
   .ModalDiv:hover .ModalText {
     visibility: visible;
     opacity: 1;
@@ -843,7 +843,3 @@ export default function MyPage() {
     </>
   );
 }
-
-//  <MypageText> {userInfo.username} 님</MypageText>
-// <MypageId>아이디 : {userInfo.userId}</MypageId>;
-// <PointUser> 나의 포인트 : {userInfo.point} 점</PointUser>

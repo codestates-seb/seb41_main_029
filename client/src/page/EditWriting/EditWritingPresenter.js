@@ -31,7 +31,7 @@ const TotalContainer = styled.div`
   .ck-editor__editable {
     min-height: 400px;
     margin-bottom: 20px;
-    width: 1121px;
+    width: 1120px;
     @media (max-width: 1336px) {
       width: 100%;
       height: 100%;
