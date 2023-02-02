@@ -9,18 +9,17 @@ export const getGallery = async () => {
       url: `${url}gallery`,
       //   headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
     return res.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const postGallery = async () => {
+export const postGallery = async (token, formdata2) => {
   try {
     const res = await axios({
       method: "post",
-      data: formdata,
+      data: formdata2,
       url: `${url}gallery/post`,
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -31,11 +30,11 @@ export const postGallery = async () => {
   }
 };
 
-export const deleteGallery = async () => {
+export const deleteGallery = async (token, gallerySeq) => {
   try {
     const res = await axios({
       method: "delete",
-      url: `${url}/gallery/delete/{gallery-seq}`,
+      url: `${url}gallery/delete/${gallerySeq}`,
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log(res);
@@ -45,7 +44,7 @@ export const deleteGallery = async () => {
   }
 };
 
-export const voteGallery = async () => {
+export const voteGallery = async (token) => {
   try {
     const res = await axios({
       method: "post",
@@ -59,30 +58,56 @@ export const voteGallery = async () => {
   }
 };
 
-export const sort1Gallery = async () => {
-  try {
-    const res = await axios({
-      method: "get",
-      url: `${url}gallery/`,
-      //   headers: { Authorization: `Bearer ${token}` },
-    });
-    console.log(res);
-    return res.data;
-  } catch (error) {
-    console.log(error);
+export const newGallery = async (token, size) => {
+  if (token) {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=최신순`,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res?.data?.body?.galleries;
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (!token) {
+    try {
+      const res = await axios({
+        method: "get",
+        url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=최신순`,
+        // headers: { Authorization: `Bearer ${token}` },
+      });
+      return res?.data?.body?.galleries;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };
 
-export const sort2Gallery = async () => {
-  try {
-    const res = await axios({
-      method: "get",
-      url: `${url}gallery/`,
-      //   headers: { Authorization: `Bearer ${token}` },
-    });
-    console.log(res);
-    return res.data;
-  } catch (error) {
-    console.log(error);
+export const likedGallery = async (token, size) => {
+  if (token) {
+    try {
+      const res = await axios({
+        method: "get",
+        //   url: `${url}gallery/all/?page=1&size=30&sort-by=최신순`,
+        url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=추천순`,
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res?.data?.body?.galleries;
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (!token) {
+    try {
+      const res = await axios({
+        method: "get",
+        //   url: `${url}gallery/all/?page=1&size=30&sort-by=최신순`,
+        url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=추천순`,
+        // headers: { Authorization: `Bearer ${token}` },
+      });
+      return res?.data?.body?.galleries;
+    } catch (error) {
+      console.log(error);
+    }
   }
 };

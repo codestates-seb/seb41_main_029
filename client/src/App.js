@@ -18,6 +18,9 @@ import SignupNotice from "./page/SignupNotice";
 import axios from "axios";
 import Gallery from "./page/Gallery";
 import Test from "./page/Test";
+import Crop from "./page/Crop";
+import PostGallery from "./page/PostGallery";
+import Gallery2 from "./page/Gallery2";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -50,8 +53,11 @@ function App() {
             <Route path="/boards/:boardSeq" element={<View />} />
             <Route path="/signupnotice" element={<SignupNotice />} />
             <Route path="/gallery" element={<Gallery />} />
+            <Route path="/gallery2" element={<Gallery2 />} />
             <Route path="/test" element={<Test />} />
             <Route path="*" element={<NotFound />} />
+            <Route path="/crop" element={<Crop />} />
+            <Route path="/postGallery" element={<PostGallery />} />
           </Routes>
           <Footer />
         </BrowserRouter>

@@ -334,7 +334,9 @@ const EditWritingEditor = ({ setImage }) => {
   }
   const userId1 = JSON.parse(localStorage.getItem("userId"));
   const userId2 = viewInfo?.data?.userId;
-  // console.log(viewInfo?.data?.userId);
+  const goCommunity = () => {
+    navigate(`/boards/${boardSeq}`);
+  };
   return (
     <>
       {userId1 === userId2 ? (
@@ -421,7 +423,11 @@ const EditWritingEditor = ({ setImage }) => {
           />
 
           <BottomDiv>
-            <ViewButton bgColor="#CCCCCC" ckColor="#BBBBBB" href="community">
+            <ViewButton
+              bgColor="#CCCCCC"
+              ckColor="#BBBBBB"
+              onClick={goCommunity}
+            >
               취소
             </ViewButton>
             <ViewButton

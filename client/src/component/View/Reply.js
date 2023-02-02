@@ -285,12 +285,26 @@ const Reply = ({ reply }) => {
             <UserInfo>
               <BiReply className="icon" />
               <PostWriter>
-                {0 <= reply?.point && reply?.point <= 30 ? <Icon1 /> : ""}
-                {31 <= reply?.point && reply?.point <= 70 ? <Icon2 /> : ""}
-                {71 <= reply?.point && reply?.point <= 100 ? <Icon3 /> : ""}
-                {101 <= reply?.point && reply?.point <= 200 ? <Icon4 /> : ""}
-                {201 <= reply?.point && reply?.point <= 300 ? <Icon5 /> : ""}
-                {301 <= reply?.point ? <Icon6 /> : ""}
+                {reply?.userRole === "USER" ? (
+                  <>
+                    {0 <= reply?.point && reply?.point <= 30 ? <Icon1 /> : ""}
+                    {31 <= reply?.point && reply?.point <= 70 ? <Icon2 /> : ""}
+                    {71 <= reply?.point && reply?.point <= 100 ? <Icon3 /> : ""}
+                    {101 <= reply?.point && reply?.point <= 200 ? (
+                      <Icon4 />
+                    ) : (
+                      ""
+                    )}
+                    {201 <= reply?.point && reply?.point <= 300 ? (
+                      <Icon5 />
+                    ) : (
+                      ""
+                    )}
+                    {301 <= reply?.point ? <Icon6 /> : ""}
+                  </>
+                ) : (
+                  <span style={{ marginRight: "16px" }}></span>
+                )}
               </PostWriter>
               {reply?.username}
               <CommentDate createdAt={reply?.createdAt} />
