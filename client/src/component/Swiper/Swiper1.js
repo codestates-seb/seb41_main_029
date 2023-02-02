@@ -19,7 +19,6 @@ import {
 
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
 import { useInfiniteScrollSensor } from "../useInfiniteScrollSensor";
-import SwiperDummyData from "./SwiperDummyData";
 import { deleteGallery, voteGallery } from "../../api/galleryAPI";
 import { Cookies } from "react-cookie";
 
@@ -144,7 +143,6 @@ export default function SwiperComponent1({ postList1, sortby }) {
       deleteGallery(token, data);
 
       window.location.reload();
-      // console.log(res);
     }
     // deleteGallery(token, gallerySeq);
   };
@@ -192,7 +190,6 @@ export default function SwiperComponent1({ postList1, sortby }) {
     post1 !== undefined && setPostLength(Object.keys(post1).length);
   }, [post1]);
 
-  console.log(post1);
   const swiperSlideMaker1 = post1?.map((e, idx) => {
     if (heart !== undefined && likes !== undefined) {
       return (

@@ -3,17 +3,15 @@ import { fontWeight } from "@mui/system";
 import { useEffect, useState, useRef } from "react";
 import { Cookies } from "react-cookie";
 import styled from "styled-components";
-import { likedGallery, newGallery } from "../api/galleryAPI";
-import { MainBtn } from "../component/Button";
 
+import { newGallery, postGallery, likedGallery } from "../api/galleryAPI";
+import { postImage } from "../api/userAPI";
+import { MainBtn } from "../component/Button";
 import SwiperComponent from "../component/Swiper/Swiper";
 import TagInput from "../component/TagInput";
 import ImageCrop from "../component/ImageCrop";
 import ImageCrop2 from "../component/ImageCrop2";
-import { postImage } from "../api/userAPI";
 import { useNavigate } from "react-router-dom";
-
-import { postGallery } from "../api/galleryAPI";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -22,13 +20,11 @@ const Wrapper = styled.div`
   margin: 80px auto 0 auto;
   max-width: 1336px;
   width: 100%;
-
   .floor {
     background-color: ${(props) => props.theme.colors.main};
     border-radius: 0 0 10px 10px;
     height: 40px;
   }
-
   .roof {
     background-color: ${(props) => props.theme.colors.main};
     border-radius: 10px 10px 0 0;
@@ -37,7 +33,6 @@ const Wrapper = styled.div`
     flex-direction: row-reverse;
     align-items: center;
   }
-
   .w95p {
     width: 95%;
   }
@@ -61,7 +56,6 @@ const TagContainer2 = styled.div`
   border: 3px solid #62b6b7;
   border-radius: 10px;
   padding: 5.5px 8px;
-
   > input {
     border: none;
     /* flex: 0.3; */
@@ -84,7 +78,6 @@ const Tag = styled.div`
   color: #fff;
   background-color: #62b6b7;
   font-size: 14px;
-
   > span {
     margin-left: 5px;
     font-size: 12px;
@@ -93,7 +86,7 @@ const Tag = styled.div`
 `;
 
 // 모달창
-export const ModalBackdrop = styled.div`
+const ModalBackdrop = styled.div`
   position: fixed;
   z-index: 999;
   top: 0;
@@ -105,7 +98,7 @@ export const ModalBackdrop = styled.div`
   place-items: center;
 `;
 
-export const ModalView = styled.div.attrs((props) => ({
+const ModalView = styled.div.attrs((props) => ({
   // attrs 메소드를 이용해서 아래와 같이 div 엘리먼트에 속성을 추가할 수 있습니다.
   role: "dialog",
 }))`
@@ -113,12 +106,10 @@ export const ModalView = styled.div.attrs((props) => ({
   background-color: #ffffff;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-
   > span.close-btn {
     margin-top: 5px;
     cursor: pointer;
   }
-
   > div.desc {
     margin-top: 25px;
     color: gray;
@@ -225,30 +216,23 @@ const SubmitLayout = styled.div`
 `;
 
 export default function Gallery() {
-  const navigate = useNavigate();
-  const [dropDown, setDropDown] = useState(false);
   const [sortby, setSortby] = useState("최신순");
-  const [newInfor, setNewInfor] = useState();
-  const [likeInfor, setLikeNewInfor] = useState();
-
   const [fileImage, setFileImage] = useState("");
-
   const [request, setRequest] = useState({
     imageUrl: "",
     tag: "태그",
     content: "",
   });
-
   const [validityCheck, setValidityCheck] = useState({
     isProfileImageUrlPass: false,
   });
-
   const [inform, newInform] = useState();
-  const [seq, setSeq] = useState();
+
+  const navigate = useNavigate();
 
   const cookie = new Cookies();
   const token = cookie.get("token");
-  // const [dropDown, setDropDown] = useState(false);
+
   const [isOpen, setIsOpen] = useState(false);
   const [isOpen2, setIsOpen2] = useState(false);
 
@@ -332,7 +316,6 @@ export default function Gallery() {
     const res = await postImage(formData);
     console.log(res);
     let imageUrl = res.data[0].split("?")[0];
-    console.log(imageUrl);
     setRequest({
       ...request,
       imageUrl: imageUrl,

@@ -72,7 +72,7 @@ export const guestSignup = async () => {
     // console.log(res);
     return res;
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     alert("다시 시도해주세요.");
   }
 };
@@ -91,7 +91,7 @@ export const guestLogin = async () => {
     // console.log(res);
     return res;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 };
 
