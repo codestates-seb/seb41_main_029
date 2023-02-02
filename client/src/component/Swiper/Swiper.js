@@ -1,22 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
-
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/scrollbar";
-
 import "./styles.css";
-
 import { Scrollbar } from "swiper";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as faSolidHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart as faSolidHeart,
+  faSpinner,
+} from "@fortawesome/free-solid-svg-icons";
 
-import SwiperDummyData from "./SwiperDummyData";
+import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
+import { useInfiniteScrollSensor } from "../useInfiniteScrollSensor";
 
 const Wrapper = styled.div`
   img {
@@ -43,6 +44,10 @@ const Wrapper = styled.div`
   .ha {
     flex-direction: column;
     justify-content: center;
+  }
+
+  .h668 {
+    height: 668px;
   }
 
   .heartanimation {
@@ -125,11 +130,13 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function SwiperComponent({ postList }) {
- const [heart, setHeart] = useState(
-    SwiperDummyData.map((e) => e.isHearCliked)
-  );
-  const [likes, setLikes] = useState(SwiperDummyData.map((e) => e.likes));
+export default function SwiperComponent({ postList, sortby }) {
+  const [post, setPost] = useState(postList);
+  const [heart, setHeart] = useState(post?.map((e) => e.likedStatus));
+  const [likes, setLikes] = useState(post?.map((e) => e.liked));
+  const [postLength, setPostLength] = useState(0);
+
+  const infiniteScrollSensor = useInfiniteScrollSensor(setPost, sortby);
 
   const UseClickHeart = (idx) => {
     if (heart[idx] === false) {
@@ -148,43 +155,64 @@ export default function SwiperComponent({ postList }) {
       setLikes(likesState);
     }
   };
-  console.log(postList);
 
-  const swiperSlideMaker = SwiperDummyData.map((e, idx) => {
-    return (
-      <SwiperSlide>
-        <div className="flex post">
-          <img src={e.img} alt="postimage" />
-          <div className="content">
-            <div className="divider" />
-            <div className="flex jcsb mb10">
-              <div className="mr10">
-                <div className="flex mb10">
-                  {e.icon}
-                  <div className="va"> {e.nickname} </div>
+  useEffect(() => {
+    setHeart(post?.map((e) => e.likedStatus));
+  }, [post]);
+
+  useEffect(() => {
+    setLikes(post?.map((e) => e.liked));
+  }, [post]);
+
+  useEffect(() => {
+    post !== undefined && setPostLength(Object.keys(post).length);
+  }, [post]);
+
+  const swiperSlideMaker = post?.map((e, idx) => {
+    if (heart !== undefined && likes !== undefined) {
+      return (
+        <SwiperSlide>
+          <div className="flex post">
+            <img src={e.imgUrl} alt="postimage" />
+            <div className="content">
+              <div className="divider" />
+              <div className="flex jcsb mb10">
+                <div className="mr10">
+                  <div className="flex mb10">
+                    {e?.userRole === "USER" ? (
+                      <>
+                        {0 <= e?.point && e?.point <= 30 ? <Icon1 /> : ""}
+                        {31 <= e?.point && e?.point <= 70 ? <Icon2 /> : ""}
+                        {71 <= e?.point && e?.point <= 100 ? <Icon3 /> : ""}
+                        {101 <= e?.point && e?.point <= 200 ? <Icon4 /> : ""}
+                        {201 <= e?.point && e?.point <= 300 ? <Icon5 /> : ""}
+                        {301 <= e?.point ? <Icon6 /> : ""}{" "}
+                      </>
+                    ) : null}
+                    <div className="va"> {e.username} </div>
+                  </div>
+                  <div className="flex">
+                    <div className="mr10 tag"> {e.tags} </div>
+                  </div>
                 </div>
-                <div className="flex">
-                  {e.tags.map((e) => {
-                    return <div className="mr10 tag"> # {e} </div>;
-                  })}
+                <div className="flex mr10 mt10">
+                  <FontAwesomeIcon
+                    icon={heart[idx] ? faSolidHeart : faHeart}
+                    color="#62B6B7"
+                    size="xl"
+                    className={heart[idx] ? "heartanimation mr10" : "mr10"}
+                    onClick={() => UseClickHeart(idx)}
+                    {...useInfiniteScrollSensor}
+                  />
+                  <div>{likes[idx]}</div>
                 </div>
               </div>
-              <div className="flex mr10 mt10">
-                <FontAwesomeIcon
-                  icon={heart[idx] ? faSolidHeart : faHeart}
-                  color="#62B6B7"
-                  size="xl"
-                  className={heart[idx] ? "heartanimation mr10" : "mr10"}
-                  onClick={() => UseClickHeart(idx)}
-                />
-                <div>{likes[idx]}</div>
-              </div>
+              <div className="phrase">" {e.content} "</div>
             </div>
-            <div className="phrase">" {e.comment} "</div>
           </div>
-        </div>
-      </SwiperSlide>
-    );
+        </SwiperSlide>
+      );
+    }
   });
 
   return (
@@ -199,6 +227,24 @@ export default function SwiperComponent({ postList }) {
         className="mySwiper"
       >
         {swiperSlideMaker}
+        <SwiperSlide>
+          <div className="flex h668 post">
+            {postLength % 10 !== 0 ? (
+              <>
+                <div>포스트가 더 없습니다!</div>
+                <div>새로운 포스트를 등록해보시겠어요?</div>
+              </>
+            ) : (
+              <FontAwesomeIcon
+                icon={faSpinner}
+                color="#62B6B7"
+                size="xl"
+                spin
+                {...infiniteScrollSensor}
+              />
+            )}
+          </div>
+        </SwiperSlide>
       </Swiper>
     </Wrapper>
   );
