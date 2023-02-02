@@ -58,16 +58,16 @@ public class GalleryController {
         return ApiResponse.success("galleries", galleryMapper.galleriesToGalleryResponsesDto(galleries));
     }
 
-    //추천 10개 이상 게시글 조회
-    @GetMapping("/recommended")
-    @ResponseStatus(HttpStatus.OK)
-    public ApiResponse getRecommendGallery(@RequestParam(value = "sort-by") String sortBy,
-                                   @Positive @RequestParam("page") int page,
-                                   @Positive @RequestParam("size") int size) {
-        List<Gallery> galleries = galleryService.findAllGalleryRecommend(page -1, size, sortBy).getContent();
-
-        return ApiResponse.success("galleries", galleryMapper.galleriesToGalleryResponsesDto(galleries));
-    }
+//    //추천 10개 이상 게시글 조회
+//    @GetMapping("/recommended")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ApiResponse getRecommendGallery(@RequestParam(value = "sort-by") String sortBy,
+//                                   @Positive @RequestParam("page") int page,
+//                                   @Positive @RequestParam("size") int size) {
+//        List<Gallery> galleries = galleryService.findAllGalleryRecommend(page -1, size, sortBy).getContent();
+//
+//        return ApiResponse.success("galleries", galleryMapper.galleriesToGalleryResponsesDto(galleries));
+//    }
 
 
 

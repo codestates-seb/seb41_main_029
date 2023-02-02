@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface GalleryRepository extends JpaRepository<Gallery, Long>, JpaSpecificationExecutor<Gallery> {
+public interface GalleryRepository extends JpaRepository<Gallery, Long> /*JpaSpecificationExecutor<Gallery> */{
 
         List<Gallery> findAllByUser(User user);
 

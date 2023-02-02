@@ -91,24 +91,24 @@ public class GalleryService {
         return PageRequest.of(page, size, Sort.by(sortBy).descending());
     }
 
-    public Page<Gallery> findAllGalleryRecommend(int page, int size, String sortBy) {
-        User user = getPrincipal();
-        List<Gallery> galleries = galleryRepository.findAll();
-
-        // Filter the galleries list based on your criteria
-        List<Gallery> filteredGalleries = galleries.stream()
-                .filter(gallery -> gallery.getLiked() >= 3)
-                .collect(Collectors.toList());
-
-        for(Gallery gallery : filteredGalleries) {
-            if (!hasLikeGallery(gallery, user)) {
-                gallery.setLikedStatus(false);
-            }else gallery.setLikedStatus(true);
-        }
-
-        // Return a Page containing the filtered galleries list
-        return new PageImpl<>(filteredGalleries, getPageRequest(page, size, sortBy), filteredGalleries.size());
-    }
+//    public Page<Gallery> findAllGalleryRecommend(int page, int size, String sortBy) {
+//        User user = getPrincipal();
+//        List<Gallery> galleries = galleryRepository.findAll();
+//
+//        // Filter the galleries list based on your criteria
+//        List<Gallery> filteredGalleries = galleries.stream()
+//                .filter(gallery -> gallery.getLiked() >= 3)
+//                .collect(Collectors.toList());
+//
+//        for(Gallery gallery : filteredGalleries) {
+//            if (!hasLikeGallery(gallery, user)) {
+//                gallery.setLikedStatus(false);
+//            }else gallery.setLikedStatus(true);
+//        }
+//
+//        // Return a Page containing the filtered galleries list
+//        return new PageImpl<>(filteredGalleries, getPageRequest(page, size, sortBy), filteredGalleries.size());
+//    }
 
 
     public String removeLikedGallery(Gallery gallery, User user) {
