@@ -1,5 +1,4 @@
-import { fontWeight } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -101,42 +100,19 @@ export default function Gallery() {
 
   const cookie = new Cookies();
   const token = cookie.get("token");
+
   const post = () => {
     setDropDown(!dropDown);
   };
-  const newHandle = () => {
-    async function getNewGallery() {
-      const res = await newGallery(token);
-      // for (let key in res) {
-      //   setNewInfor(res[key]);
-      // }
-      newInform(res);
-    }
-    getNewGallery(token);
-  };
-  const likeHandle = () => {
-    async function getlikeGallery() {
-      const res = await likedGallery(token);
-      // for (let key in res) {
-      //   setLikeNewInfor(res[key]);
-      // }
-      newInform(res);
-    }
-    getlikeGallery(token);
-  };
+
   useEffect(() => {
     async function getNewGallery() {
-      const res = await newGallery(token);
+      const res = await newGallery(token, 10);
       newInform(res);
-      // console.log(res);
-      // for (let key in res) {
-      //   setSeq(res[key]);
-      // }
     }
     getNewGallery();
   }, []);
 
-  console.log(seq);
   return (
     <>
       <Wrapper>
@@ -170,7 +146,6 @@ export default function Gallery() {
                 }}
                 onClick={() => {
                   setSortby("최신순");
-                  newHandle();
                 }}
               >
                 최신순
@@ -192,8 +167,7 @@ export default function Gallery() {
               </Liked>
             </FliterLaout>
           </div>
-          <SwiperComponent seq={seq} postList={inform} />
-          {/* <Swipers postLists={inform} /> */}
+          <SwiperComponent postList={inform} sortby={sortby} />
           <div className="floor" />
         </div>
       </Wrapper>

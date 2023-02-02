@@ -96,7 +96,7 @@ const SwiperDummyData = [
     isHearCliked: false,
     likes: 10,
     tags: ["태그101"],
-    comment: "가나다라마바사아자차",
+    comment: "가나다라마바사아자차가가가가가가가가가가",
   },
 ];
 

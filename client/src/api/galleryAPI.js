@@ -9,7 +9,6 @@ export const getGallery = async () => {
       url: `${url}gallery`,
       //   headers: { Authorization: `Bearer ${token}` },
     });
-    console.log(res);
     return res.data;
   } catch (error) {
     console.log(error);
@@ -59,60 +58,29 @@ export const voteGallery = async (token) => {
   }
 };
 
-export const newGallery = async (token) => {
-  if (token) {
-    try {
-      const res = await axios({
-        method: "get",
-        url: `${url}gallery/all/?page=${1}&size=7&sort-by=최신순`,
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      // console.log(res?.data?.body?.galleries);
-      return res?.data?.body?.galleries;
-    } catch (error) {
-      // console.log(error);
-    }
-  } else if (!token) {
-    try {
-      const res = await axios({
-        method: "get",
-        url: `${url}gallery/all/?page=${1}&size=7&sort-by=최신순`,
-        // headers: { Authorization: `Bearer ${token}` },
-      });
-      // console.log(res?.data?.body?.galleries);
-      return res?.data?.body?.galleries;
-    } catch (error) {
-      // console.log(error);
-    }
+export const newGallery = async (token, size) => {
+  try {
+    const res = await axios({
+      method: "get",
+      url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=최신순`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res?.data?.body?.galleries;
+  } catch (error) {
+    console.log(error);
   }
 };
 
-export const likedGallery = async (token) => {
-  if (token) {
-    try {
-      const res = await axios({
-        method: "get",
-        //   url: `${url}gallery/all/?page=1&size=30&sort-by=최신순`,
-        url: `${url}gallery/all/?page=${1}&size=7&sort-by=추천순`,
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      // console.log(res?.data?.body?.galleries);
-      return res?.data?.body?.galleries;
-    } catch (error) {
-      // console.log(error);
-    }
-  } else if (!token) {
-    try {
-      const res = await axios({
-        method: "get",
-        //   url: `${url}gallery/all/?page=1&size=30&sort-by=최신순`,
-        url: `${url}gallery/all/?page=${1}&size=7&sort-by=추천순`,
-        // headers: { Authorization: `Bearer ${token}` },
-      });
-      // console.log(res?.data?.body?.galleries);
-      return res?.data?.body?.galleries;
-    } catch (error) {
-      // console.log(error);
-    }
+export const likedGallery = async (token, size) => {
+  try {
+    const res = await axios({
+      method: "get",
+      //   url: `${url}gallery/all/?page=1&size=30&sort-by=최신순`,
+      url: `${url}gallery/all/?page=${1}&size=${size}&sort-by=추천순`,
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return res?.data?.body?.galleries;
+  } catch (error) {
+    console.log(error);
   }
 };

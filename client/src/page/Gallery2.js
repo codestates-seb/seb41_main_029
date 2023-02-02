@@ -1,5 +1,4 @@
-import { fontWeight } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -7,6 +6,7 @@ import { likedGallery, newGallery } from "../api/galleryAPI";
 import { MainBtn } from "../component/Button";
 
 import SwiperComponent from "../component/Swiper/Swiper";
+// import Swipers from "../component/Swiper/Swipers";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -91,51 +91,28 @@ const SubmitLayout = styled.div`
   margin-right: 20px;
   justify-content: right;
 `;
-export default function Gallery2() {
+export default function Gallery() {
   const [dropDown, setDropDown] = useState(false);
-  const [sortby, setSortby] = useState("좋아요순");
+  const [sortby, setSortby] = useState("종아요순");
   const navigate = useNavigate();
   const [inform, newInform] = useState();
   const [seq, setSeq] = useState();
 
   const cookie = new Cookies();
   const token = cookie.get("token");
+
   const post = () => {
     setDropDown(!dropDown);
   };
-  const newHandle = () => {
-    async function getNewGallery() {
-      const res = await newGallery(token);
-      // for (let key in res) {
-      //   setNewInfor(res[key]);
-      // }
-      newInform(res);
-    }
-    getNewGallery(token);
-  };
-  const likeHandle = () => {
-    async function getlikeGallery() {
-      const res = await likedGallery(token);
-      // for (let key in res) {
-      //   setLikeNewInfor(res[key]);
-      // }
-      newInform(res);
-    }
-    getlikeGallery(token);
-  };
-  useEffect(() => {
-    async function getlikeGallery() {
-      const res = await likedGallery(token);
-      newInform(res);
-      console.log(res);
-      // for (let key in res) {
-      //   setSeq(res[key]);
-      // }
-    }
-    getlikeGallery();
-  }, []);
 
-  console.log(seq);
+  useEffect(() => {
+    async function getNewGallery() {
+      const res = await likedGallery(token, 10);
+      newInform(res);
+    }
+    getNewGallery();
+  }, []);
+  console.log(inform);
   return (
     <>
       <Wrapper>
@@ -162,14 +139,13 @@ export default function Gallery2() {
             <FliterLaout>
               <Newest
                 style={{
-                  fontSize: sortby === "최신순" ? "18px" : "16px",
-                  color: sortby === "최신순" ? "black" : "",
-                  fontWeight: sortby === "최신순" ? "700" : "",
+                  //   fontSize: sortby === "최신순" ? "18px" : "16px",
+                  //   color: sortby === "최신순" ? "black" : "",
+                  //   fontWeight: sortby === "최신순" ? "700" : "",
                   cursor: "pointer",
                 }}
                 onClick={() => {
                   //   setSortby("최신순");
-                  //   newHandle();
                   navigate("/gallery");
                 }}
               >
@@ -177,22 +153,22 @@ export default function Gallery2() {
               </Newest>
               <Liked
                 style={{
-                  fontSize: sortby === "좋아요순" ? "18px" : "16px",
-                  color: sortby === "좋아요순" ? "black" : "",
-                  fontWeight: sortby === "좋아요순" ? "700" : "",
+                  fontSize: "18px",
+                  color: "black",
+                  fontWeight: "700",
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  //   setSortby("좋아요순");
-                  //   likeHandle();
+                  // setSortby("좋아요순");
+                  // likeHandle();
+                  //   navigate("/gallery2");
                 }}
               >
                 좋아요순
               </Liked>
             </FliterLaout>
           </div>
-          <SwiperComponent seq={seq} postList={inform} />
-          {/* <Swipers postLists={inform} /> */}
+          <SwiperComponent postList={inform} sortby={sortby} />
           <div className="floor" />
         </div>
       </Wrapper>
