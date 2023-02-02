@@ -36,6 +36,7 @@ public class GalleryDto {
         private Long gallerySeq;
         private String title;
         private String username;
+        private String userId;
         private String content;
         private String imageUrl;
         private String tag;
@@ -66,6 +67,7 @@ public class GalleryDto {
         private String imgUrl;
         private String userRole;
         private String username;
+        private String userId;
         private String content;
         private String tags;
         private boolean likedStatus;

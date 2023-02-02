@@ -27,7 +27,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final DislikeCommentRepository dislikeCommentRepository;
     private final LikeCommentRepository likeCommentRepository;
-    private final BoardRepository boardRepository;
     private final BoardService boardService;
     private final static String SUCCESS_LIKE_COMMENT = "추천 처리 완료";
     private final static String FAIL_LIKE_COMMENT = "이미 추천을 누르셨습니다.";

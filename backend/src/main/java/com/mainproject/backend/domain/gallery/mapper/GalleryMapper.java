@@ -34,6 +34,7 @@ public interface GalleryMapper {
                         .imgUrl(gallery.getImageUrl())
                         .userRole(gallery.getUser().getRoleType().toString())
                         .username(gallery.getUser().getUsername())
+                        .userId(gallery.getUser().getUserId())
                         .content(gallery.getContent())
                         .tags(gallery.getTag())
                         .liked(gallery.getLiked())

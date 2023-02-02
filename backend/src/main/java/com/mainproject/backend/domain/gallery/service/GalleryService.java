@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class GalleryService {
     private final GalleryRepository galleryRepository;
     private final LikeGalleryRepository likeGalleryRepository;
-    private final UserRepository userRepository;
     private final static String SUCCESS_LIKE_GALLERY = "추천 처리 완료";
     private final static String FAIL_LIKE_GALLERY = "추천이 취소되었습니다..";
 

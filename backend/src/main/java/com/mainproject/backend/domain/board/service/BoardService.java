@@ -10,6 +10,8 @@ import com.mainproject.backend.domain.board.repositoty.BoardRepository;
 import com.mainproject.backend.domain.board.repositoty.BookmarkRepository;
 import com.mainproject.backend.domain.board.repositoty.DislikeBoardRepository;
 import com.mainproject.backend.domain.board.repositoty.LikeBoardRepository;
+import com.mainproject.backend.domain.comment.entity.Comment;
+import com.mainproject.backend.domain.comment.repository.CommentRepository;
 import com.mainproject.backend.domain.users.entity.User;
 import com.mainproject.backend.domain.users.repository.UserRepository;
 import com.mainproject.backend.global.exception.BookmarkNotFoundException;
@@ -42,6 +44,7 @@ public class BoardService {
     private final DislikeBoardRepository dislikeBoardRepository;
     private final BookmarkRepository bookmarkRepository;
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
 
 
 
@@ -165,6 +168,9 @@ public class BoardService {
         }
         findBoard.setBoardStatus(Board.BoardStatus.BOARD_NOT_EXIST);
         boardRepository.save(findBoard);  //db에 질문은 남기고 존재 유무로 삭제를 결정한다.
+
+        List<Comment> comment = commentRepository.findAllByBoardExists(Board.BoardStatus.BOARD_NOT_EXIST);
+
     }
 
     //질문 작성자 아이디 찾는 메서드
