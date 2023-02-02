@@ -30,121 +30,146 @@ const SpanTitle = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 24px;
+
   .SpanTitle {
     font-size: ${({ theme }) => theme.fontSizes.fs24};
-    width: 100px;
-    /* margin-left: -24px; */
-    display: flex;
+    width: 45px;
+
     @media (max-width: 1336px) {
-      width: 150px;
       padding-left: 5%;
+      white-space: nowrap;
     }
-    // 400이 되면 또 세로로 된다 카테고리가 너무 크다 줄여보자
-    @media (max-width: 455px) {
+    @media (max-width: 500px) {
       font-size: ${theme.fontSizes.fs18};
-      margin-top: 6px;
-      display: flex;
-      justify-content: center;
+      display: none;
     }
   }
   input {
-    width: 800px;
+    width: 860px;
     height: 40px;
     border-radius: 8px;
+    outline: none;
     border: none;
-    /* margin-right: 28px; */
-    @media (max-width: 1336px) {
-      width: 90%;
-    }
-  }
-  .menu > {
-    button {
-      border: none;
-      background-color: ${({ theme }) => theme.colors.white};
-      cursor: pointer;
+    @media (max-width: 500px) {
+      width: 100%;
+      margin-left: 20px;
     }
   }
 `;
+
 const SpanContent = styled.div`
   /* width: 1070px; */
   width: 100%;
   display: flex;
   gap: 20px;
   justify-content: center;
+
+  @media (max-width: 1336px) {
+    display: flex;
+    align-items: center;
+  }
 `;
-// 전체
+const MuiContainer = styled.div`
+  @media (max-width: 1336px) {
+    margin-right: 18px;
+  }
+  button {
+    border: none;
+    background-color: ${({ theme }) => theme.colors.white};
+    cursor: pointer;
+  }
+`;
 const CategoryBox = styled(Box)`
-  width: 100%;
+  width: 180px;
+  display: flex;
+
+  @media (max-width: 1336px) {
+    width: 150px;
+  }
+  @media (max-width: 1250px) {
+    width: 120px;
+  }
+
+  @media (max-width: 500px) {
+    display: flex;
+    float: right;
+    width: 115px;
+  }
+  // 맞춤 사이즈
+  .css-1nrlq1o-MuiFormControl-root {
+    @media (max-width: 1336px) {
+      width: 80%;
+    }
+    @media (max-width: 500px) {
+      width: 90%;
+      margin-left: 12px;
+    }
+  }
 `;
 // 카테고리 글씨 움직이는 틀
 const CategoryInputLabel = styled(InputLabel)`
   width: 100%;
   margin: -8px 0 0px 12px;
+  display: none;
+  @media (max-width: 1336px) {
+    margin: -10px 0 0 0;
+  }
   .CategorySpan {
     @media (max-width: 1336px) {
-      font-size: 14px;
+      font-size: ${theme.fontSizes.fs12};
     }
   }
-  /* @media (max-width: 1336px) {
-    width: 50%;
-    font-size: 12px;
-  } */
 `;
-//.
+
 const CategorySelect = styled(Select)`
   height: 40px;
-  // icon
-  // 반응형을 줬을 때 아이콘이 변함
+
+  // icon(삼각형)
   .css-hfutr2-MuiSvgIcon-root-MuiSelect-icon {
     color: ${({ theme }) => theme.colors.main};
     font-size: ${({ theme }) => theme.fontSizes.fs64};
-    margin-right: 8px;
+    width: 60px;
+
     @media (max-width: 1336px) {
-      width: 30%;
+      width: 35%;
     }
   }
 `;
 // 전체 크기
 const CategoryFormControl = styled(FormControl)`
   width: 100%;
+
   border-radius: 8px;
   background-color: ${({ theme }) => theme.colors.white};
+
   label {
     font-weight: 800;
     font-family: "Noto Sans CJK KR";
   }
-  // X
-  .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
-    margin: 8px 0 0 12px;
-    font-size: ${({ theme }) => theme.fontSizes.fs18};
-  }
-  // x
+  // 카테고리 위에 뜨는 텍스트 지워주는 classname
   .css-1sumxir-MuiFormLabel-root-MuiInputLabel-root {
     display: none;
+  }
+
+  .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input.MuiSelect-select {
+    font-size: 14px;
   }
   //전체 크기
   @media (max-width: 1336px) {
     width: 70%;
   }
-  /* @media (max-width: 850px) {
-    width: 75%;
-    background-color: black;
-  } */
-  .css-1m5xwth-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root {
-    @media (max-width: 850px) {
-    }
+  @media (max-width: 360px) {
+    width: 45%;
   }
 `;
-
 const CategoryMenuItem = styled(MenuItem)``;
-
 const BottomDiv = styled.div`
   width: 100%;
   height: 100%;
   justify-content: center;
   display: flex;
   margin-top: 40px;
-
+  margin-bottom: 24px;
   @media (max-width: 1336px) {
     width: 100%;
 
@@ -325,9 +350,9 @@ const EditWritingEditor = ({ setImage }) => {
                 // value={detail}
                 onChange={titleChange}
               />
-              <div className="menu">
+              <MuiContainer>
                 {/* mui 사용 */}
-                <CategoryBox sx={{ minWidth: 180 }}>
+                <CategoryBox>
                   <CategoryFormControl>
                     <CategoryInputLabel id="demo-simple-select-label">
                       <span className="CategorySpan">{category}</span>
@@ -336,7 +361,7 @@ const EditWritingEditor = ({ setImage }) => {
                     <CategorySelect
                       sx={{
                         boxShadow: "none",
-                        ".MuiOutlinedInput-notchedOutline": { border: 0 },
+                        ".MuiOutlinedInput-notchedOutline": { border: "none" },
                       }}
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
@@ -356,7 +381,7 @@ const EditWritingEditor = ({ setImage }) => {
                     </CategorySelect>
                   </CategoryFormControl>
                 </CategoryBox>
-              </div>
+              </MuiContainer>
             </SpanContent>
           </SpanTitle>
           <CKEditor

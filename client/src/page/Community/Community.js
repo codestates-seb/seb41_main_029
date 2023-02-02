@@ -469,12 +469,12 @@ export default function Community() {
       for (let key in res.data.body) {
         const total = key;
         setPageCount(total / limit);
+        // console.log(sortby2);
       }
     } catch (err) {
       throw err;
     }
   };
-
   // 검색 데이터
   const handleLoadSearch = async (e) => {
     try {

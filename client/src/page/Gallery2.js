@@ -195,12 +195,12 @@ export default function Gallery() {
     }
 
     setFileImage(URL.createObjectURL(file));
-    console.log(file);
+    // console.log(file);
     const formData = new FormData();
     formData.append("files", file);
-    console.log(formData);
+    // console.log(formData);
     const res = await postImage(formData);
-    console.log(res);
+    // console.log(res);
     let profilImageUrl = res.data[0].split("?")[0];
     setRequest({
       ...request,
