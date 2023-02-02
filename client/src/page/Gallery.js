@@ -28,18 +28,71 @@ const Wrapper = styled.div`
     width: 95%;
   }
 `;
-const PostContainer = styled.div`
-  /* display: flex; */
-  /* align-items: center; */
-  /* justify-content: space-between; */
+
+// 모달창
+export const ModalBackdrop = styled.div`
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: grid;
+  place-items: center;
 `;
+
+// export const ModalBtn = styled.button`
+//   background-color: ${theme.colors.main};
+//   text-decoration: none;
+//   border: none;
+//   padding: 10px;
+//   color: white;
+//   border-radius: 10px;
+//   cursor: grab;
+//   margin-top: 10px;
+//   margin-right: 10px;
+//   @media screen and (max-width: 430px) {
+//     font-size: 12px;
+//   }
+// `;
+
+export const ModalView = styled.div.attrs((props) => ({
+  // attrs 메소드를 이용해서 아래와 같이 div 엘리먼트에 속성을 추가할 수 있습니다.
+  role: "dialog",
+}))`
+  border-radius: 10px;
+  background-color: #ffffff;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+
+  > span.close-btn {
+    margin-top: 5px;
+    cursor: pointer;
+  }
+
+  > div.desc {
+    margin-top: 25px;
+    color: gray;
+    text-align: center;
+    font-size: 20px;
+  }
+`;
+
+const PostContainer = styled.div``;
 const ImgContainer = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 360px;
+  height: 300px;
   border: 1px solid grey;
 
   margin-top: 16px;
   margin-left: 16px;
+`;
+
+const Input = styled.div`
+  width: 360px;
+  height: 30px;
+  border: 1px solid grey;
 `;
 const FliterLaout = styled.div`
   display: flex;
@@ -59,11 +112,15 @@ const Source = styled.div`
   margin-right: 20px;
 `;
 const PostLayout = styled.div`
-  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  /* width: 320px;
   height: 200px;
   border: 3px solid #a0c3d2;
   border-radius: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 16px; */
 `;
 const Submit = styled.button`
   width: 50px;
@@ -79,15 +136,34 @@ const Submit = styled.button`
 `;
 const SubmitLayout = styled.div`
   display: flex;
-  margin-top: 115px;
+  /* margin-top: 115px; */
   margin-right: 20px;
   justify-content: right;
 `;
+
 export default function Gallery() {
-  const [dropDown, setDropDown] = useState(false);
+  // const [dropDown, setDropDown] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
   const post = () => {
-    setDropDown(!dropDown);
+    // setDropDown(!dropDown);
+    setIsOpen(!isOpen);
   };
+
+  const openModalHandler = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const menuClick = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      document.body.style.cssText = `overflow: auto;`;
+    } else {
+      setIsOpen(true);
+      document.body.style.cssText = `overflow: hidden;`;
+    }
+  };
+
   return (
     <>
       <Wrapper>
@@ -96,9 +172,12 @@ export default function Gallery() {
             <MainBtn
               style={{ marginBottom: "16px" }}
               text={"POST"}
-              onclick={post}
+              onclick={() => {
+                menuClick();
+                post();
+              }}
             />
-            {dropDown ? (
+            {/* {dropDown ? (
               <PostLayout>
                 <ImgContainer></ImgContainer>
                 <Source>
@@ -108,6 +187,28 @@ export default function Gallery() {
                   <Submit>등록</Submit>
                 </SubmitLayout>
               </PostLayout>
+            ) : null} */}
+            {isOpen === true ? (
+              <ModalBackdrop>
+                <ModalView width="410px" height="420px">
+                  <PostLayout>
+                    <ImgContainer>이미지를 첨부해주세요.</ImgContainer>
+                    <Input>태그를 입력해주세요.</Input>
+                    <Input>글을 작성해주세요. (글자수제한)</Input>
+                    <SubmitLayout>
+                      <Submit
+                        onClick={() => {
+                          openModalHandler();
+                          menuClick();
+                        }}
+                      >
+                        취소
+                      </Submit>
+                      <Submit>등록</Submit>
+                    </SubmitLayout>
+                  </PostLayout>
+                </ModalView>
+              </ModalBackdrop>
             ) : null}
           </PostContainer>
           <div className="roof">
