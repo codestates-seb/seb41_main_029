@@ -167,10 +167,12 @@ export default function MyPageEdit() {
     const res = await postImage(formData);
     console.log(res);
     let profilImageUrl = res.data[0].split("?")[0];
+    console.log(profilImageUrl);
     setRequest({
       ...request,
       profileImageUrl: profilImageUrl,
     });
+    console.log(request);
     if (validityCheck.profilImageUrl === "") {
       setValidityCheck({
         ...validityCheck,
