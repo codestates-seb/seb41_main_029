@@ -15,11 +15,11 @@ export const getGallery = async () => {
   }
 };
 
-export const postGallery = async (token) => {
+export const postGallery = async (token, formdata2) => {
   try {
     const res = await axios({
       method: "post",
-      //   data: formdata,
+      data: formdata2,
       url: `${url}gallery/post`,
       headers: { Authorization: `Bearer ${token}` },
     });
