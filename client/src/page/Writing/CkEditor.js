@@ -112,7 +112,9 @@ export default function CkEditor({ setImage, title, category }) {
       .then((res) => {
         navigate("/community");
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
     if (category === "") {
       return alert("카테고리를 입력하세요");
     } else if (title === "") {

@@ -1,3 +1,4 @@
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Carousel from "../component/Carousel";
 import { useScrollFadeIn } from "../component/useScrollFadeIn";
@@ -44,10 +45,12 @@ const Card = styled.div`
   .fs64 {
     font-size: ${(props) => props.theme.fontSizes.fs64};
     font-weight: bold;
+    cursor: pointer;
   }
   .fs48 {
     font-size: ${(props) => props.theme.fontSizes.fs48};
     color: #dbdbdb;
+    cursor: pointer;
   }
   .fs30 {
     font-size: ${(props) => props.theme.fontSizes.fs30};
@@ -120,6 +123,26 @@ export default function LandingPage() {
   const animatedItem4 = useScrollMoveIn();
   const animatedItem5 = useScrollMoveIn();
   const animatedItem6 = useScrollMoveIn();
+  const animatedItem7 = useScrollFadeIn();
+  const animatedItem8 = useScrollMoveIn();
+  const animatedItem9 = useScrollMoveIn();
+  const navigate = useNavigate();
+  const goCom = () => {
+    // navigate("/community");
+    // window.location.replace("/community");
+    window.location.href = "/community";
+    // window.location.reload();
+  };
+  const goHi = () => {
+    navigate("/hikingmap");
+    window.location.href = "/hikingmap";
+    // window.location.reload();
+  };
+  const goGa = () => {
+    navigate("/gallery");
+    window.location.href = "/gallery";
+    // window.location.reload();
+  };
 
   return (
     <>
@@ -138,8 +161,12 @@ export default function LandingPage() {
               {...animatedItem1}
             />
             <div className="desktopVer text ra" {...animatedItem3}>
-              <div className="fs64 mt80">community</div>
-              <div className="fs48">커뮤니티</div>
+              <div onClick={goCom} className="fs64 mt80">
+                community
+              </div>
+              <div onClick={goCom} className="fs48">
+                커뮤니티
+              </div>
               <div className="fs30">
                 등산을 좋아하는 사람들과 함께 이야기를 나누어보세요 <br />
                 정보를 공유하고 질문할 수도 있어요 <br />
@@ -148,8 +175,12 @@ export default function LandingPage() {
             </div>
             <div>
               <div className="tabletVer text" {...animatedItem4}>
-                <div className="fs64 mt80">community</div>
-                <div className="fs48">커뮤니티</div>
+                <div onClick={goCom} className="fs64 mt80">
+                  community
+                </div>
+                <div onClick={goCom} className="fs48">
+                  커뮤니티
+                </div>
                 <div className="fs30">
                   등산을 좋아하는 사람들과 함께 이야기를 나누어보세요 <br />
                   정보를 공유하고 질문할 수도 있어요 <br />
@@ -163,16 +194,24 @@ export default function LandingPage() {
           <div className="flex mtb200 sa">
             <div>
               <div className="tabletVer text" {...animatedItem5}>
-                <div className="fs64 mt80">hikingmap</div>
-                <div className="fs48">등산지도</div>
+                <div onClick={goHi} className="fs64 mt80">
+                  hikingmap
+                </div>
+                <div onClick={goHi} className="fs48">
+                  등산지도
+                </div>
                 <div className="fs30">
                   날씨, 산 위치, 등산로 등을 찾아볼 수 있는 지도입니다
                 </div>
               </div>
             </div>
             <div className="desktopVer text mr50" {...animatedItem6}>
-              <div className="fs64 mt80">hikingmap</div>
-              <div className="fs48">등산지도</div>
+              <div onClick={goHi} className="fs64 mt80">
+                hikingmap
+              </div>
+              <div onClick={goHi} className="fs48">
+                등산지도
+              </div>
               <div className="fs30">
                 날씨, 산 위치, 등산로 등을 찾아볼 수 있는 지도입니다
               </div>
@@ -185,6 +224,45 @@ export default function LandingPage() {
               alt="card 2"
               {...animatedItem2}
             ></img>
+          </div>
+        </Card>
+        <Card>
+          <div className="flex mtb200 tar">
+            {/* 구조분해할당을 통해 해당 컴포넌트에 속성값 부여 */}
+            <img
+              src={process.env.PUBLIC_URL + "/image/gallery.jpeg"}
+              alt="card 1"
+              className="mr50"
+              {...animatedItem7}
+            />
+
+            <div className="desktopVer text ra" {...animatedItem8}>
+              <div onClick={goGa} className="fs64 mt80">
+                gallery
+              </div>
+              <div onClick={goGa} className="fs48">
+                갤러리
+              </div>
+
+              <div className="fs30">
+                등산하면서 찍었던 사진을 간단하게 올려보세요 <br />
+                마음에 드는 사진은 하트를 눌러주세요 <br />
+              </div>
+            </div>
+            <div>
+              <div className="tabletVer text" {...animatedItem9}>
+                <div onClick={goGa} className="fs64 mt80">
+                  gallery
+                </div>
+                <div onClick={goGa} className="fs48">
+                  갤러리
+                </div>
+                <div className="fs30">
+                  등산하면서 찍었던 사진을 간단하게 올려보세요 <br />
+                  마음에 드는 사진은 하트를 눌러주세요 <br />
+                </div>
+              </div>
+            </div>
           </div>
         </Card>
       </Wrapper>

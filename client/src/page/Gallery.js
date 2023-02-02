@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { fontWeight } from "@mui/system";
 import { useEffect, useState, useRef } from "react";
 import { Cookies } from "react-cookie";
@@ -187,6 +188,7 @@ export default function Gallery() {
   });
 
   const [inform, newInform] = useState();
+  const [seq, setSeq] = useState();
 
   const cookie = new Cookies();
   const token = cookie.get("token");
@@ -307,14 +309,12 @@ export default function Gallery() {
   };
   useEffect(() => {
     async function getNewGallery() {
-      const res = await newGallery(token);
+      const res = await newGallery(token, 10);
       newInform(res);
-      console.log(res);
     }
     getNewGallery();
   }, []);
 
-  console.log(inform);
   return (
     <>
       <Wrapper>
@@ -379,7 +379,6 @@ export default function Gallery() {
                 }}
                 onClick={() => {
                   setSortby("최신순");
-                  newHandle();
                 }}
               >
                 최신순
@@ -392,15 +391,16 @@ export default function Gallery() {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  setSortby("좋아요순");
-                  likeHandle();
+                  // setSortby("좋아요순");
+                  // likeHandle();
+                  navigate("/gallery2");
                 }}
               >
                 좋아요순
               </Liked>
             </FliterLaout>
           </div>
-          <SwiperComponent postList={inform} />
+          <SwiperComponent postList={inform} sortby={sortby} />
           <div className="floor" />
         </div>
       </Wrapper>
