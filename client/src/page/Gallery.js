@@ -1,6 +1,7 @@
-import { fontWeight } from "@mui/system";
-import { useEffect, useState, useRef } from "react";
+
+import { useRef,useCallback, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { likedGallery, newGallery } from "../api/galleryAPI";
 import { MainBtn } from "../component/Button";
@@ -13,6 +14,7 @@ import ImageCrop2 from "../component/ImageCrop2";
 import { postImage } from "../api/userAPI";
 
 import { postGallery } from "../api/galleryAPI";
+// import Swipers from "../component/Swiper/Swipers";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -187,6 +189,7 @@ export default function Gallery() {
   });
 
   const [inform, newInform] = useState();
+  const [seq, setSeq] = useState();
 
   const cookie = new Cookies();
   const token = cookie.get("token");
@@ -285,36 +288,15 @@ export default function Gallery() {
       document.body.style.cssText = `overflow: hidden;`;
     }
   };
-  const newHandle = () => {
-    async function getNewGallery() {
-      const res = await newGallery(token);
-      // for (let key in res) {
-      //   setNewInfor(res[key]);
-      // }
-      newInform(res);
-    }
-    getNewGallery(token);
-  };
-  const likeHandle = () => {
-    async function getlikeGallery() {
-      const res = await likedGallery(token);
-      // for (let key in res) {
-      //   setLikeNewInfor(res[key]);
-      // }
-      newInform(res);
-    }
-    getlikeGallery(token);
-  };
+
   useEffect(() => {
     async function getNewGallery() {
-      const res = await newGallery(token);
+      const res = await newGallery(token, 10);
       newInform(res);
-      console.log(res);
     }
     getNewGallery();
   }, []);
 
-  console.log(inform);
   return (
     <>
       <Wrapper>
@@ -379,7 +361,6 @@ export default function Gallery() {
                 }}
                 onClick={() => {
                   setSortby("최신순");
-                  newHandle();
                 }}
               >
                 최신순
@@ -392,15 +373,16 @@ export default function Gallery() {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  setSortby("좋아요순");
-                  likeHandle();
+                  // setSortby("좋아요순");
+                  // likeHandle();
+                  navigate("/gallery2");
                 }}
               >
                 좋아요순
               </Liked>
             </FliterLaout>
           </div>
-          <SwiperComponent postList={inform} />
+          <SwiperComponent postList={inform} sortby={sortby} />
           <div className="floor" />
         </div>
       </Wrapper>

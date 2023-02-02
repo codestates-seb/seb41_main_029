@@ -144,6 +144,15 @@ export default function Header(props) {
     window.location.reload();
   };
 
+  let userId = localStorage.getItem("userId");
+  let isGuest = false;
+  if (userId !== null) {
+    userId = userId.substring(1, userId.length - 2);
+    if (userId > 0 && userId < 1) {
+      isGuest = true;
+    }
+  }
+
   return (
     <>
       <Wrapper path={window.location.pathname}>
@@ -174,9 +183,13 @@ export default function Header(props) {
         <div className="desktopVer spacing"></div>
         {hasToken ? (
           <>
-            <div className="desktopVer mr96 va">
-              <a href="/mypage">마이페이지</a>
-            </div>
+            {isGuest ? (
+              <></>
+            ) : (
+              <div className="desktopVer mr96 va">
+                <a href="/mypage">마이페이지</a>
+              </div>
+            )}
             <div className="desktopVer mr96 va">
               <a href="/" onClick={logoutClick}>
                 로그아웃
@@ -222,9 +235,13 @@ export default function Header(props) {
           </div>
           {hasToken ? (
             <>
-              <div className="flex">
-                <a href="/mypage">마이페이지</a>
-              </div>
+              {isGuest ? (
+                <></>
+              ) : (
+                <div className="flex">
+                  <a href="/mypage">마이페이지</a>
+                </div>
+              )}
               <div className="flex">
                 <a href="/" onClick={logoutClick}>
                   로그아웃
