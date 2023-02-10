@@ -47,8 +47,11 @@
 <br>
 
 
+
 ### 랜딩 페이지
-![_1_메인](https://ifh.cc/g/m4m98X.gif)
+![로우](https://user-images.githubusercontent.com/97446711/218148375-2298ae2f-e609-446e-8ffd-64dbf303065c.gif)
+
+
 
 ### 회원가입
 ![_6_회원가입](https://ifh.cc/g/PY1KkO.gif)
