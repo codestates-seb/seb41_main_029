@@ -54,28 +54,35 @@
 
 
 ### 회원가입
-![_6_회원가입](https://ifh.cc/g/PY1KkO.gif)
+![회원 가입 ](https://user-images.githubusercontent.com/97446711/218232624-599935c0-d660-45fb-b7f2-2f37162e186e.gif)
+
 
 ### 로그인
-![_로그인](https://ifh.cc/g/DagH8k.gif)
+![로그인](https://user-images.githubusercontent.com/97446711/218232630-ddc895ae-606c-4493-bbd9-78ada2ab232d.gif)
+
 
 ### 커뮤니티
-![_2_복망고생성](https://ifh.cc/g/n8BZbs.gif)
+![커뮤니티 세부 게시글](https://user-images.githubusercontent.com/97446711/218232640-7893815f-e2ec-40e3-b6bc-70ea9dc1c8b1.gif)
+
 
 ### 커뮤니티 세부 조회 페이지
 ![_3_생성후공유하기](https://ifh.cc/g/a21WTh.gif)
 
 ### 게시글 작성
-![_4_내복망고덕담보기](https://ifh.cc/g/lmOYH0.gif)
+
+![게시글 작성](https://user-images.githubusercontent.com/97446711/218232665-a083150b-7854-4661-83e9-05135966cabe.gif)
 
 ### 게시글 수정 
-![_8_덕담남기기](https://ifh.cc/g/pdyt6a.gif)
+
+![게시글 수정](https://user-images.githubusercontent.com/97446711/218232668-d4a6c29d-17f5-48f4-96ee-df5c1f4969f5.gif)
 
 ### 마이페이지
 ![_5_마이페이지정보수정](https://ifh.cc/g/nc0Hhd.gif)
 
 ### 마이페이지 수정
-![_5_마이페이지정보수정](https://ifh.cc/g/K0o7hA.gif)
+
+![마이페이지 수정](https://user-images.githubusercontent.com/97446711/218232683-f2eb4603-f1bc-4bf7-980d-983bb4b9b17d.gif)
+
 
 ### 등산 지도 
 ![_5_마이페이지정보수정](https://ifh.cc/g/BR4jtD.gif)
