@@ -8,8 +8,8 @@ import LoginPresenter from "./page/Login/LoginPresenter";
 import Signup from "./page/Signup";
 import Community from "./page/Community/Community";
 import View from "./page/View/ViewPresenter";
-import Writing from "./page/Writing/Writing";
-import MyPage from "./page/Mypage/MyPage";
+import WritingPresenter from "./page/Writing/WritingPresenter";
+import MypagePresenter from "./page/Mypage/MypagePresenter";
 import MyPageEdit from "./page/MyPageEdit";
 import HikingMap from "./page/HikingMap";
 import { NotFound } from "./page/NotFound";
@@ -44,10 +44,10 @@ function App() {
             <Route path="/login" element={<LoginPresenter />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/community" element={<Community />} />
-            <Route path="/writing" element={<Writing />} />
+            <Route path="/writing" element={<WritingPresenter />} />
             {/* <Route path="/boards/edit/:boardSeq" element={<Writing />} /> */}
             <Route path="/boards/edit/:boardSeq" element={<EditWriting />} />
-            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/mypage" element={<MypagePresenter />} />
             <Route path="/mypageedit" element={<MyPageEdit />} />
             <Route path="/hikingmap" element={<HikingMap />} />
             <Route path="/boards/:boardSeq" element={<View />} />

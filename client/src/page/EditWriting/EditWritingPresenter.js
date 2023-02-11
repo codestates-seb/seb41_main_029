@@ -31,7 +31,7 @@ const TotalContainer = styled.div`
   .ck-editor__editable {
     min-height: 400px;
     margin-bottom: 20px;
-    width: 1120px;
+    width: 1130px;
     @media (max-width: 1336px) {
       width: 100%;
       height: 100%;
@@ -95,7 +95,7 @@ const TotalContainer = styled.div`
 
   // 아이콘 있는 창
   .ck-toolbar {
-    width: 1141px;
+    width: 1130px;
     border-radius: 20px 20px 0 0;
     @media (max-width: 1336px) {
       /* margin-top: 4%; 위 아래로 정렬시 필요!!!*/

@@ -10,8 +10,6 @@ export const postWriting = async (Token) => {
     const res = await axios({
       method: "post",
       url: `${url}boards/articles`,
-      // url: `https://api.gohiking.co.kr/boards/articles`,
-      // Token이 있어야 접속 가능
       headers: { Authorization: `Bearer ${Token}` },
     });
     return res.data;

@@ -1,6 +1,8 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCookie } from "../Cookies";
+import { getCookie, removeCookie } from "../Cookies";
+import { Link } from "react-router-dom";
 
 // const url = `https://api.gohiking.co.kr/`;
 const url = `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/`;
@@ -179,63 +181,21 @@ export const getBookmark = async (Token, useId) => {
   } catch (error) {}
 };
 
-// export const deleteUser = async (Token, useId) => {
-//   try {
-//     const res = await axios({
-//       url: `http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users`,
-//       method: "delete",
-//       headers: { Authorization: `Bearer ${Token}` },
-//     });
-//     return res;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-// export const getUser = async (Token, userId) => {
-//   try {
-//     const res = await axios.all([
-//       axios.get(
-//         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/mypage"
-//       ),
-//       {
-//         headers: { Authorization: `Bearer ${Token}` },
-//       },
-//       axios.get(
-//         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/write"
-//       ),
-//       {
-//         headers: { Authorization: `Bearer ${Token}` },
-//       },
-//       axios.get(
-//         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/comment"
-//       ),
-//       {
-//         headers: { Authorization: `Bearer ${Token}` },
-//       },
-//       axios.get(
-//         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/bookmark"
-//       ),
-//       {
-//         headers: { Authorization: `Bearer ${Token}` },
-//       }.then(
-//         axios.spread(
-//           (
-//             { data: mypage },
-//             { data: write },
-//             { data: comment },
-//             { data: bookmark }
-//           ) => {
-//             console.log({ mypage, write, comment, bookmark });
-//           }
-//         )
-//       ),
-
-//       // "Content-Type": "application/json",
-//     ]);
-
-//     // return res.data.data;
-//     return res;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+export const DeleteClick = () => {
+  if (window.confirm("정말 회원 탈퇴 하시겠습니까?") === false) {
+    alert("취소 되었습니다.");
+  } else {
+    axios.delete(`${url}users`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("token")}`,
+      },
+    });
+    // return res;
+    // .then((res) => {
+    //   alert("이용해 주셔서 감사합니다.");
+    //   removeCookie("token");
+    //   localStorage.removeItem("userId");
+    // });
+  }
+};

@@ -8,8 +8,8 @@ import {
   faMountain,
   faMountainSun,
   faCannabis,
+  faInfinity,
 } from "@fortawesome/free-solid-svg-icons";
-
 export const Icon1 = () => {
   return (
     <IconTestXS>
@@ -105,6 +105,13 @@ export const Icon16 = () => {
   );
 };
 
+export const IconM = () => {
+  return (
+    <>
+      <FontAwesomeIcon icon={faInfinity} size="s" />
+    </>
+  );
+};
 const IconTestXS = styled.div`
   margin: 10px;
   background-color: #fafafa;
@@ -126,16 +133,13 @@ const IconTestXS = styled.div`
   }
 `;
 const IconTest = styled.div`
-  width: 15px;
+  width: 20px;
   margin: 8px;
   background-color: #fafafa;
   border: 1px solid #bbb;
-  height: 17px;
+  height: 20px;
   border-radius: 17px;
-  padding: 3px;
   box-shadow: inset 0 0 2px 3px #eee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   display: inline-block;
+  font-size: 12px;
 `;
