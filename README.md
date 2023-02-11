@@ -66,7 +66,7 @@
 
 
 ### 커뮤니티 세부 조회 페이지
-![_3_생성후공유하기](https://ifh.cc/g/a21WTh.gif)
+![커뮤니티 세부 게시글](https://user-images.githubusercontent.com/97446711/218232640-7893815f-e2ec-40e3-b6bc-70ea9dc1c8b1.gif)
 
 ### 게시글 작성
 
