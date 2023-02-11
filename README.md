@@ -62,27 +62,24 @@
 ![로그인](https://user-images.githubusercontent.com/97446711/218232630-ddc895ae-606c-4493-bbd9-78ada2ab232d.gif)
 
 
-### 커뮤니티 (게시물 세부 조회 가능, 페이지 네이션 가능)
+### 커뮤니티 (게시물 세부 조회, 페이지 네이션 기능)
 ![커뮤니티 페이지](https://user-images.githubusercontent.com/97446711/218236686-0c3f51cd-fb17-4c9b-a039-d64613f36829.gif)
 
 
 
-### 커뮤니티 세부 조회 페이지 (댓글, 대댓글 가능 , 북마크 기능, 수정 기능, 좋아요,)
+### 커뮤니티 세부 조회 페이지 (댓글, 대댓글, 북마크, 수정, 삭제, 좋아요, 싫어요 기능)
 ![게시글 세부 조회](https://user-images.githubusercontent.com/97446711/218236786-6ab2bd02-d744-439d-aafd-6609ea3f1729.gif)
 
 
 
 ### 게시글 작성
-
 ![게시글 작성](https://user-images.githubusercontent.com/97446711/218235643-adac884a-5a1b-43de-8079-f1a7450f1d63.gif)
 
 
 ### 게시글 수정 
 ![게시글 수정](https://user-images.githubusercontent.com/97446711/218235913-4f76b70b-2ada-479c-b0c5-1f10150e9b3c.gif)
 
-
-
-### 마이페이지
+### 마이페이지 (게시물, 댓글, 북마크 조회, 포인트 기능, 회원 수정, 탈퇴 기능)
 ![마이 페이지](https://user-images.githubusercontent.com/97446711/218242130-8e034dfb-8092-46c7-8cf5-c20664ca8d96.gif)
 
 
