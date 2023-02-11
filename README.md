@@ -62,11 +62,14 @@
 
 
 ### 커뮤니티
-![커뮤니티 세부 게시글](https://user-images.githubusercontent.com/97446711/218232640-7893815f-e2ec-40e3-b6bc-70ea9dc1c8b1.gif)
+![커뮤니티 페이지](https://user-images.githubusercontent.com/97446711/218236686-0c3f51cd-fb17-4c9b-a039-d64613f36829.gif)
+
 
 
 ### 커뮤니티 세부 조회 페이지
-![커뮤니티 세부 게시글](https://user-images.githubusercontent.com/97446711/218232640-7893815f-e2ec-40e3-b6bc-70ea9dc1c8b1.gif)
+![게시글 세부 조회](https://user-images.githubusercontent.com/97446711/218236786-6ab2bd02-d744-439d-aafd-6609ea3f1729.gif)
+
+
 
 ### 게시글 작성
 
@@ -79,7 +82,7 @@
 
 
 ### 마이페이지
-![_5_마이페이지정보수정](https://ifh.cc/g/nc0Hhd.gif)
+
 
 ### 마이페이지 수정
 
@@ -87,7 +90,8 @@
 
 
 ### 등산 지도 
-![_5_마이페이지정보수정](https://ifh.cc/g/BR4jtD.gif)
+![등산 지도1](https://user-images.githubusercontent.com/97446711/218237180-eb74af6a-adbc-4e2c-b79f-9c2891d4dfc6.gif)
+
 
 <br>
 
