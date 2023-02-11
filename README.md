@@ -70,11 +70,13 @@
 
 ### 게시글 작성
 
-![게시글 작성](https://user-images.githubusercontent.com/97446711/218232665-a083150b-7854-4661-83e9-05135966cabe.gif)
+![게시글 작성](https://user-images.githubusercontent.com/97446711/218235643-adac884a-5a1b-43de-8079-f1a7450f1d63.gif)
+
 
 ### 게시글 수정 
+![게시글 수정](https://user-images.githubusercontent.com/97446711/218235913-4f76b70b-2ada-479c-b0c5-1f10150e9b3c.gif)
 
-![게시글 수정](https://user-images.githubusercontent.com/97446711/218232668-d4a6c29d-17f5-48f4-96ee-df5c1f4969f5.gif)
+
 
 ### 마이페이지
 ![_5_마이페이지정보수정](https://ifh.cc/g/nc0Hhd.gif)
