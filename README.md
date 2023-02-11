@@ -62,12 +62,12 @@
 ![로그인](https://user-images.githubusercontent.com/97446711/218232630-ddc895ae-606c-4493-bbd9-78ada2ab232d.gif)
 
 
-### 커뮤니티
+### 커뮤니티 (게시물 세부 조회 가능, 페이지 네이션 가능)
 ![커뮤니티 페이지](https://user-images.githubusercontent.com/97446711/218236686-0c3f51cd-fb17-4c9b-a039-d64613f36829.gif)
 
 
 
-### 커뮤니티 세부 조회 페이지
+### 커뮤니티 세부 조회 페이지 (댓글, 대댓글 가능 , 북마크 기능, 수정 기능, 좋아요,)
 ![게시글 세부 조회](https://user-images.githubusercontent.com/97446711/218236786-6ab2bd02-d744-439d-aafd-6609ea3f1729.gif)
 
 
