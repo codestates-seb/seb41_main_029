@@ -49,7 +49,8 @@
 
 
 ### 랜딩 페이지
-![로우](https://user-images.githubusercontent.com/97446711/218148375-2298ae2f-e609-446e-8ffd-64dbf303065c.gif)
+
+![랜딩(전)1](https://user-images.githubusercontent.com/97446711/218243253-75da723e-8321-415c-b34d-5a460ec5a90d.gif)
 
 
 
@@ -82,22 +83,25 @@
 
 
 ### 마이페이지
+![마이 페이지](https://user-images.githubusercontent.com/97446711/218242130-8e034dfb-8092-46c7-8cf5-c20664ca8d96.gif)
 
 
 ### 마이페이지 수정
 
 ![마이페이지 수정](https://user-images.githubusercontent.com/97446711/218232683-f2eb4603-f1bc-4bf7-980d-983bb4b9b17d.gif)
 
+### 갤러리 
+준비 중
 
 ### 등산 지도 
 
-![등산 지도](https://user-images.githubusercontent.com/97446711/218237419-45287c29-24a1-409b-a0ff-33ae423ca22a.gif)
+![등산 지도](https://user-images.githubusercontent.com/97446711/218241589-790aaed9-a2cb-46ed-809d-52e0a5cfdd8d.gif)
 
 <br>
 
 ## 🛠 기술 스택
 
-![스택](https://user-images.githubusercontent.com/111442906/215719720-90602663-918a-4a39-9103-980f50d59890.png)
+
 
 <br>
 
