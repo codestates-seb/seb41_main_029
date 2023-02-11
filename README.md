@@ -90,8 +90,8 @@
 
 
 ### 등산 지도 
-![등산 지도1](https://user-images.githubusercontent.com/97446711/218237180-eb74af6a-adbc-4e2c-b79f-9c2891d4dfc6.gif)
 
+![등산 지도](https://user-images.githubusercontent.com/97446711/218237419-45287c29-24a1-409b-a0ff-33ae423ca22a.gif)
 
 <br>
 
