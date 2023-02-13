@@ -52,7 +52,6 @@ const SpanContent = styled.div`
 
   @media (max-width: 1336px) {
     display: flex;
-
     align-items: center;
   }
 `;
@@ -111,7 +110,7 @@ const CategoryInputLabel = styled(InputLabel)`
     }
   }
 `;
-//.
+//
 const CategorySelect = styled(Select)`
   height: 40px;
 

@@ -20,13 +20,11 @@ const Wrapper = styled.div`
   margin: 80px auto 0 auto;
   max-width: 1336px;
   width: 100%;
-
   .floor {
     background-color: ${(props) => props.theme.colors.main};
     border-radius: 0 0 10px 10px;
     height: 40px;
   }
-
   .roof {
     background-color: ${(props) => props.theme.colors.main};
     border-radius: 10px 10px 0 0;
@@ -35,7 +33,6 @@ const Wrapper = styled.div`
     flex-direction: row-reverse;
     align-items: center;
   }
-
   .w95p {
     width: 95%;
   }
@@ -59,7 +56,6 @@ const TagContainer2 = styled.div`
   border: 3px solid #62b6b7;
   border-radius: 10px;
   padding: 5.5px 8px;
-
   > input {
     border: none;
     /* flex: 0.3; */
@@ -82,7 +78,6 @@ const Tag = styled.div`
   color: #fff;
   background-color: #62b6b7;
   font-size: 14px;
-
   > span {
     margin-left: 5px;
     font-size: 12px;
@@ -111,12 +106,10 @@ const ModalView = styled.div.attrs((props) => ({
   background-color: #ffffff;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-
   > span.close-btn {
     margin-top: 5px;
     cursor: pointer;
   }
-
   > div.desc {
     margin-top: 25px;
     color: gray;
@@ -266,7 +259,6 @@ export default function Gallery() {
     const newTags = tags.filter((tag) => tag !== removedTag);
     setTags(newTags);
   };
-  console.log(tags);
 
   // const postGallery = async (data) => {
   //   try {
@@ -290,7 +282,6 @@ export default function Gallery() {
     //   ...request,
     //   [e.target.id]: tagAdd,
     // });
-    // console.log(request);
   };
 
   const onChangeContent = (e) => {
@@ -298,7 +289,6 @@ export default function Gallery() {
       ...request,
       [e.target.id]: e.target.value,
     });
-    console.log(request);
   };
 
   const inputRef = useRef();
@@ -309,25 +299,20 @@ export default function Gallery() {
 
   const onUploadImage = async () => {
     const file = inputRef.current.files[0];
-    console.log(file);
 
     if (!file) {
       return;
     }
 
     setFileImage(URL.createObjectURL(file));
-    // console.log(file);
     const formData = new FormData();
     formData.append("files", file);
-    // console.log(formData);
     const res = await postImage(formData);
-    console.log(res);
     let imageUrl = res.data[0].split("?")[0];
     setRequest({
       ...request,
       imageUrl: imageUrl,
     });
-    console.log(request);
     if (validityCheck.isProfileImageUrlPass === "") {
       setValidityCheck({
         ...validityCheck,
@@ -342,7 +327,6 @@ export default function Gallery() {
   };
 
   const onSubmit = () => {
-    console.log(request);
     postGallery(token, request);
     window.location.reload();
     // alert("개인정보 수정이 완료되었습니다!");
@@ -456,7 +440,6 @@ export default function Gallery() {
                         onClick={() => {
                           tag1();
                           setAb("");
-                          console.log(request);
                           onSubmit();
                         }}
                       >

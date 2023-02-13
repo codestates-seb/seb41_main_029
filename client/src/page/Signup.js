@@ -97,6 +97,7 @@ export default function Signup() {
     guestSignup();
     setTimeout(async () => {
       const res = await guestLogin();
+      // console.log(res);
       const userId1 = res?.data?.body?.token?.userId;
       localStorage.setItem("userId", JSON.stringify(userId1));
       const token = res.data?.body?.token?.refreshToken;
@@ -154,7 +155,6 @@ export default function Signup() {
 
   // 회원가입 요청
   const onSubmit = (data) => {
-    // console.log(data);
     axios
       .post(
         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users/signup",
@@ -164,11 +164,9 @@ export default function Signup() {
         }
       )
       .then((res) => {
-        // console.log(res.data);
         navigate("/signupnotice");
       })
       .catch((err) => {
-        // console.log(err);
         alert("이미 등록된 아이디입니다.");
       });
   };
