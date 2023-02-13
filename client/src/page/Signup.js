@@ -14,7 +14,7 @@ const LoginLayout = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  min-height: 650px;
+  min-height: 700px;
 `;
 
 let SignupBackground = styled.div`
@@ -70,6 +70,7 @@ let SocialLoginLogo = styled.img`
 const GuestLayout = styled.div`
   display: flex;
   justify-content: center;
+  padding-bottom: 30px;
 `;
 const GuestBtn = styled.button`
   background-color: #cccccc;
@@ -240,7 +241,7 @@ export default function Signup() {
           <GuestLayout>
             <GuestBtn onClick={guestHandle}>게스트 로그인</GuestBtn>
           </GuestLayout>
-          <SocialLogin>
+          {/* <SocialLogin>
             <SocialLoginLogo
               src={process.env.PUBLIC_URL + "/image/google.svg"}
               alt=""
@@ -253,7 +254,7 @@ export default function Signup() {
               src={process.env.PUBLIC_URL + "/image/cacao.svg"}
               alt=""
             />
-          </SocialLogin>
+          </SocialLogin> */}
         </SignupBackground>
       </LoginLayout>
     </>

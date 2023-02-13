@@ -1,8 +1,8 @@
 import { useRef, useCallback, useEffect } from "react";
 import { Cookies } from "react-cookie";
-import { newGallery } from "../api/galleryAPI";
+import { likedGallery, newGallery } from "../api/galleryAPI";
 
-export const useInfiniteScrollSensor = (setPost) => {
+export const useInfiniteScrollSensor = (setPost, sortby) => {
   const cookie = new Cookies();
   const token = cookie.get("token");
   let index = 0;
@@ -12,11 +12,19 @@ export const useInfiniteScrollSensor = (setPost) => {
   const handleScroll = useCallback(([entry]) => {
     if (entry.isIntersecting) {
       index += 10;
-      async function getNewGallery() {
-        const res = await newGallery(token, index);
-        setPost(res);
+      if (sortby === "최신순") {
+        async function getNewGallery() {
+          const res = await newGallery(token, index);
+          setPost(res);
+        }
+        getNewGallery();
+      } else {
+        async function getNewGallery1() {
+          const res = await likedGallery(token, index);
+          setPost(res);
+        }
+        getNewGallery1();
       }
-      getNewGallery();
     }
   }, []);
 

@@ -9,7 +9,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  min-height: 650px;
+  min-height: 700px;
 `;
 
 const NoticeDiv = styled.div`

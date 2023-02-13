@@ -10,7 +10,7 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 660px;
+  min-height: 700px;
 `;
 
 const NoticeDiv = styled.div`

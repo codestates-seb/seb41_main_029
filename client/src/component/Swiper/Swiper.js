@@ -211,7 +211,9 @@ export default function SwiperComponent({ postList, sortby }) {
                           {201 <= e?.point && e?.point <= 300 ? <Icon5 /> : ""}
                           {301 <= e?.point ? <Icon6 /> : ""}{" "}
                         </>
-                      ) : null}
+                      ) : (
+                        <Icon1 />
+                      )}
                       <div className="va"> {e.username} </div>
                     </div>
                     <div className="flex">
