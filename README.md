@@ -112,8 +112,8 @@ gif 추가 하기(이미지 변경 안됌)
 ![등산 지도](https://user-images.githubusercontent.com/97446711/218469699-7afb91a9-0b4f-4e2d-aeb5-0c6ee2a2a685.gif)
 
 * 전국 지도 
-* 확대 축소 가능
-* 산 검색 
+* 확대 축소 산 검색 가능
+* 산 근처 시설 표시
 
 
 
