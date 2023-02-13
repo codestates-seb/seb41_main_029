@@ -28,6 +28,8 @@ const Container = styled.div`
   justify-content: center;
   /* margin-top: 10px; */
   margin: 50px 8px 0 8px;
+  height: 100%;
+  min-height: 700px;
 `;
 const ComuContainer = styled.div`
   width: 100%;
@@ -447,7 +449,7 @@ export default function Community() {
     hasToken ? navigate("/writing") : alert("로그인을 먼저 진행해주세요");
   };
 
-  //----------------------------------------------------------------------------
+  // 데이터 조회
 
   // 데이터 1페이지 조회
   const handleLoadAll = async (cate, sortby2) => {
@@ -469,7 +471,6 @@ export default function Community() {
       for (let key in res.data.body) {
         const total = key;
         setPageCount(total / limit);
-        // console.log(sortby2);
       }
     } catch (err) {
       throw err;
@@ -502,8 +503,6 @@ export default function Community() {
   useEffect(() => {
     handleLoadAll("", "최신순");
   }, []);
-
-  //----------------------------------------------------------------------------
 
   // 페이지네이션 데이터
   const axiosPosts = async (currentPage, cate) => {
@@ -656,7 +655,6 @@ export default function Community() {
                 >
                   질문
                 </Cate>
-                {/* {console.log(cate)} */}
               </Categories>
 
               <BtnBox>
@@ -798,22 +796,9 @@ export default function Community() {
             }}
             onKeyDown={handleLoadSearch}
           ></SearchInput>
-          {/* <SearchIcon onClick={handleLoadSearch}> */}
-          <FontAwesomeIcon
-            icon={faMagnifyingGlass}
-            color="gray"
-            size="lg"
-            // onClick={handleLoadSearch}
-          />
-          {/* </SearchIcon> */}
+          <FontAwesomeIcon icon={faMagnifyingGlass} color="gray" size="lg" />
         </Search>
       </SearchContainer>
-      {/* <Icon1 />
-      <Icon2 />
-      <Icon3 />
-      <Icon4 />
-      <Icon5 />
-      <Icon6 /> */}
     </>
   );
 }

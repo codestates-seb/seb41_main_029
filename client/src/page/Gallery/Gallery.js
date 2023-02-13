@@ -164,6 +164,7 @@ const ImgBtn = styled.button`
   border-radius: 8px;
   padding: 8px 0;
   cursor: pointer;
+  margin-bottom: 10px;
 `;
 const FliterLaout = styled.div`
   display: flex;
@@ -203,6 +204,21 @@ const Submit = styled.button`
   border-radius: 10px;
   background-color: #62b6b7;
   color: white;
+  cursor: pointer;
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+`;
+const Cancel = styled.button`
+  margin: 25px 10px;
+  width: 60px;
+  height: 35px;
+  border: 0px;
+  border-radius: 10px;
+  background-color: #ccc;
+  color: white;
+  cursor: pointer;
   &:active {
     transform: scale(0.95);
     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
@@ -218,6 +234,14 @@ const SubmitLayout = styled.div`
 export default function Gallery() {
   const [sortby, setSortby] = useState("최신순");
   const [fileImage, setFileImage] = useState("");
+  let req = {
+    imageUrl: "",
+    tag: "",
+    content: "",
+  };
+  const [imageUrl, setImageUrl] = useState("");
+  const [content, setContent] = useState("");
+
   const [request, setRequest] = useState({
     imageUrl: "",
     tag: "태그",
@@ -234,7 +258,6 @@ export default function Gallery() {
   const token = cookie.get("token");
 
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
 
   let data = {
     imageUrl:
@@ -244,9 +267,7 @@ export default function Gallery() {
   };
 
   const [tags, setTags] = useState([]);
-  const [ab, setAb] = useState([]);
   let tagAdd = "";
-  let obj = {};
   const addTag = (e) => {
     if (e.key === "Enter") {
       if (e.target.value.length > 0) {
@@ -258,6 +279,12 @@ export default function Gallery() {
   const removeTag = (removedTag) => {
     const newTags = tags.filter((tag) => tag !== removedTag);
     setTags(newTags);
+  };
+
+  const tag1 = () => {
+    for (let tag of tags) {
+      tagAdd += tag + ",";
+    }
   };
 
   // const postGallery = async (data) => {
@@ -289,6 +316,7 @@ export default function Gallery() {
       ...request,
       [e.target.id]: e.target.value,
     });
+    setContent(e.target.value);
   };
 
   const inputRef = useRef();
@@ -308,11 +336,12 @@ export default function Gallery() {
     const formData = new FormData();
     formData.append("files", file);
     const res = await postImage(formData);
-    let imageUrl = res.data[0].split("?")[0];
+    setImageUrl(res.data[0].split("?")[0]);
     setRequest({
       ...request,
       imageUrl: imageUrl,
     });
+    // 반영 안되는 이유..??
     if (validityCheck.isProfileImageUrlPass === "") {
       setValidityCheck({
         ...validityCheck,
@@ -327,7 +356,7 @@ export default function Gallery() {
   };
 
   const onSubmit = () => {
-    postGallery(token, request);
+    postGallery(token, req);
     window.location.reload();
     // alert("개인정보 수정이 완료되었습니다!");
     // navigate("/mypage");
@@ -384,13 +413,6 @@ export default function Gallery() {
     getNewGallery();
   }, []);
 
-  const tag1 = () => {
-    setAb("");
-    for (let el of tags) {
-      tagAdd += el + ",";
-    }
-  };
-
   return (
     <>
       <Wrapper>
@@ -406,7 +428,7 @@ export default function Gallery() {
             />
             {isOpen === true ? (
               <ModalBackdrop>
-                <ModalView width="330px" height="600px">
+                <ModalView width="330px" height="650px">
                   <PostLayout>
                     <ImgContainer
                     // onClick={crop}
@@ -426,21 +448,44 @@ export default function Gallery() {
                       onChange={onUploadImage}
                     />
                     <ImgBtn onClick={onImageAttachClick}>이미지 첨부</ImgBtn>
+                    <TagContainer2>
+                      {tags.map((tag, index) => {
+                        return (
+                          <Tag key={index}>
+                            {tag} <span onClick={() => removeTag(tag)}>x</span>
+                          </Tag>
+                        );
+                      })}
+
+                      <input
+                        placeholder="태그를 작성해주세요."
+                        onKeyDown={addTag}
+                      />
+                    </TagContainer2>
                     <Input id="content" onChange={onChangeContent} />
                     <SubmitLayout>
-                      <Submit
+                      <Cancel
                         onClick={() => {
                           openModalHandler();
                           menuClick();
                         }}
                       >
                         취소
-                      </Submit>
+                      </Cancel>
                       <Submit
                         onClick={() => {
+                          // tag1이 더블클릭시 2번실행안되게 하려면 어디에 넣어야?
+                          // setRequest({
+                          //   ...request,
+                          //   tag: tagAdd,
+                          // });
                           tag1();
-                          setAb("");
+                          req.imageUrl = imageUrl;
+                          req.tag = tagAdd;
+                          req.content = content;
                           onSubmit();
+                          console.log(req);
+                          console.log(request);
                         }}
                       >
                         등록

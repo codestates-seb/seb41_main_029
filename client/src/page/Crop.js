@@ -1,10 +1,10 @@
 import React from "react";
-import ImageCrop from "../component/ImageCrop";
+import ImageCrop2 from "../component/ImageCrop2";
 
 const Crop = () => {
   return (
     <div>
-      <ImageCrop></ImageCrop>
+      <ImageCrop2 />
     </div>
   );
 };

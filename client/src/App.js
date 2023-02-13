@@ -5,7 +5,6 @@ import Header from "./component/Header";
 import Footer from "./component/Footer";
 import LandingPage from "./page/Landing/LandingPage";
 import LoginPresenter from "./page/Login/LoginPresenter";
-import Signup from "./page/Signup";
 import Community from "./page/Community/Community";
 import View from "./page/View/ViewPresenter";
 import Writing from "./page/Writing/Writing";
@@ -20,6 +19,7 @@ import Gallery2 from "./page/Gallery/Gallery2";
 import Crop from "./page/Crop";
 import PostGallery from "./page/PostGallery";
 import Calendar from "./page/Calendar/Calendar";
+import SignupPresenter from "./page/Signup/SignupPresenter";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -41,7 +41,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPresenter />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/signup" element={<SignupPresenter />} />
             <Route path="/community" element={<Community />} />
             <Route path="/writing" element={<Writing />} />
             {/* <Route path="/boards/edit/:boardSeq" element={<Writing />} /> */}
