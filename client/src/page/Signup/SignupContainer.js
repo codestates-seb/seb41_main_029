@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { useForm, FormProvider } from "react-hook-form";
 import { useRef } from "react";
-import Input from "../component/Input";
-import AlertWarning from "../component/AlertWarning";
-import { MainBtn } from "../component/Button";
+import Input from "../../component/Input";
+import AlertWarning from "../../component/AlertWarning";
+import { MainBtn } from "../../component/Button";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { guestLogin, guestSignup } from "../api/userAPI";
+import { guestLogin, guestSignup } from "../../api/userAPI";
 import { Cookies } from "react-cookie";
 
 const LoginLayout = styled.div`
@@ -14,7 +14,7 @@ const LoginLayout = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  min-height: 650px;
+  min-height: 700px;
 `;
 
 let SignupBackground = styled.div`
@@ -53,7 +53,6 @@ const InputContainer = styled.div`
 `;
 
 // 소셜로그인
-
 let SocialLogin = styled.div`
   display: flex;
   justify-content: center;
@@ -70,6 +69,7 @@ let SocialLoginLogo = styled.img`
 const GuestLayout = styled.div`
   display: flex;
   justify-content: center;
+  padding-bottom: 30px;
 `;
 const GuestBtn = styled.button`
   background-color: #cccccc;
@@ -91,7 +91,7 @@ const GuestBtn = styled.button`
   }
 `;
 
-export default function Signup() {
+export default function SignupContainer() {
   const cookie = new Cookies();
   const guestHandle = () => {
     guestSignup();
@@ -240,7 +240,7 @@ export default function Signup() {
           <GuestLayout>
             <GuestBtn onClick={guestHandle}>게스트 로그인</GuestBtn>
           </GuestLayout>
-          <SocialLogin>
+          {/* <SocialLogin>
             <SocialLoginLogo
               src={process.env.PUBLIC_URL + "/image/google.svg"}
               alt=""
@@ -253,7 +253,7 @@ export default function Signup() {
               src={process.env.PUBLIC_URL + "/image/cacao.svg"}
               alt=""
             />
-          </SocialLogin>
+          </SocialLogin> */}
         </SignupBackground>
       </LoginLayout>
     </>

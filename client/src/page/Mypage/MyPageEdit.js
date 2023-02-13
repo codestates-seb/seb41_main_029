@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Cookies } from "react-cookie";
 
-import { patchUser, postImage } from "../api/userAPI";
+import { patchUser, postImage } from "../../api/userAPI";
 
 const Wrapper = styled.div`
   align-items: center;

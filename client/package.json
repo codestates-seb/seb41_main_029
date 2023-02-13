@@ -28,8 +28,13 @@
     "date-fns-tz": "^1.3.7",
     "dayjs": "^1.11.7",
     "html-react-parser": "^3.0.7",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
+<<<<<<< HEAD
     "react-bootstrap": "^2.7.0",
+=======
+    "react-calendar": "^4.0.0",
+>>>>>>> b05c5625c19a995e2fa0e57d2f8c2226a14bb97e
     "react-cookie": "^4.1.1",
     "react-cropper": "^2.1.8",
     "react-dom": "^18.2.0",

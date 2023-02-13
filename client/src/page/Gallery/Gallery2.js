@@ -2,12 +2,12 @@ import { useRef, useCallback, useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { likedGallery, newGallery, postGallery } from "../api/galleryAPI";
-import { MainBtn } from "../component/Button";
-import TagInput from "../component/TagInput";
-import { postImage } from "../api/userAPI";
-import SwiperComponent from "../component/Swiper/Swiper";
-import SwiperComponent1 from "../component/Swiper/Swiper1";
+import { likedGallery, newGallery, postGallery } from "../../api/galleryAPI";
+import { MainBtn } from "../../component/Button";
+import TagInput from "../../component/TagInput";
+import { postImage } from "../../api/userAPI";
+import SwiperComponent from "../../component/Swiper/Swiper";
+import SwiperComponent1 from "../../component/Swiper/Swiper1";
 
 const Wrapper = styled.div`
   align-items: center;
@@ -150,7 +150,7 @@ const SubmitLayout = styled.div`
 export default function Gallery() {
   const navigate = useNavigate();
   const [dropDown, setDropDown] = useState(false);
-  const [sortby, setSortby] = useState("최신순");
+  const [sortby, setSortby] = useState("좋아요");
   const [newInfor, setNewInfor] = useState();
   const [likeInfor, setLikeNewInfor] = useState();
 

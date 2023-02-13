@@ -9,8 +9,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import CommentReply from "./ReplyForm";
 import { useParams } from "react-router-dom";
 import Reply from "./Reply";
-
-import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
+import { Point } from "../Point";
 
 const CommentInfo = styled.div`
   display: flex;
@@ -216,14 +215,16 @@ const Comment = ({ comment }) => {
       // console.log(res);
     }
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> b05c5625c19a995e2fa0e57d2f8c2226a14bb97e
   return (
     <>
       {comment?.commentStatus === "COMMENT_NOT_EXIST" ? (
         <>
           <CommentInfo1>
             <span style={{ marginRight: "10px" }}>{comment?.username}</span>
-            {/* <CommentDate createdAt={comment?.createdAt} /> */}
           </CommentInfo1>
           <CommentLayout1>
             <CommentContainer1>삭제된 댓글입니다.</CommentContainer1>
@@ -254,31 +255,10 @@ const Comment = ({ comment }) => {
           <CommentInfo>
             <PostWriter>
               {comment?.userRole === "USER" ? (
-                <>
-                  {0 <= comment?.point && comment?.point <= 30 ? <Icon1 /> : ""}
-                  {31 <= comment?.point && comment?.point <= 70 ? (
-                    <Icon2 />
-                  ) : (
-                    ""
-                  )}
-                  {71 <= comment?.point && comment?.point <= 100 ? (
-                    <Icon3 />
-                  ) : (
-                    ""
-                  )}
-                  {101 <= comment?.point && comment?.point <= 200 ? (
-                    <Icon4 />
-                  ) : (
-                    ""
-                  )}
-                  {201 <= comment?.point && comment?.point <= 300 ? (
-                    <Icon5 />
-                  ) : (
-                    ""
-                  )}
-                  {301 <= comment?.point ? <Icon6 /> : ""}{" "}
-                </>
-              ) : null}
+                <Point score={comment?.point} />
+              ) : (
+                <span style={{ marginLeft: "16px" }}></span>
+              )}
             </PostWriter>
             <span style={{ marginRight: "10px" }}>{comment?.username}</span>
             <CommentDate createdAt={comment?.createdAt} />
@@ -301,7 +281,6 @@ const Comment = ({ comment }) => {
                       </SubmitEdit>
                     </SubmitEditLayout>
                   </InputLayout>
-                  {/* <EditInput defaultValue={comment?.content} /> */}
                 </FormProvider>
               </form>
             </>
@@ -320,16 +299,11 @@ const Comment = ({ comment }) => {
               <CommentReply commentSeq={commentSeq} />
             </ReplyLayout>
           </BottomContainer>
-
-          {/* {comment?.commentSeq === true ? ( */}
-          {/* <ReplyContainer> */}
           {comment?.reply?.map((item, index) => (
             <div key={index}>
               <Reply reply={item}></Reply>
             </div>
           ))}
-          {/* </ReplyContainer>  */}
-          {/* //  ) : null} */}
         </CommentLayout>
       )}
     </>

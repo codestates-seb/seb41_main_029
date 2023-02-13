@@ -1,6 +1,6 @@
 import { useRef, useCallback, useEffect } from "react";
 import { Cookies } from "react-cookie";
-import { newGallery } from "../api/galleryAPI";
+import { newGallery } from "../../api/galleryAPI";
 
 export const useInfiniteScrollSensor = (setPost) => {
   const cookie = new Cookies();

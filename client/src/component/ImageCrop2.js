@@ -1,90 +1,99 @@
-// import React from "react";
-// import "./App.css";
+import React from "react";
+import "./App.css";
 
-// import Cropper from "react-easy-crop";
-// import Slider from "@material-ui/core/Slider";
-// import Button from "@material-ui/core/Button";
+import Cropper from "react-easy-crop";
+import Slider from "@material-ui/core/Slider";
+import Button from "@material-ui/core/Button";
 
-// import { generateDownload } from "./utils/cropImage";
+import { generateDownload } from "./utils/cropImage";
 
-// export default function App() {
-//   const inputRef = React.useRef();
+import { useSelector, useDispatch } from "react-redux";
+import { setImage } from "../redux/imageReducer";
 
-//   const triggerFileSelectPopup = () => inputRef.current.click();
+export default function ImageCrop2() {
+  let a = useSelector((state) => state.image);
+  console.log(a);
 
-//   const [image, setImage] = React.useState(null);
-//   const [croppedArea, setCroppedArea] = React.useState(null);
-//   const [crop, setCrop] = React.useState({ x: 0, y: 0 });
-//   const [zoom, setZoom] = React.useState(1);
+  let dispatch = useDispatch();
+  //   dispatch(setImage());
 
-//   const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
-//     setCroppedArea(croppedAreaPixels);
-//   };
+  const inputRef = React.useRef();
 
-//   const onSelectFile = (event) => {
-//     if (event.target.files && event.target.files.length > 0) {
-//       const reader = new FileReader();
-//       reader.readAsDataURL(event.target.files[0]);
-//       reader.addEventListener("load", () => {
-//         setImage(reader.result);
-//       });
-//     }
-//   };
+  const triggerFileSelectPopup = () => inputRef.current.click();
 
-//   const onDownload = () => {
-//     generateDownload(image, croppedArea);
-//   };
+  const [image, setImage] = React.useState(null);
+  const [croppedArea, setCroppedArea] = React.useState(null);
+  const [crop, setCrop] = React.useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = React.useState(1);
 
-//   return (
-//     <div className="container">
-//       <div className="container-cropper">
-//         {image ? (
-//           <>
-//             <div className="cropper">
-//               <Cropper
-//                 image={image}
-//                 crop={crop}
-//                 zoom={zoom}
-//                 aspect={0.72}
-//                 onCropChange={setCrop}
-//                 onZoomChange={setZoom}
-//                 onCropComplete={onCropComplete}
-//               />
-//             </div>
+  const onCropComplete = (croppedAreaPercentage, croppedAreaPixels) => {
+    setCroppedArea(croppedAreaPixels);
+  };
 
-//             <div className="slider">
-//               <Slider
-//                 min={1}
-//                 max={3}
-//                 step={0.1}
-//                 value={zoom}
-//                 onChange={(e, zoom) => setZoom(zoom)}
-//               />
-//             </div>
-//           </>
-//         ) : null}
-//       </div>
+  const onSelectFile = (event) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.addEventListener("load", () => {
+        setImage(reader.result);
+      });
+    }
+  };
 
-//       <div className="container-buttons">
-//         <input
-//           type="file"
-//           accept="image/*"
-//           ref={inputRef}
-//           onChange={onSelectFile}
-//           style={{ display: "none" }}
-//         />
-//         <Button
-//           variant="contained"
-//           color="primary"
-//           onClick={triggerFileSelectPopup}
-//           style={{ marginRight: "10px" }}
-//         >
-//           Choose
-//         </Button>
-//         <Button variant="contained" color="secondary" onClick={onDownload}>
-//           Download
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// }
+  const onDownload = () => {
+    generateDownload(image, croppedArea);
+  };
+
+  return (
+    <div className="container">
+      <div className="container-cropper">
+        {image ? (
+          <>
+            <div className="cropper">
+              <Cropper
+                image={image}
+                crop={crop}
+                zoom={zoom}
+                aspect={0.72}
+                onCropChange={setCrop}
+                onZoomChange={setZoom}
+                onCropComplete={onCropComplete}
+              />
+            </div>
+
+            <div className="slider">
+              <Slider
+                min={1}
+                max={3}
+                step={0.1}
+                value={zoom}
+                onChange={(e, zoom) => setZoom(zoom)}
+              />
+            </div>
+          </>
+        ) : null}
+      </div>
+
+      <div className="container-buttons">
+        <input
+          type="file"
+          accept="image/*"
+          ref={inputRef}
+          onChange={onSelectFile}
+          style={{ display: "none" }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={triggerFileSelectPopup}
+          style={{ marginRight: "10px" }}
+        >
+          Choose
+        </Button>
+        <Button variant="contained" color="secondary" onClick={onDownload}>
+          Upload
+        </Button>
+      </div>
+    </div>
+  );
+}
