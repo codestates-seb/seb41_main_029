@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
-import carouselPrase from "../data/CarouselPhrase";
+import carouselPrase from "./CarouselPhrase";
 
 const Wrapper = styled.div`
   body {
@@ -86,7 +86,7 @@ const Wrapper = styled.div`
   }
 `;
 
-export default function Test() {
+export default function Carousel() {
   const num = Math.floor(Math.random() * 4);
 
   const images = useRef([

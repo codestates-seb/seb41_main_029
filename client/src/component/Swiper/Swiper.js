@@ -18,7 +18,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
-import { useInfiniteScrollSensor } from "../useInfiniteScrollSensor";
+import { useInfiniteScrollSensor } from "../Hook/useInfiniteScrollSensor";
 import { deleteGallery, voteGallery } from "../../api/galleryAPI";
 import { Cookies } from "react-cookie";
 
@@ -32,6 +32,12 @@ const Wrapper = styled.div`
 
   .content {
     width: 100%;
+  }
+
+  .date {
+    color: #8c8c8c;
+    font-size: 16px;
+    margin-top: 20px;
   }
 
   .divider {
@@ -53,6 +59,10 @@ const Wrapper = styled.div`
     height: 668px;
   }
 
+  .heart {
+    justify-content: flex-end;
+  }
+
   .heartanimation {
     animation-duration: 0.5s;
     animation-name: heartreaction;
@@ -68,6 +78,10 @@ const Wrapper = styled.div`
 
   .mb10 {
     margin-bottom: 10px;
+  }
+
+  .ml10 {
+    margin-left: 10px;
   }
 
   .mr10 {
@@ -214,20 +228,23 @@ export default function SwiperComponent({ postList, sortby }) {
                       ) : null}
                       <div className="va"> {e.username} </div>
                     </div>
-                    <div className="flex">
-                      <div className="mr10 tag"> {e.tags} </div>
+                    <div className="flex ml10">
+                      <div className="mr10 tag"> # {e.tags} </div>
                     </div>
                   </div>
-                  <div className="flex mr10 mt10">
-                    <FontAwesomeIcon
-                      icon={heart[idx] ? faSolidHeart : faHeart}
-                      color="#62B6B7"
-                      size="xl"
-                      className={heart[idx] ? "heartanimation mr10" : "mr10"}
-                      onClick={() => UseClickHeart(idx, e.gallerySeq)}
-                      {...useInfiniteScrollSensor}
-                    />
-                    <div>{likes[idx]}</div>
+                  <div className="mr10 mt10">
+                    <div className="flex heart mb10">
+                      <FontAwesomeIcon
+                        icon={heart[idx] ? faSolidHeart : faHeart}
+                        color="#62B6B7"
+                        size="xl"
+                        className={heart[idx] ? "heartanimation mr10" : "mr10"}
+                        onClick={() => UseClickHeart(idx, e.gallerySeq)}
+                        {...useInfiniteScrollSensor}
+                      />
+                      <div>{likes[idx]}</div>
+                    </div>
+                    <div className="date">{e.createdAt.split("T")[0]}</div>
                   </div>
                 </div>
                 <div className="phrase">" {e.content} "</div>
