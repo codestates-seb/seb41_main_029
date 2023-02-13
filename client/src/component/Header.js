@@ -56,6 +56,9 @@ const Wrapper = styled.div`
     .tabletVer {
       display: flex !important;
     }
+    .ml96 {
+      margin-left: 0px;
+    }
   }
 `;
 

@@ -150,7 +150,7 @@ const SubmitLayout = styled.div`
 export default function Gallery() {
   const navigate = useNavigate();
   const [dropDown, setDropDown] = useState(false);
-  const [sortby, setSortby] = useState("최신순");
+  const [sortby, setSortby] = useState("좋아요");
   const [newInfor, setNewInfor] = useState();
   const [likeInfor, setLikeNewInfor] = useState();
 
