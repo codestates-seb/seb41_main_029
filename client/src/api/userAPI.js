@@ -181,21 +181,21 @@ export const getBookmark = async (Token, useId) => {
   } catch (error) {}
 };
 
-export const DeleteClick = () => {
-  if (window.confirm("정말 회원 탈퇴 하시겠습니까?") === false) {
-    alert("취소 되었습니다.");
-  } else {
-    axios.delete(`${url}users`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${getCookie("token")}`,
-      },
-    });
-    // return res;
-    // .then((res) => {
-    //   alert("이용해 주셔서 감사합니다.");
-    //   removeCookie("token");
-    //   localStorage.removeItem("userId");
-    // });
-  }
-};
+// export const DeleteClick = () => {
+//   if (window.confirm("정말 회원 탈퇴 하시겠습니까?") === false) {
+//     alert("취소 되었습니다.");
+//   } else {
+//     axios.delete(`${url}users`, {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${getCookie("token")}`,
+//       },
+//     });
+//     return res;
+//     .then((res) => {
+//       alert("이용해 주셔서 감사합니다.");
+//       removeCookie("token");
+//       localStorage.removeItem("userId");
+//     });
+//   }
+// };

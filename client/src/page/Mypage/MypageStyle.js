@@ -1,3 +1,4 @@
+import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../Theme";
@@ -16,7 +17,7 @@ export const MypageTitle = styled.div`
   height: 1000px;
   border-radius: 10px;
   @media screen and (max-width: 1336px) {
-    height: 1200px;
+    height: 1250px;
     width: 90%;
   }
 `;
@@ -142,6 +143,7 @@ export const PointContainer = styled.div`
   align-items: center;
   font-size: 16px;
   margin-right: 40px;
+  margin-bottom: 28px;
   @media screen and (max-width: 1070px) {
     /* font-size: 14px; */
     margin-left: 40px;
@@ -457,6 +459,7 @@ export const StyledLink = styled(Link)`
 export const PointRemainContiner = styled.div`
   font-size: ${theme.fontSizes.fs18};
   margin-left: 10px;
+  margin-bottom: 10px;
   /* border: 2px solid red; */
   @media screen and (max-width: 1070px) {
     margin-right: 40px;

@@ -1,5 +1,6 @@
 import { faClock, faEye, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Cookies } from "react-cookie";
 import { getBookmark, getComment, getWrite } from "../../api/userAPI";
@@ -10,11 +11,13 @@ const MypageMenu = () => {
   const cookie = new Cookies();
   const Token = cookie.get("token");
 
+  //axios
   const [userWrite, setUserWrite] = useState([]);
   const [userComment, setUserComment] = useState([]);
   const [userBook, setUserBook] = useState([]);
-  const [current, setCurrent] = useState(0);
 
+  // 게시글,댓글,북마크 버튼
+  const [current, setCurrent] = useState(0);
   const menuArr = [{ name: "작성글" }, { name: "댓글" }, { name: "북마크" }];
 
   useEffect(() => {
@@ -44,6 +47,7 @@ const MypageMenu = () => {
   const currentClick = (index) => {
     setCurrent(index);
   };
+
   return (
     <>
       <s.MypageBtns>
@@ -115,6 +119,7 @@ const MypageMenu = () => {
             )
             .reverse()}
           {userComment
+
             .map((item, id) =>
               current === 1 ? (
                 <s.InfoContainer key={item.boardSeq}>
@@ -163,6 +168,7 @@ const MypageMenu = () => {
             )
             .reverse()}
           {userBook
+
             .map((item, id) =>
               current === 2 ? (
                 <s.InfoContainer key={item.boardSeq}>
