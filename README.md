@@ -91,7 +91,6 @@
 ### 게시글 수정 
 ![게시글 수정](https://user-images.githubusercontent.com/97446711/218235913-4f76b70b-2ada-479c-b0c5-1f10150e9b3c.gif)
 * 작성된 게시글 내용을 불러 수정 가능
-* 
 
 ### 마이페이지 (게시물, 댓글, 북마크 조회, 포인트 기능, 회원 수정, 탈퇴 기능)
 ![마이 페이지](https://user-images.githubusercontent.com/97446711/218242130-8e034dfb-8092-46c7-8cf5-c20664ca8d96.gif)
