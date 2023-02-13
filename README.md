@@ -58,7 +58,8 @@
 
 ### 회원가입
 ![회원 가입 ](https://user-images.githubusercontent.com/97446711/218232624-599935c0-d660-45fb-b7f2-2f37162e186e.gif)
-
+* 유효성 검사 후 아이디, 닉네임, 비밀번호로 회원 가입 기능
+* 회원 가입 후 회원 가입 완료 문구로 이동 후 로그인 페이지로 이동 기능
 
 ### 로그인
 ![로그인](https://user-images.githubusercontent.com/97446711/218232630-ddc895ae-606c-4493-bbd9-78ada2ab232d.gif)
