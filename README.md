@@ -85,7 +85,7 @@
 
 ### 마이페이지 수정
 
-![마이페이지 수정](https://user-images.githubusercontent.com/97446711/218232683-f2eb4603-f1bc-4bf7-980d-983bb4b9b17d.gif)
+
 
 ### 갤러리 
 준비 중
