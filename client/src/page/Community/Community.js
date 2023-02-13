@@ -706,28 +706,39 @@ export default function Community() {
                           <PostComment>[{item.commented}]</PostComment>
                         </PostTitleBox>
                         <PostWriter>
-                          {0 <= item.point && item.point <= 30 ? <Icon1 /> : ""}
-                          {31 <= item.point && item.point <= 70 ? (
-                            <Icon2 />
+                          {item?.userRole === "USER" ? (
+                            <>
+                              {0 <= item.point && item.point <= 30 ? (
+                                <Icon1 />
+                              ) : (
+                                ""
+                              )}
+                              {31 <= item.point && item.point <= 70 ? (
+                                <Icon2 />
+                              ) : (
+                                ""
+                              )}
+                              {71 <= item.point && item.point <= 100 ? (
+                                <Icon3 />
+                              ) : (
+                                ""
+                              )}
+                              {101 <= item.point && item.point <= 200 ? (
+                                <Icon4 />
+                              ) : (
+                                ""
+                              )}
+                              {201 <= item.point && item.point <= 300 ? (
+                                <Icon5 />
+                              ) : (
+                                ""
+                              )}
+                              {301 <= item.point ? <Icon6 /> : ""}
+                            </>
                           ) : (
-                            ""
+                            <Icon1 />
                           )}
-                          {71 <= item.point && item.point <= 100 ? (
-                            <Icon3 />
-                          ) : (
-                            ""
-                          )}
-                          {101 <= item.point && item.point <= 200 ? (
-                            <Icon4 />
-                          ) : (
-                            ""
-                          )}
-                          {201 <= item.point && item.point <= 300 ? (
-                            <Icon5 />
-                          ) : (
-                            ""
-                          )}
-                          {301 <= item.point ? <Icon6 /> : ""} {item.username}
+                          {item.username}
                         </PostWriter>
                         <PostInfo>
                           <PostDate>

@@ -50,8 +50,14 @@ const Wrapper = styled.div`
     .desktopVer {
       display: none;
     }
+    .ml96 {
+      margin-left: 0px;
+    }
     .tabletVer {
       display: flex !important;
+    }
+    .ml96 {
+      margin-left: 0px;
     }
   }
 `;
@@ -180,6 +186,9 @@ export default function Header(props) {
         <div className="desktopVer ml96 va">
           <a href="/gallery">갤러리</a>
         </div>
+        <div className="desktopVer ml96 va">
+          <a href="/calendar">캘린더</a>
+        </div>
         <div className="desktopVer spacing"></div>
         {hasToken ? (
           <>
@@ -232,6 +241,9 @@ export default function Header(props) {
           </div>
           <div className="flex">
             <a href="/gallery">갤러리</a>
+          </div>
+          <div className="flex">
+            <a href="/calendar">캘린더</a>
           </div>
           {hasToken ? (
             <>

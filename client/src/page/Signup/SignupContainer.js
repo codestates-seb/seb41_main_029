@@ -69,6 +69,7 @@ let SocialLoginLogo = styled.img`
 const GuestLayout = styled.div`
   display: flex;
   justify-content: center;
+  padding-bottom: 30px;
 `;
 const GuestBtn = styled.button`
   background-color: #cccccc;
@@ -239,7 +240,7 @@ export default function SignupContainer() {
           <GuestLayout>
             <GuestBtn onClick={guestHandle}>게스트 로그인</GuestBtn>
           </GuestLayout>
-          <SocialLogin>
+          {/* <SocialLogin>
             <SocialLoginLogo
               src={process.env.PUBLIC_URL + "/image/google.svg"}
               alt=""
@@ -252,7 +253,7 @@ export default function SignupContainer() {
               src={process.env.PUBLIC_URL + "/image/cacao.svg"}
               alt=""
             />
-          </SocialLogin>
+          </SocialLogin> */}
         </SignupBackground>
       </LoginLayout>
     </>
