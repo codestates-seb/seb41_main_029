@@ -5,7 +5,6 @@ import Header from "./component/Header";
 import Footer from "./component/Footer";
 import LandingPage from "./page/LandingPage";
 import LoginPresenter from "./page/Login/LoginPresenter";
-import Signup from "./page/Signup";
 import Community from "./page/Community/Community";
 import View from "./page/View/ViewPresenter";
 import Writing from "./page/Writing/Writing";
@@ -15,12 +14,12 @@ import HikingMap from "./page/HikingMap";
 import { NotFound } from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";
 import SignupNotice from "./page/SignupNotice";
-import axios from "axios";
 import Gallery from "./page/Gallery";
 import Test from "./page/Test";
 import Gallery2 from "./page/Gallery2";
 import Crop from "./page/Crop";
 import PostGallery from "./page/PostGallery";
+import SignupPresenter from "./page/Signup/SignupPresenter";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -42,7 +41,7 @@ function App() {
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPresenter />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/signup" element={<SignupPresenter />} />
             <Route path="/community" element={<Community />} />
             <Route path="/writing" element={<Writing />} />
             {/* <Route path="/boards/edit/:boardSeq" element={<Writing />} /> */}
