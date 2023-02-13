@@ -7,15 +7,9 @@ import LandingPage from "./page/Landing/LandingPage";
 import LoginPresenter from "./page/Login/LoginPresenter";
 import Community from "./page/Community/Community";
 import View from "./page/View/ViewPresenter";
-<<<<<<< HEAD
 import WritingPresenter from "./page/Writing/WritingPresenter";
 import MypagePresenter from "./page/Mypage/MypagePresenter";
-import MyPageEdit from "./page/MyPageEdit";
-=======
-import Writing from "./page/Writing/Writing";
-import MyPage from "./page/Mypage/MyPage";
 import MyPageEdit from "./page/Mypage/MyPageEdit";
->>>>>>> b05c5625c19a995e2fa0e57d2f8c2226a14bb97e
 import HikingMap from "./page/HikingMap";
 import { NotFound } from "./page/NotFound";
 import EditWriting from "./page/EditWriting/EditWritingPresenter";

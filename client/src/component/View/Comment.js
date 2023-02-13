@@ -215,10 +215,7 @@ const Comment = ({ comment }) => {
       // console.log(res);
     }
   };
-<<<<<<< HEAD
 
-=======
->>>>>>> b05c5625c19a995e2fa0e57d2f8c2226a14bb97e
   return (
     <>
       {comment?.commentStatus === "COMMENT_NOT_EXIST" ? (
