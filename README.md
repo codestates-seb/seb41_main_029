@@ -108,7 +108,9 @@ gif 추가 하기(이미지 변경 안됌)
 준비 중
 
 ### 등산 지도 
-gif 추가 하기
+
+![등산 지도](https://user-images.githubusercontent.com/97446711/218469699-7afb91a9-0b4f-4e2d-aeb5-0c6ee2a2a685.gif)
+
 * 전국 지도 
 * 확대 축소 가능
 * 산 검색 
