@@ -4,13 +4,13 @@ import { useEffect, useState, useRef } from "react";
 import { Cookies } from "react-cookie";
 import styled from "styled-components";
 
-import { newGallery, postGallery, likedGallery } from "../api/galleryAPI";
-import { postImage } from "../api/userAPI";
-import { MainBtn } from "../component/Button";
-import SwiperComponent from "../component/Swiper/Swiper";
-import TagInput from "../component/TagInput";
-import ImageCrop from "../component/ImageCrop";
-import ImageCrop2 from "../component/ImageCrop2";
+import { newGallery, postGallery, likedGallery } from "../../api/galleryAPI";
+import { postImage } from "../../api/userAPI";
+import { MainBtn } from "../../component/Button";
+import SwiperComponent from "../../component/Swiper/Swiper";
+import TagInput from "../../component/TagInput";
+import ImageCrop from "../../component/ImageCrop";
+import ImageCrop2 from "../../component/ImageCrop2";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
