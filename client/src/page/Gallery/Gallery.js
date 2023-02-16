@@ -8,9 +8,6 @@ import { newGallery, postGallery, likedGallery } from "../../api/galleryAPI";
 import { postImage } from "../../api/userAPI";
 import { MainBtn } from "../../component/Button";
 import SwiperComponent from "../../component/Swiper/Swiper";
-import TagInput from "../../component/TagInput";
-import ImageCrop from "../../component/ImageCrop";
-import ImageCrop2 from "../../component/ImageCrop2";
 import { useNavigate } from "react-router-dom";
 
 const Wrapper = styled.div`
@@ -38,53 +35,6 @@ const Wrapper = styled.div`
   }
 `;
 
-// 태그
-const TagContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  margin: 10px 0;
-`;
-const TagContainer2 = styled.div`
-  width: 260px;
-  /* min-width: 60%; */
-  /* max-width: 75%; */
-  display: flex;
-  flex-wrap: wrap;
-  min-height: 30px;
-  border: 3px solid #62b6b7;
-  border-radius: 10px;
-  padding: 5.5px 8px;
-  > input {
-    border: none;
-    /* flex: 0.3; */
-    width: 120px;
-    outline: none;
-    padding: 5px;
-    background: #fff;
-    color: #000;
-  }
-`;
-
-const Tag = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 2px 8px;
-  /* border: 1px solid gray; */
-  border-radius: 8px;
-  height: 25px;
-  margin: 2px 5px 2px 0px;
-  color: #fff;
-  background-color: #62b6b7;
-  font-size: 14px;
-  > span {
-    margin-left: 5px;
-    font-size: 12px;
-    cursor: pointer;
-  }
-`;
-
 // 모달창
 const ModalBackdrop = styled.div`
   position: fixed;
@@ -105,7 +55,7 @@ const ModalView = styled.div.attrs((props) => ({
   border-radius: 10px;
   background-color: #ffffff;
   width: ${(props) => props.width};
-  height: ${(props) => props.height};
+  /* height: ${(props) => props.height}; */
   > span.close-btn {
     margin-top: 5px;
     cursor: pointer;
@@ -145,16 +95,6 @@ const ImgContainer = styled.div`
   }
 `;
 
-const Input = styled.input.attrs({ placeholder: "글을 작성해주세요." })`
-  margin-top: 10px;
-  width: 255px;
-  height: 30px;
-  border: 3px solid #62b6b7;
-  outline: none;
-  padding: 5px 10px;
-  border-radius: 10px;
-`;
-
 const ImgBtn = styled.button`
   margin-top: 10px;
   width: 275px;
@@ -166,6 +106,66 @@ const ImgBtn = styled.button`
   cursor: pointer;
   margin-bottom: 10px;
 `;
+
+// 태그
+const TagContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  margin: 10px 0;
+`;
+const TagContainer2 = styled.div`
+  width: 260px;
+  /* min-width: 60%; */
+  /* max-width: 75%; */
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 30px;
+  border: 3px solid #62b6b7;
+  border-radius: 10px;
+  padding: 5.5px 8px;
+  > input {
+    border: none;
+    /* flex: 0.3; */
+    outline: none;
+    padding: 5px;
+    background: #fff;
+    color: #000;
+  }
+`;
+
+const Tag = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 2px 8px;
+  /* border: 1px solid gray; */
+  border-radius: 8px;
+  height: 25px;
+  margin: 2px 5px 2px 0px;
+  color: #fff;
+  background-color: #62b6b7;
+  font-size: 14px;
+  > span {
+    margin-left: 5px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+`;
+
+// 한줄글
+const ContentContainer = styled.div`
+  > input {
+    margin-top: 10px;
+    width: 255px;
+    height: 30px;
+    border: 3px solid #62b6b7;
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+  }
+`;
+
 const FliterLaout = styled.div`
   display: flex;
   float: right;
@@ -196,21 +196,21 @@ const PostLayout = styled.div`
   border-radius: 10px;
   margin-bottom: 16px; */
 `;
-const Submit = styled.button`
+const SubmitBtn = styled.button`
   margin: 25px 10px;
   width: 60px;
   height: 35px;
   border: 0px;
   border-radius: 10px;
-  background-color: #62b6b7;
+  background-color: ${(props) => (props.disabled ? "#ccc;" : "#62b6b7;")};
   color: white;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   &:active {
     transform: scale(0.95);
     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
   }
 `;
-const Cancel = styled.button`
+const CancelBtn = styled.button`
   margin: 25px 10px;
   width: 60px;
   height: 35px;
@@ -234,13 +234,15 @@ const SubmitLayout = styled.div`
 export default function Gallery() {
   const [sortby, setSortby] = useState("최신순");
   const [fileImage, setFileImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [tag, setTag] = useState("");
+  const [content, setContent] = useState("");
+
   let req = {
     imageUrl: "",
     tag: "",
     content: "",
   };
-  const [imageUrl, setImageUrl] = useState("");
-  const [content, setContent] = useState("");
 
   const [request, setRequest] = useState({
     imageUrl: "",
@@ -259,25 +261,24 @@ export default function Gallery() {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  let data = {
-    imageUrl:
-      "https://pre41-deploy-test.s3.ap-northeast-2.amazon…b2d5e5c543c4c9dd3b7e47bae8d170fe9330a12de3737844a",
-    tag: "등산",
-    content: "가나다라",
-  };
-
   const [tags, setTags] = useState([]);
   let tagAdd = "";
   const addTag = (e) => {
     if (e.key === "Enter") {
-      if (e.target.value.length > 0) {
+      if (e.target.value.length > 0 && e.target.value.length <= 5) {
         setTags([...tags, e.target.value]);
         e.target.value = "";
       }
+      //   if (e.target.value.length >= 6) {
+      //     alert("5자 이하로 작성해주세요.");
+      //   }
     }
+    // if (tags.length > 1) {
+    //   alert("태그는 2개까지 등록할 수 있습니다.");
+    // }
   };
-  const removeTag = (removedTag) => {
-    const newTags = tags.filter((tag) => tag !== removedTag);
+  const removeTag = (removedTag, removedIndex) => {
+    const newTags = tags.filter((tag, index) => index !== removedIndex);
     setTags(newTags);
   };
 
@@ -287,36 +288,25 @@ export default function Gallery() {
     }
   };
 
-  // const postGallery = async (data) => {
-  //   try {
-  //     const res = await axios({
-  //       method: "post",
-  //       data: {
-  //         imageUrl:
-  //           "https://pre41-deploy-test.s3.ap-northeast-2.amazon…b2d5e5c543c4c9dd3b7e47bae8d170fe9330a12de3737844a",
-  //         tag: "등산",
-  //         content: "가나다라",
-  //       },
-  //       headers: { Authorization: `Bearer ${getCookie("token")}` },
-  //       url: `${url}${upload_endpoint}`,
-  //     });
-  //     return res;
-  //   } catch (e) {}
-  // };
-
   const onChangeTag = (e) => {
-    // setRequest({
-    //   ...request,
-    //   [e.target.id]: tagAdd,
-    // });
+    setTag("");
   };
 
   const onChangeContent = (e) => {
+    // if (e.target.value.length >= 16) {
+    //   alert("15자 이하로 작성해주세요.");
+    // }
     setRequest({
       ...request,
       [e.target.id]: e.target.value,
     });
     setContent(e.target.value);
+  };
+
+  const numberMaxLength = (e) => {
+    if (e.value.length > e.maxLength) {
+      e.value = e.value.slice(0, e.maxLength);
+    }
   };
 
   const inputRef = useRef();
@@ -356,14 +346,11 @@ export default function Gallery() {
   };
 
   const onSubmit = () => {
-    postGallery(token, req);
-    window.location.reload();
-    // alert("개인정보 수정이 완료되었습니다!");
-    // navigate("/mypage");
+    // postGallery(token, req);
+    // window.location.reload();
   };
 
   const post = () => {
-    // setDropDown(!dropDown);
     setIsOpen(!isOpen);
   };
 
@@ -372,7 +359,6 @@ export default function Gallery() {
   };
 
   const crop = () => {
-    // setIsOpen2(!isOpen2);
     navigate("/crop");
   };
 
@@ -452,27 +438,67 @@ export default function Gallery() {
                       {tags.map((tag, index) => {
                         return (
                           <Tag key={index}>
-                            {tag} <span onClick={() => removeTag(tag)}>x</span>
+                            {tag}{" "}
+                            <span onClick={() => removeTag(tag, index)}>x</span>
                           </Tag>
                         );
                       })}
 
-                      <input
-                        placeholder="태그를 작성해주세요."
-                        onKeyDown={addTag}
-                      />
+                      {tags.length === 0 ? (
+                        <input
+                          placeholder="태그 등록 (한 태그당 5자 이하, 2개까지 가능)"
+                          onKeyDown={addTag}
+                          onChange={onChangeTag}
+                          style={{ width: "250px" }}
+                          maxLength="5"
+                          oninput={() => {
+                            numberMaxLength(this);
+                          }}
+                        />
+                      ) : tags.length === 1 ? (
+                        <input
+                          onKeyDown={addTag}
+                          onChange={onChangeTag}
+                          style={{ width: "140px" }}
+                          maxLength="5"
+                          oninput={() => {
+                            numberMaxLength(this);
+                          }}
+                        />
+                      ) : (
+                        <input
+                          onKeyDown={addTag}
+                          style={{ width: "50px" }}
+                          maxLength="5"
+                          oninput={() => {
+                            numberMaxLength(this);
+                          }}
+                          readOnly
+                        />
+                      )}
                     </TagContainer2>
-                    <Input id="content" onChange={onChangeContent} />
+                    <ContentContainer>
+                      <input
+                        placeholder="글 작성 (15자 이하)"
+                        id="content"
+                        onChange={onChangeContent}
+                        maxLength="15"
+                        oninput={() => {
+                          numberMaxLength(this);
+                        }}
+                      />
+                    </ContentContainer>
                     <SubmitLayout>
-                      <Cancel
+                      <CancelBtn
                         onClick={() => {
                           openModalHandler();
                           menuClick();
+                          window.location.reload();
                         }}
                       >
                         취소
-                      </Cancel>
-                      <Submit
+                      </CancelBtn>
+                      <SubmitBtn
                         onClick={() => {
                           // tag1이 더블클릭시 2번실행안되게 하려면 어디에 넣어야?
                           // setRequest({
@@ -486,10 +512,19 @@ export default function Gallery() {
                           onSubmit();
                           console.log(req);
                           console.log(request);
+                          console.log(req.imageUrl);
+                          console.log(Object.keys(req));
+                          console.log(Object.values(req));
+                          console.log(Object.values(req)[0].length);
                         }}
+                        disabled={
+                          imageUrl.length == 0 ||
+                          tags.length == 0 ||
+                          content.length == 0
+                        }
                       >
                         등록
-                      </Submit>
+                      </SubmitBtn>
                     </SubmitLayout>
                   </PostLayout>
                 </ModalView>
