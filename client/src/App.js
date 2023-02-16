@@ -21,6 +21,7 @@ import Test from "./page/Test";
 import Gallery2 from "./page/Gallery2";
 import Crop from "./page/Crop";
 import PostGallery from "./page/PostGallery";
+import PointShop from "./page/PointShop";
 
 const GlobalStyle = createGlobalStyle`
 *{
@@ -58,6 +59,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
             <Route path="/crop" element={<Crop />} />
             <Route path="/postGallery" element={<PostGallery />} />
+            <Route path="/pointshop" element={<PointShop />} />
           </Routes>
           <Footer />
         </BrowserRouter>

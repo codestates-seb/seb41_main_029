@@ -6,41 +6,42 @@ import { getCookie } from "../../Cookies";
 import { useNavigate } from "react-router-dom";
 import { Cookies } from "react-cookie";
 import * as s from "./WritingStyle";
+import { uploadAdapter } from "../../api/writingAPI";
 
 export default function WritingCkEditor({ setImage, title, category }) {
   const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
 
-  const API_URL =
-    "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
-  const UPLOAD_ENDPOINT = "uploadFiles";
+  // const API_URL =
+  //   "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080";
+  // const UPLOAD_ENDPOINT = "uploadFiles";
 
-  const uploadAdapter = (loader) => {
-    // (2)
-    return {
-      upload: () => {
-        return new Promise((resolve, reject) => {
-          const body = new FormData();
-          loader.file.then((files) => {
-            body.append("files", files);
+  // const uploadAdapter = (loader) => {
+  //   // (2)
+  //   return {
+  //     upload: () => {
+  //       return new Promise((resolve, reject) => {
+  //         const body = new FormData();
+  //         loader.file.then((files) => {
+  //           body.append("files", files);
 
-            fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
-              method: "post",
-              body: body,
-              files: files,
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                resolve({ default: res[0] });
-              })
-              .catch((err) => {
-                reject(err);
-              });
-          });
-        });
-      },
-    };
-  };
+  //           fetch(`${API_URL}/${UPLOAD_ENDPOINT}`, {
+  //             method: "post",
+  //             body: body,
+  //             files: files,
+  //           })
+  //             .then((res) => res.json())
+  //             .then((res) => {
+  //               resolve({ default: res[0] });
+  //             })
+  //             .catch((err) => {
+  //               reject(err);
+  //             });
+  //         });
+  //       });
+  //     },
+  //   };
+  // };
 
   function uploadPlugin(editor) {
     // (3)
@@ -66,7 +67,6 @@ export default function WritingCkEditor({ setImage, title, category }) {
         {
           headers: {
             "Content-Type": "application/json",
-
             Authorization: `Bearer ${getCookie("token")}`,
           },
         }
@@ -106,8 +106,8 @@ export default function WritingCkEditor({ setImage, title, category }) {
               "|",
               "insertTable",
               "mediaEmbed",
-              "undo",
-              "redo",
+              // "undo",
+              // "redo",
               "alignment",
               "fontSize",
               "highlight",

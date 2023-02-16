@@ -111,3 +111,30 @@ export const viewDownVote = async (Token, boardSeq) => {
     }
   } catch (error) {}
 };
+
+// 이미지
+export const uploadAdapter = (loader) => {
+  // (2)
+  return {
+    upload: () => {
+      return new Promise((resolve, reject) => {
+        const body = new FormData();
+        loader.file.then((files) => {
+          body.append("files", files);
+          fetch(`${url}uploadFiles`, {
+            method: "post",
+            body: body,
+            files: files,
+          })
+            .then((res) => res.json())
+            .then((res) => {
+              resolve({ default: res[0] });
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        });
+      });
+    },
+  };
+};

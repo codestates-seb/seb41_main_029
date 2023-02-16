@@ -449,7 +449,7 @@ export default function Community() {
 
   //----------------------------------------------------------------------------
 
-  // 데이터 1페이지 조회
+  // 데이터 1페이지 조회 cate: 몇페이지인지 sortby2: 최신순인지 조회
   const handleLoadAll = async (cate, sortby2) => {
     try {
       setLoading(true);

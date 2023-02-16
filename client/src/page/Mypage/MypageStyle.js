@@ -1,3 +1,4 @@
+import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import theme from "../../Theme";
@@ -16,7 +17,7 @@ export const MypageTitle = styled.div`
   height: 1000px;
   border-radius: 10px;
   @media screen and (max-width: 1336px) {
-    height: 1200px;
+    height: 1250px;
     width: 90%;
   }
 `;
@@ -43,7 +44,7 @@ export const MypageInfo = styled.div`
     /* flex-direction: column; */
     flex-wrap: wrap;
   }
-  @media screen and (max-width: 865px) {
+  @media screen and (max-width: 877px) {
     flex-direction: column;
     /* flex-wrap: wrap; */
   }
@@ -109,9 +110,7 @@ export const MypageUserInfo = styled.div`
 /** 회원정보 수정 */
 export const MypageProfileModify = styled.a`
   height: 24px;
-  /* border: none; */
   cursor: pointer;
-
   margin-right: 12px;
   text-decoration: none;
   color: ${({ theme }) => theme.colors.main};
@@ -122,7 +121,6 @@ export const MypageProfileModify = styled.a`
 /** 회원 탈퇴 */
 export const MypageDelete = styled.a`
   cursor: pointer;
-  /* border: none; */
   text-decoration: none;
   color: ${({ theme }) => theme.colors.main};
   &:hover {
@@ -142,6 +140,7 @@ export const PointContainer = styled.div`
   align-items: center;
   font-size: 16px;
   margin-right: 40px;
+  margin-bottom: 28px;
   @media screen and (max-width: 1070px) {
     /* font-size: 14px; */
     margin-left: 40px;
@@ -457,6 +456,7 @@ export const StyledLink = styled(Link)`
 export const PointRemainContiner = styled.div`
   font-size: ${theme.fontSizes.fs18};
   margin-left: 10px;
+  margin-bottom: 10px;
   /* border: 2px solid red; */
   @media screen and (max-width: 1070px) {
     margin-right: 40px;
@@ -487,7 +487,7 @@ export const PointLine = styled.div`
   height: 50px;
   /* width: 80%; */
   align-items: flex-end;
-  @media screen and (max-width: 865px) {
+  @media screen and (max-width: 877px) {
     width: 330px;
   }
   @media screen and (max-width: 410px) {
@@ -504,7 +504,7 @@ export const PointBar = styled.div`
   display: flex;
   justify-content: center;
 
-  @media screen and (max-width: 865px) {
+  @media screen and (max-width: 877px) {
     width: 330px;
   }
   @media screen and (max-width: 370px) {
@@ -527,5 +527,27 @@ export const PointBar = styled.div`
   }
   .progress-bar {
     background-color: ${theme.colors.main};
+  }
+`;
+export const MypageShop = styled.a`
+  height: 24px;
+  width: 340px;
+  display: flex;
+  justify-content: right;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: ${theme.fontSizes.fs16};
+  color: ${({ theme }) => theme.colors.main};
+
+  &:hover {
+    color: ${theme.colors.main_hover};
+  }
+  @media screen and (max-width: 875px) {
+    width: 322px;
+  }
+  @media screen and (max-width: 410px) {
+    width: 270px;
+    font-size: ${theme.fontSizes.fs12};
   }
 `;

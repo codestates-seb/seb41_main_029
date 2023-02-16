@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Cookies } from "react-cookie";
-import Test, { DeleteClick, getUser } from "../../api/userAPI";
+import { getUser } from "../../api/userAPI";
 import { getCookie, removeCookie } from "../../Cookies";
 import { ModifiedDate, ViewdateCommu } from "../../component/DateCalculator";
 import {
@@ -41,11 +41,7 @@ export default function MypageContainer() {
     getUserInfo();
   }, []);
 
-  // useEffect(() => {
-  //   navigate("/");
-  // }, [DeleteClick]);
-
-  const DeleteClice = async () => {
+  const DeleteClick = async () => {
     if (window.confirm("정말 회원 탈퇴 하시겠습니까?") === false) {
       alert("취소 되었습니다.");
     } else {
@@ -92,7 +88,7 @@ export default function MypageContainer() {
                     <s.MypageProfileModify href="mypageEdit">
                       개인정보 수정
                     </s.MypageProfileModify>
-                    <s.MypageDelete onClick={DeleteClice}>
+                    <s.MypageDelete onClick={DeleteClick}>
                       회원 탈퇴
                     </s.MypageDelete>
                   </s.MypageUserInfo>
@@ -181,6 +177,13 @@ export default function MypageContainer() {
                     now={userInfo.point}
                   />
                 </s.PointBar>
+                <s.MypageShop
+                  href="pointshop"
+                  userInfo={userInfo}
+                  setUserInfo={setUserInfo}
+                >
+                  포인트 상점
+                </s.MypageShop>
               </s.PointRemainContiner>
               <s.PointContainer>
                 <s.PointTitle>

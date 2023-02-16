@@ -211,7 +211,7 @@ export const TotalContainer = styled.div`
   }
 
   // 아이콘 끝 버튼
-  .ck.ck-button.ck-disabled .ck-button__icon,
+  .ck.ck-button.ck-disabled.ck-button__icon,
   a.ck.ck-button.ck-disabled .ck-button__icon {
     @media (max-width: 570px) {
       display: none;
@@ -277,7 +277,7 @@ export const TotalContainer = styled.div`
 export const ContainerView = styled.div`
   width: ${({ theme }) => theme.deviceSizes.tablet};
   background-color: ${({ theme }) => theme.colors.container};
-  height: ${(props) => (props.height ? props.height : "704px")};
+  height: ${(props) => (props.height ? props.height : "")};
   border-radius: ${(props) => (props.radius ? props.radius : "20px")};
   justify-content: center;
   align-items: center;
