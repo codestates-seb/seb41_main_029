@@ -16,7 +16,6 @@ import EditWriting from "./page/EditWriting/EditWritingPresenter";
 import SignupNotice from "./page/SignupNotice";
 import Gallery from "./page/Gallery/Gallery";
 import Gallery2 from "./page/Gallery/Gallery2";
-import Crop from "./page/Crop";
 import PostGallery from "./page/PostGallery";
 import Calendar from "./page/Calendar/Calendar";
 import SignupPresenter from "./page/Signup/SignupPresenter";
@@ -53,7 +52,6 @@ function App() {
             <Route path="/signupnotice" element={<SignupNotice />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/gallery2" element={<Gallery2 />} />
-            <Route path="/crop" element={<Crop />} />
             <Route path="/postGallery" element={<PostGallery />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="*" element={<NotFound />} />
