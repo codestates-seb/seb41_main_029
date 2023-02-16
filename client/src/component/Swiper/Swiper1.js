@@ -21,6 +21,7 @@ import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
 import { useInfiniteScrollSensor } from "../Hook/useInfiniteScrollSensor";
 import { deleteGallery, voteGallery } from "../../api/galleryAPI";
 import { Cookies } from "react-cookie";
+import { Point } from "../Point";
 
 const Wrapper = styled.div`
   img {

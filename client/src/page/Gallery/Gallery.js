@@ -514,7 +514,7 @@ export default function Gallery() {
               <Liked
                 style={{
                   fontSize: sortby === "좋아요순" ? "18px" : "16px",
-                  color: sortby === "좋아요순" ? "black" : "white",
+                  color: sortby === "좋아요순" ? "white" : "white",
                   fontWeight: sortby === "좋아요순" ? "700" : "",
                   cursor: "pointer",
                 }}

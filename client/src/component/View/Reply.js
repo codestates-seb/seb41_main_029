@@ -313,17 +313,13 @@ const Reply = ({ reply }) => {
                       </SubmitEdit>
                     </SubmitEditLayout>
                   </InputLayout>
-                  {/* <EditInput defaultValue={comment?.content} /> */}
                 </FormProvider>
               </form>
             </>
           ) : (
-            // <ContentLayout1>
-            // {/* <BiReply className="icon" /> */}
             <ContentLayout>
               <ContentContainer>{reply?.content}</ContentContainer>
             </ContentLayout>
-            // {/* </ContentLayout1> */}
           )}
 
           <ContentBottom>
