@@ -265,7 +265,7 @@ export default function Gallery() {
               <Newest
                 style={{
                   //   fontSize: sortby === "최신순" ? "18px" : "16px",
-                  color: sortby === "최신순" ? "white" : "",
+                  color: sortby === "최신순" ? "white" : "white",
                   //   fontWeight: sortby === "최신순" ? "700" : "",
                   cursor: "pointer",
                 }}
