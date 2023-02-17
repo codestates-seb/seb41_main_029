@@ -231,7 +231,12 @@ export default function SwiperComponent({ postList, sortby }) {
                       <div className="va"> {e.username} </div>
                     </div>
                     <div className="flex ml10">
-                      <div className="mr10 tag"> # {e.tags} </div>
+                      {e.tags
+                        .split(",")
+                        .slice(0, -1)
+                        .map((e) => {
+                          return <div className="mr10 tag"> # {e} </div>;
+                        })}
                     </div>
                   </div>
                   <div className="mr10 mt10">

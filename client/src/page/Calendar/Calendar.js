@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import Calendar from "react-calendar";
@@ -121,6 +121,7 @@ const Modal = styled.div`
     border-radius: 10px;
     color: white;
     display: flex;
+    flex-direction: column;
     height: 200px;
     justify-content: center;
     padding: 5px;
@@ -137,6 +138,7 @@ export default function CalendarPage() {
     join: false,
     register: false,
   });
+  const [modalContent, setModalContent] = useState("");
 
   let showingCalenderDummy = CalendarDummy.slice(0, contentNum);
 
@@ -156,6 +158,7 @@ export default function CalendarPage() {
   };
 
   const closeModal = () => {
+    setModalContent("");
     setModalOpenStatus({ participant: false, join: false, register: false });
     document.body.style.overflow = "unset";
   };
@@ -165,9 +168,13 @@ export default function CalendarPage() {
     showingCalenderDummy = CalendarDummy.slice(0, contentNum);
   };
 
+  const deliverindex = (idx) => {
+    setModalContent(showingCalenderDummy[idx].participant);
+  };
+
   const calendarMaker = showingCalenderDummy.map((e, idx) => {
     return (
-      <div className="flex margin" key={idx}>
+      <div className="flex margin">
         <img className="thumbnail" src={e.imgURL} alt="post thumbnail" />
         <div className="ha">
           <div className="flex mountain">
@@ -176,15 +183,17 @@ export default function CalendarPage() {
           </div>
           <div className="title">{e.title}</div>
           <div>
-            <FontAwesomeIcon icon={faPersonHiking} /> {e.participant.length} /{" "}
-            {e.limit}
+            <FontAwesomeIcon icon={faPersonHiking} /> {e.current} / {e.limit}
             {e.participant.indexOf(
               localStorage.getItem("userId").slice(1, -1)
             ) !== -1 ? (
               <Button
                 className="ml20"
                 width="100px"
-                onClick={onParticipantButtonClick}
+                onClick={() => {
+                  onParticipantButtonClick();
+                  deliverindex(idx);
+                }}
               >
                 {" "}
                 참여자 보기{" "}
@@ -232,7 +241,11 @@ export default function CalendarPage() {
       </div>
       {modalOpenStatus.participant && (
         <Modal onClick={closeModal}>
-          <div className="modal">참여자 보기 모달</div>
+          <div className="modal">
+            {modalContent.split(",").map((e) => {
+              return <div>{e}</div>;
+            })}
+          </div>
         </Modal>
       )}
       {modalOpenStatus.join && (

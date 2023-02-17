@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "calendars",
+  "info": {
+    "singularName": "calendar",
+    "pluralName": "calendars",
+    "displayName": "Calendar",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "mountain": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "limit": {
+      "type": "integer"
+    },
+    "current": {
+      "type": "integer"
+    },
+    "maker": {
+      "type": "string"
+    },
+    "participant": {
+      "type": "string"
+    },
+    "imgURL": {
+      "type": "string"
+    }
+  }
+}
