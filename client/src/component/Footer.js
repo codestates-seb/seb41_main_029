@@ -8,7 +8,8 @@ const Wrapper = styled.div`
   display: ${(props) => (props.path === "/hikingmap" ? "none" : "flex")};
   font-weight: bold;
   height: 80px;
-  margin-top: ${(props) => (props.path === "/" ? "0" : "80px")};
+  margin-top: ${(props) =>
+    props.path === "/" || props.path === "/calendar" ? "0" : "80px"};
   justify-content: space-around;
   a {
     color: #6e7681;

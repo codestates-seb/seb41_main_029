@@ -43,6 +43,7 @@ let SocialLoginLogo = styled.img`
 const GuestLayout = styled.div`
   display: flex;
   justify-content: center;
+  padding-bottom: 30px;
 `;
 const GuestBtn = styled.button`
   background-color: #cccccc;
@@ -65,13 +66,12 @@ const GuestBtn = styled.button`
 `;
 const LoginContainer = () => {
   const [isAuthorized, setisAuthorized] = useState(true);
-  // const dispatch = useDispatch();
 
   const navigate = useNavigate();
   const cookie = new Cookies();
   const methods = useForm();
   const error = methods?.formState?.errors;
-  // const getRandom = Math.random();
+
   const guestHandle = () => {
     guestSignup();
     setTimeout(async () => {
@@ -84,18 +84,6 @@ const LoginContainer = () => {
       navigate("/");
       window.location.reload();
     }, 200);
-    // guestLogin();
-    // if (res?.status !== 200) {
-    //   alert("다시한번 시도해주세요.");
-    //   return setisAuthorized(false);
-    // } else {
-    // const userId1 = res?.data?.body?.token?.userId;
-    // localStorage.setItem("userId", JSON.stringify(userId1));
-    // const token = res.data?.body?.token?.refreshToken;
-    // cookie.set("token", token);
-    // navigate("/");
-    // window.location.reload();
-    // }
   };
 
   const idValidation = {
@@ -104,21 +92,20 @@ const LoginContainer = () => {
       value: 4,
       message: "최소 4자 이상의 아이디를 입력해주세요.",
     },
-    // maxLength: {
-    //   value: 12,
-    //   message: "최대 12자 이하의 아이디를 입력해주세요.",
-    // },
+    maxLength: {
+      value: 12,
+      message: "최대 12자 이하의 아이디를 입력해주세요.",
+    },
   };
 
   const passwordValidation = {
     required: "비밀번호를 입력해주세요.",
-    // pattern: {
-    //   value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
-    //   message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
-    // },
+    pattern: {
+      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/,
+      message: "8자리이상, 숫자,문자,특수문자가 들어가야됩니다.",
+    },
   };
-  // const expireDate = new Date()
-  // expireDate.setMinutes(expireDate.getMinutes() + 10)
+
   const onSubmit = async (data) => {
     const res = await login(data);
     if (res?.response?.data?.status) {
@@ -187,28 +174,41 @@ const LoginContainer = () => {
       <GuestLayout>
         <GuestBtn onClick={guestHandle}>게스트 로그인</GuestBtn>
       </GuestLayout>
-      <SocialLogin>
-        {/* <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email"> */}
-        <SocialLoginLogo
-          src={process.env.PUBLIC_URL + "/image/google.svg"}
-          alt="GOOGLE"
-          // onClick={handleSocial}
-        />
-        {/* </a> */}
-        <SocialLoginLogo
-          src={process.env.PUBLIC_URL + "/image/naver.svg"}
-          alt="NAVER"
-        />
-        {/* `https://kauth.kakao.com/oauth/authorize?client_id=${8e9ebc53811a31af7c567edfb77bff91}&redirect_uri=${http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao}&response_type=code` */}
-        <a href="https://kauth.kakao.com/oauth/authorize?client_id=8e9ebc53811a31af7c567edfb77bff91&redirect_uri=http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao&response_type=code">
-          <SocialLoginLogo
-            src={process.env.PUBLIC_URL + "/image/cacao.svg"}
-            alt="KAKAO"
-          />
-        </a>
-      </SocialLogin>
     </>
   );
 };
 
 export default LoginContainer;
+{
+  /* <SocialLogin> */
+}
+{
+  /* <a href="https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.GOOGLE_CLIENT_ID}&redirect_uri=${process.env.GOOGLE_REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email"> */
+}
+{
+  /* <SocialLoginLogo
+  src={process.env.PUBLIC_URL + "/image/google.svg"}
+  alt="GOOGLE" */
+}
+// onClick={handleSocial}/>
+{
+  /* </a> */
+}
+{
+  /* <SocialLoginLogo
+  src={process.env.PUBLIC_URL + "/image/naver.svg"}
+  alt="NAVER"
+/> */
+}
+{
+  /* `https://kauth.kakao.com/oauth/authorize?client_id=${8e9ebc53811a31af7c567edfb77bff91}&redirect_uri=${http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao}&response_type=code` */
+}
+{
+  /* <a href="https://kauth.kakao.com/oauth/authorize?client_id=8e9ebc53811a31af7c567edfb77bff91&redirect_uri=http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/login/oauth2/kakao&response_type=code">
+  <SocialLoginLogo
+    src={process.env.PUBLIC_URL + "/image/cacao.svg"}
+    alt="KAKAO"
+  />
+</a>
+</SocialLogin> */
+}

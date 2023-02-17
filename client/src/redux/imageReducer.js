@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { image: "" };
+const initialState = { image: "aa" };
 const imageSlice = createSlice({
   name: "image",
   initialState: initialState,
@@ -11,5 +11,5 @@ const imageSlice = createSlice({
   },
 });
 
-export const { setImage } = userSlice.actions;
+export const { setImage } = imageSlice.actions;
 export default imageSlice.reducer;
