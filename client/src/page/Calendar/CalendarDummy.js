@@ -5,8 +5,9 @@ const CalendarDummy = [
     mountain: "지리산",
     title: "백무동 코스로 천왕봉 등산하실분!",
     limit: 3,
+    current: 1,
     maker: "sebfe41",
-    participant: ["sebfe41"],
+    participant: "sebfe41",
   },
   {
     imgURL:
@@ -14,8 +15,9 @@ const CalendarDummy = [
     mountain: "설악산",
     title: "흔들바위 보러 가실 분 있나요?",
     limit: 4,
+    current: 2,
     maker: "user1",
-    participant: ["user1", "sebfe41"],
+    participant: "user1,sebfe41",
   },
   {
     imgURL:
@@ -23,8 +25,9 @@ const CalendarDummy = [
     mountain: "북한산",
     title: "영봉까지 같이 올라가실 분 구합니다!",
     limit: 5,
+    current: 3,
     maker: "user2",
-    participant: ["user2", "user3", "user4"],
+    participant: "user2,user3,user4",
   },
   {
     imgURL:
@@ -32,8 +35,9 @@ const CalendarDummy = [
     mountain: "덕유산",
     title: "신풍령 코스로 올라가보려구요",
     limit: 6,
+    current: 4,
     maker: "user5",
-    participant: ["user5", "user6", "user7", "user8"],
+    participant: "user5,user6,user7,user8",
   },
   {
     imgURL:
@@ -41,8 +45,9 @@ const CalendarDummy = [
     mountain: "가야산",
     title: "해인사 다녀오실분!",
     limit: 7,
+    current: 5,
     maker: "user9",
-    participant: ["user9", "user10", "user11", "user12", "user13"],
+    participant: "user9,user10,user11,user12,user13",
   },
   {
     imgURL:
@@ -50,8 +55,9 @@ const CalendarDummy = [
     mountain: "대둔산",
     title: "대둔산 가보자고~",
     limit: 8,
+    current: 6,
     maker: "user14",
-    participant: ["user14", "user15", "user16", "user17", "user18", "user19"],
+    participant: "user14,user15,user16,user17,user18,user19",
   },
   {
     imgURL:
@@ -59,16 +65,9 @@ const CalendarDummy = [
     mountain: "소백산",
     title: "소백산 철쭉제가 엄청 유명하다면서요?",
     limit: 9,
+    current: 7,
     maker: "user20",
-    participant: [
-      "user20",
-      "user21",
-      "user22",
-      "user23",
-      "user24",
-      "user25",
-      "user26",
-    ],
+    participant: "user20,user21,user22,user23,user24,user25,user26",
   },
 ];
 
