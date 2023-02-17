@@ -49,13 +49,11 @@ const ModalBackdrop = styled.div`
 `;
 
 const ModalView = styled.div.attrs((props) => ({
-  // attrs 메소드를 이용해서 아래와 같이 div 엘리먼트에 속성을 추가할 수 있습니다.
   role: "dialog",
 }))`
   border-radius: 10px;
   background-color: #ffffff;
   width: ${(props) => props.width};
-  /* height: ${(props) => props.height}; */
   > span.close-btn {
     margin-top: 5px;
     cursor: pointer;
@@ -117,8 +115,6 @@ const TagContainer = styled.div`
 `;
 const TagContainer2 = styled.div`
   width: 260px;
-  /* min-width: 60%; */
-  /* max-width: 75%; */
   display: flex;
   flex-wrap: wrap;
   min-height: 30px;
@@ -127,7 +123,6 @@ const TagContainer2 = styled.div`
   padding: 5.5px 8px;
   > input {
     border: none;
-    /* flex: 0.3; */
     outline: none;
     padding: 5px;
     background: #fff;
@@ -139,7 +134,6 @@ const Tag = styled.div`
   display: flex;
   align-items: center;
   padding: 2px 8px;
-  /* border: 1px solid gray; */
   border-radius: 8px;
   height: 25px;
   margin: 2px 5px 2px 0px;
@@ -163,6 +157,42 @@ const ContentContainer = styled.div`
     outline: none;
     padding: 5px 10px;
     border-radius: 10px;
+  }
+`;
+
+// 취소, 제출버튼
+const SubmitLayout = styled.div`
+  display: flex;
+  /* margin-top: 115px; */
+  margin-right: 20px;
+  justify-content: right;
+`;
+const SubmitBtn = styled.button`
+  margin: 25px 10px;
+  width: 60px;
+  height: 35px;
+  border: 0px;
+  border-radius: 10px;
+  background-color: ${(props) => (props.disabled ? "#ccc;" : "#62b6b7;")};
+  color: white;
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  }
+`;
+const CancelBtn = styled.button`
+  margin: 25px 10px;
+  width: 60px;
+  height: 35px;
+  border: 0px;
+  border-radius: 10px;
+  background-color: #ccc;
+  color: white;
+  cursor: pointer;
+  &:active {
+    transform: scale(0.95);
+    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
   }
 `;
 
@@ -195,40 +225,6 @@ const PostLayout = styled.div`
   border: 3px solid #a0c3d2;
   border-radius: 10px;
   margin-bottom: 16px; */
-`;
-const SubmitBtn = styled.button`
-  margin: 25px 10px;
-  width: 60px;
-  height: 35px;
-  border: 0px;
-  border-radius: 10px;
-  background-color: ${(props) => (props.disabled ? "#ccc;" : "#62b6b7;")};
-  color: white;
-  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
-  &:active {
-    transform: scale(0.95);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-  }
-`;
-const CancelBtn = styled.button`
-  margin: 25px 10px;
-  width: 60px;
-  height: 35px;
-  border: 0px;
-  border-radius: 10px;
-  background-color: #ccc;
-  color: white;
-  cursor: pointer;
-  &:active {
-    transform: scale(0.95);
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
-  }
-`;
-const SubmitLayout = styled.div`
-  display: flex;
-  /* margin-top: 115px; */
-  margin-right: 20px;
-  justify-content: right;
 `;
 
 export default function Gallery() {
@@ -265,17 +261,9 @@ export default function Gallery() {
   let tagAdd = "";
   const addTag = (e) => {
     if (e.key === "Enter") {
-      if (e.target.value.length > 0 && e.target.value.length <= 5) {
-        setTags([...tags, e.target.value]);
-        e.target.value = "";
-      }
-      //   if (e.target.value.length >= 6) {
-      //     alert("5자 이하로 작성해주세요.");
-      //   }
+      setTags([...tags, e.target.value]);
+      e.target.value = "";
     }
-    // if (tags.length > 1) {
-    //   alert("태그는 2개까지 등록할 수 있습니다.");
-    // }
   };
   const removeTag = (removedTag, removedIndex) => {
     const newTags = tags.filter((tag, index) => index !== removedIndex);
@@ -293,9 +281,6 @@ export default function Gallery() {
   };
 
   const onChangeContent = (e) => {
-    // if (e.target.value.length >= 16) {
-    //   alert("15자 이하로 작성해주세요.");
-    // }
     setRequest({
       ...request,
       [e.target.id]: e.target.value,
@@ -331,7 +316,6 @@ export default function Gallery() {
       ...request,
       imageUrl: imageUrl,
     });
-    // 반영 안되는 이유..??
     if (validityCheck.isProfileImageUrlPass === "") {
       setValidityCheck({
         ...validityCheck,
@@ -346,8 +330,8 @@ export default function Gallery() {
   };
 
   const onSubmit = () => {
-    // postGallery(token, req);
-    // window.location.reload();
+    postGallery(token, req);
+    window.location.reload();
   };
 
   const post = () => {
@@ -443,39 +427,28 @@ export default function Gallery() {
                           </Tag>
                         );
                       })}
-
-                      {tags.length === 0 ? (
-                        <input
-                          placeholder="태그 등록 (한 태그당 5자 이하, 2개까지 가능)"
-                          onKeyDown={addTag}
-                          onChange={onChangeTag}
-                          style={{ width: "250px" }}
-                          maxLength="5"
-                          oninput={() => {
-                            numberMaxLength(this);
-                          }}
-                        />
-                      ) : tags.length === 1 ? (
-                        <input
-                          onKeyDown={addTag}
-                          onChange={onChangeTag}
-                          style={{ width: "140px" }}
-                          maxLength="5"
-                          oninput={() => {
-                            numberMaxLength(this);
-                          }}
-                        />
-                      ) : (
-                        <input
-                          onKeyDown={addTag}
-                          style={{ width: "50px" }}
-                          maxLength="5"
-                          oninput={() => {
-                            numberMaxLength(this);
-                          }}
-                          readOnly
-                        />
-                      )}
+                      <input
+                        placeholder={
+                          tags.length === 0
+                            ? "태그 등록 (한 태그당 5자 이하, 2개까지 가능)"
+                            : ""
+                        }
+                        onKeyDown={addTag}
+                        onChange={onChangeTag}
+                        style={{
+                          width:
+                            tags.length === 0
+                              ? "250px"
+                              : tags.length === 1
+                              ? "140px"
+                              : "50px",
+                        }}
+                        maxLength="5"
+                        oninput={() => {
+                          numberMaxLength(this);
+                        }}
+                        readOnly={tags.length >= 2 ? true : false}
+                      />
                     </TagContainer2>
                     <ContentContainer>
                       <input
@@ -500,27 +473,16 @@ export default function Gallery() {
                       </CancelBtn>
                       <SubmitBtn
                         onClick={() => {
-                          // tag1이 더블클릭시 2번실행안되게 하려면 어디에 넣어야?
-                          // setRequest({
-                          //   ...request,
-                          //   tag: tagAdd,
-                          // });
                           tag1();
                           req.imageUrl = imageUrl;
                           req.tag = tagAdd;
                           req.content = content;
                           onSubmit();
-                          console.log(req);
-                          console.log(request);
-                          console.log(req.imageUrl);
-                          console.log(Object.keys(req));
-                          console.log(Object.values(req));
-                          console.log(Object.values(req)[0].length);
                         }}
                         disabled={
-                          imageUrl.length == 0 ||
-                          tags.length == 0 ||
-                          content.length == 0
+                          imageUrl.length === 0 ||
+                          tags.length === 0 ||
+                          content.length === 0
                         }
                       >
                         등록
