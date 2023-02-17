@@ -199,29 +199,3 @@ export const getBookmark = async (Token, useId) => {
 //     });
 //   }
 // };
-//  const navigate = useNavigate();
-// const DeleteClick = async () => {
-//   if (window.confirm("정말 회원 탈퇴 하시겠습니까?") === false) {
-//     alert("취소 되었습니다.");
-//   } else {
-//     await axios
-//       .delete(
-//         "http://ec2-13-209-237-254.ap-northeast-2.compute.amazonaws.com:8080/users",
-//         {
-//           headers: {
-//             "Content-Type": "application/json",
-
-//             Authorization: `Bearer ${getCookie("token")}`,
-//           },
-//         }
-//       )
-//       .then((res) => {
-//         alert("이용해 주셔서 감사합니다.");
-//         removeCookie("token");
-//         localStorage.removeItem("userId");
-//         navigate("/");
-//         window.location.reload();
-//       })
-//       .catch((error) => {});
-//   }
-// };
