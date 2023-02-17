@@ -66,40 +66,18 @@ const ViewVote = ({ likeCount, dislikeCount }) => {
   const [isDownVote, setIsDownVote] = useState(false);
   const [voteCount, setVoteCount] = useState();
   const [downVoteCount, setDownVoteCount] = useState();
-  // console.log(res);
-  // if(res?.data !== 200) {
-  //   alert("이미 추천을 하셨습니다.")
-  // }
 
-  // async function getInfo() {
-  //   const res = await getWriting();
-  //   // const res = await getWriting(id);
-  //   setViewInfo(res);
-  //   // console.log(res?.userId);
-  //   setLoading(false);
-  // }
   const handleClickUp = () => {
     if (!Token) {
       if (window.confirm("로그인 상태가 아닙니다. 로그인 하시겠습니까?")) {
         navigate("/login");
       }
     } else {
-      // if (res?.data?.body === "이미 추천을 누르셨습니다.") {
-      //   alert("이미 추천을 하셨습니다.");
-      // } else {
-      //   if (isUpVote) return;
-      //   let updateVote = likeCount + 1;
-      //   setVoteCount(updateVote);
-      //   viewUpVote(Token);
-      //   setIsUpVote(updateVote);
-      //   res();
-      // }
       viewUpVote(Token, boardSeq);
       if (isUpVote) return;
       let updateVote = likeCount + 1;
       setVoteCount(updateVote);
       setIsUpVote(updateVote);
-      // console.log(res?.data?.body);
     }
   };
   const handleDownVote = () => {

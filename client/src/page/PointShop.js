@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { initialState } from "../data/state";
+
+import { initialState } from "./data/state";
 import theme from "../Theme";
 import { Cookies } from "react-cookie";
 import { getUser } from "../api/userAPI";

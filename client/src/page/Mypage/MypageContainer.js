@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
 import { Cookies } from "react-cookie";
 import { getUser } from "../../api/userAPI";
 import { getCookie, removeCookie } from "../../Cookies";

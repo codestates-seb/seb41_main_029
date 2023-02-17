@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { deleteReply, editReply } from "../../api/reply";
 import { FormProvider, useForm } from "react-hook-form";
 import Input from "../Input";
-import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
+import { Point } from "../Point";
 
 const ReplyContainer = styled.div`
   /* display: flex;
@@ -286,22 +286,7 @@ const Reply = ({ reply }) => {
               <BiReply className="icon" />
               <PostWriter>
                 {reply?.userRole === "USER" ? (
-                  <>
-                    {0 <= reply?.point && reply?.point <= 30 ? <Icon1 /> : ""}
-                    {31 <= reply?.point && reply?.point <= 70 ? <Icon2 /> : ""}
-                    {71 <= reply?.point && reply?.point <= 100 ? <Icon3 /> : ""}
-                    {101 <= reply?.point && reply?.point <= 200 ? (
-                      <Icon4 />
-                    ) : (
-                      ""
-                    )}
-                    {201 <= reply?.point && reply?.point <= 300 ? (
-                      <Icon5 />
-                    ) : (
-                      ""
-                    )}
-                    {301 <= reply?.point ? <Icon6 /> : ""}
-                  </>
+                  <Point score={reply?.point} />
                 ) : (
                   <span style={{ marginRight: "16px" }}></span>
                 )}
@@ -328,17 +313,13 @@ const Reply = ({ reply }) => {
                       </SubmitEdit>
                     </SubmitEditLayout>
                   </InputLayout>
-                  {/* <EditInput defaultValue={comment?.content} /> */}
                 </FormProvider>
               </form>
             </>
           ) : (
-            // <ContentLayout1>
-            // {/* <BiReply className="icon" /> */}
             <ContentLayout>
               <ContentContainer>{reply?.content}</ContentContainer>
             </ContentLayout>
-            // {/* </ContentLayout1> */}
           )}
 
           <ContentBottom>

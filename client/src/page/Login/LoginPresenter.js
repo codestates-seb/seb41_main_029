@@ -8,7 +8,7 @@ const LoginLayout = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100%;
-  min-height: 650px;
+  min-height: 700px;
 `;
 
 const LoginBackground = styled.div`
@@ -37,12 +37,7 @@ const LoginPresenter = () => {
       <LoginBackground>
         <LoginContainer />
       </LoginBackground>
-      <SearSignLay>
-        <SearchSignup>비밀번호 찾기</SearchSignup>
-        <Link style={{ textDecoration: "none" }} to="/signup">
-          <SearchSignup>회원가입</SearchSignup>
-        </Link>
-      </SearSignLay>
+      <SearSignLay></SearSignLay>
     </LoginLayout>
   );
 };

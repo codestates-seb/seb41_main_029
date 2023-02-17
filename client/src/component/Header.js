@@ -50,8 +50,14 @@ const Wrapper = styled.div`
     .desktopVer {
       display: none;
     }
+    .ml96 {
+      margin-left: 0px;
+    }
     .tabletVer {
       display: flex !important;
+    }
+    .ml96 {
+      margin-left: 0px;
     }
   }
 `;
@@ -100,7 +106,7 @@ const MenuModal = styled.div`
   .landing {
     display: ${(props) => (props.path === "/" ? "block" : "none")};
   }
-  .modal {
+  .modals {
     background-color: #ffffff;
     height: 100vh;
     max-width: 320px;
@@ -180,6 +186,9 @@ export default function Header(props) {
         <div className="desktopVer ml96 va">
           <a href="/gallery">갤러리</a>
         </div>
+        <div className="desktopVer ml96 va">
+          <a href="/calendar">캘린더</a>
+        </div>
         <div className="desktopVer spacing"></div>
         {hasToken ? (
           <>
@@ -222,7 +231,7 @@ export default function Header(props) {
       </TabletMenu>
       <MenuModal open={modalOpen} path={window.location.pathname}>
         <div className="modalout" onClick={modaloutClick} />
-        <div className="modal">
+        <div className="modals">
           <div className="landing" />
           <div className="flex">
             <a href="/community">커뮤니티</a>
@@ -232,6 +241,9 @@ export default function Header(props) {
           </div>
           <div className="flex">
             <a href="/gallery">갤러리</a>
+          </div>
+          <div className="flex">
+            <a href="/calendar">캘린더</a>
           </div>
           {hasToken ? (
             <>

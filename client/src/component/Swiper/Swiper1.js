@@ -18,9 +18,10 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { Icon1, Icon2, Icon3, Icon4, Icon5, Icon6 } from "../UserIcon";
-import { useInfiniteScrollSensor } from "../useInfiniteScrollSensor";
+import { useInfiniteScrollSensor } from "../Hook/useInfiniteScrollSensor";
 import { deleteGallery, voteGallery } from "../../api/galleryAPI";
 import { Cookies } from "react-cookie";
+import { Point } from "../Point";
 
 const Wrapper = styled.div`
   img {
@@ -211,7 +212,9 @@ export default function SwiperComponent1({ postList1, sortby }) {
                           {201 <= e?.point && e?.point <= 300 ? <Icon5 /> : ""}
                           {301 <= e?.point ? <Icon6 /> : ""}{" "}
                         </>
-                      ) : null}
+                      ) : (
+                        <Icon1 />
+                      )}
                       <div className="va"> {e.username} </div>
                     </div>
                     <div className="flex">

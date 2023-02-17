@@ -395,7 +395,6 @@ const EditWritingEditor = ({ setImage }) => {
               // });
               // console.log(answer);
               setAnswer(editor.getData());
-              // console.log(answer);
             }}
             config={{
               extraPlugins: [uploadPlugin],
@@ -440,11 +439,7 @@ const EditWritingEditor = ({ setImage }) => {
           </BottomDiv>
         </div>
       ) : (
-        <>
-          {/* {alert("로그인이 되어 있지 않습니다!")}
-          <Navigate to="/login" /> */}
-          권한이 없습니다.
-        </>
+        <>권한이 없습니다.</>
       )}
     </>
   );
