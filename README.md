@@ -1,6 +1,6 @@
 # 🥇 등산하조 - team 029
 
-![testBanner02](https://ifh.cc/g/pPZc2S.jpg)
+![maciek-sulkowski-58tP7g7x1LQ-unsplash](https://github.com/codestates-seb/seb41_main_029/assets/97446711/8a09850f-d3c1-43fd-9c43-b4edaaef40de)
 
 <br>
 
